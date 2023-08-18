@@ -1,23 +1,59 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { NextResponse } from "next/server";
 import Teamresults from "./Teamresults";
 
-async function fetchLeagueTableData() {
-  const fetchTable = await fetch(
-    "http://127.0.0.1:3000/api/tables/league-table",
-    {
-      next: {
-        revalidate: 0,
-      },
+function fetchLeagueTableData() {
+  return new Promise((resolve, reject) => {
+    try {
+      const fetchTable = fetch(
+        `http://localhost:3000/api/tables/league-table`,
+        {
+          next: {
+            revalidate: 0,
+          },
+        }
+      );
+      fetchTable
+        .then((response) => {
+          if (!response.ok) {
+            return NextResponse.json({
+              message: "Error fetching the table data",
+            });
+          }
+
+          return response.json();
+        })
+        .then((getStandingsObject) => {
+          resolve(getStandingsObject);
+        });
+    } catch (error) {
+      reject(error);
     }
-  );
-  const getStandingsObject = await fetchTable.json();
-  return getStandingsObject;
+  });
 }
 
-async function Standings() {
-  const getStandingsObject = await fetchLeagueTableData();
-  const standingsArray = getStandingsObject[0]["standings"];
-  standingsArray.sort((a, b) => b.Pts - a.Pts);
-  const tableCategories = ["GP", "W", "L", "T", "OTL", "Pts"];
+function Standings({ updateStandings }) {
+  const [standingsArray, setStandingsArray] = useState([]);
+  const [tableCategories, setTableCategories] = useState([
+    "GP",
+    "W",
+    "L",
+    "T",
+    "OTL",
+    "Pts",
+  ]);
+
+  useEffect(() => {
+    fetchLeagueTableData()
+      .then((data) => {
+        const standingsArray = data[0]["standings"];
+        standingsArray.sort((a, b) => b.Pts - a.Pts);
+        setStandingsArray(standingsArray);
+      })
+      .catch((error) => console.log(error));
+  }, [updateStandings]);
 
   return (
     <table className="m-auto table-auto">
