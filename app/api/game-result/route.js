@@ -313,7 +313,10 @@ export const POST = async (req) => {
     // all file processing complete return to user
     //////////////////////////////////////////////
     return NextResponse.json(
-      { message: "File has been added to the database" },
+      {
+        message: "File has been added to the database",
+        newStandings: getSeasonStandings,
+      },
       {
         status: 200,
         headers: {
