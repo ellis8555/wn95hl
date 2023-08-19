@@ -1,10 +1,10 @@
-import MyImage from "./MyImage";
+import TeamLogo from "./TeamLogo";
 
 function Teamresults({ team, categories }) {
   return (
     <tr>
       <td>
-        <MyImage name={team.teamAcronym} />
+        <TeamLogo name={team.teamAcronym} />
       </td>
       {categories.map((category, index) => (
         <td key={index} category={category} className="text-center">
