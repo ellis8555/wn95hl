@@ -102,7 +102,7 @@ function GameInputForm() {
   return (
     <>
       <form
-        className="w-3/4 mt-4 bg-slate-500 mx-auto rounded-lg p-3"
+        className="w-full mt-4 bg-slate-500 mx-auto md:rounded-lg p-3 md:max-w-md"
         onSubmit={handleSubmit}
       >
         <input
