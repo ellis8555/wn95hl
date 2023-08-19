@@ -6,6 +6,7 @@ function TestingMessage() {
           * Duplicate game states have been enabled soley for testing purposes
         </li>
         <li>** Only states with the listed teams will be accepted</li>
+        <li>*** Clicking reset table button returns all numbers to zero</li>
       </ul>
     </div>
   );
