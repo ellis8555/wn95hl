@@ -3,7 +3,7 @@
 
 import { useRef, useState } from "react";
 import readGameStateFile from "@/utils/game-states/read-game-state-file";
-import Standings from "../server/standings/Standings";
+import Standings from "./Standings";
 
 function GameInputForm() {
   const [updateStandings, setUpdateStandings] = useState([]);
@@ -40,16 +40,15 @@ function GameInputForm() {
       );
       // message the user request has been sent
       setServerMessage("Sending...");
-      const sendGameFile = await fetch(
-        `http://localhost:3000/api/game-result`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(gameData),
-        }
-      );
+
+      const base_uri = process.env.NEXT_PUBLIC_URI_BASE;
+      const sendGameFile = await fetch(`${base_uri}/api/game-result`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(gameData),
+      });
       const response = await sendGameFile.json();
 
       if (!response) {
@@ -80,7 +79,7 @@ function GameInputForm() {
     try {
       // message the user request has been sent
       const requestTableReset = await fetch(
-        `http://localhost:3000/api/tables/reset-table`,
+        `${base_uri}/api/tables/reset-table`,
         {
           method: "PATCH",
           headers: {

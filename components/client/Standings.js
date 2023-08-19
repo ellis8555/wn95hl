@@ -2,19 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { NextResponse } from "next/server";
-import Teamresults from "./Teamresults";
+import Teamresults from "../server/standings/Teamresults";
 
 function fetchLeagueTableData() {
+  const uri_base = process.env.NEXT_PUBLIC_URI_BASE;
   return new Promise((resolve, reject) => {
     try {
-      const fetchTable = fetch(
-        `http://localhost:3000/api/tables/league-table`,
-        {
-          next: {
-            revalidate: 0,
-          },
-        }
-      );
+      const fetchTable = fetch(`${uri_base}/api/tables/league-table`, {
+        next: {
+          revalidate: 0,
+        },
+      });
       fetchTable
         .then((response) => {
           if (!response.ok) {
