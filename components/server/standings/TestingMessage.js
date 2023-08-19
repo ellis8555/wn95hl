@@ -5,10 +5,15 @@ function TestingMessage() {
         <li>
           Duplicate game states have been enabled soley for testing purposes
         </li>
-        <li>Only states with the listed teams will be accepted</li>
+        <li>
+          A game that includes an over time loss requires column 'BJ', 'GAME
+          LENGTH' to have a value greater than 15:00 in order for proper pts and
+          to increase the OTL category
+        </li>
         <li>Clicking reset button returns all numbers to zero</li>
         <li>
-          Game state can be edited to include the following team abbreviations
+          Game state can be edited to include the only the following team
+          abbreviations
         </li>
         <ul>
           <li>AHC, MHA, MGG, AUT, BAY, ROM, HIG, CDA</li>
