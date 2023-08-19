@@ -1,8 +1,8 @@
 import TeamLogo from "./TeamLogo";
 
-function Teamresults({ team, categories }) {
+function Teamresults({ team, categories, bgColor }) {
   return (
-    <tr>
+    <tr className={bgColor}>
       <td>
         <TeamLogo name={team.teamAcronym} />
       </td>

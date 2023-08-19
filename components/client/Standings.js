@@ -67,7 +67,12 @@ function Standings({ updateStandings }) {
         </thead>
         <tbody>
           {standingsArray.map((team, index) => (
-            <Teamresults key={index} team={team} categories={tableCategories} />
+            <Teamresults
+              key={index}
+              team={team}
+              categories={tableCategories}
+              bgColor={index % 2 === 0 ? "bg-slate-100" : "bg-white"}
+            />
           ))}
         </tbody>
       </table>
