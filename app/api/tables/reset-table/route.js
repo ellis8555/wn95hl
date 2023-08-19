@@ -1,19 +1,11 @@
 import { connectToDb } from "@/utils/database";
 import { NextResponse } from "next/server";
 import getSeasonsModel from "@/schemas/season/season";
-import setCORSHeaders from "@/utils/cors";
 
 let db;
 
 export const PATCH = async (req, res) => {
   try {
-    // Set the allowed origins and request method
-    const allowedOrigins = ["https://tiny-lokum-ab0acc.netlify.app"];
-    const requestMethod = "PATCH";
-
-    // Call setCORSHeaders before sending the response
-    setCORSHeaders(res, allowedOrigins, requestMethod);
-
     db = await connectToDb();
 
     const SeasonModel = getSeasonsModel(8);
@@ -46,6 +38,9 @@ export const PATCH = async (req, res) => {
         status: 200,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "PATCH",
         },
       }
     );
@@ -56,6 +51,9 @@ export const PATCH = async (req, res) => {
         status: 500,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "PATCH",
         },
       }
     );

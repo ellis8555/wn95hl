@@ -10,18 +10,10 @@ import incrementLosingTeamsLosses from "@/utils/tables/team-standings/increment-
 import incrementTiesForTieGame from "@/utils/tables/team-standings/increment-ties-for-tie-game";
 import incrementOvertimeLoss from "@/utils/tables/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/tables/team-standings/increment-points-for-teams";
-import setCORSHeaders from "@/utils/cors";
 
 let db;
 
 export const POST = async (req, res) => {
-  // Set the allowed origins and request method
-  const allowedOrigins = ["https://tiny-lokum-ab0acc.netlify.app"];
-  const requestMethod = "POST";
-
-  // Call setCORSHeaders before sending the response
-  setCORSHeaders(res, allowedOrigins, requestMethod);
-
   const { fileName, fileSize, fileType, data, currentSeason } =
     await req.json();
 
@@ -40,6 +32,9 @@ export const POST = async (req, res) => {
         status: 400,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "POST",
         },
       }
     );
@@ -57,6 +52,9 @@ export const POST = async (req, res) => {
         status: 400,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "POST",
         },
       }
     );
@@ -69,11 +67,19 @@ export const POST = async (req, res) => {
     const thisSeasonsCollection = await queryForIfSeasonExists(8);
 
     if (!thisSeasonsCollection) {
-      return (
-        NextResponse.json({
+      return NextResponse.json(
+        {
           message: `There is no season ${currentSeason} registered`,
-        }),
-        { status: 400 }
+        },
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin":
+              "https://tiny-lokum-ab0acc.netlify.app",
+            "Access-Control-Allow-Methods": "POST",
+          },
+        }
       );
     }
 
@@ -163,6 +169,9 @@ export const POST = async (req, res) => {
           status: 400,
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin":
+              "https://tiny-lokum-ab0acc.netlify.app",
+            "Access-Control-Allow-Methods": "POST",
           },
         }
       );
@@ -329,6 +338,9 @@ export const POST = async (req, res) => {
         status: 200,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "POST",
         },
       }
     );
@@ -339,6 +351,9 @@ export const POST = async (req, res) => {
         status: 500,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "POST",
         },
       }
     );

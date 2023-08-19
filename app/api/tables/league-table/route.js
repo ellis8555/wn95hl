@@ -13,9 +13,10 @@ export const GET = async (req, res) => {
 
     return NextResponse.json(seasonData, {
       status: 200,
-      mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "https://tiny-lokum-ab0acc.netlify.app",
+        "Access-Control-Allow-Methods": "GET",
       },
       cache: "no-store",
     });
@@ -24,9 +25,11 @@ export const GET = async (req, res) => {
       { message: error.message },
       {
         status: 500,
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":
+            "https://tiny-lokum-ab0acc.netlify.app",
+          "Access-Control-Allow-Methods": "GET",
         },
       }
     );
