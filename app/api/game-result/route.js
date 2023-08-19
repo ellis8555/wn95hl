@@ -1,5 +1,4 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import queryForIfSeasonExists from "@/utils/db-queries/query-one/club/query-if-season-exists";
 import queryForASeason from "@/utils/db-queries/query-one/season/query-for-a-season";
 import queryClubDetatail from "@/utils/db-queries/query-one/club/query-club-detail";
@@ -10,6 +9,7 @@ import incrementLosingTeamsLosses from "@/utils/tables/team-standings/increment-
 import incrementTiesForTieGame from "@/utils/tables/team-standings/increment-ties-for-tie-game";
 import incrementOvertimeLoss from "@/utils/tables/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/tables/team-standings/increment-points-for-teams";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -26,17 +26,10 @@ export const POST = async (req, res) => {
     fileSize > 6000 ||
     fileType !== "text/csv"
   ) {
-    return NextResponse.json(
+    return nextResponse(
       { message: "File was not uploaded. Criteria not met." },
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            "https://tiny-lokum-ab0acc.netlify.app",
-          "Access-Control-Allow-Methods": "POST",
-        },
-      }
+      400,
+      "POST"
     );
   }
 
@@ -44,19 +37,12 @@ export const POST = async (req, res) => {
 
   const getGameLength = +data.otherGameStats["GAME LENGTH"].replace(":", "");
   if (getGameLength < 1500) {
-    return NextResponse.json(
+    return nextResponse(
       {
         message: "This game appears to be less than 15 minutes played",
       },
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            "https://tiny-lokum-ab0acc.netlify.app",
-          "Access-Control-Allow-Methods": "POST",
-        },
-      }
+      400,
+      "POST"
     );
   }
 
@@ -67,19 +53,12 @@ export const POST = async (req, res) => {
     const thisSeasonsCollection = await queryForIfSeasonExists(8);
 
     if (!thisSeasonsCollection) {
-      return NextResponse.json(
+      return nextResponse(
         {
           message: `There is no season ${currentSeason} registered`,
         },
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin":
-              "https://tiny-lokum-ab0acc.netlify.app",
-            "Access-Control-Allow-Methods": "POST",
-          },
-        }
+        400,
+        "POST"
       );
     }
 
@@ -161,19 +140,12 @@ export const POST = async (req, res) => {
     }
 
     if (!checkHomeTeamIsRegistered || !checkAwayTeamIsRegistered) {
-      return NextResponse.json(
+      return nextResponse(
         {
           message: notRegisteredMessage,
         },
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin":
-              "https://tiny-lokum-ab0acc.netlify.app",
-            "Access-Control-Allow-Methods": "POST",
-          },
-        }
+        400,
+        "POST"
       );
     }
 
@@ -329,34 +301,16 @@ export const POST = async (req, res) => {
     //////////////////////////////////////////////
     // all file processing complete return to user
     //////////////////////////////////////////////
-    return NextResponse.json(
+    return nextResponse(
       {
         message: "File has been added to the database",
         newStandings: getSeasonStandings,
       },
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            "https://tiny-lokum-ab0acc.netlify.app",
-          "Access-Control-Allow-Methods": "POST",
-        },
-      }
+      200,
+      "POST"
     );
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            "https://tiny-lokum-ab0acc.netlify.app",
-          "Access-Control-Allow-Methods": "POST",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "POST");
   } finally {
     if (db) {
       db.close();
