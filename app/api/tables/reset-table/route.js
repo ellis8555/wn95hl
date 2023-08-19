@@ -7,7 +7,7 @@ let db;
 
 export const PATCH = async (req, res) => {
   try {
-    setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app/"], "PATCH");
+    setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app"], "PATCH");
 
     db = await connectToDb();
 
