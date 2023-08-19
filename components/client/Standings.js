@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 
 function fetchLeagueTableData() {
-  const uri_base = process.env.NEXT_PUBLIC_URI_BASE;
   return new Promise((resolve, reject) => {
     try {
       const fetchTable = fetch(`/api/tables/league-table`, {
@@ -57,9 +56,9 @@ function Standings({ updateStandings }) {
     <table className="m-auto table-auto">
       <thead>
         <tr>
-          <th>Team</th>
+          <th className="text-xl">W95</th>
           {tableCategories.map((header, index) => (
-            <th className="p-4" key={index}>
+            <th className="p-4 text-xl" key={index}>
               {header}
             </th>
           ))}
