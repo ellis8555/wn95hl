@@ -4,6 +4,7 @@
 import { useRef, useState } from "react";
 import readGameStateFile from "@/utils/game-states/read-game-state-file";
 import Standings from "./Standings";
+import TestingMessage from "../server/standings/TestingMessage";
 
 function GameInputForm() {
   const [updateStandings, setUpdateStandings] = useState([]);
@@ -41,7 +42,6 @@ function GameInputForm() {
       // message the user request has been sent
       setServerMessage("Sending...");
 
-      const base_uri = process.env.NEXT_PUBLIC_URI_BASE;
       const sendGameFile = await fetch(`/api/game-result`, {
         method: "POST",
         headers: {
@@ -78,7 +78,6 @@ function GameInputForm() {
     setServerMessage("Resetting the table");
     try {
       // message the user request has been sent
-      const base_uri = process.env.NEXT_PUBLIC_URI_BASE;
       const requestTableReset = await fetch(`/api/tables/reset-table`, {
         method: "PATCH",
         headers: {
@@ -139,6 +138,7 @@ function GameInputForm() {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
+      <TestingMessage />
       <Standings updateStandings={updateStandings} />
     </>
   );
