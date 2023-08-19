@@ -131,7 +131,7 @@ function GameInputForm() {
           className="border rounded-md border-black px-2 float-right"
           onClick={resetLeagueTable}
         >
-          Reset Table
+          Reset
         </button>
       </form>
 
