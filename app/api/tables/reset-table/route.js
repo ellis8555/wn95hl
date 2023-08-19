@@ -1,11 +1,14 @@
 import { connectToDb } from "@/utils/database";
 import { NextResponse } from "next/server";
 import getSeasonsModel from "@/schemas/season/season";
+import setCORSHeaders from "@/utils/cors";
 
 let db;
 
-export const PATCH = async () => {
+export const PATCH = async (req, res) => {
   try {
+    setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app/"], "PATCH");
+
     db = await connectToDb();
 
     const SeasonModel = getSeasonsModel(8);

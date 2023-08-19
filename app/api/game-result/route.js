@@ -10,10 +10,13 @@ import incrementLosingTeamsLosses from "@/utils/tables/team-standings/increment-
 import incrementTiesForTieGame from "@/utils/tables/team-standings/increment-ties-for-tie-game";
 import incrementOvertimeLoss from "@/utils/tables/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/tables/team-standings/increment-points-for-teams";
+import setCORSHeaders from "@/utils/cors";
 
 let db;
 
-export const POST = async (req) => {
+export const POST = async (req, res) => {
+  setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app/"], "POST");
+
   const { fileName, fileSize, fileType, data, currentSeason } =
     await req.json();
 
