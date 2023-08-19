@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import getSeasonsModel from "@/schemas/season/season";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -32,31 +32,9 @@ export const PATCH = async (req, res) => {
       { $set: { standings: teamsRecords, seasonGames: emptySeasonsGames } }
     );
 
-    return NextResponse.json(
-      { message: "League table has been reset.." },
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            "https://tiny-lokum-ab0acc.netlify.app",
-          "Access-Control-Allow-Methods": "PATCH",
-        },
-      }
-    );
+    return nextResponse("League table has been reset..", 200, "PATCH");
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            "https://tiny-lokum-ab0acc.netlify.app",
-          "Access-Control-Allow-Methods": "PATCH",
-        },
-      }
-    );
+    return nextResponse(error.message, 500, "PATCH");
   } finally {
     if (db) {
       db.close();
