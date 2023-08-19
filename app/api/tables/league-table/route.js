@@ -1,19 +1,11 @@
 import { connectToDb } from "@/utils/database";
 import { NextResponse } from "next/server";
 import getSeasonsModel from "@/schemas/season/season";
-import setCORSHeaders from "@/utils/cors";
 
 let db;
 
 export const GET = async (req, res) => {
   try {
-    // Set the allowed origins and request method
-    const allowedOrigins = ["https://tiny-lokum-ab0acc.netlify.app"];
-    const requestMethod = "GET";
-
-    // Call setCORSHeaders before sending the response
-    setCORSHeaders(res, allowedOrigins, requestMethod);
-
     db = await connectToDb();
 
     const SeasonModel = getSeasonsModel("8");
@@ -21,6 +13,7 @@ export const GET = async (req, res) => {
 
     return NextResponse.json(seasonData, {
       status: 200,
+      mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -31,6 +24,7 @@ export const GET = async (req, res) => {
       { message: error.message },
       {
         status: 500,
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
