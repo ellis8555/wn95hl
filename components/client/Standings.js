@@ -8,7 +8,7 @@ function fetchLeagueTableData() {
   const uri_base = process.env.NEXT_PUBLIC_URI_BASE;
   return new Promise((resolve, reject) => {
     try {
-      const fetchTable = fetch(`${uri_base}/api/tables/league-table`, {
+      const fetchTable = fetch(`/api/tables/league-table`, {
         next: {
           revalidate: 0,
         },

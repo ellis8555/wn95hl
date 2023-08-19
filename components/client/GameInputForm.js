@@ -42,7 +42,7 @@ function GameInputForm() {
       setServerMessage("Sending...");
 
       const base_uri = process.env.NEXT_PUBLIC_URI_BASE;
-      const sendGameFile = await fetch(`${base_uri}/api/game-result`, {
+      const sendGameFile = await fetch(`/api/game-result`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,15 +79,12 @@ function GameInputForm() {
     try {
       // message the user request has been sent
       const base_uri = process.env.NEXT_PUBLIC_URI_BASE;
-      const requestTableReset = await fetch(
-        `${base_uri}/api/tables/reset-table`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const requestTableReset = await fetch(`/api/tables/reset-table`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const response = await requestTableReset.json();
 
       if (!response) {
