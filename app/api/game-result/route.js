@@ -15,7 +15,12 @@ import setCORSHeaders from "@/utils/cors";
 let db;
 
 export const POST = async (req, res) => {
-  setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app"], "POST");
+  // Set the allowed origins and request method
+  const allowedOrigins = ["https://tiny-lokum-ab0acc.netlify.app"];
+  const requestMethod = "POST";
+
+  // Call setCORSHeaders before sending the response
+  setCORSHeaders(res, allowedOrigins, requestMethod);
 
   const { fileName, fileSize, fileType, data, currentSeason } =
     await req.json();

@@ -7,7 +7,12 @@ let db;
 
 export const PATCH = async (req, res) => {
   try {
-    setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app"], "PATCH");
+    // Set the allowed origins and request method
+    const allowedOrigins = ["https://tiny-lokum-ab0acc.netlify.app"];
+    const requestMethod = "PATCH";
+
+    // Call setCORSHeaders before sending the response
+    setCORSHeaders(res, allowedOrigins, requestMethod);
 
     db = await connectToDb();
 

@@ -7,7 +7,12 @@ let db;
 
 export const GET = async (req, res) => {
   try {
-    setCORSHeaders(res, ["https://tiny-lokum-ab0acc.netlify.app"], "GET");
+    // Set the allowed origins and request method
+    const allowedOrigins = ["https://tiny-lokum-ab0acc.netlify.app"];
+    const requestMethod = "GET";
+
+    // Call setCORSHeaders before sending the response
+    setCORSHeaders(res, allowedOrigins, requestMethod);
 
     db = await connectToDb();
 
