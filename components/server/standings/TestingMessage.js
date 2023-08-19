@@ -10,7 +10,10 @@ function TestingMessage() {
           LENGTH' to have a value greater than 15:00 in order for proper pts and
           to increase the OTL category
         </li>
-        <li>Clicking reset button returns all numbers to zero</li>
+        <li>
+          Clicking reset button returns all numbers to zero and deletes the game
+          state from the database
+        </li>
         <li>
           Game state can be edited to include the only the following team
           abbreviations
