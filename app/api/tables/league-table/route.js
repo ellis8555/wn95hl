@@ -10,8 +10,7 @@ export const GET = async (req, res) => {
 
     const SeasonModel = getSeasonsModel("8");
     const seasonData = await SeasonModel.find({});
-
-    return nextResponse(seasonData, 200, "GET", "no-cache");
+    return nextResponse(seasonData, 200, "GET");
   } catch (error) {
     return nextResponse(error.message, 500, "GET");
   } finally {
