@@ -78,6 +78,7 @@ function GameInputForm() {
     setServerMessage("Resetting the table");
     try {
       // message the user request has been sent
+      const base_uri = process.env.NEXT_PUBLIC_URI_BASE;
       const requestTableReset = await fetch(
         `${base_uri}/api/tables/reset-table`,
         {
