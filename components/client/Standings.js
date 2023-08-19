@@ -53,23 +53,25 @@ function Standings({ updateStandings }) {
   }, [updateStandings]);
 
   return (
-    <table className="m-auto table-auto">
-      <thead>
-        <tr>
-          <th className="text-xl">W95</th>
-          {tableCategories.map((header, index) => (
-            <th className="p-4 text-xl" key={index}>
-              {header}
-            </th>
+    <div className="px-4">
+      <table className="mb-4 mx-auto table-auto">
+        <thead>
+          <tr>
+            <th className="text-xl">W95</th>
+            {tableCategories.map((header, index) => (
+              <th className="p-4 sm:text-xl" key={index}>
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {standingsArray.map((team, index) => (
+            <Teamresults key={index} team={team} categories={tableCategories} />
           ))}
-        </tr>
-      </thead>
-      <tbody>
-        {standingsArray.map((team, index) => (
-          <Teamresults key={index} team={team} categories={tableCategories} />
-        ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   );
 }
 export default Standings;
