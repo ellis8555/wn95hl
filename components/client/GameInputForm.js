@@ -3,8 +3,10 @@
 
 import { useRef, useState } from "react";
 import readGameStateFile from "@/utils/game-states/read-game-state-file";
+import Standings from "../server/standings/Standings";
 
 function GameInputForm() {
+  const [updateStandings, setUpdateStandings] = useState([]);
   const [serverMessage, setServerMessage] = useState("");
   const fileInputRef = useRef(null);
   // three hidden input types for season and game type
@@ -39,7 +41,7 @@ function GameInputForm() {
       // message the user request has been sent
       setServerMessage("Sending...");
       const sendGameFile = await fetch(
-        "http://localhost:3000/api/game-result",
+        `http://localhost:3000/api/game-result`,
         {
           method: "POST",
           headers: {
@@ -55,7 +57,8 @@ function GameInputForm() {
       }
 
       if (response) {
-        window.location.reload();
+        setServerMessage("");
+        setUpdateStandings(response.newStandings);
       }
     } catch (error) {
       fileInputRef.current.value = "";
@@ -77,7 +80,7 @@ function GameInputForm() {
     try {
       // message the user request has been sent
       const requestTableReset = await fetch(
-        "http://localhost:3000/api/tables/reset-table",
+        `http://localhost:3000/api/tables/reset-table`,
         {
           method: "PATCH",
           headers: {
@@ -92,7 +95,8 @@ function GameInputForm() {
       }
 
       if (response) {
-        window.location.reload();
+        setServerMessage("");
+        setUpdateStandings(response.newStandings);
       }
     } catch (error) {
       setServerMessage(error.message);
@@ -138,6 +142,7 @@ function GameInputForm() {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
+      <Standings updateStandings={updateStandings} />
     </>
   );
 }
