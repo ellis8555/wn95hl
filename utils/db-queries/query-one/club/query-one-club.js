@@ -2,7 +2,7 @@
 import Club from "@/schemas/club";
 
 async function queryOneClub(clubName) {
-  return await Club.find({ name: clubName });
+  return await Club.findOne({ name: clubName });
 }
 
 export default queryOneClub;
