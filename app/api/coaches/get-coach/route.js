@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import queryOneUser from "@/utils/db-queries/query-one/user/queryOneUser";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -25,15 +25,7 @@ export const POST = async (req) => {
       status: 200,
     });
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "POST");
   } finally {
     if (db) {
       db.close();

@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import queryClubs from "@/utils/db-queries/query-all/clubs/query-clubs";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -10,22 +10,9 @@ export const GET = async () => {
 
     const teams = await queryClubs();
 
-    return NextResponse.json(teams, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return nextResponse(teams, 200, "GET");
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "GET");
   } finally {
     if (db) {
       db.close();

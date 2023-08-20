@@ -1,7 +1,7 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import queryIfUserExists from "@/utils/db-queries/query-one/user/queryIfUserExists";
 import createNewUser from "@/utils/db-queries/query-one/user/createNewUser";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -10,12 +10,7 @@ export const POST = async (req) => {
 
   // return if no username input
   if (!name) {
-    return NextResponse.json(
-      { message: "A name is required.." },
-      {
-        status: 400,
-      }
-    );
+    return nextResponse({ message: "A name is required.." }, 400, "POST");
   }
 
   try {
@@ -25,30 +20,19 @@ export const POST = async (req) => {
     const checkIfCoachExists = await queryIfUserExists(name);
 
     if (checkIfCoachExists) {
-      return NextResponse.json(
+      return nextResponse(
         { message: "User name already exists.." },
-        {
-          status: 400,
-        }
+        400,
+        "POST"
       );
     }
 
     // create new user
     const newUser = await createNewUser(name);
 
-    return NextResponse.json(newUser, {
-      status: 200,
-    });
+    return nextResponse(newUser, 200, "POST");
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "POST");
   } finally {
     if (db) {
       db.close();

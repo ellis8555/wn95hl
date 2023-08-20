@@ -1,7 +1,7 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import getSeasonsModel from "@/schemas/season/season";
 import queryIfClubExists from "@/utils/db-queries/query-one/club/query-if-club-exists";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -14,11 +14,10 @@ export const POST = async (req) => {
     // check that team name exists
     const searchIfTeamExists = await queryIfClubExists(teamName);
     if (!searchIfTeamExists) {
-      return NextResponse.json(
+      return nextResponse(
         { message: "This team is not registered.." },
-        {
-          status: 400,
-        }
+        400,
+        "POST"
       );
     }
 
@@ -34,9 +33,13 @@ export const POST = async (req) => {
     const isTeamRegistered = thisSeason.teams.includes(teamName);
 
     if (isTeamRegistered) {
-      return NextResponse.json({
-        message: "Team is already registered for this season",
-      });
+      return nextResponse(
+        {
+          message: "Team is already registered for this season",
+        },
+        400,
+        "POST"
+      );
     }
 
     // add team name to list of teams array
@@ -49,22 +52,13 @@ export const POST = async (req) => {
     // update the seasons document
     await thisSeason.save();
 
-    return NextResponse.json(
+    return nextResponse(
       { message: `Team has been added to season ${seasonNumber}` },
-      {
-        status: 200,
-      }
+      200,
+      "POST"
     );
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "POST");
   } finally {
     if (db) {
       db.close();

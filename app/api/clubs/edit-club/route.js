@@ -1,7 +1,7 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import queryOneClub from "@/utils/db-queries/query-one/club/query-one-club";
 import queryOneUser from "@/utils/db-queries/query-one/user/queryOneUser";
+import nextResponse from "@/utils/api/next-response";
 
 let db;
 
@@ -13,14 +13,9 @@ export const PATCH = async (req) => {
     db = await connectToDb();
 
     const club = await queryOneClub(clubName);
-
+    console.log(club);
     if (!club) {
-      return NextResponse.json(
-        { message: "Team does not exist.." },
-        {
-          status: 400,
-        }
-      );
+      return nextResponse({ message: "Team does not exist.." }, 400, "PATCH");
     }
 
     if (coachName) {
@@ -42,19 +37,9 @@ export const PATCH = async (req) => {
 
     await club.save();
 
-    return NextResponse.json(club, {
-      status: 200,
-    });
+    return nextResponse(club, 200, "PATCH");
   } catch (error) {
-    return NextResponse.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "PATCH");
   } finally {
     if (db) {
       db.close();

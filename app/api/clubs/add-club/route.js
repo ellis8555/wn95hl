@@ -1,7 +1,8 @@
 import { connectToDb } from "@/utils/database";
-import { NextResponse } from "next/server";
 import queryIfClubExists from "@/utils/db-queries/query-one/club/query-if-club-exists";
 import queryOneUser from "@/utils/db-queries/query-one/user/queryOneUser";
+import nextResponse from "@/utils/api/next-response";
+import Club from "@/schemas/club";
 
 let db;
 
@@ -15,11 +16,10 @@ export const POST = async (req) => {
     // prevent duplicate name from being added
     const searchForIfTeamExists = await queryIfClubExists(name);
     if (searchForIfTeamExists) {
-      return NextResponse.json(
+      return nextResponse(
         { message: "This team name is taken.." },
-        {
-          status: 400,
-        }
+        400,
+        "POST"
       );
     }
 
@@ -35,19 +35,9 @@ export const POST = async (req) => {
     });
     await addClub.save();
 
-    return NextResponse.json(addClub, {
-      status: 200,
-    });
+    return nextResponse(addClub, 200, "POST");
   } catch (error) {
-    return Response.json(
-      { message: error.message },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return nextResponse({ message: error.message }, 500, "POST");
   } finally {
     if (db) {
       db.close();
