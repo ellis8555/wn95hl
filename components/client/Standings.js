@@ -41,6 +41,7 @@ function Standings({ updateStandings }) {
     "OTL",
     "Pts",
   ]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchLeagueTableData()
@@ -48,8 +49,12 @@ function Standings({ updateStandings }) {
         const standingsArray = data[0]["standings"];
         standingsArray.sort((a, b) => b.Pts - a.Pts);
         setStandingsArray(standingsArray);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, [updateStandings]);
 
   return (
@@ -66,14 +71,20 @@ function Standings({ updateStandings }) {
           </tr>
         </thead>
         <tbody>
-          {standingsArray.map((team, index) => (
-            <Teamresults
-              key={index}
-              team={team}
-              categories={tableCategories}
-              bgColor={index % 2 === 0 ? "bg-slate-100" : "bg-white"}
-            />
-          ))}
+          {isLoading ? (
+            <tr>
+              <td colSpan={tableCategories.length + 1}>Table is Loading...</td>
+            </tr>
+          ) : (
+            standingsArray.map((team, index) => (
+              <Teamresults
+                key={index}
+                team={team}
+                categories={tableCategories}
+                bgColor={index % 2 === 0 ? "bg-slate-100" : "bg-white"}
+              />
+            ))
+          )}
         </tbody>
       </table>
     </div>
