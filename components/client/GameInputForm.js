@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import readGameStateFile from "@/utils/game-states/read-game-state-file";
 import Standings from "./Standings";
 import TestingMessage from "../server/standings/TestingMessage";
+import readBinaryGameState from "@/utils/game-state/read-game-state";
 
 function GameInputForm() {
   const [updateStandings, setUpdateStandings] = useState([]);
@@ -110,7 +111,7 @@ function GameInputForm() {
           ref={fileInputRef}
           id="fileInput"
           name="fileInput"
-          accept=".csv"
+          accept=".csv, .state68"
           onClick={clearServerMessage}
         />
         <br />
@@ -126,6 +127,20 @@ function GameInputForm() {
 
         <button className="border rounded-md border-black px-2" type="submit">
           Submit
+        </button>
+        <button
+          className="border rounded-md border-black px-2 ms-2"
+          onClick={(e) => {
+            e.preventDefault();
+            readBinaryGameState(
+              fileInputRef.current.files[0],
+              seasonInputRef.current.value,
+              gameTypeRef.current.value,
+              leagueNameRef.current.value
+            );
+          }}
+        >
+          Binary
         </button>
         <button
           className="border rounded-md border-black px-2 float-right"
