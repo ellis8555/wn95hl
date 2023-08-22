@@ -6,7 +6,7 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
   const goalieDict = await readGoalieAttributes();
   const skaterDict = await readSkatersAttributes();
   const teamPositionNumbersDict = await readTeamPositionCounts();
-
+  console.log(goalieDict);
   const reader = new FileReader();
   let gameProperties = {};
 
@@ -970,6 +970,215 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
       /////////////////////////////
       // end of processing
       /////////////////////////////
+
+      var headerRow = [
+        "Matchup",
+        "HomeTeam",
+        "AwayTeam",
+        "AwaySHOTS",
+        "AwayPENALTIES",
+        "AwayPIM",
+        "AwayATTACK",
+        "AwayGOALS",
+        "AwayFACEOFFS WON",
+        "AwayCHECKS",
+        "AwayPASS ATT",
+        "AwayPASS COMP",
+        "AwayPP MIN",
+        "AwayPP GOALS",
+        "AwayPP OPP",
+        "AwayPP SHOTS",
+        "AwaySHG",
+        "AwayBREAKAWAY",
+        "AwayBREAKAWAY GOALS",
+        "Away1X ATT",
+        "Away1X GOALS",
+        "AwayPENALTY SHOTS",
+        "AwayPENALTY SHOT GOALS",
+        "Away1ST SHOTS",
+        "Away2ND SHOTS",
+        "Away3RD SHOTS",
+        "AwayOT SHOTS",
+        "Away1ST GOALS",
+        "Away2ND GOALS",
+        "Away3RD GOALS",
+        "AwayOT GOALS",
+        "HomeSHOTS",
+        "HomePENALTIES",
+        "HomePIM",
+        "HomeATTACK",
+        "HomeGOALS",
+        "HomeFACEOFFS WON",
+        "HomeCHECKS",
+        "HomePASS ATT",
+        "HomePASS COMP",
+        "HomePP MIN",
+        "HomePP GOALS",
+        "HomePP OPP",
+        "HomePP SHOTS",
+        "HomeSHG",
+        "HomeBREAKAWAY",
+        "HomeBREAKAWAY GOALS",
+        "Home1X ATT",
+        "Home1X GOALS",
+        "HomePENALTY SHOTS",
+        "HomePENALTY SHOT GOALS",
+        "Home1ST SHOTS",
+        "Home2ND SHOTS",
+        "Home3RD SHOTS",
+        "HomeOT SHOTS",
+        "Home1ST GOALS",
+        "Home2ND GOALS",
+        "Home3RD GOALS",
+        "HomeOT GOALS",
+        "TOTAL FO",
+        "OT Game",
+        "GAME LENGTH",
+      ];
+
+      // Convert the Python list to a JavaScript array of arrays
+      var headerArray = headerRow.map(function (item) {
+        return [item];
+      });
+
+      // Define the number of goalies (2 in this case)
+      const numGoalies = 2;
+
+      // Define the additional headers for "Away Goalies"
+      const goalieHeaders = [
+        "Name",
+        "Pos",
+        "G",
+        "A",
+        "PTS",
+        "SO",
+        "GA",
+        "SV",
+        "SH",
+        "SV%",
+        "W",
+        "L",
+        "T",
+        "OTL",
+        "TOI",
+      ];
+
+      // away goalies
+      // Define the number of goalies (2 in this case)
+      const goalieCount = 2;
+
+      // Spread the goalieHeaders into headerArray for the specified number of goalies
+      for (let i = 0; i < goalieCount; i++) {
+        headerArray.push(...goalieHeaders.map((item) => [item]));
+      }
+
+      // Define the additional headers for "Away Skaters"
+      const skaterHeaders = [
+        "Name",
+        "Pos",
+        "G",
+        "A",
+        "PTS",
+        "SOG",
+        "CHK",
+        "PIM",
+        "PPP",
+        "SHP",
+        "TOI",
+      ];
+
+      // Define the number of skaters (10 in this case)
+      const skaterCount = 10;
+
+      // Spread the skaterHeaders into headerArray for the specified number of skaters
+      for (let i = 0; i < skaterCount; i++) {
+        headerArray.push(...skaterHeaders.map((item) => [item]));
+      }
+
+      // home goalies
+
+      // Spread the goalieHeaders into headerArray for the specified number of goalies
+      for (let i = 0; i < goalieCount; i++) {
+        headerArray.push(...goalieHeaders.map((item) => [item]));
+      }
+
+      // home skaters
+      // Spread the skaterHeaders into headerArray for the specified number of skaters
+      for (let i = 0; i < skaterCount; i++) {
+        headerArray.push(...skaterHeaders.map((item) => [item]));
+      }
+
+      // Define the additional headers for "Scoring Summary"
+      const scoringSummaryHeaders = [
+        "Goal#",
+        "Period",
+        "TIME",
+        "TEAM",
+        "GOALscorer",
+        "ASSIST 1",
+        "ASSIST 2",
+        "TYPE",
+      ];
+
+      // Define the number of goals (15 in this case)
+      const goalCount = 15;
+
+      // Loop to add "Scoring Summary" headers to headerArray
+      for (let i = 0; i < goalCount; i++) {
+        headerArray.push(...scoringSummaryHeaders.map((item) => [item]));
+      }
+
+      const penaltySummaryHeaders = [
+        "Pen#",
+        "PERIOD",
+        "TIME",
+        "TEAM",
+        "Penalty",
+        "Type",
+      ];
+
+      // define the number of penalties (room for 15 penalties)
+      const penaltyCount = 15;
+      // Loop to add "Scoring Summary" headers to headerArray
+      for (let i = 0; i < penaltyCount; i++) {
+        headerArray.push(...penaltySummaryHeaders.map((item) => [item]));
+      }
+
+      ///////////////////////////////////////////////////////////////////////
+      // headerArray will be paired up with info contained within statDict
+      ///////////////////////////////////////////////////////////////////////
+
+      // const GAME_DATA = {};
+
+      // // get home team stats
+      // GAME_DATA["homeTeamGameStats"] = extractHomeTeamData(gameStats);
+
+      // // get home team player stats
+      // GAME_DATA["homeTeamPlayerStats"] = extractHomePlayerStats(gameStats);
+
+      // // get home team player stats
+      // GAME_DATA["homeTeamGoalieStats"] = extractHomeGoalieStats(gameStats);
+
+      // // get away team stats
+      // GAME_DATA["awayTeamGameStats"] = extractAwayTeamData(gameStats);
+
+      // // get away team player stats
+      // GAME_DATA["awayTeamPlayerStats"] = extractAwayPlayerStats(gameStats);
+
+      // // get away team player stats
+      // GAME_DATA["awayTeamGoalieStats"] = extractAwayGoalieStats(gameStats);
+
+      // // get goal scoring data for each goal scored
+      // GAME_DATA["allGoalsScored"] = extractGoalData(
+      //   gameStats,
+      //   lengthOfGameStats
+      // );
+
+      // // get penalty data for each penalty taken
+      // GAME_DATA["allPenalties"] = extractPenaltyData(
+      //   gameStats,
+      //   lengthOfGameStats
+      // );
     } catch (error) {
       console.log("inside of read binary file error has occured");
       console.log(error);
