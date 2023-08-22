@@ -1,12 +1,12 @@
-import readGoalieAttributes from "./read-game-state-helpers/read-goalie-attributes";
-import readSkatersAttributes from "./read-game-state-helpers/read-skater-attributes";
-import readTeamPositionCounts from "./read-game-state-helpers/read-team-position-counts";
+import readGoalieAttributes from "./read-game-state-helpers/read-csv/read-goalie-attributes";
+import readSkatersAttributes from "./read-game-state-helpers/read-csv/read-skater-attributes";
+import readTeamPositionCounts from "./read-game-state-helpers/read-csv/read-team-position-counts";
 
 async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
   const goalieDict = await readGoalieAttributes();
   const skaterDict = await readSkatersAttributes();
   const teamPositionNumbersDict = await readTeamPositionCounts();
-  console.log(goalieDict);
+
   const reader = new FileReader();
   let gameProperties = {};
 
@@ -1145,9 +1145,131 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
       }
 
       ///////////////////////////////////////////////////////////////////////
+      // create master data container
       // headerArray will be paired up with info contained within statDict
       ///////////////////////////////////////////////////////////////////////
+      console.log(statsDict);
 
+      // # Matchup Info
+      headerArray[0].push(statsDict["matchup"]);
+      headerArray[1].push(statsDict["homeTeam"]);
+      headerArray[2].push(statsDict["awayTeam"]);
+
+      // # Away Team Stats
+      headerArray[3].push(statsDict["awayShots"]);
+      headerArray[4].push(statsDict["awayPenalties"]);
+      headerArray[5].push(statsDict["awayPIM"]);
+      headerArray[6].push(statsDict["awayAttackZoneTime"]);
+      headerArray[7].push(statsDict["awayGoals"]);
+      headerArray[8].push(statsDict["awayFaceoffWins"]);
+      headerArray[9].push(statsDict["awayChecks"]);
+      headerArray[10].push(statsDict["awayPassTries"]);
+      headerArray[11].push(statsDict["awayPassComps"]);
+      headerArray[12].push(statsDict["awayPPTime"]);
+      headerArray[13].push(statsDict["awayPPGoals"]);
+      headerArray[14].push(statsDict["awayPPTries"]);
+      headerArray[15].push(statsDict["awayPPShots"]);
+      headerArray[16].push(statsDict["awaySHGoals"]);
+      headerArray[17].push(statsDict["awayBreakTries"]);
+      headerArray[18].push(statsDict["awayBreakGoals"]);
+      headerArray[19].push(statsDict["awayOneTimerTries"]);
+      headerArray[20].push(statsDict["awayOneTimerGoals"]);
+      headerArray[21].push(statsDict["awayPenShotTries"]);
+      headerArray[22].push(statsDict["awayPenShotGoals"]);
+      headerArray[23].push(statsDict["awayShotsP1"]);
+      headerArray[24].push(statsDict["awayShotsP2"]);
+      headerArray[25].push(statsDict["awayShotsP3"]);
+      headerArray[26].push(statsDict["awayShotsOT"]);
+      headerArray[27].push(statsDict["awayGoalsP1"]);
+      headerArray[28].push(statsDict["awayGoalsP2"]);
+      headerArray[29].push(statsDict["awayGoalsP3"]);
+      headerArray[30].push(statsDict["awayGoalsOT"]);
+
+      // # Home Team Stats
+      headerArray[31].push(statsDict["homeShots"]);
+      headerArray[32].push(statsDict["homePenalties"]);
+      headerArray[33].push(statsDict["homePIM"]);
+      headerArray[34].push(statsDict["homeAttackZoneTime"]);
+      headerArray[35].push(statsDict["homeGoals"]);
+      headerArray[36].push(statsDict["homeFaceoffWins"]);
+      headerArray[37].push(statsDict["homeChecks"]);
+      headerArray[38].push(statsDict["homePassTries"]);
+      headerArray[39].push(statsDict["homePassComps"]);
+      headerArray[40].push(statsDict["homePPTime"]);
+      headerArray[41].push(statsDict["homePPGoals"]);
+      headerArray[42].push(statsDict["homePPTries"]);
+      headerArray[43].push(statsDict["homePPShots"]);
+      headerArray[44].push(statsDict["homeSHGoals"]);
+      headerArray[45].push(statsDict["homeBreakTries"]);
+      headerArray[46].push(statsDict["homeBreakGoals"]);
+      headerArray[47].push(statsDict["homeOneTimerTries"]);
+      headerArray[48].push(statsDict["homeOneTimerGoals"]);
+      headerArray[49].push(statsDict["homePenShotTries"]);
+      headerArray[50].push(statsDict["homePenShotGoals"]);
+      headerArray[51].push(statsDict["homeShotsP1"]);
+      headerArray[52].push(statsDict["homeShotsP2"]);
+      headerArray[53].push(statsDict["homeShotsP3"]);
+      headerArray[54].push(statsDict["homeShotsOT"]);
+      headerArray[55].push(statsDict["homeGoalsP1"]);
+      headerArray[56].push(statsDict["homeGoalsP2"]);
+      headerArray[57].push(statsDict["homeGoalsP3"]);
+      headerArray[58].push(statsDict["homeGoalsOT"]);
+
+      // # Remaining game stats
+      headerArray[59].push(statsDict["totalFaceoffs"]);
+      headerArray[60].push(statsDict["OT"]);
+      headerArray[61].push(statsDict["gameLength"]);
+
+      let goalieStatsIndexStart = 62;
+      for (let i = 1; i <= 2; i++) {
+        headerArray[goalieStatsIndexStart].push(
+          statsDict[`awayGoalie${i}`]["name"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["pos"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["goals"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["assists"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["points"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["SO"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["GA"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["saves"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["shots"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["savePct"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["W"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["T"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["OTL"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["TOI"]
+        );
+      }
+
+      console.log(headerArray);
+      ///////////////////////////////////////////////////////////////////////
+      // end master data container
+      ///////////////////////////////////////////////////////////////////////
       // const GAME_DATA = {};
 
       // // get home team stats
