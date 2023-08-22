@@ -138,6 +138,9 @@ function GameInputForm() {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
+      <p className="text-xl bold text-center mt-2 bg-orange-400 w-1/2 mx-auto">
+        File may not upload using Firefox
+      </p>
       <p className="text-xl bold text-center mt-2 bg-green-400 w-1/2 mx-auto">
         Uploading an actual game state being worked on
       </p>
