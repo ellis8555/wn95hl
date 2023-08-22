@@ -975,6 +975,14 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
       console.log(error);
     }
   };
+
+  reader.onerror = (error) => {
+    reject({
+      message: "Error reading the file",
+      error,
+    });
+  };
+
   reader.readAsArrayBuffer(file);
 }
 
