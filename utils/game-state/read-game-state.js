@@ -1,6 +1,15 @@
 import readGoalieAttributes from "./read-game-state-helpers/read-csv/read-goalie-attributes";
 import readSkatersAttributes from "./read-game-state-helpers/read-csv/read-skater-attributes";
 import readTeamPositionCounts from "./read-game-state-helpers/read-csv/read-team-position-counts";
+import extractHomeTeamData from "../game-states/game-state-helper-methods/extract-home-team-data";
+import extractHomePlayerStats from "../game-states/game-state-helper-methods/extract-home-player-stats";
+import extractHomeGoalieStats from "../game-states/game-state-helper-methods/extract-home-goalie-stats";
+import extractAwayGoalieStats from "../game-states/game-state-helper-methods/extract-away-goalie-stats";
+import extractAwayPlayerStats from "../game-states/game-state-helper-methods/extract-away-player-stats";
+import extractAwayTeamData from "../game-states/game-state-helper-methods/extract-away-team-data";
+import extractGoalData from "../game-states/game-state-helper-methods/extract-goal-data";
+import extractPenaltyData from "../game-states/game-state-helper-methods/extract-penalty-data";
+import extractOtherGameStats from "../game-states/game-state-helper-methods/extract-other-game-stats";
 
 async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
   const goalieDict = await readGoalieAttributes();
@@ -1457,35 +1466,57 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
       const GAME_DATA = {};
 
       // get home team stats
-      GAME_DATA["homeTeamGameStats"] = extractHomeTeamData(gameStats);
+      GAME_DATA["homeTeamGameStats"] = extractHomeTeamData(headerArray);
 
-      console.log(headerArray);
-      // // get home team player stats
-      // GAME_DATA["homeTeamPlayerStats"] = extractHomePlayerStats(gameStats);
+      // get home team player stats
+      GAME_DATA["homeTeamPlayerStats"] = extractHomePlayerStats(headerArray);
 
-      // // get home team player stats
-      // GAME_DATA["homeTeamGoalieStats"] = extractHomeGoalieStats(gameStats);
+      // get home team goalie stats
+      GAME_DATA["homeTeamGoalieStats"] = extractHomeGoalieStats(headerArray);
 
       // // get away team stats
-      // GAME_DATA["awayTeamGameStats"] = extractAwayTeamData(gameStats);
+      GAME_DATA["awayTeamGameStats"] = extractAwayTeamData(headerArray);
 
       // // get away team player stats
-      // GAME_DATA["awayTeamPlayerStats"] = extractAwayPlayerStats(gameStats);
+      GAME_DATA["awayTeamPlayerStats"] = extractAwayPlayerStats(headerArray);
 
-      // // get away team player stats
-      // GAME_DATA["awayTeamGoalieStats"] = extractAwayGoalieStats(gameStats);
+      // // get away team goalie stats
+      GAME_DATA["awayTeamGoalieStats"] = extractAwayGoalieStats(headerArray);
 
+      const headerArrayLength = headerArray.length;
       // // get goal scoring data for each goal scored
-      // GAME_DATA["allGoalsScored"] = extractGoalData(
-      //   gameStats,
-      //   lengthOfGameStats
-      // );
+      GAME_DATA["allGoalsScored"] = extractGoalData(
+        headerArray,
+        headerArrayLength
+      );
 
       // // get penalty data for each penalty taken
-      // GAME_DATA["allPenalties"] = extractPenaltyData(
-      //   gameStats,
-      //   lengthOfGameStats
-      // );
+      GAME_DATA["allPenalties"] = extractPenaltyData(
+        headerArray,
+        headerArrayLength
+      );
+
+      // get other game stats.
+      GAME_DATA["otherGameStats"] = extractOtherGameStats(
+        headerArray,
+        seasonNumber,
+        gameType,
+        leagueName
+      );
+
+      ////////////////////////////////////////
+      // object containing all the games data
+      ////////////////////////////////////////
+      const gameProperties = {
+        currentSeason: seasonNumber,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        data: GAME_DATA,
+      };
+
+      console.log(headerArray);
+      console.log(GAME_DATA);
     } catch (error) {
       console.log("inside of read binary file error has occured");
       console.log(error);
