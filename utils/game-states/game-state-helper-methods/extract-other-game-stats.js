@@ -90,7 +90,7 @@ function extractOtherGameStats(gameData, seasonNumber, gameType, leagueName) {
   const homeTeamPoints = otherStatDetails["homeTeamPoints"];
   const awayTeamPoints = otherStatDetails["awayTeamPoints"];
   const isGameATie = (homePoints, awayPoints) => {
-    if ((homePoints && awayPoints) === 1) {
+    if (homePoints == 1 && awayPoints == 1) {
       return true;
     }
     return false;
