@@ -32,14 +32,29 @@ function GameInputForm() {
     const leagueName = leagueNameRef.current.value;
 
     try {
-      // this returns all the parsed game data
-      const gameData = await readGameStateFile(
-        file,
-        currentSeason,
-        gameType,
-        leagueName,
-        currentSeason
-      );
+      let gameData;
+      const fileSize = file.size;
+
+      if (file.name === "WN95HL_Game_Stats.csv") {
+        // this returns all the parsed game data
+        gameData = await readGameStateFile(
+          file,
+          fileSize,
+          gameType,
+          leagueName,
+          currentSeason
+        );
+      }
+      if (file.name.includes("state")) {
+        // this returns all the parsed game data
+        gameData = await readBinaryGameState(
+          file,
+          fileSize,
+          gameType,
+          leagueName,
+          currentSeason
+        );
+      }
       // message the user request has been sent
       setServerMessage("Sending...");
 
@@ -111,7 +126,7 @@ function GameInputForm() {
           ref={fileInputRef}
           id="fileInput"
           name="fileInput"
-          accept=".csv, .state68"
+          // accept=".csv, .state68"
           onClick={clearServerMessage}
         />
         <br />
@@ -126,21 +141,22 @@ function GameInputForm() {
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <button className="border rounded-md border-black px-2" type="submit">
-          Submit
+          CSV
         </button>
         <button
           className="border rounded-md border-black px-2 ms-2"
-          onClick={(e) => {
-            e.preventDefault();
-            readBinaryGameState(
-              fileInputRef.current.files[0],
-              seasonInputRef.current.value,
-              gameTypeRef.current.value,
-              leagueNameRef.current.value
-            );
-          }}
+          type="submit"
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   readBinaryGameState(
+          //     fileInputRef.current.files[0],
+          //     seasonInputRef.current.value,
+          //     gameTypeRef.current.value,
+          //     leagueNameRef.current.value
+          //   );
+          // }}
         >
-          Binary
+          State
         </button>
         <button
           className="border rounded-md border-black px-2 float-right"
