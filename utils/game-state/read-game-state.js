@@ -8,7 +8,6 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
   const teamPositionNumbersDict = await readTeamPositionCounts();
 
   const reader = new FileReader();
-  let gameProperties = {};
 
   reader.onload = (e) => {
     const d = new Uint8Array(e.target.result);
@@ -1148,7 +1147,6 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
       // create master data container
       // headerArray will be paired up with info contained within statDict
       ///////////////////////////////////////////////////////////////////////
-      console.log(statsDict);
 
       // # Matchup Info
       headerArray[0].push(statsDict["matchup"]);
@@ -1220,9 +1218,11 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
       headerArray[60].push(statsDict["OT"]);
       headerArray[61].push(statsDict["gameLength"]);
 
+      // away goalie stats
       let goalieStatsIndexStart = 62;
+      // loop through based on 2 goalies on the team
       for (let i = 1; i <= 2; i++) {
-        headerArray[goalieStatsIndexStart].push(
+        headerArray[goalieStatsIndexStart++].push(
           statsDict[`awayGoalie${i}`]["name"]
         );
         headerArray[goalieStatsIndexStart++].push(
@@ -1256,6 +1256,9 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
           statsDict[`awayGoalie${i}`]["W"]
         );
         headerArray[goalieStatsIndexStart++].push(
+          statsDict[`awayGoalie${i}`]["L"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
           statsDict[`awayGoalie${i}`]["T"]
         );
         headerArray[goalieStatsIndexStart++].push(
@@ -1266,15 +1269,197 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
         );
       }
 
-      console.log(headerArray);
+      // away skater stats
+      let awaySkaterStatsIndexStart = 92;
+      // loop through based on 10 skaters on the team
+      for (let i = 1; i <= 10; i++) {
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["name"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["pos"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["goals"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["assists"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["points"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["SOG"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["checks"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["PIM"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["PPP"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["SHP"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`awaySkater${i}`]["TOI"]
+        );
+      }
+
+      // home goalie stats
+      goalieStatsIndexStart = 202;
+      // loop through based on 2 goalies on the team
+      for (let i = 1; i <= 2; i++) {
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["name"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["pos"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["goals"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["assists"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["points"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["SO"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["GA"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["saves"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["shots"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["savePct"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["W"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["L"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["T"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["OTL"]
+        );
+        headerArray[goalieStatsIndexStart++].push(
+          statsDict[`homeGoalie${i}`]["TOI"]
+        );
+      }
+
+      // home skater stats
+      awaySkaterStatsIndexStart = 232;
+      // loop through based on 10 skaters on the team
+      for (let i = 1; i <= 10; i++) {
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["name"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["pos"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["goals"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["assists"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["points"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["SOG"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["checks"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["PIM"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["PPP"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["SHP"]
+        );
+        headerArray[awaySkaterStatsIndexStart++].push(
+          statsDict[`homeSkater${i}`]["TOI"]
+        );
+      }
+
+      // scoring summary
+      let scoringSummaryIndexStart = 342;
+      // room for 15 total goals
+      for (let i = 1; i <= 15; i++) {
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["goalNum"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["period"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["time"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["team"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["scorer"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["assist1"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["assist2"]
+        );
+        headerArray[scoringSummaryIndexStart++].push(
+          statsDict[`Goal${i}`]["type"]
+        );
+      }
+      // penalty summary
+      let penaltySummaryIndexStart = 462;
+      // room for 15 total penalties
+      for (let i = 1; i <= 15; i++) {
+        headerArray[penaltySummaryIndexStart++].push(
+          statsDict[`Penalty${i}`]["penNum"]
+        );
+        headerArray[penaltySummaryIndexStart++].push(
+          statsDict[`Penalty${i}`]["period"]
+        );
+        headerArray[penaltySummaryIndexStart++].push(
+          statsDict[`Penalty${i}`]["time"]
+        );
+        headerArray[penaltySummaryIndexStart++].push(
+          statsDict[`Penalty${i}`]["team"]
+        );
+        headerArray[penaltySummaryIndexStart++].push(
+          statsDict[`Penalty${i}`]["player"]
+        );
+        headerArray[penaltySummaryIndexStart++].push(
+          statsDict[`Penalty${i}`]["type"]
+        );
+      }
+
       ///////////////////////////////////////////////////////////////////////
       // end master data container
       ///////////////////////////////////////////////////////////////////////
-      // const GAME_DATA = {};
+      const GAME_DATA = {};
 
-      // // get home team stats
-      // GAME_DATA["homeTeamGameStats"] = extractHomeTeamData(gameStats);
+      // get home team stats
+      GAME_DATA["homeTeamGameStats"] = extractHomeTeamData(gameStats);
 
+      console.log(headerArray);
       // // get home team player stats
       // GAME_DATA["homeTeamPlayerStats"] = extractHomePlayerStats(gameStats);
 
