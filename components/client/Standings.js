@@ -32,7 +32,7 @@ function fetchLeagueTableData() {
 }
 
 function Standings({ updateStandings }) {
-  const [standingsArray, setStandingsArray] = useState([]);
+  const [standingsArray, setStandingsArray] = useState([updateStandings]);
   const [tableCategories, setTableCategories] = useState([
     "GP",
     "W",
@@ -78,7 +78,7 @@ function Standings({ updateStandings }) {
         console.log(error);
         setIsLoading(false);
       });
-  }, [updateStandings]);
+  }, [standingsArray]);
 
   return (
     <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
