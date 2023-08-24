@@ -22,10 +22,8 @@ export const POST = async (req, res) => {
   // reject files that are not .csv filetype
 
   if (
-    (!fileName.includes("WN95HL_Game_Stats.csv") &&
-      !fileName.includes("state")) ||
-    fileSize > 1036400 ||
-    fileType !== "text/csv"
+    !(fileName === "WN95HL_Game_Stats.csv" || fileName.includes("state")) ||
+    fileSize > 1036400
   ) {
     return nextResponse(
       { message: "File was not uploaded. Criteria not met." },
