@@ -2,8 +2,8 @@ import TeamLogo from "./TeamLogo";
 
 function Teamresults({ team, categories, bgColor }) {
   return (
-    <tr className={bgColor}>
-      <td>
+    <tr className={`${bgColor} text-sm`}>
+      <td className="flex justify-center">
         <TeamLogo name={team.teamAcronym} />
       </td>
       {categories.map((category, index) => (
