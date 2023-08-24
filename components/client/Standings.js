@@ -46,7 +46,13 @@ function Standings({ updateStandings }) {
     fetchLeagueTableData()
       .then((data) => {
         const standingsArray = data[0]["standings"];
-        standingsArray.sort((a, b) => b.Pts - a.Pts);
+        standingsArray.sort((a, b) => {
+          if (b.Pts - a.Pts !== 0) {
+            return b.Pts - a.Pts;
+          } else {
+            return b.GP - a.GP;
+          }
+        });
         setStandingsArray(standingsArray);
       })
       .catch((error) => console.log(error));
