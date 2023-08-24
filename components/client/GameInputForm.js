@@ -67,11 +67,11 @@ function GameInputForm() {
       });
       const response = await sendGameFile.json();
 
-      if (!response) {
+      if (!response.ok) {
         throw new Error(response.message);
       }
 
-      if (response) {
+      if (response.ok) {
         setServerMessage("");
         setUpdateStandings(response.newStandings);
       }
