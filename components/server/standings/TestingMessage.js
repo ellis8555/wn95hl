@@ -6,8 +6,8 @@ function TestingMessage() {
           Duplicate game states have been enabled soley for testing purposes
         </li>
         <li>
-          Clicking reset button returns all numbers to zero and deletes the game
-          state from the database. This will be seen from all users.
+          Clicking reset button returns all numbers to zero and deletes all game
+          states from the database. This will be seen from all users.
         </li>
       </ol>
     </div>
