@@ -16,15 +16,14 @@ let db;
 export const POST = async (req, res) => {
   const { fileName, fileSize, fileType, data, currentSeason } =
     await req.json();
-
   // reject files that do match a set name
   // reject uploads that are to large
   // reject files that are not .csv filetype
 
   if (
-    fileName !== "WN95HL_Game_Stats.csv" ||
-    fileSize > 6000 ||
-    fileType !== "text/csv"
+    (fileName !== "WN95HL_Game_Stats.csv" && !fileName.includes("state")) ||
+    (fileName === "WN95HL_Game_Stats.csv" && fileSize > 6500) ||
+    (fileName.includes("state") && fileSize > 1400000)
   ) {
     return nextResponse(
       { message: "File was not uploaded. Criteria not met." },
@@ -91,20 +90,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    // if (isDuplicate) {
-    //   return NextResponse.json(
-    //     {
-    //       message:
-    //         "This game appears to be a duplicate. Game data was not saved..",
-    //     },
-    //     {
-    //       status: 400,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    // }
+    if (isDuplicate) {
+      return nextResponse(
+        {
+          message: `This game appears to be a duplicate. Game data was not saved..`,
+        },
+        400,
+        "POST"
+      );
+    }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 

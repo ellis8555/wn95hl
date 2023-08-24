@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import readGameStateFile from "@/utils/game-states/read-game-state-file";
 import Standings from "./Standings";
 import TestingMessage from "../server/standings/TestingMessage";
+import readBinaryGameState from "@/utils/game-state/read-game-state";
 
 function GameInputForm() {
   const [updateStandings, setUpdateStandings] = useState([]);
@@ -31,14 +32,29 @@ function GameInputForm() {
     const leagueName = leagueNameRef.current.value;
 
     try {
-      // this returns all the parsed game data
-      const gameData = await readGameStateFile(
-        file,
-        currentSeason,
-        gameType,
-        leagueName,
-        currentSeason
-      );
+      let gameData;
+      const fileSize = file.size;
+
+      if (file.name === "WN95HL_Game_Stats.csv") {
+        // this returns all the parsed game data
+        gameData = await readGameStateFile(
+          file,
+          fileSize,
+          gameType,
+          leagueName,
+          currentSeason
+        );
+      }
+      if (file.name.includes("state")) {
+        // this returns all the parsed game data
+        gameData = await readBinaryGameState(
+          file,
+          fileSize,
+          gameType,
+          leagueName,
+          currentSeason
+        );
+      }
       // message the user request has been sent
       setServerMessage("Sending...");
 
@@ -51,11 +67,11 @@ function GameInputForm() {
       });
       const response = await sendGameFile.json();
 
-      if (!response) {
+      if (!response.ok) {
         throw new Error(response.message);
       }
 
-      if (response) {
+      if (response.ok) {
         setServerMessage("");
         setUpdateStandings(response.newStandings);
       }
@@ -110,7 +126,7 @@ function GameInputForm() {
           ref={fileInputRef}
           id="fileInput"
           name="fileInput"
-          accept=".csv"
+          // accept=".csv, .state68"
           onClick={clearServerMessage}
         />
         <br />
@@ -138,11 +154,8 @@ function GameInputForm() {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
-      <p className="text-xl bold text-center mt-2 bg-orange-400 w-1/2 mx-auto">
+      <p className="w-full mt-4 bg-orange-400 text-xl text-center mx-auto p-3 md:max-w-md">
         File may not upload using Firefox
-      </p>
-      <p className="text-xl bold text-center mt-2 bg-green-400 w-1/2 mx-auto">
-        Uploading an actual game state being worked on
       </p>
       <TestingMessage />
       <Standings updateStandings={updateStandings} />

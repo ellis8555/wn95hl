@@ -4,8 +4,8 @@ function TeamLogo({ name }) {
   return (
     <Image
       src={`/images/team-logos/${name}.png`}
-      width={50}
-      height={30}
+      width={25}
+      height={15}
       style={{ width: "auto", height: "auto" }}
       alt={name}
     />
