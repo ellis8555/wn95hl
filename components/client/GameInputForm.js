@@ -72,6 +72,7 @@ function GameInputForm() {
       }
 
       if (response.ok) {
+        console.log(response.newStandings);
         setServerMessage("");
         setUpdateStandings(response.newStandings);
       }
@@ -155,7 +156,7 @@ function GameInputForm() {
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
       <p className="w-full mt-4 bg-orange-400 text-xl text-center mx-auto p-3 md:max-w-md">
-        File may not upload using Firefox
+        There are bugs here. Try another browser. Also hit refresh
       </p>
       <TestingMessage />
       <Standings updateStandings={updateStandings} />
