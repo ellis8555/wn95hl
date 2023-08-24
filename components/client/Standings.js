@@ -47,42 +47,57 @@ function Standings({ updateStandings }) {
       .then((data) => {
         const standingsArray = data[0]["standings"];
         standingsArray.sort((a, b) => {
+          // First, sort by 'Pts' property in descending order
           if (b.Pts - a.Pts !== 0) {
             return b.Pts - a.Pts;
-          } else {
+          } else if (b.GP - a.GP !== 0) {
             return b.GP - a.GP;
+          } else {
+            // If 'Pts' and 'GP' are equal, check 'GP' values for zero
+            if (a.GP === 0 && b.GP === 0) {
+              // If both 'GP' values are 0, sort by 'teamName' in ascending order
+              return a.teamName.localeCompare(b.teamName);
+            } else if (a.GP === 0) {
+              // If 'GP' of 'a' is 0, it comes first
+              return -1;
+            } else if (b.GP === 0) {
+              // If 'GP' of 'b' is 0, it comes first
+              return 1;
+            } else {
+              // If 'GP' values are non-zero and equal, sort by 'teamName'
+              return a.teamName.localeCompare(b.teamName);
+            }
           }
         });
+
         setStandingsArray(standingsArray);
       })
       .catch((error) => console.log(error));
   }, [updateStandings]);
 
   return (
-    <div className="px-4">
-      <table className="mb-4 mx-auto table-auto">
-        <thead>
-          <tr>
-            <th className="text-xl">W95</th>
-            {tableCategories.map((header, index) => (
-              <th className="p-4 sm:text-xl" key={index}>
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {standingsArray.map((team, index) => (
-            <Teamresults
-              key={index}
-              team={team}
-              categories={tableCategories}
-              bgColor={index % 2 === 0 ? "bg-slate-100" : "bg-white"}
-            />
+    <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
+      <thead>
+        <tr>
+          <th className="text-xl">W95</th>
+          {tableCategories.map((header, index) => (
+            <th className="p-4 sm:text-xl" key={index}>
+              {header}
+            </th>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </tr>
+      </thead>
+      <tbody>
+        {standingsArray.map((team, index) => (
+          <Teamresults
+            key={index}
+            team={team}
+            categories={tableCategories}
+            bgColor={index % 2 === 0 ? "bg-slate-200" : "bg-white"}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 }
 export default Standings;
