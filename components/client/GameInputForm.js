@@ -141,22 +141,7 @@ function GameInputForm() {
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <button className="border rounded-md border-black px-2" type="submit">
-          CSV
-        </button>
-        <button
-          className="border rounded-md border-black px-2 ms-2"
-          type="submit"
-          // onClick={(e) => {
-          //   e.preventDefault();
-          //   readBinaryGameState(
-          //     fileInputRef.current.files[0],
-          //     seasonInputRef.current.value,
-          //     gameTypeRef.current.value,
-          //     leagueNameRef.current.value
-          //   );
-          // }}
-        >
-          State
+          Submit
         </button>
         <button
           className="border rounded-md border-black px-2 float-right"
