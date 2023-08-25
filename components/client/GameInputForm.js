@@ -82,10 +82,6 @@ function GameInputForm() {
     }
   };
 
-  const clearServerMessage = () => {
-    setServerMessage("");
-  };
-
   async function resetLeagueTable(e) {
     e.preventDefault();
     setServerMessage("Resetting the table");
@@ -121,7 +117,7 @@ function GameInputForm() {
           ref={fileInputRef}
           id="fileInput"
           name="fileInput"
-          onClick={clearServerMessage}
+          onClick={() => setServerMessage("")}
         />
         <br />
         <br />
