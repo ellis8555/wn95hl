@@ -95,7 +95,9 @@ function Standings({ updateStandings }) {
       <tbody>
         {isLoading ? (
           <tr>
-            <td colSpan={tableCategories.length + 1}>Table is Loading...</td>
+            <td className="text-center" colSpan={tableCategories.length + 1}>
+              Table is Loading...
+            </td>
           </tr>
         ) : (
           standingsArray.map((team, index) => (
