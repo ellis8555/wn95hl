@@ -6,15 +6,19 @@ import readGameStateFile from "@/utils/game-states/read-game-state-file";
 import Standings from "./Standings";
 import TestingMessage from "../server/standings/TestingMessage";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
+import Boxscore from "../server/Boxscore";
 
 function GameInputForm() {
   const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
+  const [boxscoreData, setBoxscoreData] = useState({});
   const fileInputRef = useRef(null);
   // three hidden input types for season and game type
   const seasonInputRef = useRef(null);
   const gameTypeRef = useRef(null);
   const leagueNameRef = useRef(null);
+
+  // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,6 +55,21 @@ function GameInputForm() {
           leagueName
         );
       }
+
+      const homeData = gameData.data.homeTeamGameStats;
+      const awayData = gameData.data.awayTeamGameStats;
+      const otherData = gameData.data.otherGameStats;
+      const boxscoreStats = {
+        homeTeam: {
+          acronym: otherData.homeTeam,
+          homeScore: homeData.HomeGOALS,
+        },
+        awayTeam: {
+          acronym: otherData.awayTeam,
+          awayScore: awayData.AwayGOALS,
+        },
+      };
+      setBoxscoreData(boxscoreStats);
       // message the user request has been sent
       setServerMessage("Sending...");
       const response = await fetch(`/api/game-result`, {
@@ -96,6 +115,7 @@ function GameInputForm() {
       const clearedTable = await response.json();
 
       setServerMessage("");
+      setBoxscoreData({});
       setUpdateStandings(clearedTable.newStandings);
     } catch (error) {
       setServerMessage(error.message);
@@ -141,6 +161,7 @@ function GameInputForm() {
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
       <TestingMessage />
+      {boxscoreData && <Boxscore boxscore={boxscoreData} />}
       <Standings updateStandings={updateStandings} />
     </>
   );
