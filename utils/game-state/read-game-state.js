@@ -1526,8 +1526,6 @@ async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
           data: GAME_DATA,
         };
         resolve(gameProperties);
-        // console.log(headerArray);
-        // console.log(GAME_DATA);
       } catch (error) {
         gameProperties = {
           data: "There was an error processing the file",

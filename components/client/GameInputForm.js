@@ -32,26 +32,23 @@ function GameInputForm() {
 
     try {
       let gameData;
-      const fileSize = file.size;
 
       if (file.name === "WN95HL_Game_Stats.csv") {
         // this returns all the parsed game data
         gameData = await readGameStateFile(
           file,
-          fileSize,
+          currentSeason,
           gameType,
-          leagueName,
-          currentSeason
+          leagueName
         );
       }
       if (file.name.includes("state")) {
         // this returns all the parsed game data
         gameData = await readBinaryGameState(
           file,
-          fileSize,
+          currentSeason,
           gameType,
-          leagueName,
-          currentSeason
+          leagueName
         );
       }
       // message the user request has been sent
@@ -69,7 +66,6 @@ function GameInputForm() {
       }
 
       const responseData = await response.json();
-
       setServerMessage("");
       setUpdateStandings(responseData.newStandings);
     } catch (error) {
