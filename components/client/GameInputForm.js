@@ -124,7 +124,6 @@ function GameInputForm() {
           ref={fileInputRef}
           id="fileInput"
           name="fileInput"
-          // accept=".csv, .state68"
           onClick={clearServerMessage}
         />
         <br />
