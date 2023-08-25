@@ -8,14 +8,13 @@ import TestingMessage from "../server/standings/TestingMessage";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
 
 function GameInputForm() {
-  const [updateStandings, setUpdateStandings] = useState([]);
+  const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const fileInputRef = useRef(null);
   // three hidden input types for season and game type
   const seasonInputRef = useRef(null);
   const gameTypeRef = useRef(null);
   const leagueNameRef = useRef(null);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,24 +56,22 @@ function GameInputForm() {
       }
       // message the user request has been sent
       setServerMessage("Sending...");
-
-      const sendGameFile = await fetch(`/api/game-result`, {
+      const response = await fetch(`/api/game-result`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(gameData),
       });
-      const response = await sendGameFile.json();
 
       if (!response.ok) {
         throw new Error(response.message);
       }
 
-      if (response.ok) {
-        setServerMessage("");
-        setUpdateStandings(response.newStandings);
-      }
+      const responseData = await response.json();
+
+      setServerMessage("");
+      setUpdateStandings(responseData.newStandings);
     } catch (error) {
       fileInputRef.current.value = "";
       setServerMessage(error.message);
@@ -94,20 +91,20 @@ function GameInputForm() {
     setServerMessage("Resetting the table");
     try {
       // message the user request has been sent
-      const requestTableReset = await fetch(`/api/tables/reset-table`, {
+      const response = await fetch(`/api/tables/reset-table`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      const response = await requestTableReset.json();
-
       if (!response.ok) {
         throw new Error(response.message);
       }
 
+      const clearedTable = await response.json();
+
       setServerMessage("");
-      setUpdateStandings(response.newStandings);
+      setUpdateStandings(clearedTable.newStandings);
     } catch (error) {
       setServerMessage(error.message);
     }
@@ -152,7 +149,7 @@ function GameInputForm() {
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
       <p className="w-full mt-4 bg-orange-400 text-xl text-center mx-auto p-3 md:max-w-md">
-        There are bugs here. Try another browser. Also hit refresh
+        If something doesn't work try a different browser.
       </p>
       <TestingMessage />
       <Standings updateStandings={updateStandings} />
