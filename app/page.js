@@ -8,7 +8,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main>
-      <h1 className="text-3xl text-center">wn95hl.com</h1>
+      <h1 className="text-3xl text-center">wn95hl.com affiliated test area</h1>
       <GameInputForm />
     </main>
   );
