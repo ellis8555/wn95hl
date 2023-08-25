@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-function TeamLogo({ name }) {
+function TeamLogo({ name, width, height }) {
   return (
     <Image
       src={`/images/team-logos/${name}.png`}
-      width={25}
-      height={15}
+      width={width}
+      height={height}
       style={{ width: "auto", height: "auto" }}
       alt={name}
     />

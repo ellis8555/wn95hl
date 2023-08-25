@@ -10,7 +10,6 @@ function Boxscore({ boxscore }) {
     const homeScore = boxscore["homeTeam"]["homeScore"];
     const awayAcronym = boxscore["awayTeam"]["acronym"];
     const awayScore = boxscore["awayTeam"]["awayScore"];
-    console.log(homeAcronym);
     return (
       <div className="w-full flex justify-center gap-3 items-center sm:w-1/2 sm:mx-auto">
         Home
