@@ -148,9 +148,6 @@ function GameInputForm() {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
-      <p className="w-full mt-4 bg-orange-400 text-xl text-center mx-auto p-3 md:max-w-md">
-        If something doesn't work try a different browser.
-      </p>
       <TestingMessage />
       <Standings updateStandings={updateStandings} />
     </>
