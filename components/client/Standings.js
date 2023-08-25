@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 

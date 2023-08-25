@@ -72,7 +72,6 @@ function GameInputForm() {
       }
 
       if (response.ok) {
-        console.log(response.newStandings);
         setServerMessage("");
         setUpdateStandings(response.newStandings);
       }
