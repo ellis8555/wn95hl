@@ -103,14 +103,12 @@ function GameInputForm() {
       });
       const response = await requestTableReset.json();
 
-      if (!response) {
+      if (!response.ok) {
         throw new Error(response.message);
       }
 
-      if (response) {
-        setServerMessage("");
-        setUpdateStandings(response.newStandings);
-      }
+      setServerMessage("");
+      setUpdateStandings(response.newStandings);
     } catch (error) {
       setServerMessage(error.message);
     }
