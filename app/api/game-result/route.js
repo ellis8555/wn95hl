@@ -14,8 +14,7 @@ import nextResponse from "@/utils/api/next-response";
 let db;
 
 export const POST = async (req, res) => {
-  const { fileName, fileSize, fileType, data, currentSeason } =
-    await req.json();
+  const { fileName, fileSize, data, currentSeason } = await req.json();
   // reject files that do match a set name
   // reject uploads that are to large
   // reject files that are not .csv filetype
