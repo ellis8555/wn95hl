@@ -1,17 +1,33 @@
 import TeamLogo from "./standings/TeamLogo";
 
-function Boxscore({ boxscore }) {
+function Boxscore({ gameData }) {
   if (
-    boxscore !== undefined &&
-    boxscore !== null &&
-    Object.keys(boxscore).length !== 0
+    gameData !== undefined &&
+    gameData !== null &&
+    Object.keys(gameData).length !== 0
   ) {
-    const homeAcronym = boxscore["homeTeam"]["acronym"];
-    const homeScore = boxscore["homeTeam"]["homeScore"];
-    const awayAcronym = boxscore["awayTeam"]["acronym"];
-    const awayScore = boxscore["awayTeam"]["awayScore"];
-    const wasGameATie = boxscore["wasGameATie"];
-    const wasOvertimeRequired = boxscore["overtimeRequired"];
+    const homeData = gameData.data.homeTeamGameStats;
+    const awayData = gameData.data.awayTeamGameStats;
+    const otherData = gameData.data.otherGameStats;
+    const boxscoreStats = {
+      overtimeRequired: otherData.overtimeRequired,
+      wasGameATie: otherData.wasGameATie,
+      homeTeam: {
+        acronym: otherData.homeTeam,
+        homeScore: homeData.HomeGOALS,
+      },
+      awayTeam: {
+        acronym: otherData.awayTeam,
+        awayScore: awayData.AwayGOALS,
+      },
+    };
+
+    const homeAcronym = boxscoreStats["homeTeam"]["acronym"];
+    const homeScore = boxscoreStats["homeTeam"]["homeScore"];
+    const awayAcronym = boxscoreStats["awayTeam"]["acronym"];
+    const awayScore = boxscoreStats["awayTeam"]["awayScore"];
+    const wasGameATie = boxscoreStats["wasGameATie"];
+    const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
       <>
         {!wasGameATie && wasOvertimeRequired && (
