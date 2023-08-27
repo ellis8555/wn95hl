@@ -46,7 +46,10 @@ function GameInputForm() {
           leagueName
         );
       }
-      if (file.name.includes("state")) {
+
+      // pattern to test filename for acceptance
+      const statePattern = /WS\d{1,3}\.state\d{1,3}/;
+      if (statePattern.test(file.name)) {
         // this returns all the parsed game data
         gameData = await readBinaryGameState(
           file,
@@ -60,6 +63,8 @@ function GameInputForm() {
       const awayData = gameData.data.awayTeamGameStats;
       const otherData = gameData.data.otherGameStats;
       const boxscoreStats = {
+        overtimeRequired: otherData.overtimeRequired,
+        wasGameATie: otherData.wasGameATie,
         homeTeam: {
           acronym: otherData.homeTeam,
           homeScore: homeData.HomeGOALS,
