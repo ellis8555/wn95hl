@@ -2,7 +2,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import readGameStateFile from "@/utils/game-states/read-game-state-file";
+import readGameStateFile from "@/utils/CSV-game-state/read-game-state-file";
 import Standings from "./Standings";
 import TestingMessage from "../server/standings/TestingMessage";
 import readBinaryGameState from "@/utils/game-state/read-game-state";

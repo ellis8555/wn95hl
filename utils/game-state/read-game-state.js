@@ -1,15 +1,15 @@
 import readGoalieAttributes from "./read-game-state-helpers/read-csv/read-goalie-attributes";
 import readSkatersAttributes from "./read-game-state-helpers/read-csv/read-skater-attributes";
 import readTeamPositionCounts from "./read-game-state-helpers/read-csv/read-team-position-counts";
-import extractHomeTeamData from "../game-states/game-state-helper-methods/extract-home-team-data";
-import extractHomePlayerStats from "../game-states/game-state-helper-methods/extract-home-player-stats";
-import extractHomeGoalieStats from "../game-states/game-state-helper-methods/extract-home-goalie-stats";
-import extractAwayGoalieStats from "../game-states/game-state-helper-methods/extract-away-goalie-stats";
-import extractAwayPlayerStats from "../game-states/game-state-helper-methods/extract-away-player-stats";
-import extractAwayTeamData from "../game-states/game-state-helper-methods/extract-away-team-data";
-import extractGoalData from "../game-states/game-state-helper-methods/extract-goal-data";
-import extractPenaltyData from "../game-states/game-state-helper-methods/extract-penalty-data";
-import extractOtherGameStats from "../game-states/game-state-helper-methods/extract-other-game-stats";
+import extractHomeTeamData from "../CSV-game-state/game-state-helper-methods/extract-home-team-data";
+import extractHomePlayerStats from "../CSV-game-state/game-state-helper-methods/extract-home-player-stats";
+import extractHomeGoalieStats from "../CSV-game-state/game-state-helper-methods/extract-home-goalie-stats";
+import extractAwayGoalieStats from "../CSV-game-state/game-state-helper-methods/extract-away-goalie-stats";
+import extractAwayPlayerStats from "../CSV-game-state/game-state-helper-methods/extract-away-player-stats";
+import extractAwayTeamData from "../CSV-game-state/game-state-helper-methods/extract-away-team-data";
+import extractGoalData from "../CSV-game-state/game-state-helper-methods/extract-goal-data";
+import extractPenaltyData from "../CSV-game-state/game-state-helper-methods/extract-penalty-data";
+import extractOtherGameStats from "../CSV-game-state/game-state-helper-methods/extract-other-game-stats";
 
 async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
   const goalieDict = await readGoalieAttributes();
