@@ -1,7 +1,7 @@
 // gameData is the var that contains all of a game states data
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import readGameStateFile from "@/utils/CSV-game-state/read-game-state-file";
 import Standings from "./Standings";
 import TestingMessage from "../server/standings/TestingMessage";
@@ -9,14 +9,20 @@ import readBinaryGameState from "@/utils/game-state/read-game-state";
 import Boxscore from "../server/Boxscore";
 
 function GameInputForm() {
+  const [gameData, setGameData] = useState(null);
   const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
-  const [boxscoreData, setBoxscoreData] = useState({});
+  const [isStateUploaded, setIsStateUploaded] = useState(false);
+
   const fileInputRef = useRef(null);
   // three hidden input types for season and game type
   const seasonInputRef = useRef(null);
   const gameTypeRef = useRef(null);
   const leagueNameRef = useRef(null);
+
+  useEffect(() => {
+    fetchGameData();
+  }, [gameData]);
 
   // submit the form
   const handleSubmit = async (e) => {
@@ -35,11 +41,11 @@ function GameInputForm() {
     const leagueName = leagueNameRef.current.value;
 
     try {
-      let gameData;
+      let fetchedGameData;
 
       if (file.name === "WN95HL_Game_Stats.csv") {
         // this returns all the parsed game data
-        gameData = await readGameStateFile(
+        fetchedGameData = await readGameStateFile(
           file,
           currentSeason,
           gameType,
@@ -51,7 +57,7 @@ function GameInputForm() {
       const statePattern = /WS\d{1,3}\.state\d{1,3}/;
       if (statePattern.test(file.name)) {
         // this returns all the parsed game data
-        gameData = await readBinaryGameState(
+        fetchedGameData = await readBinaryGameState(
           file,
           currentSeason,
           gameType,
@@ -59,41 +65,10 @@ function GameInputForm() {
         );
       }
 
-      const homeData = gameData.data.homeTeamGameStats;
-      const awayData = gameData.data.awayTeamGameStats;
-      const otherData = gameData.data.otherGameStats;
-      const boxscoreStats = {
-        overtimeRequired: otherData.overtimeRequired,
-        wasGameATie: otherData.wasGameATie,
-        homeTeam: {
-          acronym: otherData.homeTeam,
-          homeScore: homeData.HomeGOALS,
-        },
-        awayTeam: {
-          acronym: otherData.awayTeam,
-          awayScore: awayData.AwayGOALS,
-        },
-      };
-      setBoxscoreData(boxscoreStats);
-      // message the user request has been sent
-      setServerMessage("Sending...");
-      const response = await fetch(`/api/game-result`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(gameData),
-      });
-
-      if (!response.ok) {
-        throw new Error(response.message);
-      }
-
-      const responseData = await response.json();
-      setServerMessage("");
-      setUpdateStandings(responseData.newStandings);
+      setGameData(fetchedGameData);
     } catch (error) {
       fileInputRef.current.value = "";
+      setIsStateUploaded(false);
       setServerMessage(error.message);
     }
 
@@ -120,9 +95,39 @@ function GameInputForm() {
       const clearedTable = await response.json();
 
       setServerMessage("");
-      setBoxscoreData({});
+      setIsStateUploaded(false);
       setUpdateStandings(clearedTable.newStandings);
     } catch (error) {
+      setServerMessage(error.message);
+    }
+  }
+
+  async function fetchGameData() {
+    if (!gameData) {
+      return;
+    }
+    setIsStateUploaded(true);
+    // message the user request has been sent
+    setServerMessage("Sending...");
+    try {
+      const response = await fetch(`/api/game-result`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(gameData),
+      });
+
+      if (!response.ok) {
+        throw new Error(response.message);
+      }
+
+      const responseData = await response.json();
+      setServerMessage("");
+      setUpdateStandings(responseData.newStandings);
+    } catch (error) {
+      fileInputRef.current.value = "";
+      setIsStateUploaded(false);
       setServerMessage(error.message);
     }
   }
@@ -166,7 +171,13 @@ function GameInputForm() {
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
       <TestingMessage />
-      {boxscoreData && <Boxscore boxscore={boxscoreData} />}
+      {isStateUploaded ? (
+        <Boxscore gameData={gameData} />
+      ) : (
+        <div className="w-full text-center bg-slate-200 mt-4 sm:w-3/4 sm:mx-auto">
+          Submit a game state
+        </div>
+      )}
       <Standings updateStandings={updateStandings} />
     </>
   );
