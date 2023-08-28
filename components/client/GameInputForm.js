@@ -6,7 +6,7 @@ import readGameStateFile from "@/utils/CSV-game-state/read-game-state-file";
 import Standings from "./Standings";
 import TestingMessage from "../server/standings/TestingMessage";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
-import Boxscore from "../server/Boxscore";
+import Boxscore from "../server/Boxscore/Boxscore";
 
 function GameInputForm() {
   const [gameData, setGameData] = useState(null);

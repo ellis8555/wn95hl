@@ -1,4 +1,4 @@
-import TeamLogo from "./standings/TeamLogo";
+import TeamLogo from "../standings/TeamLogo";
 
 function Boxscore({ gameData }) {
   if (
