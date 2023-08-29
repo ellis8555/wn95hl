@@ -5,10 +5,13 @@ import nextResponse from "@/utils/api/next-response";
 let db;
 
 export const GET = async (req, res) => {
+  const { searchParams } = new URL(req.url);
+  const leagueName = searchParams.get("league");
+
   try {
     db = await connectToDb();
 
-    const SeasonModel = getSeasonsModel("8");
+    const SeasonModel = getSeasonsModel(leagueName.toUpperCase());
     const seasonData = await SeasonModel.find({});
     return nextResponse(seasonData, 200, "GET");
   } catch (error) {
