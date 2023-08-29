@@ -4,34 +4,7 @@ import { useState, useEffect } from "react";
 import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 
-function fetchLeagueTableData() {
-  return new Promise((resolve, reject) => {
-    try {
-      const fetchTable = fetch(`/api/tables/league-table`, {
-        next: {
-          revalidate: 0,
-        },
-      });
-      fetchTable
-        .then((response) => {
-          if (!response.ok) {
-            return NextResponse.json({
-              message: "Error fetching the table data",
-            });
-          }
-
-          return response.json();
-        })
-        .then((getStandingsObject) => {
-          resolve(getStandingsObject);
-        });
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-
-function Standings({ updateStandings }) {
+function Standings({ updateStandings, leagueName }) {
   const [standingsArray, setStandingsArray] = useState([]);
   const [tableCategories, setTableCategories] = useState([
     "GP",
@@ -42,6 +15,36 @@ function Standings({ updateStandings }) {
     "Pts",
   ]);
   const [isLoading, setIsLoading] = useState(true);
+
+  function fetchLeagueTableData() {
+    return new Promise((resolve, reject) => {
+      try {
+        const fetchTable = fetch(
+          `/api/tables/league-table?league=${leagueName}`,
+          {
+            next: {
+              revalidate: 0,
+            },
+          }
+        );
+        fetchTable
+          .then((response) => {
+            if (!response.ok) {
+              return NextResponse.json({
+                message: "Error fetching the table data",
+              });
+            }
+
+            return response.json();
+          })
+          .then((getStandingsObject) => {
+            resolve(getStandingsObject);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
   useEffect(() => {
     fetchLeagueTableData()
