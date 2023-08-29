@@ -9,16 +9,24 @@ const SeasonSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  conferences: [String],
+  divisions: [String],
   teams: [LeaugesTeamsSchema],
   standings: [LeagueTableSchema],
   seasonGames: [GameResult],
-  startDate: Date,
-  endDate: Date,
+  startDate: {
+    type: Date,
+    default: null,
+  },
+  endDate: {
+    type: Date,
+    default: null,
+  },
 });
 
 // method that will create a dynamic schema
 function getSeasonsModel(leagueName) {
-  const modelName = `The_${leagueName}`;
+  const modelName = `${leagueName}_season`;
 
   if (models[modelName]) {
     return models[modelName];
