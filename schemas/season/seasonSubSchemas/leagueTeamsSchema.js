@@ -1,4 +1,4 @@
-import { Schema, models, model } from "mongoose";
+import { Schema } from "mongoose";
 
 const LeaguesTeamsSchema = new Schema({
   teamAcronym: String,
