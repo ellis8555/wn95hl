@@ -1,4 +1,4 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, Types } from "mongoose";
 import goalsScoredSchema from "./gameResultSubSchemas/allGoalsScored";
 import penaltiesTakenSchema from "./gameResultSubSchemas/allPenalties";
 import GoalieGameStatsSchema from "./gameResultSubSchemas/goalieGameStats";
@@ -90,6 +90,7 @@ const GameResultSchema = new Schema(
     homeTeamGoalieStats: [GoalieGameStatsSchema],
     awayTeamPlayerStats: [PlayerGameStatsSchema],
     homeTeamPlayerStats: [PlayerGameStatsSchema],
+    gameHighlights: [String],
   },
   {
     timestamps: true,
