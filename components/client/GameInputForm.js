@@ -4,7 +4,6 @@
 import { useRef, useState, useEffect } from "react";
 import readGameStateFile from "@/utils/CSV-game-state/read-game-state-file";
 import Standings from "./Standings";
-import TestingMessage from "../server/standings/TestingMessage";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
 import Boxscore from "../server/Boxscore/Boxscore";
 
@@ -170,7 +169,6 @@ function GameInputForm() {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
-      <TestingMessage />
       {isStateUploaded ? (
         <Boxscore gameData={gameData} />
       ) : (
