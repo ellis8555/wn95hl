@@ -33,7 +33,11 @@ export const POST = async (req) => {
     // check if season has been created in the database
     let thisSeason = await Season.findOne({ seasonNumber: whichSeason });
     if (!thisSeason) {
-      thisSeason = new Season({});
+      return nextResponse(
+        { message: "This season has not been registered" },
+        400,
+        "POST"
+      );
     }
 
     // check if team has already been added to the season
@@ -51,6 +55,24 @@ export const POST = async (req) => {
         400,
         "POST"
       );
+    }
+
+    // check if the conference exists
+    const getConferences = await Season.find({}, "conferences");
+    const isConferenceValid = !getConferences.includes(conference);
+    if (!isConferenceValid) {
+      return nextResponse({
+        message: "The conference is not registered to this league",
+      });
+    }
+
+    // check if the division exists
+    const getDivisions = await Season.find({}, "divisions");
+    const isDivisionValid = !getDivisions.includes(division);
+    if (!isDivisionValid) {
+      return nextResponse({
+        message: "The division is not registered to this league",
+      });
     }
 
     // add seasonNumber
