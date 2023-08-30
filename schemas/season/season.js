@@ -14,6 +14,18 @@ const SeasonSchema = new Schema({
   teams: [LeaugesTeamsSchema],
   standings: [LeagueTableSchema],
   seasonGames: [GameResult],
+  divisionalGames: {
+    type: String,
+    default: "",
+  },
+  conferenceGames: {
+    type: String,
+    default: "",
+  },
+  remainingGames: {
+    type: String,
+    default: "",
+  },
   startDate: {
     type: Date,
     default: null,
