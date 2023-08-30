@@ -5,7 +5,11 @@ import GameResult from "../gameResults/gameResult";
 
 const SeasonSchema = new Schema({
   seasonNumber: String,
-  isSeasonComplete: {
+  hasSeasonBegun: {
+    type: Boolean,
+    default: false,
+  },
+  hasSeasonEnded: {
     type: Boolean,
     default: false,
   },
