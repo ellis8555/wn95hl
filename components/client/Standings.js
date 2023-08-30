@@ -139,7 +139,7 @@ function Standings({ updateStandings, leagueName }) {
               Table is Loading...
             </td>
           </tr>
-        ) : (
+        ) : standingsArray.length > 0 ? (
           standingsArray.map((team, index) => (
             <Teamresults
               key={index}
@@ -148,6 +148,12 @@ function Standings({ updateStandings, leagueName }) {
               bgColor={index % 2 === 0 ? "bg-slate-200" : "bg-white"}
             />
           ))
+        ) : (
+          <tr>
+            <td className="text-center" colSpan={tableCategories.length + 1}>
+              No games have been played
+            </td>
+          </tr>
         )}
       </tbody>
     </table>
