@@ -5,7 +5,15 @@ import getSeasonsModel from "@/schemas/season/season";
 let db;
 
 export const POST = async (req) => {
-  const { leagueName, seasonNumber, conferences, divisions } = await req.json();
+  const {
+    leagueName,
+    seasonNumber,
+    conferences,
+    divisions,
+    gamesVsDivision,
+    gamesVsConference,
+    gamesVsRemaining,
+  } = await req.json();
 
   try {
     db = await connectToDb();
@@ -32,10 +40,31 @@ export const POST = async (req) => {
       });
     }
 
+    // test games vs is a numerical character
+    const isGamesVsDivisionValid = numbersOnlyPattern.test(+gamesVsDivision);
+    const isGamesVsConferenceValid = numbersOnlyPattern.test(
+      +gamesVsConference
+    );
+    const isGamesVsRemainingValid = numbersOnlyPattern.test(+gamesVsRemaining);
+    if (
+      !isGamesVsDivisionValid ||
+      !isGamesVsConferenceValid ||
+      !isGamesVsRemainingValid
+    ) {
+      return nextResponse(
+        { message: "Games vs opponents needs to be numerical" },
+        400,
+        "POST"
+      );
+    }
+
     const newSeason = await new Season({
       seasonNumber: seasonNumber,
       conferences: conferences,
       divisions: divisions,
+      divisionalGames: gamesVsDivision,
+      conferenceGames: gamesVsConference,
+      remainingGames: gamesVsRemaining,
     });
 
     await newSeason.save();
