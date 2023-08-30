@@ -3,6 +3,7 @@ import goalsScoredSchema from "./gameResultSubSchemas/allGoalsScored";
 import penaltiesTakenSchema from "./gameResultSubSchemas/allPenalties";
 import GoalieGameStatsSchema from "./gameResultSubSchemas/goalieGameStats";
 import PlayerGameStatsSchema from "./gameResultSubSchemas/playerGameStats";
+import GameHighlight from "../gameHighlights/gameHighlights";
 
 const GameResultSchema = new Schema(
   {
@@ -91,7 +92,7 @@ const GameResultSchema = new Schema(
     awayTeamPlayerStats: [PlayerGameStatsSchema],
     homeTeamPlayerStats: [PlayerGameStatsSchema],
     gameHighlights: {
-      type: [String],
+      type: [GameHighlight],
       default: [],
     },
   },

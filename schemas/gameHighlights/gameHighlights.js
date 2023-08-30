@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-const Highlight = new Schema(
+const GameHighlight = new Schema(
   {
     href: String,
     description: {
@@ -80,7 +80,5 @@ const Highlight = new Schema(
     timestamps: true,
   }
 );
-
-const GameHighlight = mongoose.model("highlight", Highlight);
 
 export default GameHighlight;
