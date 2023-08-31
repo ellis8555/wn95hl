@@ -75,6 +75,48 @@ export const POST = async (req) => {
       });
     }
 
+    //////////////////////////////////////////////////////
+    // set schedules for teams to reflect newly added team
+    //////////////////////////////////////////////////////
+
+    // get how many games vs each based on league structure
+    // divide by 2 to set home and away games
+    const gamesVsDivision = +thisSeason.divisionalGames / 2;
+    const gamesVsConference = +thisSeason.conferenceGames / 2;
+    const gamesVsRemaining = +thisSeason.remainingGames / 2;
+
+    if ((gamesVsDivision || gamesVsConference || gamesVsRemaining) % 2 !== 0) {
+      return nextResponse(
+        { message: "currently only even numbered games vs opponents works" },
+        400,
+        "POST"
+      );
+    }
+
+    // get current teams registered in the league
+    const currentTeamsList = thisSeason.teams;
+
+    if (currentTeamsList.length > 0) {
+      currentTeamsList.map((registeredTeam) => {
+        if (registeredTeam.division === division) {
+          for (let i = 1; i <= gamesVsDivision; i++) {
+            registeredTeam.schedule.home.push(teamAcronym);
+            registeredTeam.schedule.away.push(teamAcronym);
+          }
+        } else if (registeredTeam.conference === conference) {
+          for (let i = 1; i <= gamesVsConference; i++) {
+            registeredTeam.schedule.home.push(teamAcronym);
+            registeredTeam.schedule.away.push(teamAcronym);
+          }
+        } else {
+          for (let i = 1; i <= gamesVsRemaining; i++) {
+            registeredTeam.schedule.home.push(teamAcronym);
+            registeredTeam.schedule.away.push(teamAcronym);
+          }
+        }
+      });
+    }
+
     // add seasonNumber
     thisSeason.seasonNumber = whichSeason;
 
