@@ -93,30 +93,6 @@ export const POST = async (req) => {
       );
     }
 
-    // get current teams registered in the league
-    const currentTeamsList = thisSeason.teams;
-
-    if (currentTeamsList.length > 0) {
-      currentTeamsList.map((registeredTeam) => {
-        if (registeredTeam.division === division) {
-          for (let i = 1; i <= gamesVsDivision; i++) {
-            registeredTeam.schedule.home.push(teamAcronym);
-            registeredTeam.schedule.away.push(teamAcronym);
-          }
-        } else if (registeredTeam.conference === conference) {
-          for (let i = 1; i <= gamesVsConference; i++) {
-            registeredTeam.schedule.home.push(teamAcronym);
-            registeredTeam.schedule.away.push(teamAcronym);
-          }
-        } else {
-          for (let i = 1; i <= gamesVsRemaining; i++) {
-            registeredTeam.schedule.home.push(teamAcronym);
-            registeredTeam.schedule.away.push(teamAcronym);
-          }
-        }
-      });
-    }
-
     // add seasonNumber
     thisSeason.seasonNumber = whichSeason;
 
@@ -124,7 +100,42 @@ export const POST = async (req) => {
       teamAcronym,
       conference,
       division,
+      schedule: {
+        home: [],
+        away: [],
+      },
     };
+
+    // get current teams registered in the league
+    const currentTeamsList = thisSeason.teams;
+
+    // assign home and away games vs each team
+    if (currentTeamsList.length > 0) {
+      currentTeamsList.map((registeredTeam) => {
+        if (registeredTeam.division === division) {
+          for (let i = 1; i <= gamesVsDivision; i++) {
+            registeredTeam.schedule.home.push(teamAcronym);
+            registeredTeam.schedule.away.push(teamAcronym);
+            createTeamsObject.schedule.home.push(registeredTeam.teamAcronym);
+            createTeamsObject.schedule.away.push(registeredTeam.teamAcronym);
+          }
+        } else if (registeredTeam.conference === conference) {
+          for (let i = 1; i <= gamesVsConference; i++) {
+            registeredTeam.schedule.home.push(teamAcronym);
+            registeredTeam.schedule.away.push(teamAcronym);
+            createTeamsObject.schedule.home.push(registeredTeam.teamAcronym);
+            createTeamsObject.schedule.away.push(registeredTeam.teamAcronym);
+          }
+        } else {
+          for (let i = 1; i <= gamesVsRemaining; i++) {
+            registeredTeam.schedule.home.push(teamAcronym);
+            registeredTeam.schedule.away.push(teamAcronym);
+            createTeamsObject.schedule.home.push(registeredTeam.teamAcronym);
+            createTeamsObject.schedule.away.push(registeredTeam.teamAcronym);
+          }
+        }
+      });
+    }
 
     // add team name to list of teams array
     thisSeason.teams.push(createTeamsObject);
