@@ -1,6 +1,4 @@
 import { connectToDb } from "@/utils/database";
-import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-if-season-exists";
-import queryForASeason from "@/utils/db-queries/query-one/season/query-for-a-season";
 import queryClubDetatail from "@/utils/db-queries/query-one/club/query-club-detail";
 import getTeamsStandingsIndex from "@/utils/tables/team-standings/get-teams-standings-index";
 import incrementGamesPlayed from "@/utils/tables/team-standings/increment-games-played";
@@ -10,6 +8,7 @@ import incrementTiesForTieGame from "@/utils/tables/team-standings/increment-tie
 import incrementOvertimeLoss from "@/utils/tables/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/tables/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
+import getSeasonsModel from "@/schemas/season/season";
 
 let db;
 
@@ -17,8 +16,10 @@ export const POST = async (req, res) => {
   const { fileName, fileSize, data } = await req.json();
   // get currentSeason from the fileName if W league
   // sample file name WS9.state1
+  let currentLeague;
   let currentSeason;
   if (fileName[0] === "W") {
+    currentLeague = fileName[0];
     const getTheDot = fileName.indexOf(".");
     if (getTheDot == 3) {
       currentSeason = fileName[getTheDot - 1];
@@ -30,6 +31,7 @@ export const POST = async (req, res) => {
   // get currentSeason from the fileName if Q league
   // sample file name Q86.state1
   if (fileName[0] === "Q") {
+    currentLeague = fileName[0];
     const getTheDot = fileName.indexOf(".");
     if (getTheDot == 3) {
       currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
@@ -69,9 +71,13 @@ export const POST = async (req, res) => {
     db = await connectToDb();
 
     // check that the seasons collection exists
-    const thisSeasonsCollection = await queryForIfSeasonExists(8);
 
-    if (!thisSeasonsCollection) {
+    const getLeaguesModel = getSeasonsModel(currentLeague);
+    const fetchSeason = await getLeaguesModel.findOne({
+      seasonNumber: currentSeason,
+    });
+
+    if (!fetchSeason) {
       return nextResponse(
         {
           message: `There is no season ${currentSeason} registered`,
@@ -81,23 +87,19 @@ export const POST = async (req, res) => {
       );
     }
 
-    // get reference to current seasons collection
-
-    const getSeasonCollection = await queryForASeason(thisSeasonsCollection);
-
     ///////////////////////////////
     // get the data for this season
     ///////////////////////////////
 
-    const getSeasonData = await getSeasonCollection.findOne({});
+    const getSeasonData = fetchSeason;
     const getSeasonGames = getSeasonData.seasonGames;
     const getSeasonStandings = getSeasonData.standings;
-    const getRegisteredTeams = getSeasonData.teams;
-
+    const getRegisteredTeams = getSeasonData.teams.map((team) => {
+      return team.teamAcronym;
+    });
     // check that file has not previously been uploaded
     let isDuplicate = false;
     const getUniqueGameId = data.otherGameStats["uniqueGameId"];
-
     // loop through games that have been added to the database
     // checking for uniqueId hash for a match with the uploaded game file
     getSeasonGames.forEach((game) => {
@@ -128,6 +130,7 @@ export const POST = async (req, res) => {
 
     const otherStats = data.otherGameStats;
     const homeTeamAbbr = otherStats.homeTeam;
+
     const homeTeamName = await queryClubDetatail(
       "teamAcronym",
       homeTeamAbbr,
@@ -140,9 +143,8 @@ export const POST = async (req, res) => {
       "name"
     );
 
-    const checkHomeTeamIsRegistered = getRegisteredTeams.includes(homeTeamName);
-    const checkAwayTeamIsRegistered = getRegisteredTeams.includes(awayTeamName);
-
+    const checkHomeTeamIsRegistered = getRegisteredTeams.includes(homeTeamAbbr);
+    const checkAwayTeamIsRegistered = getRegisteredTeams.includes(awayTeamAbbr);
     let notRegisteredMessage;
     if (!checkHomeTeamIsRegistered) {
       notRegisteredMessage = `${homeTeamName} is not registered in this league. Game was not sumbitted`;
@@ -170,7 +172,7 @@ export const POST = async (req, res) => {
     // add the game file to season games array of game results to the database
     getSeasonGames.push(data);
 
-    await getSeasonCollection.updateOne(
+    await getLeaguesModel.updateOne(
       {
         _id: getSeasonData._id,
       },
@@ -301,7 +303,7 @@ export const POST = async (req, res) => {
     // update the database
     //////////////////////
 
-    await getSeasonCollection.updateOne(
+    await getLeaguesModel.updateOne(
       {
         _id: getSeasonData._id,
       },
