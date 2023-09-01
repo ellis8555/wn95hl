@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main>
       <h1 className="text-3xl text-center">wn95hl.com affiliated test area</h1>
-      <GameInputForm />
+      <GameInputForm leagueName="w" />
     </main>
   );
 }
