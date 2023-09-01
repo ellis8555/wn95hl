@@ -17,7 +17,7 @@ function GameInputForm() {
   // three hidden input types for season and game type
   const seasonInputRef = useRef(null);
   const gameTypeRef = useRef(null);
-  const leagueNameRef = useRef("W");
+  const leagueNameRef = useRef();
 
   useEffect(() => {
     fetchGameData();
@@ -158,7 +158,7 @@ function GameInputForm() {
           name="seasonNumber"
           value="8"
         />
-        <input type="hidden" ref={leagueNameRef} name="leagueName" value="W" />
+        <input type="hidden" ref={leagueNameRef} name="leagueName" value="w" />
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <button className="border rounded-md border-black px-2" type="submit">
@@ -184,7 +184,7 @@ function GameInputForm() {
       )}
       <Standings
         updateStandings={updateStandings}
-        leagueName={leagueNameRef.current}
+        leagueName={leagueNameRef.current.value}
       />
     </>
   );
