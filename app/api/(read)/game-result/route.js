@@ -1,5 +1,5 @@
 import { connectToDb } from "@/utils/database";
-import queryForIfSeasonExists from "@/utils/db-queries/query-one/club/query-if-season-exists";
+import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-if-season-exists";
 import queryForASeason from "@/utils/db-queries/query-one/season/query-for-a-season";
 import queryClubDetatail from "@/utils/db-queries/query-one/club/query-club-detail";
 import getTeamsStandingsIndex from "@/utils/tables/team-standings/get-teams-standings-index";
