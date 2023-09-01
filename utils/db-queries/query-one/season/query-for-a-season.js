@@ -1,31 +1,17 @@
-// searches for a seasons collection that does exist
-// param for this method is returned value from method 'queryForIfSeasonExists()'
+import getSeasonsModel from "@/schemas/season/season";
 
-////////////////////////////////////////////////////////////////////////////////////////
-// IMPORTANT: once this function is returned use findOne({}) as below
-// this will return the properties for that season
-// const getSeasonCollection = await queryForASeason(thisSeasonsCollection);
-// const getSeasonData = await getSeasonCollection.findOne({});
-////////////////////////////////////////////////////////////////////////////////////////
+const queryForIfSeasonExists = async (leagueName, seasonNumber) => {
+  const leagueCollection = `${leagueName}_seasons`;
+  const SeasonModel = getSeasonsModel(leagueCollection);
 
-////////////////////////////////////////////////////////////////////////////////////////
-// HOW TO UPDATE THE COLLECTION
-// await getSeasonCollection.updateOne(
-//   {
-//     _id: getSeasonData._id,
-//   },
-//   {
-//     $set: {
-//       seasonGames: getSeasonGames,
-//     },
-//   }
-// );
-////////////////////////////////////////////////////////////////////////////////////////
+  const doesSeasonExist = await SeasonModel.findOne({
+    seasonNumber: seasonNumber,
+  });
 
-import mongoose from "mongoose";
-
-const queryForASeason = async (collectionNameForSeason) => {
-  return mongoose.connection.db.collection(collectionNameForSeason);
+  if (doesSeasonExist === null) {
+    return false;
+  }
+  return true;
 };
 
-export default queryForASeason;
+export default queryForIfSeasonExists;
