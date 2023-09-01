@@ -5,16 +5,20 @@ import nextResponse from "@/utils/api/next-response";
 let db;
 
 export const PATCH = async (req, res) => {
+  const { leagueName, currentSeason } = await req.json();
   try {
     db = await connectToDb();
 
-    const SeasonModel = getSeasonsModel(8);
-    const seasonData = await SeasonModel.find({});
+    const getLeaguesModel = getSeasonsModel(leagueName);
+    const fetchSeason = await getLeaguesModel.findOne({
+      seasonNumber: currentSeason,
+    });
 
-    const season = seasonData[0];
+    // const season = seasonData[0];
+    const seasonData = fetchSeason;
 
     // get the array that contains each teams current record
-    const teamsRecords = seasonData[0]["standings"];
+    const teamsRecords = seasonData["standings"];
     const categoriesToReset = ["GP", "W", "L", "T", "OTL", "Pts"];
     // reset the categories listed back to 0
     teamsRecords.forEach((team) => {
@@ -27,8 +31,8 @@ export const PATCH = async (req, res) => {
     const emptySeasonsGames = [];
 
     // update the database
-    await SeasonModel.updateOne(
-      { _id: season._id },
+    await getLeaguesModel.updateOne(
+      { _id: seasonData._id },
       { $set: { standings: teamsRecords, seasonGames: emptySeasonsGames } }
     );
 
