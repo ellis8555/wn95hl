@@ -9,7 +9,7 @@ export const PATCH = async (req, res) => {
   try {
     db = await connectToDb();
 
-    const getLeaguesModel = getSeasonsModel(leagueName);
+    const getLeaguesModel = getSeasonsModel(leagueName, false);
     const fetchSeason = await getLeaguesModel.findOne({
       seasonNumber: currentSeason,
     });

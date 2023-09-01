@@ -11,7 +11,7 @@ export const GET = async (req, res) => {
   try {
     db = await connectToDb();
 
-    const SeasonModel = getSeasonsModel(leagueName);
+    const SeasonModel = getSeasonsModel(leagueName, false);
     const seasonData = await SeasonModel.find({});
 
     return nextResponse(seasonData, 200, "GET");
