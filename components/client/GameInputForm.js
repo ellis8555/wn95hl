@@ -7,7 +7,7 @@ import Standings from "./Standings";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
 import Boxscore from "../server/Boxscore/Boxscore";
 
-function GameInputForm() {
+function GameInputForm({ leagueName }) {
   const [gameData, setGameData] = useState(null);
   const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
@@ -17,7 +17,6 @@ function GameInputForm() {
   // three hidden input types for season and game type
   const seasonInputRef = useRef(null);
   const gameTypeRef = useRef(null);
-  const leagueNameRef = useRef();
 
   useEffect(() => {
     fetchGameData();
@@ -37,7 +36,6 @@ function GameInputForm() {
     // get current season, game type to add to game state file
     const currentSeason = seasonInputRef.current.value;
     const gameType = gameTypeRef.current.value;
-    const leagueName = leagueNameRef.current.value;
 
     try {
       let fetchedGameData;
@@ -78,7 +76,6 @@ function GameInputForm() {
 
   async function resetLeagueTable(e) {
     e.preventDefault();
-    const leagueName = leagueNameRef.current.value;
     const currentSeason = seasonInputRef.current.value;
     setServerMessage("Resetting the table");
     try {
@@ -158,7 +155,7 @@ function GameInputForm() {
           name="seasonNumber"
           value="8"
         />
-        <input type="hidden" ref={leagueNameRef} name="leagueName" value="w" />
+
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <button className="border rounded-md border-black px-2" type="submit">
@@ -182,10 +179,7 @@ function GameInputForm() {
           Submit a game state
         </div>
       )}
-      <Standings
-        updateStandings={updateStandings}
-        leagueName={leagueNameRef.current.value}
-      />
+      <Standings updateStandings={updateStandings} leagueName={leagueName} />
     </>
   );
 }
