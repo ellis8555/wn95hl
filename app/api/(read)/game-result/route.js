@@ -14,7 +14,28 @@ import nextResponse from "@/utils/api/next-response";
 let db;
 
 export const POST = async (req, res) => {
-  const { fileName, fileSize, data, currentSeason } = await req.json();
+  const { fileName, fileSize, data } = await req.json();
+  // get currentSeason from the fileName if W league
+  // sample file name WS9.state1
+  let currentSeason;
+  if (fileName[0] === "W") {
+    const getTheDot = fileName.indexOf(".");
+    if (getTheDot == 3) {
+      currentSeason = fileName[getTheDot - 1];
+    }
+    if (getTheDot == 4) {
+      currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
+    }
+  }
+  // get currentSeason from the fileName if Q league
+  // sample file name Q86.state1
+  if (fileName[0] === "Q") {
+    const getTheDot = fileName.indexOf(".");
+    if (getTheDot == 3) {
+      currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
+    }
+  }
+
   // reject files that do match a set name
   // reject uploads that are to large
   // reject files that are not .csv filetype
