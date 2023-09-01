@@ -78,14 +78,20 @@ function GameInputForm() {
 
   async function resetLeagueTable(e) {
     e.preventDefault();
+    const leagueName = leagueNameRef.current.value;
+    const currentSeason = seasonInputRef.current.value;
     setServerMessage("Resetting the table");
     try {
       // message the user request has been sent
-      const response = await fetch(`/api/tables/reset-table`, {
+      const response = await fetch(`/api/league-table/reset-table`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          leagueName,
+          currentSeason,
+        }),
       });
       if (!response.ok) {
         throw new Error(response.message);
