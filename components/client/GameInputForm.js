@@ -7,7 +7,7 @@ import Standings from "./Standings";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
 import Boxscore from "../server/Boxscore/Boxscore";
 
-function GameInputForm({ leagueName }) {
+function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
   const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
@@ -179,7 +179,11 @@ function GameInputForm({ leagueName }) {
           Submit a game state
         </div>
       )}
-      <Standings updateStandings={updateStandings} leagueName={leagueName} />
+      <Standings
+        updateStandings={updateStandings}
+        leagueName={leagueName}
+        seasonNumber={seasonNumber}
+      />
     </>
   );
 }
