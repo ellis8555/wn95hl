@@ -1,23 +1,18 @@
+import mongoose from "mongoose";
 import getSeasonsModel from "@/schemas/season/season";
 
-const queryForIfSeasonExists = async (
-  leagueName,
-  seasonNumber,
-  createIfNotExists
-) => {
-  const leagueDocument = `${leagueName}_seasons`;
-  const SeasonModel = getSeasonsModel(leagueDocument, createIfNotExists);
+const queryForIfSeasonExists = async (leagueName, seasonNumber) => {
+  const leagueDocument = `${leagueName}_season`;
+  const getLeagueModels = mongoose.modelNames();
 
-  if (!SeasonModel) {
-    return false; // Model doesn't exist, so the season doesn't exist
-  }
+  const doesModelExist = getLeagueModels.includes(leagueDocument);
 
-  const doesSeasonExist = await SeasonModel.findOne({
-    seasonNumber: seasonNumber,
-  });
-
-  if (doesSeasonExist === null) {
-    return false;
+  if (doesModelExist) {
+    const League = getSeasonsModel(leagueName);
+    const getSeason = await League.findOne({ seasonNumber: seasonNumber });
+    if (getSeason === null) {
+      return false;
+    }
   }
   return true;
 };

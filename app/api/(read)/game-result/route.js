@@ -9,6 +9,7 @@ import incrementOvertimeLoss from "@/utils/tables/team-standings/increment-overt
 import incrementPointsForTeams from "@/utils/tables/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
 import getSeasonsModel from "@/schemas/season/season";
+import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-for-a-season";
 
 let db;
 
@@ -71,13 +72,12 @@ export const POST = async (req, res) => {
     db = await connectToDb();
 
     // check that the seasons collection exists
-
-    const getSeasonModel = getSeasonsModel(currentLeague);
-    const Season = await getSeasonModel.findOne({
-      seasonNumber: currentSeason,
-    });
-
-    if (!Season) {
+    const doesSeasonExist = queryForIfSeasonExists(
+      currentLeague,
+      currentSeason
+    );
+    // if season does not exist exit
+    if (!doesSeasonExist) {
       return nextResponse(
         {
           message: `There is no season ${currentSeason} registered`,
@@ -86,6 +86,11 @@ export const POST = async (req, res) => {
         "POST"
       );
     }
+
+    const getSeasonModel = getSeasonsModel(currentLeague);
+    const Season = await getSeasonModel.findOne({
+      seasonNumber: currentSeason,
+    });
 
     ///////////////////////////////
     // get the data for this season
