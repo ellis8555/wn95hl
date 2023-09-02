@@ -72,12 +72,12 @@ export const POST = async (req, res) => {
 
     // check that the seasons collection exists
 
-    const getLeaguesModel = getSeasonsModel(currentLeague);
-    const fetchSeason = await getLeaguesModel.findOne({
+    const getSeasonModel = getSeasonsModel(currentLeague);
+    const Season = await getSeasonModel.findOne({
       seasonNumber: currentSeason,
     });
 
-    if (!fetchSeason) {
+    if (!Season) {
       return nextResponse(
         {
           message: `There is no season ${currentSeason} registered`,
@@ -91,7 +91,7 @@ export const POST = async (req, res) => {
     // get the data for this season
     ///////////////////////////////
 
-    const getSeasonData = fetchSeason;
+    const getSeasonData = Season;
     const getSeasonGames = getSeasonData.seasonGames;
     const getSeasonStandings = getSeasonData.standings;
     const getRegisteredTeams = getSeasonData.teams.map((team) => {
@@ -172,7 +172,7 @@ export const POST = async (req, res) => {
     // add the game file to season games array of game results to the database
     getSeasonGames.push(data);
 
-    await getLeaguesModel.updateOne(
+    await getSeasonModel.updateOne(
       {
         _id: getSeasonData._id,
       },
@@ -303,7 +303,7 @@ export const POST = async (req, res) => {
     // update the database
     //////////////////////
 
-    await getLeaguesModel.updateOne(
+    await getSeasonModel.updateOne(
       {
         _id: getSeasonData._id,
       },
