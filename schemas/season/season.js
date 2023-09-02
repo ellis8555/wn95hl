@@ -41,17 +41,13 @@ const SeasonSchema = new Schema({
 });
 
 // method that will create a dynamic schema
-function getSeasonsModel(leagueName, createIfNotExists = true) {
+function getSeasonsModel(leagueName) {
   const modelName = `${leagueName}_seasons`;
   if (models[modelName]) {
     return models[modelName];
   }
 
-  if (createIfNotExists) {
-    return model(modelName, SeasonSchema);
-  }
-
-  return null;
+  return model(modelName, SeasonSchema);
 }
 
 export default getSeasonsModel;

@@ -72,7 +72,7 @@ export const POST = async (req, res) => {
 
     // check that the seasons collection exists
 
-    const getLeaguesModel = getSeasonsModel(currentLeague, false);
+    const getLeaguesModel = getSeasonsModel(currentLeague);
     const fetchSeason = await getLeaguesModel.findOne({
       seasonNumber: currentSeason,
     });
