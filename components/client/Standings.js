@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 
-function Standings({ updateStandings, leagueName }) {
+function Standings({ updateStandings, leagueName, seasonNumber }) {
   const [standingsArray, setStandingsArray] = useState([]);
   const [tableCategories, setTableCategories] = useState([
     "GP",
@@ -20,7 +20,7 @@ function Standings({ updateStandings, leagueName }) {
     return new Promise((resolve, reject) => {
       try {
         const fetchTable = fetch(
-          `/api/tables/league-table?league=${leagueName}`,
+          `/api/tables/league-table?league=${leagueName}&season-number=${seasonNumber}`,
           {
             next: {
               revalidate: 0,
@@ -49,7 +49,7 @@ function Standings({ updateStandings, leagueName }) {
   useEffect(() => {
     fetchLeagueTableData()
       .then((data) => {
-        const standingsArray = data[0]["standings"];
+        const standingsArray = data["standings"];
         standingsArray.sort((a, b) => {
           // First, sort by 'Pts' property in descending order
           if (b.Pts - a.Pts !== 0) {
