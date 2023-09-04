@@ -145,7 +145,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
       });
 
       if (!response.ok) {
-        throw new Error(response.message);
+        const responseError = await response.json();
+        throw new Error(responseError.message);
       }
 
       const responseData = await response.json();
