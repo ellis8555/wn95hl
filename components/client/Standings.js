@@ -20,7 +20,7 @@ function Standings({ updateStandings, leagueName, seasonNumber }) {
     return new Promise((resolve, reject) => {
       try {
         const fetchTable = fetch(
-          `/api/tables/league-table?league=${leagueName}&season-number=${seasonNumber}`,
+          `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
           {
             next: {
               revalidate: 0,
@@ -37,8 +37,8 @@ function Standings({ updateStandings, leagueName, seasonNumber }) {
 
             return response.json();
           })
-          .then((getStandingsObject) => {
-            resolve(getStandingsObject);
+          .then((getStandings) => {
+            resolve(getStandings);
           });
       } catch (error) {
         reject(error);
@@ -48,8 +48,8 @@ function Standings({ updateStandings, leagueName, seasonNumber }) {
 
   useEffect(() => {
     fetchLeagueTableData()
-      .then((data) => {
-        const standingsArray = data["standings"];
+      .then((standings) => {
+        const standingsArray = standings;
         standingsArray.sort((a, b) => {
           // First, sort by 'Pts' property in descending order
           if (b.Pts - a.Pts !== 0) {

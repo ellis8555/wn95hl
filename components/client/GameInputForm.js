@@ -43,7 +43,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
     try {
       // get the teams registered to this league
       const response = await fetch(
-        `/api/clubs/in-a-season?league=${leagueName}&season-number=${seasonNumber}`,
+        `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=teamsDictCodes`,
         {
           method: "GET",
           headers: {
@@ -53,7 +53,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
       );
 
       if (!response.ok) {
-        throw new Error(response.message);
+        const responseError = await response.json();
+        throw new Error(responseError.message);
       }
 
       // teamsDict is name from python file
