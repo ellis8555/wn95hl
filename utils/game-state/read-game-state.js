@@ -11,52 +11,23 @@ import extractGoalData from "../CSV-game-state/game-state-helper-methods/extract
 import extractPenaltyData from "../CSV-game-state/game-state-helper-methods/extract-penalty-data";
 import extractOtherGameStats from "../CSV-game-state/game-state-helper-methods/extract-other-game-stats";
 
-async function readBinaryGameState(file, seasonNumber, gameType, leagueName) {
+async function readBinaryGameState(
+  file,
+  seasonNumber,
+  gameType,
+  leagueName,
+  teamsDictCodes
+) {
   const goalieDict = await readGoalieAttributes();
   const skaterDict = await readSkatersAttributes();
   const teamPositionNumbersDict = await readTeamPositionCounts();
-
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
     reader.onload = (e) => {
       const d = new Uint8Array(e.target.result);
+      const teamCodesDict = teamsDictCodes;
       try {
-        const teamCodesDict = {
-          0: "AHC",
-          1: "AUT",
-          2: "BAY",
-          3: "CDA",
-          4: "DIN",
-          5: "HAM",
-          6: "HIG",
-          7: "HOT",
-          8: "SPG",
-          9: "ITA",
-          10: "MHA",
-          11: "MHT",
-          12: "MGG",
-          13: "NBK",
-          14: "OCW",
-          15: "PIT",
-          16: "PRO",
-          17: "REN",
-          18: "RIC",
-          19: "ROM",
-          20: "SAG",
-          21: "SDM",
-          22: "KVK",
-          23: "SOV",
-          24: "SVF",
-          25: "SUM",
-          26: "SUN",
-          27: "TAI",
-          28: "TBP",
-          29: "IVF",
-          30: "THT",
-          31: "UGA",
-        };
-
         // #Team stats
 
         // #Newer versions of RetroArch and Genesis Plus GX start the data 32 bytes
