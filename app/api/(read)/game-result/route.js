@@ -174,6 +174,20 @@ export const POST = async (req, res) => {
     // all checks passed and game file seems ready for submission
     ///////////////////////////////////////////////////////////////
 
+    // check if season Start date has been set in the db
+    // first game entry is the starting point for a season
+    if (getSeasonData.startDate == null)
+      await getSeasonModel.updateOne(
+        {
+          _id: getSeasonData._id,
+        },
+        {
+          $set: {
+            startDate: Date.now(),
+          },
+        }
+      );
+
     // add the game file to season games array of game results to the database
     getSeasonGames.push(data);
 

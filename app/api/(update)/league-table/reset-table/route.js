@@ -40,6 +40,7 @@ export const PATCH = async (req, res) => {
         $set: {
           standings: teamsRecords,
           seasonGames: emptySeasonsGames,
+          startDate: null,
         },
       }
     );
