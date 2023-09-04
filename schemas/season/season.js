@@ -16,6 +16,10 @@ const SeasonSchema = new Schema({
   conferences: [String],
   divisions: [String],
   teams: [LeaugesTeamsSchema],
+  teamsDictCodes: {
+    type: Object,
+    default: {},
+  },
   standings: [LeagueTableSchema],
   seasonGames: [GameResult],
   divisionalGames: {
