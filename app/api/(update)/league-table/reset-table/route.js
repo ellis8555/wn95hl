@@ -5,13 +5,16 @@ import nextResponse from "@/utils/api/next-response";
 let db;
 
 export const PATCH = async (req, res) => {
-  const { leagueName, currentSeason } = await req.json();
+  const { searchParams } = new URL(req.url);
+  const leagueName = searchParams.get("league");
+  const seasonNumber = searchParams.get("season-number");
+
   try {
     db = await connectToDb();
 
     const getLeaguesModel = getSeasonsModel(leagueName);
     const fetchSeason = await getLeaguesModel.findOne({
-      seasonNumber: currentSeason,
+      seasonNumber: seasonNumber,
     });
 
     // const season = seasonData[0];
@@ -33,7 +36,12 @@ export const PATCH = async (req, res) => {
     // update the database
     await getLeaguesModel.updateOne(
       { _id: seasonData._id },
-      { $set: { standings: teamsRecords, seasonGames: emptySeasonsGames } }
+      {
+        $set: {
+          standings: teamsRecords,
+          seasonGames: emptySeasonsGames,
+        },
+      }
     );
 
     return nextResponse("League table has been reset..", 200, "PATCH");
