@@ -14,8 +14,9 @@ function GameInputForm({ leagueName, seasonNumber }) {
   const [isStateUploaded, setIsStateUploaded] = useState(false);
 
   const fileInputRef = useRef(null);
-  // three hidden input types for season and game type
-  const seasonInputRef = useRef(null);
+  ///////////////////////////////////////////////////////////
+  // gameType still needs to be incorporated and made dynamic
+  ///////////////////////////////////////////////////////////
   const gameTypeRef = useRef(null);
 
   useEffect(() => {
@@ -33,32 +34,55 @@ function GameInputForm({ leagueName, seasonNumber }) {
       return;
     }
 
-    // get current season, game type to add to game state file
-    const currentSeason = seasonInputRef.current.value;
+    ///////////////////////////////////////////
+    // get game type to add to game state file
+    // TO BE REMOVED AND MADE DYNAMIC
+    ///////////////////////////////////////////
     const gameType = gameTypeRef.current.value;
 
     try {
+      // get the teams registered to this league
+      const response = await fetch(
+        `/api/clubs/in-a-season?league=${leagueName}&season-number=${seasonNumber}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(response.message);
+      }
+
+      // teamsDict is name from python file
+      // object containing list of team acronyms required for game state parsing
+      const teamsDict = await response.json();
+
       let fetchedGameData;
 
       if (file.name === "WN95HL_Game_Stats.csv") {
         // this returns all the parsed game data
         fetchedGameData = await readGameStateFile(
           file,
-          currentSeason,
+          seasonNumber,
           gameType,
-          leagueName
+          leagueName,
+          teamsDict
         );
       }
 
       // pattern to test filename for acceptance
-      const statePattern = /WS\d{1,3}\.state\d{1,3}/;
+      const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
       if (statePattern.test(file.name)) {
         // this returns all the parsed game data
         fetchedGameData = await readBinaryGameState(
           file,
-          currentSeason,
+          seasonNumber,
           gameType,
-          leagueName
+          leagueName,
+          teamsDict
         );
       }
 
@@ -76,20 +100,19 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
   async function resetLeagueTable(e) {
     e.preventDefault();
-    const currentSeason = seasonInputRef.current.value;
+    // const currentSeason = seasonInputRef.current.value;
     setServerMessage("Resetting the table");
     try {
       // message the user request has been sent
-      const response = await fetch(`/api/league-table/reset-table`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          leagueName,
-          currentSeason,
-        }),
-      });
+      const response = await fetch(
+        `/api/league-table/reset-table?league=${leagueName}&season-number=${seasonNumber}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(response.message);
       }
@@ -149,12 +172,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
         />
         <br />
         <br />
-        <input
-          type="hidden"
-          ref={seasonInputRef}
-          name="seasonNumber"
-          value="8"
-        />
 
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
