@@ -143,6 +143,19 @@ export const POST = async (req) => {
     // add team to the standings array
 
     thisSeason.standings.push({ teamName: teamName, teamAcronym: teamAcronym });
+
+    // recreate teamsDictCodes essential for team positions within any custom game ROM
+    const tempTeamAcronymsArray = [];
+    currentTeamsList.forEach((team) => {
+      tempTeamAcronymsArray.push(team.teamAcronym);
+    });
+    // sort the array to match ROM order which is alpabetical
+    tempTeamAcronymsArray.sort();
+    for (let i = 0; i < currentTeamsList.length; i++) {
+      thisSeason.teamsDictCodes[i] = tempTeamAcronymsArray[i];
+    }
+    thisSeason.markModified("teamsDictCodes");
+
     // update the seasons document
     await thisSeason.save();
 
