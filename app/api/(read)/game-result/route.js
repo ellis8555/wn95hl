@@ -170,6 +170,55 @@ export const POST = async (req, res) => {
       );
     }
 
+    ////////////////////////////////
+    // veryify schedules and update
+    ///////////////////////////////
+    let homeTeamsObjectIndex, awayTeamsObjectIndex;
+
+    const getHomeTeamsSeasonObject = getSeasonData.teams.find((team, index) => {
+      if (homeTeamAbbr === team.teamAcronym) {
+        homeTeamsObjectIndex = index;
+        return team;
+      }
+    });
+    const getAwayTeamsSeasonObject = getSeasonData.teams.find((team, index) => {
+      if (awayTeamAbbr === team.teamAcronym) {
+        awayTeamsObjectIndex = index;
+        return team;
+      }
+    });
+
+    const getHomeTeamsHomeSchedule = getHomeTeamsSeasonObject.schedule.home;
+    const getAwayTeamsHomeSchedule = getAwayTeamsSeasonObject.schedule.away;
+
+    const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
+    const extractAwayOpponent = +getAwayTeamsHomeSchedule.indexOf(homeTeamAbbr);
+    if (extractHomeOpponent == -1) {
+      return nextResponse(
+        {
+          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+        },
+        400,
+        "POST"
+      );
+    }
+
+    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
+
+    // await getSeasonModel.updateOne(
+    //   {
+    //     _id: getSeasonData._id,
+    //   },
+    //   {
+    //     $set: {
+    //       [`teams.${homeTeamsObjectIndex}.schedule.home`]:
+    //         getHomeTeamsHomeSchedule,
+    //       [`teams.${awayTeamsObjectIndex}.schedule.away`]:
+    //         getAwayTeamsHomeSchedule,
+    //     },
+    //   }
+    // );
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
     ///////////////////////////////////////////////////////////////
