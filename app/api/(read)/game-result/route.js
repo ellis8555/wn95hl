@@ -206,19 +206,20 @@ export const POST = async (req, res) => {
     getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
     getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
 
-    // await getSeasonModel.updateOne(
-    //   {
-    //     _id: getSeasonData._id,
-    //   },
-    //   {
-    //     $set: {
-    //       [`teams.${homeTeamsObjectIndex}.schedule.home`]:
-    //         getHomeTeamsHomeSchedule,
-    //       [`teams.${awayTeamsObjectIndex}.schedule.away`]:
-    //         getAwayTeamsHomeSchedule,
-    //     },
-    //   }
-    // );
+    await getSeasonModel.updateOne(
+      {
+        _id: getSeasonData._id,
+      },
+      {
+        $set: {
+          [`teams.${homeTeamsObjectIndex}.schedule.home`]:
+            getHomeTeamsHomeSchedule,
+          [`teams.${awayTeamsObjectIndex}.schedule.away`]:
+            getAwayTeamsHomeSchedule,
+        },
+      }
+    );
+
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
     ///////////////////////////////////////////////////////////////
@@ -236,6 +237,27 @@ export const POST = async (req, res) => {
           },
         }
       );
+
+    // check if season end date needs to be set
+
+    const getCurrentTotalGamesPlayed = getSeasonData.seasonGames.length;
+
+    const getTotalGamesToBePlayed = +getSeasonData.totalGamesToBePlayed;
+
+    // subtract one as this game state has yet to be added so the count will be less one at this point
+    if (getCurrentTotalGamesPlayed === getTotalGamesToBePlayed - 1) {
+      await getSeasonModel.updateOne(
+        {
+          _id: getSeasonData._id,
+        },
+        {
+          $set: {
+            endDate: Date.now(),
+            hasSeasonEnded: true,
+          },
+        }
+      );
+    }
 
     // add the game file to season games array of game results to the database
     getSeasonGames.push(data);
