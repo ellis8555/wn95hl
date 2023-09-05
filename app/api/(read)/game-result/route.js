@@ -14,29 +14,37 @@ import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-fo
 let db;
 
 export const POST = async (req, res) => {
-  const { fileName, fileSize, data } = await req.json();
-  // get currentSeason from the fileName if W league
-  // sample file name WS9.state1
+  const { currSeason, fileName, fileSize, data } = await req.json();
   let currentLeague;
   let currentSeason;
-  if (fileName[0] === "W") {
-    currentLeague = fileName[0];
-    const getTheDot = fileName.indexOf(".");
-    if (getTheDot == 3) {
-      currentSeason = fileName[getTheDot - 1];
+  // if the file is not of csv type
+  if (!fileName.includes("WN95HL_Game_Stats.csv")) {
+    // get currentSeason from the fileName if W league
+    // sample file name WS9.state1
+    if (fileName[0] === "W") {
+      currentLeague = fileName[0];
+      const getTheDot = fileName.indexOf(".");
+      if (getTheDot == 3) {
+        currentSeason = fileName[getTheDot - 1];
+      }
+      if (getTheDot == 4) {
+        currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
+      }
     }
-    if (getTheDot == 4) {
-      currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
+    // get currentSeason from the fileName if Q league
+    // sample file name Q86.state1
+    if (fileName[0] === "Q") {
+      currentLeague = fileName[0];
+      const getTheDot = fileName.indexOf(".");
+      if (getTheDot == 3) {
+        currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
+      }
     }
   }
-  // get currentSeason from the fileName if Q league
-  // sample file name Q86.state1
-  if (fileName[0] === "Q") {
-    currentLeague = fileName[0];
-    const getTheDot = fileName.indexOf(".");
-    if (getTheDot == 3) {
-      currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
-    }
+
+  if (fileName.includes("WN95HL_Game_Stats.csv")) {
+    currentLeague = data.otherGameStats.league;
+    currentSeason = currSeason;
   }
 
   // reject files that do match a set name
