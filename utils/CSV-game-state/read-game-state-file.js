@@ -21,10 +21,10 @@ async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
 
     reader.onload = (e) => {
       const fileContent = e.target.result;
-
       try {
         // get game stat categories
         const lines = fileContent.split("\n");
+        lines.splice(lines.length - 1, 1);
         const rows = lines[0].split("\r");
         const gameDataCategories = rows[0].split(",");
         // .csv file incorrectly has named home goals as away goals so edit required
