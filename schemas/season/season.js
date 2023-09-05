@@ -30,9 +30,13 @@ const SeasonSchema = new Schema({
     type: String,
     default: "",
   },
-  remainingGames: {
+  otherConferenceGames: {
     type: String,
     default: "",
+  },
+  totalGamesToBePlayed: {
+    type: String,
+    default: "0",
   },
   startDate: {
     type: Date,
