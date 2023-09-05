@@ -12,7 +12,7 @@ export const POST = async (req) => {
     divisions,
     gamesVsDivision,
     gamesVsConference,
-    gamesVsRemaining,
+    gamesVsOtherConference,
   } = await req.json();
 
   try {
@@ -45,11 +45,13 @@ export const POST = async (req) => {
     const isGamesVsConferenceValid = numbersOnlyPattern.test(
       +gamesVsConference
     );
-    const isGamesVsRemainingValid = numbersOnlyPattern.test(+gamesVsRemaining);
+    const isGamesVsOtherConferenceValid = numbersOnlyPattern.test(
+      +gamesVsOtherConference
+    );
     if (
       !isGamesVsDivisionValid ||
       !isGamesVsConferenceValid ||
-      !isGamesVsRemainingValid
+      !isGamesVsOtherConferenceValid
     ) {
       return nextResponse(
         { message: "Games vs opponents needs to be numerical" },
@@ -64,7 +66,7 @@ export const POST = async (req) => {
       divisions: divisions,
       divisionalGames: gamesVsDivision,
       conferenceGames: gamesVsConference,
-      remainingGames: gamesVsRemaining,
+      otherConferenceGames: gamesVsOtherConference,
     });
 
     await newSeason.save();

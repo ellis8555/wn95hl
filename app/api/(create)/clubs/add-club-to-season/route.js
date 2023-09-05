@@ -83,9 +83,12 @@ export const POST = async (req) => {
     // divide by 2 to set home and away games
     const gamesVsDivision = +thisSeason.divisionalGames / 2;
     const gamesVsConference = +thisSeason.conferenceGames / 2;
-    const gamesVsRemaining = +thisSeason.remainingGames / 2;
+    const gamesVsOtherConference = +thisSeason.otherConferenceGames / 2;
 
-    if ((gamesVsDivision || gamesVsConference || gamesVsRemaining) % 2 !== 0) {
+    if (
+      (gamesVsDivision || gamesVsConference || gamesVsOtherConference) % 2 !==
+      0
+    ) {
       return nextResponse(
         { message: "currently only even numbered games vs opponents works" },
         400,
@@ -109,10 +112,18 @@ export const POST = async (req) => {
     // get current teams registered in the league
     const currentTeamsList = thisSeason.teams;
 
+    // current total games to be played for this new team set to 0
+    // will be incremented within if check to follow
+    let teamsTotalGamesToBePlayed = 0;
+
+    // update leagues total games to be played
+    let currentTotalGamesToPlayedInTheLeague = +thisSeason.totalGamesToBePlayed;
+
     // assign home and away games vs each team
     if (currentTeamsList.length > 0) {
       currentTeamsList.map((registeredTeam) => {
         if (registeredTeam.division === division) {
+          teamsTotalGamesToBePlayed += +thisSeason.divisionalGames;
           for (let i = 1; i <= gamesVsDivision; i++) {
             registeredTeam.schedule.home.push(teamAcronym);
             registeredTeam.schedule.away.push(teamAcronym);
@@ -120,6 +131,7 @@ export const POST = async (req) => {
             createTeamsObject.schedule.away.push(registeredTeam.teamAcronym);
           }
         } else if (registeredTeam.conference === conference) {
+          teamsTotalGamesToBePlayed += +thisSeason.conferenceGames;
           for (let i = 1; i <= gamesVsConference; i++) {
             registeredTeam.schedule.home.push(teamAcronym);
             registeredTeam.schedule.away.push(teamAcronym);
@@ -127,7 +139,8 @@ export const POST = async (req) => {
             createTeamsObject.schedule.away.push(registeredTeam.teamAcronym);
           }
         } else {
-          for (let i = 1; i <= gamesVsRemaining; i++) {
+          teamsTotalGamesToBePlayed += +thisSeason.otherConferenceGames;
+          for (let i = 1; i <= gamesVsOtherConference; i++) {
             registeredTeam.schedule.home.push(teamAcronym);
             registeredTeam.schedule.away.push(teamAcronym);
             createTeamsObject.schedule.home.push(registeredTeam.teamAcronym);
@@ -135,6 +148,12 @@ export const POST = async (req) => {
           }
         }
       });
+      const updatedTotalGamesToBePlayed =
+        currentTotalGamesToPlayedInTheLeague + teamsTotalGamesToBePlayed;
+
+      // updates the db total games to be played
+      thisSeason.totalGamesToBePlayed = updatedTotalGamesToBePlayed;
+      thisSeason.markModified("totalGamesToBePlayed");
     }
 
     // add team name to list of teams array
