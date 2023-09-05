@@ -1524,7 +1524,7 @@ async function readBinaryGameState(
         ////////////////////////////////////////
         let gameProperties = {};
         gameProperties = {
-          currentSeason: seasonNumber,
+          currSeason: seasonNumber,
           fileName: file.name,
           fileSize: file.size,
           fileType: file.type,

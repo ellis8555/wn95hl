@@ -94,7 +94,7 @@ async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
         // object containing all the games data
         ////////////////////////////////////////
         gameProperties = {
-          currentSeason: seasonNumber,
+          currSeason: seasonNumber,
           fileName: file.name,
           fileSize: file.size,
           fileType: file.type,
