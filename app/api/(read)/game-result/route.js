@@ -17,7 +17,7 @@ export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
   let currentLeague;
   let currentSeason;
-  // if the file is not of csv type
+  // if the file is not of csv type then process a game state file
   if (!fileName.includes("WN95HL_Game_Stats.csv")) {
     // get currentSeason from the fileName if W league
     // sample file name WS9.state1
@@ -42,6 +42,7 @@ export const POST = async (req, res) => {
     }
   }
 
+  // if the file is of csv type then process
   if (fileName.includes("WN95HL_Game_Stats.csv")) {
     currentLeague = data.otherGameStats.league;
     currentSeason = currSeason;
@@ -107,12 +108,13 @@ export const POST = async (req, res) => {
     const getSeasonData = Season;
     const getSeasonGames = getSeasonData.seasonGames;
     const getSeasonStandings = getSeasonData.standings;
+    const otherStats = data.otherGameStats;
     const getRegisteredTeams = getSeasonData.teams.map((team) => {
       return team.teamAcronym;
     });
     // check that file has not previously been uploaded
     let isDuplicate = false;
-    const getUniqueGameId = data.otherGameStats["uniqueGameId"];
+    const getUniqueGameId = otherStats.uniqueGameId;
     // loop through games that have been added to the database
     // checking for uniqueId hash for a match with the uploaded game file
     getSeasonGames.forEach((game) => {
@@ -141,7 +143,6 @@ export const POST = async (req, res) => {
     // check teams submitted are in this league
     ////////////////////////////////////////////
 
-    const otherStats = data.otherGameStats;
     const homeTeamAbbr = otherStats.homeTeam;
 
     const homeTeamName = await queryClubDetatail(
@@ -307,16 +308,13 @@ export const POST = async (req, res) => {
       );
     }
 
-    // reference to array that contains each teams standings object
-    const getSeasonsTableObjects = getSeasonData.standings;
-
     //////////////////////////////////////////////
     // assign index numbers to home and away teams
     // returns index number of home team
     //////////////////////////////////////////////
 
     const homeTeamsStandingIndex = getTeamsStandingsIndex(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       homeTeamName
     );
 
@@ -325,7 +323,7 @@ export const POST = async (req, res) => {
     ////////////////////////////////////
 
     const awayTeamsStandingIndex = getTeamsStandingsIndex(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       awayTeamName
     );
 
@@ -334,7 +332,7 @@ export const POST = async (req, res) => {
     ///////////////////////////////////////////
 
     incrementGamesPlayed(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       homeTeamsStandingIndex,
       awayTeamsStandingIndex
     );
@@ -343,14 +341,14 @@ export const POST = async (req, res) => {
     // increase wins for winning team if game not tied
     ///////////////////////////////////////////////////
 
-    incrementWinningTeamsWins(getSeasonsTableObjects, wasGameATie, winningTeam);
+    incrementWinningTeamsWins(getSeasonStandings, wasGameATie, winningTeam);
 
     ///////////////////////////////////////////////////////////////////////
     // increase losses for losing team if game not tied or went to overtime
     ///////////////////////////////////////////////////////////////////////
 
     incrementLosingTeamsLosses(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       wasGameATie,
       wasOvertimeRequired,
       losingTeam
@@ -361,7 +359,7 @@ export const POST = async (req, res) => {
     /////////////////////////////////////////////////
 
     incrementTiesForTieGame(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       wasGameATie,
       homeTeamsStandingIndex,
       awayTeamsStandingIndex
@@ -372,7 +370,7 @@ export const POST = async (req, res) => {
     ///////////////////////////////////////
 
     incrementOvertimeLoss(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       wasGameATie,
       wasOvertimeRequired,
       losingTeam
@@ -384,7 +382,7 @@ export const POST = async (req, res) => {
 
     // home team
     const homeTeamsUpdatedStandings = incrementPointsForTeams(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       homeTeamPoints,
       homeTeamsStandingIndex,
       getSeasonStandings
@@ -392,7 +390,7 @@ export const POST = async (req, res) => {
 
     // away team
     const awayTeamsUpdatedStandings = incrementPointsForTeams(
-      getSeasonsTableObjects,
+      getSeasonStandings,
       awayTeamPoints,
       awayTeamsStandingIndex,
       getSeasonStandings
