@@ -160,13 +160,13 @@ export const POST = async (req, res) => {
     const checkHomeTeamIsRegistered = getRegisteredTeams.includes(homeTeamAbbr);
     const checkAwayTeamIsRegistered = getRegisteredTeams.includes(awayTeamAbbr);
     let notRegisteredMessage;
-    if (!checkHomeTeamIsRegistered) {
+    if (getRegisteredTeams.length === 0) {
+      notRegisteredMessage =
+        "Neither teams are registered for this league. Game was not submitted";
+    } else if (!checkHomeTeamIsRegistered) {
       notRegisteredMessage = `${homeTeamName} is not registered in this league. Game was not sumbitted`;
     } else if (!checkAwayTeamIsRegistered) {
       notRegisteredMessage = `${awayTeamName} is not registered in this league. Game was not submitted`;
-    } else {
-      notRegisteredMessage =
-        "Neither teams are registered for this league. Game was not submitted";
     }
 
     if (!checkHomeTeamIsRegistered || !checkAwayTeamIsRegistered) {
