@@ -37,7 +37,7 @@ next-env.d.ts
 
 # game state files
 *.state*
-WN95HL_Game_Stats.csv
+WN95HL_Game_Stats*.csv
 
 # python files
 *.py
