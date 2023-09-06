@@ -4,7 +4,12 @@ import { useState, useEffect } from "react";
 import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 
-function Standings({ updateStandings, leagueName, seasonNumber }) {
+function Standings({
+  updateStandings,
+  leagueName,
+  seasonNumber,
+  setServerMessage,
+}) {
   const [standingsArray, setStandingsArray] = useState([]);
   const [tableCategories, setTableCategories] = useState([
     "GP",
@@ -38,7 +43,11 @@ function Standings({ updateStandings, leagueName, seasonNumber }) {
             return response.json();
           })
           .then((getStandings) => {
-            resolve(getStandings);
+            if (getStandings.length > 0) {
+              resolve(getStandings);
+            } else {
+              reject("There is no data for this season");
+            }
           });
       } catch (error) {
         reject(error);
@@ -78,7 +87,7 @@ function Standings({ updateStandings, leagueName, seasonNumber }) {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        setServerMessage(error);
         setIsLoading(false);
       });
   }, [updateStandings]);

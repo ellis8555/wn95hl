@@ -231,6 +231,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       )}
       <Standings
         updateStandings={updateStandings}
+        setServerMessage={setServerMessage}
         leagueName={leagueName}
         seasonNumber={seasonNumber}
       />
