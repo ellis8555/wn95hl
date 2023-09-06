@@ -34,7 +34,7 @@ export const POST = async (req) => {
     let thisSeason = await Season.findOne({ seasonNumber: whichSeason });
     if (!thisSeason) {
       return nextResponse(
-        { message: "This season has not been registered" },
+        { message: `Season ${whichSeason} has not been registered` },
         400,
         "POST"
       );
