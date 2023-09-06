@@ -105,7 +105,7 @@ async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
           };
           all_GAME_DATA_OBJECTS.push(gameProperties);
         }
-        resolve(all_GAME_DATA_OBJECTS[1]);
+        resolve(all_GAME_DATA_OBJECTS);
       } catch (error) {
         gameProperties = {
           data: "There was an error processing the file",
