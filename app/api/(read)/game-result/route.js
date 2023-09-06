@@ -54,7 +54,7 @@ export const POST = async (req, res) => {
 
   if (
     (fileName !== "WN95HL_Game_Stats.csv" && !fileName.includes("state")) ||
-    (fileName === "WN95HL_Game_Stats.csv" && fileSize > 6500) ||
+    (fileName === "WN95HL_Game_Stats.csv" && fileSize > 12500) ||
     (fileName.includes("state") && fileSize > 1400000)
   ) {
     return nextResponse(

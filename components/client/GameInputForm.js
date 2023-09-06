@@ -61,33 +61,64 @@ function GameInputForm({ leagueName, seasonNumber }) {
       // object containing list of team acronyms required for game state parsing
       const teamsDict = await response.json();
 
-      let fetchedGameData;
+      const fetchedCSVData = [];
 
       if (file.name === "WN95HL_Game_Stats.csv") {
         // this returns all the parsed game data
-        fetchedGameData = await readGameStateFile(
+        const fetchedGameData = await readGameStateFile(
           file,
           seasonNumber,
           gameType,
           leagueName,
           teamsDict
         );
+        fetchedGameData.forEach((gameState) => fetchedCSVData.push(gameState));
+        const howManyGamesSubmitted = fetchedCSVData.length;
+        try {
+          const responses = [];
+          for (let i = 0; i < howManyGamesSubmitted; i++) {
+            const response = await fetch(`/api/game-result`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(fetchedCSVData[i]),
+            });
+
+            if (!response.ok) {
+              const responseError = await response.json();
+              throw new Error(responseError.message);
+            }
+
+            responses.push(await response.json());
+          }
+
+          setServerMessage(
+            `${howManyGamesSubmitted} games have been submitted`
+          );
+          const newStandings = responses[responses.length - 1].newStandings;
+          setUpdateStandings(newStandings);
+        } catch (error) {
+          fileInputRef.current.value = "";
+          setIsStateUploaded(false);
+          setServerMessage(error.message);
+        }
       }
 
       // pattern to test filename for acceptance
       const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
       if (statePattern.test(file.name)) {
         // this returns all the parsed game data
-        fetchedGameData = await readBinaryGameState(
+        const fetchedGameData = await readBinaryGameState(
           file,
           seasonNumber,
           gameType,
           leagueName,
           teamsDict
         );
+        fetchedCSVData.push(fetchedGameData);
+        setGameData(fetchedCSVData[0]);
       }
-
-      setGameData(fetchedGameData);
     } catch (error) {
       fileInputRef.current.value = "";
       setIsStateUploaded(false);
