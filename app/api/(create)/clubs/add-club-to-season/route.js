@@ -58,20 +58,20 @@ export const POST = async (req) => {
     }
 
     // check if the conference exists
-    const getConferences = await Season.find({}, "conferences");
-    const isConferenceValid = !getConferences.includes(conference);
+    const conferenceList = thisSeason.conferences;
+    const isConferenceValid = conferenceList.includes(conference);
     if (!isConferenceValid) {
       return nextResponse({
-        message: "The conference is not registered to this league",
+        message: `${conference} conference is not registered to this league`,
       });
     }
 
     // check if the division exists
-    const getDivisions = await Season.find({}, "divisions");
-    const isDivisionValid = !getDivisions.includes(division);
+    const divisionList = thisSeason.divisions;
+    const isDivisionValid = divisionList.includes(division);
     if (!isDivisionValid) {
       return nextResponse({
-        message: "The division is not registered to this league",
+        message: `The ${division} division is not registered to this league`,
       });
     }
 
