@@ -39,7 +39,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
     // TO BE REMOVED AND MADE DYNAMIC
     ///////////////////////////////////////////
     const gameType = gameTypeRef.current.value;
-
     try {
       // get the teams registered to this league
       const response = await fetch(
@@ -60,7 +59,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
       // teamsDict is name from python file
       // object containing list of team acronyms required for game state parsing
       const teamsDict = await response.json();
-
       const fetchedCSVData = [];
 
       if (file.name === "WN95HL_Game_Stats.csv") {
@@ -74,9 +72,12 @@ function GameInputForm({ leagueName, seasonNumber }) {
         );
         fetchedGameData.forEach((gameState) => fetchedCSVData.push(gameState));
         const howManyGamesSubmitted = fetchedCSVData.length;
+
+        // declare i here so it can be passed to the catch block for error reference
+        let i;
         try {
           const responses = [];
-          for (let i = 0; i < howManyGamesSubmitted; i++) {
+          for (i = 0; i < howManyGamesSubmitted; i++) {
             const response = await fetch(`/api/game-result`, {
               method: "POST",
               headers: {
@@ -89,10 +90,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
               const responseError = await response.json();
               throw new Error(responseError.message);
             }
-
+            setServerMessage(`${i} states prcocessed..`);
             responses.push(await response.json());
           }
 
+          fileInputRef.current.value = "";
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
@@ -101,7 +103,12 @@ function GameInputForm({ leagueName, seasonNumber }) {
         } catch (error) {
           fileInputRef.current.value = "";
           setIsStateUploaded(false);
-          setServerMessage(error.message);
+          setServerMessage(
+            <div>
+              Error at line {i + 2} of the excel file. <br />
+              {error.message}
+            </div>
+          );
         }
       }
 
