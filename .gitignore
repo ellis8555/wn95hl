@@ -36,8 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 # game state files
-*.state*
-WN95HL_Game_Stats*.csv
+/data
 
 # python files
 *.py
