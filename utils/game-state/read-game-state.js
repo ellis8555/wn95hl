@@ -26,41 +26,50 @@ async function readBinaryGameState(
 
     reader.onload = (e) => {
       const d = new Uint8Array(e.target.result);
-      // const teamCodesDict = teamsDictCodes;
-      const teamCodesDict = {
-        0: "AHC",
-        1: "AUT",
-        2: "BAY",
-        3: "CDA",
-        4: "DIN",
-        5: "HAM",
-        6: "HIG",
-        7: "HOT",
-        8: "SPG",
-        9: "ITA",
-        10: "MHA",
-        11: "MHT",
-        12: "MGG",
-        13: "NBK",
-        14: "OCW",
-        15: "PIT",
-        16: "PRO",
-        17: "REN",
-        18: "RIC",
-        19: "ROM",
-        20: "SAG",
-        21: "SDM",
-        22: "KVK",
-        23: "SOV",
-        24: "SVF",
-        25: "SUM",
-        26: "SUN",
-        27: "TAI",
-        28: "TBP",
-        29: "IVF",
-        30: "THT",
-        31: "UGA",
-      };
+      const teamCodesDict = teamsDictCodes;
+      ///////////////////////////////////////////////////////////////////
+      // uncomment for testing
+      // teams need to have these keys in order to work
+      // this is for 'w' season 8 rom
+      ///////////////////////////////////////////////////////////////////
+      // const teamCodesDict = {
+      //   0: "AHC",
+      //   1: "AUT",
+      //   2: "BAY",
+      //   3: "CDA",
+      //   4: "DIN",
+      //   5: "HAM",
+      //   6: "HIG",
+      //   7: "HOT",
+      //   8: "SPG",
+      //   9: "ITA",
+      //   10: "MHA",
+      //   11: "MHT",
+      //   12: "MGG",
+      //   13: "NBK",
+      //   14: "OCW",
+      //   15: "PIT",
+      //   16: "PRO",
+      //   17: "REN",
+      //   18: "RIC",
+      //   19: "ROM",
+      //   20: "SAG",
+      //   21: "SDM",
+      //   22: "KVK",
+      //   23: "SOV",
+      //   24: "SVF",
+      //   25: "SUM",
+      //   26: "SUN",
+      //   27: "TAI",
+      //   28: "TBP",
+      //   29: "IVF",
+      //   30: "THT",
+      //   31: "UGA",
+      // };
+      //////////////////////////////////////////////////
+      // end of testing area
+      //////////////////////////////////////////////////
+
       try {
         // #Team stats
 

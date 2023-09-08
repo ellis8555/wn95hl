@@ -29,7 +29,6 @@ async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
         const gameDataCategories = rows[0].split(",");
         // .csv file incorrectly has named home goals as away goals so edit required
         gameDataCategories[35] = "HomeGOALS";
-
         // get the values of game stat categories
         const allGameDataRows = fileContent.split("\n").slice(1);
         allGameDataRows.splice(allGameDataRows.length - 1, 1);

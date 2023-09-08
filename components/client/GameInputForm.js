@@ -40,25 +40,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
     ///////////////////////////////////////////
     const gameType = gameTypeRef.current.value;
     try {
-      // get the teams registered to this league
-      const response = await fetch(
-        `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=teamsDictCodes`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const responseError = await response.json();
-        throw new Error(responseError.message);
-      }
-
-      // teamsDict is name from python file
-      // object containing list of team acronyms required for game state parsing
-      const teamsDict = await response.json();
       const fetchedCSVData = [];
 
       if (file.name === "WN95HL_Game_Stats.csv") {
@@ -67,17 +48,15 @@ function GameInputForm({ leagueName, seasonNumber }) {
           file,
           seasonNumber,
           gameType,
-          leagueName,
-          teamsDict
+          leagueName
         );
         fetchedGameData.forEach((gameState) => fetchedCSVData.push(gameState));
         const howManyGamesSubmitted = fetchedCSVData.length;
 
         // declare i here so it can be passed to the catch block for error reference
-        let i;
         try {
           const responses = [];
-          for (i = 0; i < howManyGamesSubmitted; i++) {
+          for (let i = 0; i < howManyGamesSubmitted; i++) {
             const response = await fetch(`/api/game-result`, {
               method: "POST",
               headers: {
@@ -103,18 +82,32 @@ function GameInputForm({ leagueName, seasonNumber }) {
         } catch (error) {
           fileInputRef.current.value = "";
           setIsStateUploaded(false);
-          setServerMessage(
-            <div>
-              Error at line {i + 2} of the excel file. <br />
-              {error.message}
-            </div>
-          );
+          setServerMessage(error.message);
         }
       }
 
       // pattern to test filename for acceptance
       const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
       if (statePattern.test(file.name)) {
+        // get the teams registered to this league
+        const response = await fetch(
+          `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=teamsDictCodes`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const responseError = await response.json();
+          throw new Error(responseError.message);
+        }
+
+        // teamsDict is name from python file
+        // object containing list of team acronyms required for game state parsing
+        const teamsDict = await response.json();
         // this returns all the parsed game data
         const fetchedGameData = await readBinaryGameState(
           file,
