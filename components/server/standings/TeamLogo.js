@@ -8,6 +8,7 @@ function TeamLogo({ name, width, height }) {
       height={height}
       style={{ width: "auto", height: "auto" }}
       alt={name}
+      quality={100}
     />
   );
 }
