@@ -30,6 +30,7 @@ export const GET = async (req, res) => {
     // var that will hold the data that is returned depending on the case
     let requestedData;
     switch (getField) {
+      // gets each teams 3 letter abbreviation
       case "teamsDictCodes":
         if (!seasonData.hasSeasonBegun) {
           return nextResponse(
@@ -51,8 +52,24 @@ export const GET = async (req, res) => {
         }
         requestedData = seasonData[getField];
         break;
+      // get leagues current standings
       case "standings":
-        requestedData = seasonData[getField];
+        // object which will contain each teams conference and division
+        const leagueStructure = {};
+        seasonData["teams"].forEach((team) => {
+          leagueStructure[team.teamAcronym] = {
+            conference: team["conference"],
+            division: team["division"],
+          };
+        });
+        // the actual standings array
+        const standings = seasonData["standings"];
+        // return standings and league structure in a single object
+        requestedData = {
+          standings: standings,
+          leagueStructure: leagueStructure,
+        };
+        // requestedData = seasonData[getField];
         break;
     }
 
