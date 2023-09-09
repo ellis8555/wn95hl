@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 
@@ -9,6 +9,7 @@ function Standings({
   leagueName,
   seasonNumber,
   setServerMessage,
+  tableToBeDisplayed,
 }) {
   const [standingsArray, setStandingsArray] = useState([]);
   const [filteredStandings, setFilteredStandings] = useState([]);
@@ -23,7 +24,6 @@ function Standings({
     "Pts",
   ]);
   const [isLoading, setIsLoading] = useState(true);
-  const conferenceNameRef = useRef("league");
 
   function fetchLeagueTableData() {
     return new Promise((resolve, reject) => {
@@ -100,14 +100,12 @@ function Standings({
 
   useEffect(() => {
     if (standingsArray.length > 0) {
-      filterStandings(conferenceNameRef.current);
+      filterStandings(tableToBeDisplayed);
     }
-  }, [standingsArray]);
+  }, [standingsArray, tableToBeDisplayed]);
 
-  function filterStandings(conference = "league") {
-    if (conference === "league") {
-      conferenceNameRef.current = leagueName;
-      setFilteredStandings(standingsArray);
+  function filterStandings(conference) {
+    if (conference === "League") {
       setAreStandingsFiltered(false);
       return;
     }
@@ -118,37 +116,13 @@ function Standings({
       }
     });
 
-    conferenceNameRef.current = conference;
     setFilteredStandings(conferenceStandings);
     setAreStandingsFiltered(true);
   }
 
   return (
     <div className="mt-3">
-      <div className="flex flex-row justify-center gap-2">
-        <button
-          className="bg-slate-300 rounded-full p-2"
-          onClick={() => filterStandings()}
-        >
-          League
-        </button>
-        <button
-          className="bg-slate-300 rounded-full p-2"
-          onClick={() => filterStandings("Prince of Wales")}
-        >
-          Prince of Wales
-        </button>
-        <button
-          className="bg-slate-300 rounded-full p-2"
-          onClick={() => filterStandings("Clarence Campbell")}
-        >
-          Clarence Campbell
-        </button>
-      </div>
-
-      <h1 className="mt-3 text-3xl text-center">
-        The {conferenceNameRef.current}
-      </h1>
+      <h1 className="mt-3 text-3xl text-center">The {tableToBeDisplayed}</h1>
 
       <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
         <thead>
