@@ -222,13 +222,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
-      {isStateUploaded ? (
-        <Boxscore gameData={gameData} />
-      ) : (
-        <div className="w-full text-center bg-slate-200 mt-4 sm:w-3/4 sm:mx-auto">
-          Submit a game state
-        </div>
-      )}
+      {isStateUploaded && <Boxscore gameData={gameData} />}
       <Standings
         updateStandings={updateStandings}
         setServerMessage={setServerMessage}
