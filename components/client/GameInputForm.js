@@ -6,12 +6,14 @@ import readGameStateFile from "@/utils/CSV-game-state/read-game-state-file";
 import Standings from "./Standings";
 import readBinaryGameState from "@/utils/game-state/read-game-state";
 import Boxscore from "../server/Boxscore/Boxscore";
+import TableButton from "../server/Buttons/TableButton";
 
 function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
   const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
+  const [tableToBeDisplayed, setTableToBeDisplayed] = useState("League");
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -223,11 +225,23 @@ function GameInputForm({ leagueName, seasonNumber }) {
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
       {isStateUploaded && <Boxscore gameData={gameData} />}
+      <div className="mt-4 flex flex-row justify-center gap-2">
+        <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
+          League
+        </TableButton>
+        <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
+          Clarence Campbell
+        </TableButton>
+        <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
+          Prince of Wales
+        </TableButton>
+      </div>
       <Standings
         updateStandings={updateStandings}
         setServerMessage={setServerMessage}
         leagueName={leagueName}
         seasonNumber={seasonNumber}
+        tableToBeDisplayed={tableToBeDisplayed}
       />
     </>
   );
