@@ -127,15 +127,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    if (isDuplicate) {
-      return nextResponse(
-        {
-          message: `This game appears to be a duplicate. Game data was not saved..`,
-        },
-        400,
-        "POST"
-      );
-    }
+    // if (isDuplicate) {
+    //   return nextResponse(
+    //     {
+    //       message: `This game appears to be a duplicate. Game data was not saved..`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
@@ -215,19 +215,19 @@ export const POST = async (req, res) => {
     getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
     getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
 
-    await getSeasonModel.updateOne(
-      {
-        _id: getSeasonData._id,
-      },
-      {
-        $set: {
-          [`teams.${homeTeamsObjectIndex}.schedule.home`]:
-            getHomeTeamsHomeSchedule,
-          [`teams.${awayTeamsObjectIndex}.schedule.away`]:
-            getAwayTeamsHomeSchedule,
-        },
-      }
-    );
+    // await getSeasonModel.updateOne(
+    //   {
+    //     _id: getSeasonData._id,
+    //   },
+    //   {
+    //     $set: {
+    //       [`teams.${homeTeamsObjectIndex}.schedule.home`]:
+    //         getHomeTeamsHomeSchedule,
+    //       [`teams.${awayTeamsObjectIndex}.schedule.away`]:
+    //         getAwayTeamsHomeSchedule,
+    //     },
+    //   }
+    // );
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
