@@ -69,7 +69,24 @@ export const GET = async (req, res) => {
           standings: standings,
           leagueStructure: leagueStructure,
         };
-        // requestedData = seasonData[getField];
+        break;
+      // get recent league game results
+      case "recent-results":
+        const howManyGamesPlayed = seasonData["seasonGames"].length;
+
+        let recentlyPlayedGames = [];
+        if (howManyGamesPlayed < 8) {
+          seasonData["seasonGames"].forEach((game) =>
+            recentlyPlayedGames.push(game)
+          );
+        } else {
+          recentlyPlayedGames = seasonData["seasonGames"].slice(
+            howManyGamesPlayed - 8
+          );
+        }
+
+        requestedData = recentlyPlayedGames;
+
         break;
     }
 
