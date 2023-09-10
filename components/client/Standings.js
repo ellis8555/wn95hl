@@ -10,6 +10,7 @@ function Standings({
   seasonNumber,
   setServerMessage,
   tableToBeDisplayed,
+  secondTableToBeDisplayed,
 }) {
   const [standingsArray, setStandingsArray] = useState([]);
   const [filteredStandings, setFilteredStandings] = useState([]);
@@ -100,9 +101,13 @@ function Standings({
 
   useEffect(() => {
     if (standingsArray.length > 0) {
+      if (secondTableToBeDisplayed !== undefined) {
+        filterStandings(secondTableToBeDisplayed);
+        return;
+      }
       filterStandings(tableToBeDisplayed);
     }
-  }, [standingsArray, tableToBeDisplayed]);
+  }, [standingsArray, tableToBeDisplayed, secondTableToBeDisplayed]);
 
   function filterStandings(conference) {
     if (conference === "League") {
@@ -122,7 +127,9 @@ function Standings({
 
   return (
     <div className="mt-3">
-      <h1 className="mt-3 text-3xl text-center">The {tableToBeDisplayed}</h1>
+      <h1 className="mt-3 text-3xl text-center">
+        {tableToBeDisplayed || secondTableToBeDisplayed}
+      </h1>
 
       <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
         <thead>
@@ -148,6 +155,8 @@ function Standings({
               (team, index) => (
                 <Teamresults
                   key={index}
+                  areStandingsFiltered={areStandingsFiltered}
+                  lineNumber={index}
                   team={team}
                   categories={tableCategories}
                   bgColor={index % 2 === 0 ? "bg-slate-200" : "bg-white"}
