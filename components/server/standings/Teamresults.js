@@ -1,8 +1,24 @@
 import TeamLogo from "./TeamLogo";
 
-function Teamresults({ team, categories, bgColor }) {
+function Teamresults({
+  team,
+  categories,
+  bgColor,
+  lineNumber,
+  areStandingsFiltered,
+}) {
   return (
-    <tr className={`${bgColor} text-sm`}>
+    <tr
+      className={`${bgColor} text-sm ${
+        areStandingsFiltered
+          ? lineNumber === 7
+            ? "border-slate-600 border-b-2"
+            : ""
+          : lineNumber === 15
+          ? "border-slate-600 border-b-2"
+          : ""
+      }`}
+    >
       <td className="flex justify-center">
         <TeamLogo name={team.teamAcronym} width={25} height={15} />
       </td>
