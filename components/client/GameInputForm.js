@@ -14,6 +14,9 @@ function GameInputForm({ leagueName, seasonNumber }) {
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
   const [tableToBeDisplayed, setTableToBeDisplayed] = useState("League");
+  const [secondTableToBeDisplayed, setSecondTableToBeDisplayed] =
+    useState("League");
+  const [splitTable, setSplitTable] = useState(false);
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -225,24 +228,53 @@ function GameInputForm({ leagueName, seasonNumber }) {
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
       {isStateUploaded && <Boxscore gameData={gameData} />}
-      <div className="mt-4 flex flex-row justify-center gap-2">
-        <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
+      <div className="my-4 flex flex-row justify-center gap-2">
+        <TableButton
+          setSplitTable={setSplitTable}
+          setTableToBeDisplayed={setTableToBeDisplayed}
+        >
           League
         </TableButton>
-        <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
-          Clarence Campbell
-        </TableButton>
-        <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
-          Prince of Wales
-        </TableButton>
+        <div className="flex gap-2 lg:hidden">
+          <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
+            Clarence Campbell
+          </TableButton>
+          <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
+            Prince of Wales
+          </TableButton>
+        </div>
+        <div className="hidden lg:block">
+          <TableButton
+            setSplitTable={setSplitTable}
+            setTableToBeDisplayed={setTableToBeDisplayed}
+            setSecondTableToBeDisplayed={setSecondTableToBeDisplayed}
+          >
+            Conferences
+          </TableButton>
+        </div>
       </div>
-      <Standings
-        updateStandings={updateStandings}
-        setServerMessage={setServerMessage}
-        leagueName={leagueName}
-        seasonNumber={seasonNumber}
-        tableToBeDisplayed={tableToBeDisplayed}
-      />
+      <div
+        className={`flex flex-col ${
+          splitTable ? "justify-around lg:flex-row" : ""
+        }`}
+      >
+        <Standings
+          updateStandings={updateStandings}
+          setServerMessage={setServerMessage}
+          leagueName={leagueName}
+          seasonNumber={seasonNumber}
+          tableToBeDisplayed={tableToBeDisplayed}
+        />
+        {splitTable && (
+          <Standings
+            updateStandings={updateStandings}
+            setServerMessage={setServerMessage}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
+            secondTableToBeDisplayed={secondTableToBeDisplayed}
+          />
+        )}
+      </div>
     </>
   );
 }
