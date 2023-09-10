@@ -17,6 +17,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
   const [secondTableToBeDisplayed, setSecondTableToBeDisplayed] =
     useState("League");
   const [splitTable, setSplitTable] = useState(false);
+  const [recentGameResults, setRecentGameResults] = useState([]);
+  const [howManyTickers, setHowManyTickers] = useState(null);
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -27,6 +29,10 @@ function GameInputForm({ leagueName, seasonNumber }) {
   useEffect(() => {
     fetchGameData();
   }, [gameData]);
+
+  useEffect(() => {
+    getRecentGameResults(howManyTickers);
+  }, [updateStandings, howManyTickers]);
 
   // submit the form
   const handleSubmit = async (e) => {
@@ -137,7 +143,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
   async function resetLeagueTable(e) {
     e.preventDefault();
-    // const currentSeason = seasonInputRef.current.value;
     setServerMessage("Resetting the table");
     try {
       // message the user request has been sent
@@ -195,8 +200,32 @@ function GameInputForm({ leagueName, seasonNumber }) {
     }
   }
 
+  async function getRecentGameResults() {
+    try {
+      // message the user request has been sent
+      const response = await fetch(
+        `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=recent-results`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(response.message);
+      }
+
+      const recentGameResults = await response.json();
+      setRecentGameResults(recentGameResults);
+    } catch (error) {
+      setServerMessage(error.message);
+    }
+  }
+
   return (
     <>
+      <Boxscore recentGameResults={recentGameResults} />
       <form
         className="w-full mt-4 bg-slate-500 mx-auto md:rounded-lg p-3 md:max-w-md"
         onSubmit={handleSubmit}
@@ -227,7 +256,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
-      {isStateUploaded && <Boxscore gameData={gameData} />}
+
       <div className="my-4 flex flex-row justify-center gap-2">
         <TableButton
           setSplitTable={setSplitTable}
