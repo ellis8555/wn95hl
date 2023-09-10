@@ -84,7 +84,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
             responses.push(await response.json());
           }
 
-          fileInputRef.current.value = "";
+          fileInputRef.current = "";
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
@@ -224,10 +224,13 @@ function GameInputForm({ leagueName, seasonNumber }) {
   }
 
   return (
-    <>
-      <Boxscore recentGameResults={recentGameResults} />
+    <div
+      onClick={() => {
+        setIsStateUploaded(false);
+      }}
+    >
       <form
-        className="w-full mt-4 bg-slate-500 mx-auto md:rounded-lg p-3 md:max-w-md"
+        className="flex flex-row justify-between w-full mt-4 bg-slate-500 mx-auto md:rounded-lg p-3 md:max-w-md"
         onSubmit={handleSubmit}
       >
         <input
@@ -237,21 +240,26 @@ function GameInputForm({ leagueName, seasonNumber }) {
           name="fileInput"
           onClick={() => setServerMessage("")}
         />
-        <br />
-        <br />
 
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
-        <button className="border rounded-md border-black px-2" type="submit">
-          Submit
-        </button>
-        <button
-          className="border rounded-md border-black px-2 float-right"
-          onClick={resetLeagueTable}
-        >
-          Reset
-        </button>
+        <div className="flex flex-row gap-2">
+          <button className="border rounded-md border-black px-2" type="submit">
+            Submit
+          </button>
+          <button
+            className="border rounded-md border-black px-2 float-right"
+            onClick={resetLeagueTable}
+          >
+            Reset
+          </button>
+        </div>
       </form>
+
+      <Boxscore
+        recentGameResults={recentGameResults}
+        isStateUploaded={isStateUploaded}
+      />
 
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
@@ -304,7 +312,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
 
