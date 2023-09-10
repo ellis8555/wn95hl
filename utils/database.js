@@ -4,7 +4,7 @@ const connectedMessage = `Connected to wn95hl database`;
 
 export const connectToDb = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.HOME_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
