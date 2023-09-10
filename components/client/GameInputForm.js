@@ -247,12 +247,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
           <button className="border rounded-md border-black px-2" type="submit">
             Submit
           </button>
-          <button
-            className="border rounded-md border-black px-2 float-right"
-            onClick={resetLeagueTable}
-          >
-            Reset
-          </button>
         </div>
       </form>
 
