@@ -8,7 +8,7 @@ function TableButton({
 }) {
   return (
     <button
-      className="bg-slate-300 rounded-full p-2"
+      className="bg-slate-300 rounded p-1"
       onClick={() => {
         if (children === "Conferences") {
           setSplitTable(true);
