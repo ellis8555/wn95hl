@@ -1,18 +1,18 @@
 // returns an object with all the data pertaining to the received .csv file
 // of a single game state
 // gameStats array is the master array holding .csv key/value pairs after parsing
-// methods in ./game-state-helper-methods extract information in an organized
+// methods in ./parsing-helpers extract information in an organized
 // fashion from the .csv file
 
-import extractGoalData from "./game-state-helper-methods/extract-goal-data";
-import extractHomeTeamData from "./game-state-helper-methods/extract-home-team-data";
-import extractAwayTeamData from "./game-state-helper-methods/extract-away-team-data";
-import extractAwayPlayerStats from "./game-state-helper-methods/extract-away-player-stats";
-import extractHomePlayerStats from "./game-state-helper-methods/extract-home-player-stats";
-import extractAwayGoalieStats from "./game-state-helper-methods/extract-away-goalie-stats";
-import extractHomeGoalieStats from "./game-state-helper-methods/extract-home-goalie-stats";
-import extractPenaltyData from "./game-state-helper-methods/extract-penalty-data";
-import extractOtherGameStats from "./game-state-helper-methods/extract-other-game-stats";
+import extractGoalData from "../parsing-helpers/extract-goal-data";
+import extractHomeTeamData from "../parsing-helpers/extract-home-team-data";
+import extractAwayTeamData from "../parsing-helpers/extract-away-team-data";
+import extractAwayPlayerStats from "../parsing-helpers/extract-away-player-stats";
+import extractHomePlayerStats from "../parsing-helpers/extract-home-player-stats";
+import extractAwayGoalieStats from "../parsing-helpers/extract-away-goalie-stats";
+import extractHomeGoalieStats from "../parsing-helpers/extract-home-goalie-stats";
+import extractPenaltyData from "../parsing-helpers/extract-penalty-data";
+import extractOtherGameStats from "../parsing-helpers/extract-other-game-stats";
 
 async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
   return new Promise((resolve, reject) => {

@@ -2,9 +2,9 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import readGameStateFile from "@/utils/CSV-game-state/read-game-state-file";
+import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
 import Standings from "./Standings";
-import readBinaryGameState from "@/utils/game-state/read-game-state";
+import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
 import Boxscore from "../server/Boxscore/Boxscore";
 import TableButton from "../server/Buttons/TableButton";
 
