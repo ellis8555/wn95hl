@@ -2,7 +2,7 @@ import GameInputForm from "@/components/client/GameInputForm";
 
 export const metadata = {
   title: "wn95hl",
-  description: "Home of nhl 95 leagues",
+  description: "Test site for wn95hl",
 };
 
 export default function Home() {
