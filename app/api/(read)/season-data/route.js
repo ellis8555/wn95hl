@@ -1,5 +1,5 @@
-// requires 3 url params
-// league name, season number, and field to return from a season
+// returns entire seaon object if field is not defined
+// return field via field param that goes through a switch
 
 import { connectToDb } from "@/utils/database";
 import getSeasonsModel from "@/schemas/season/season";
@@ -93,6 +93,8 @@ export const GET = async (req, res) => {
         requestedData = recentlyPlayedGames;
 
         break;
+      default:
+        requestedData = seasonData;
     }
 
     return nextResponse(requestedData, 200, "GET");
