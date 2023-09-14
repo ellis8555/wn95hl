@@ -35,9 +35,13 @@ export const POST = async (req) => {
       seasonNumber: seasonNumber,
     });
     if (doesSeasonNumberAlreadyExist) {
-      return nextResponse({
-        message: "Season already exists. Use a new number",
-      });
+      return nextResponse(
+        {
+          message: "Season already exists. Use a new number",
+        },
+        400,
+        "POST"
+      );
     }
 
     // test games vs is a numerical character
