@@ -28,7 +28,7 @@ export const GET = async (req, res) => {
     const seasonData = await Season.findOne({ seasonNumber: seasonNumber });
     // extract teams array of team objects
     const teamsDictCodes = seasonData.teamsDictCodes;
-    let i = 0;
+
     return nextResponse(teamsDictCodes, 200, "GET");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "GET");
