@@ -27,8 +27,13 @@ export const GET = async (req, res) => {
     const Season = getSeasonsModel(leagueName);
     const seasonData = await Season.findOne({ seasonNumber: seasonNumber });
 
+    //////////////////////////////////////////////////////////////////////////
+    // switch takes field key from url params responds depending on the value
+    //////////////////////////////////////////////////////////////////////////
+
     // var that will hold the data that is returned depending on the case
     let requestedData;
+
     switch (getField) {
       // gets each teams 3 letter abbreviation
       case "teamsDictCodes":
