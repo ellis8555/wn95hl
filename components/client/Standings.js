@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { NextResponse } from "next/server";
 import Teamresults from "../server/standings/Teamresults";
 
 function Standings({
@@ -27,6 +26,8 @@ function Standings({
   const [isLoading, setIsLoading] = useState(true);
 
   function fetchLeagueTableData() {
+    let errorMessage;
+
     return new Promise((resolve, reject) => {
       try {
         const fetchTable = fetch(
@@ -38,14 +39,13 @@ function Standings({
           }
         );
         fetchTable
-          .then((response) => {
+          .then(async (response) => {
             if (!response.ok) {
-              return NextResponse.json({
-                message: "Error fetching the table data",
-              });
+              errorMessage = await response.json();
+              reject(errorMessage);
+            } else {
+              return response.json();
             }
-
-            return response.json();
           })
           .then((getStandingsAndLeagueStructure) => {
             // this data is an object containing standings array
@@ -54,6 +54,13 @@ function Standings({
               resolve(getStandingsAndLeagueStructure);
             } else {
               reject("There is no data for this season");
+            }
+          })
+          .catch((error) => {
+            if (errorMessage) {
+              reject(errorMessage);
+            } else {
+              reject(error);
             }
           });
       } catch (error) {
@@ -94,7 +101,7 @@ function Standings({
         setIsLoading(false);
       })
       .catch((error) => {
-        setServerMessage(error);
+        // setServerMessage(error);
         setIsLoading(false);
       });
   }, [updateStandings]);
@@ -166,7 +173,8 @@ function Standings({
           ) : (
             <tr>
               <td className="text-center" colSpan={tableCategories.length + 1}>
-                No games have been played
+                Season {seasonNumber} of the {leagueName.toUpperCase()} league
+                has zero games played yet
               </td>
             </tr>
           )}
