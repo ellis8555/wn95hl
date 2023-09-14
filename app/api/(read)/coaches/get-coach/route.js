@@ -4,8 +4,10 @@ import nextResponse from "@/utils/api/next-response";
 
 let db;
 
-export const POST = async (req) => {
-  const { name } = await req.json();
+export const GET = async (req) => {
+  const { searchParams } = new URL(req.url);
+
+  const name = searchParams.get("name");
 
   try {
     db = await connectToDb();
@@ -13,17 +15,14 @@ export const POST = async (req) => {
     const getCoach = await queryOneUser(name);
 
     if (!getCoach) {
-      return NextResponse.json(
+      return nextResponse(
         { message: "That coach was not found.." },
-        {
-          status: 404,
-        }
+        400,
+        "POST"
       );
     }
 
-    return NextResponse.json(getCoach, {
-      status: 200,
-    });
+    return nextResponse(getCoach, 200, "POST");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
