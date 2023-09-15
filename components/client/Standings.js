@@ -26,6 +26,7 @@ function Standings({
   const [isLoading, setIsLoading] = useState(true);
 
   function fetchLeagueTableData() {
+    // var to hold custom error response from api
     let errorMessage;
 
     return new Promise((resolve, reject) => {
