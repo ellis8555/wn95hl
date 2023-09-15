@@ -1,0 +1,608 @@
+[{
+  "_id": {
+    "$oid": "64d71770bf466fbb33e190b4"
+  },
+  "name": "Alberta",
+  "nickname": "Hax",
+  "teamAcronym": "AHC",
+  "coachId": {
+    "$oid": "64d3a3640ec0850b37587bdf"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T05:24:00.015Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-20T04:00:11.208Z"
+  },
+  "__v": 0,
+  "teamBanner": "AHCnew.png"
+},{
+  "_id": {
+    "$oid": "64d795c0847883dbf5374100"
+  },
+  "name": "Baytown",
+  "nickname": "Thunder",
+  "teamLogo": "BAY.png",
+  "teamAcronym": "BAY",
+  "teamBanner": "BAYnew.png",
+  "coachId": {
+    "$oid": "64d793f6f2d0bddea04bc4f0"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:22:56.332Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:22:56.332Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d796cd847883dbf5374106"
+  },
+  "name": "Autobahn",
+  "nickname": "Autobahn",
+  "teamLogo": "AUT.png",
+  "teamAcronym": "AUT",
+  "teamBanner": "AUTnew.png",
+  "coachId": {
+    "$oid": "64d7931df2d0bddea04bc4b0"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:27:25.296Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:27:25.296Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79716847883dbf537410c"
+  },
+  "name": "Caledonia",
+  "nickname": "Corvairs",
+  "teamLogo": "CDA.png",
+  "teamAcronym": "CDA",
+  "teamBanner": "CDAnew.png",
+  "coachId": {
+    "$oid": "64d79406f2d0bddea04bc4f6"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:28:38.747Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:28:38.747Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7975c847883dbf5374110"
+  },
+  "name": "Dinkleberg",
+  "nickname": "Dinkleberg",
+  "teamLogo": "DIN.png",
+  "teamAcronym": "DIN",
+  "teamBanner": "DINnew.png",
+  "coachId": {
+    "$oid": "64d793c4f2d0bddea04bc4de"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:29:48.345Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:29:48.345Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79788847883dbf5374114"
+  },
+  "name": "Hamilton",
+  "nickname": "Mustangs",
+  "teamLogo": "HAM.png",
+  "teamAcronym": "HAM",
+  "teamBanner": "HAMnew.png",
+  "coachId": {
+    "$oid": "64d793daf2d0bddea04bc4e7"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:30:32.303Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:30:32.303Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d797a9847883dbf5374118"
+  },
+  "name": "Highland",
+  "nickname": "Wolf",
+  "teamLogo": "HIG.png",
+  "teamAcronym": "HIG",
+  "teamBanner": "HIGnew.png",
+  "coachId": {
+    "$oid": "64d7933bf2d0bddea04bc4b9"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:31:05.176Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:31:05.176Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d797d1847883dbf537411c"
+  },
+  "name": "Hoth",
+  "nickname": "Wampas",
+  "teamLogo": "HOT.png",
+  "teamAcronym": "HOT",
+  "teamBanner": "HOTnew.png",
+  "coachId": {
+    "$oid": "64d45250559fc07a4b09bb8c"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:31:45.126Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:31:45.126Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d797ee847883dbf5374120"
+  },
+  "name": "Italy",
+  "nickname": "EBC",
+  "teamLogo": "ITA.png",
+  "teamAcronym": "ITA",
+  "teamBanner": "ITAnew.png",
+  "coachId": {
+    "$oid": "64d79325f2d0bddea04bc4b3"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:32:14.052Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:32:14.052Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79824847883dbf5374124"
+  },
+  "name": "International Falls",
+  "nickname": "Voyageurs",
+  "teamLogo": "IVF.png",
+  "teamAcronym": "IVF",
+  "teamBanner": "IVFnew.png",
+  "coachId": {
+    "$oid": "64d793b8f2d0bddea04bc4db"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:33:08.766Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:33:08.766Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7984c847883dbf5374128"
+  },
+  "name": "K-Vegas",
+  "nickname": "Kaos",
+  "teamLogo": "KVK.png",
+  "teamAcronym": "KVK",
+  "teamBanner": "KVKnew.png",
+  "coachId": {
+    "$oid": "64d79331f2d0bddea04bc4b6"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:33:48.743Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:33:48.743Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7988d847883dbf537412c"
+  },
+  "name": "Minnesota",
+  "nickname": "GoldenGopher",
+  "teamLogo": "MGG.png",
+  "teamAcronym": "MGG",
+  "teamBanner": "MGGnew.png",
+  "coachId": {
+    "$oid": "64d792d4f2d0bddea04bc4a0"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:34:53.464Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:34:53.464Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d798ab847883dbf5374130"
+  },
+  "name": "Maryhill",
+  "nickname": "Alumni",
+  "teamLogo": "MHA.png",
+  "teamAcronym": "MHA",
+  "teamBanner": "MHAnew.png",
+  "coachId": {
+    "$oid": "64d793d2f2d0bddea04bc4e4"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:35:23.101Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:35:23.101Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d798d2847883dbf5374134"
+  },
+  "name": "Minhattrick",
+  "nickname": "Swayzes",
+  "teamLogo": "MHT.png",
+  "teamAcronym": "MHT",
+  "teamBanner": "MHTnew.png",
+  "coachId": {
+    "$oid": "64d79309f2d0bddea04bc4aa"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:36:02.141Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:36:02.141Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d798ef847883dbf5374138"
+  },
+  "name": "North Bay",
+  "nickname": "Knights",
+  "teamLogo": "NBK.png",
+  "teamAcronym": "NBK",
+  "teamBanner": "NBKnew.png",
+  "coachId": {
+    "$oid": "64d79312f2d0bddea04bc4ad"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:36:31.631Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:36:31.631Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7992d847883dbf537413c"
+  },
+  "name": "Orange County",
+  "nickname": "Weststars",
+  "teamLogo": "OCW.png",
+  "teamAcronym": "OCW",
+  "teamBanner": "OCWnew.png",
+  "coachId": {
+    "$oid": "64d793cbf2d0bddea04bc4e1"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:37:33.686Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:37:33.686Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79952847883dbf5374140"
+  },
+  "name": "Pitt",
+  "nickname": "Intramurals",
+  "teamLogo": "PIT.png",
+  "teamAcronym": "PIT",
+  "teamBanner": "PITnew.png",
+  "coachId": {
+    "$oid": "64d79392f2d0bddea04bc4d1"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:38:10.090Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:38:10.090Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7997a847883dbf5374144"
+  },
+  "name": "Providence",
+  "nickname": "Sea Bass",
+  "teamLogo": "PRO.png",
+  "teamAcronym": "PRO",
+  "teamBanner": "PROnew.png",
+  "coachId": {
+    "$oid": "64d793b0f2d0bddea04bc4d8"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:38:50.185Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:38:50.185Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d799b3847883dbf5374148"
+  },
+  "name": "Renfrew",
+  "nickname": "Creamery Kings",
+  "teamLogo": "REN.png",
+  "teamAcronym": "REN",
+  "teamBanner": "RENnew.png",
+  "coachId": {
+    "$oid": "64d79365f2d0bddea04bc4c8"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:39:47.419Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:39:47.419Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d799d5847883dbf537414c"
+  },
+  "name": "Richfield",
+  "nickname": "Oracles",
+  "teamLogo": "RIC.png",
+  "teamAcronym": "RIC",
+  "teamBanner": "RICnew.png",
+  "coachId": {
+    "$oid": "64d79300f2d0bddea04bc4a7"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:40:21.178Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:40:21.178Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d799fc847883dbf5374150"
+  },
+  "name": "Rome",
+  "nickname": "Legionaires",
+  "teamLogo": "ROM.png",
+  "teamAcronym": "ROM",
+  "teamBanner": "ROMnew.png",
+  "coachId": {
+    "$oid": "64d793eff2d0bddea04bc4ed"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:41:00.940Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:41:00.940Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79a22847883dbf5374154"
+  },
+  "name": "Saguenay",
+  "nickname": "Aviateurs",
+  "teamLogo": "SAG.png",
+  "teamAcronym": "SAG",
+  "teamBanner": "SAGnew.png",
+  "coachId": {
+    "$oid": "64d793a6f2d0bddea04bc4d5"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:41:38.813Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:41:38.813Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79d3b847883dbf5374158"
+  },
+  "name": "San Diego",
+  "nickname": "Mavericks",
+  "teamLogo": "SDM.png",
+  "teamAcronym": "SDM",
+  "teamBanner": "SDMnew.png",
+  "coachId": {
+    "$oid": "64d3a7b28a9857a2ba0ea859"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:54:51.450Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:54:51.450Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79d71847883dbf537415c"
+  },
+  "name": "Sonoma",
+  "nickname": "Barrels",
+  "teamLogo": "SOV.png",
+  "teamAcronym": "SOV",
+  "teamBanner": "SOVnew.png",
+  "coachId": {
+    "$oid": "64d792f3f2d0bddea04bc4a4"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:55:45.549Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:55:45.549Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79da3847883dbf5374160"
+  },
+  "name": "Springfield",
+  "nickname": "Stonecutters",
+  "teamLogo": "SPG.png",
+  "teamAcronym": "SPG",
+  "teamBanner": "SPGnew.png",
+  "coachId": {
+    "$oid": "64d7936df2d0bddea04bc4cb"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:56:35.517Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:56:35.517Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79dc3847883dbf5374164"
+  },
+  "name": "Sumter",
+  "nickname": "Trash",
+  "teamLogo": "SUM.png",
+  "teamAcronym": "SUM",
+  "teamBanner": "SUMnew.png",
+  "coachId": {
+    "$oid": "64d7934cf2d0bddea04bc4bf"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:57:07.811Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:57:07.811Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79df5847883dbf5374168"
+  },
+  "name": "Sugar Valley",
+  "nickname": "Firebirds",
+  "teamLogo": "SVF.png",
+  "teamAcronym": "SVF",
+  "teamBanner": "SVFnew.png",
+  "coachId": {
+    "$oid": "64d793fcf2d0bddea04bc4f3"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:57:57.284Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:57:57.284Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79e22847883dbf537416c"
+  },
+  "name": "Sunnyvale",
+  "nickname": "Shithawks",
+  "teamLogo": "SUN.png",
+  "teamAcronym": "SUN",
+  "teamBanner": "SUNnew.png",
+  "coachId": {
+    "$oid": "64d79354f2d0bddea04bc4c2"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:58:42.421Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:58:42.421Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79e4f847883dbf5374170"
+  },
+  "name": "Taipei",
+  "nickname": "Typhoons",
+  "teamLogo": "TAI.png",
+  "teamAcronym": "TAI",
+  "teamBanner": "TAInew.png",
+  "coachId": {
+    "$oid": "64d793e3f2d0bddea04bc4ea"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T14:59:27.476Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:59:27.476Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79e73847883dbf5374174"
+  },
+  "name": "Thunder Bay",
+  "nickname": "Pike",
+  "teamLogo": "TBP.png",
+  "teamAcronym": "TBP",
+  "teamBanner": "TBPnew.png",
+  "coachId": {
+    "$oid": "64d79343f2d0bddea04bc4bc"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T15:00:03.508Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T15:00:03.508Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79ea2847883dbf5374178"
+  },
+  "name": "Tegucigalpa",
+  "nickname": "Ticklepuss",
+  "teamLogo": "THT.png",
+  "teamAcronym": "THT",
+  "teamBanner": "THTnew.png",
+  "coachId": {
+    "$oid": "64d79388f2d0bddea04bc4ce"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T15:00:50.958Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T15:00:50.958Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79ed4847883dbf537417c"
+  },
+  "name": "Ugandan",
+  "nickname": "Giants",
+  "teamLogo": "UGA.png",
+  "teamAcronym": "UGA",
+  "teamBanner": "UGAnew.png",
+  "coachId": {
+    "$oid": "64d7935df2d0bddea04bc4c5"
+  },
+  "createdAt": {
+    "$date": "2023-08-12T15:01:40.605Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T15:01:40.605Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,385 @@
+[{
+  "_id": {
+    "$oid": "64d3a3640ec0850b37587bdf"
+  },
+  "name": "Ellis",
+  "createdAt": {
+    "$date": "2023-08-09T14:32:04.279Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-09T14:32:04.279Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d3a7b28a9857a2ba0ea859"
+  },
+  "name": "Ultramagnus",
+  "createdAt": {
+    "$date": "2023-08-09T14:50:26.383Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-09T14:50:26.383Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d45250559fc07a4b09bb8c"
+  },
+  "name": "Ceydan",
+  "createdAt": {
+    "$date": "2023-08-10T02:58:24.794Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-10T02:58:24.794Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d792d4f2d0bddea04bc4a0"
+  },
+  "name": "Gaelicgopher",
+  "createdAt": {
+    "$date": "2023-08-12T14:10:28.487Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:10:28.487Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d792f3f2d0bddea04bc4a4"
+  },
+  "name": "NIUHuskie",
+  "createdAt": {
+    "$date": "2023-08-12T14:10:59.188Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:10:59.188Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79300f2d0bddea04bc4a7"
+  },
+  "name": "BClinton",
+  "createdAt": {
+    "$date": "2023-08-12T14:11:12.752Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:11:12.752Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79309f2d0bddea04bc4aa"
+  },
+  "name": "Segathon",
+  "createdAt": {
+    "$date": "2023-08-12T14:11:21.289Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:11:21.289Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79312f2d0bddea04bc4ad"
+  },
+  "name": "Unholy Grail",
+  "createdAt": {
+    "$date": "2023-08-12T14:11:30.605Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:11:30.605Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7931df2d0bddea04bc4b0"
+  },
+  "name": "Autobahn",
+  "createdAt": {
+    "$date": "2023-08-12T14:11:41.368Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:11:41.368Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79325f2d0bddea04bc4b3"
+  },
+  "name": "Mike Vick",
+  "createdAt": {
+    "$date": "2023-08-12T14:11:49.951Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:11:49.951Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79331f2d0bddea04bc4b6"
+  },
+  "name": "MattyA",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:01.831Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:01.831Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7933bf2d0bddea04bc4b9"
+  },
+  "name": "Wolf",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:11.179Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:11.179Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79343f2d0bddea04bc4bc"
+  },
+  "name": "ShawnBell",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:19.306Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:19.306Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7934cf2d0bddea04bc4bf"
+  },
+  "name": "Pink Elephants",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:28.371Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:28.371Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79354f2d0bddea04bc4c2"
+  },
+  "name": "MCline",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:36.412Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:36.412Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7935df2d0bddea04bc4c5"
+  },
+  "name": "JPizzle",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:45.835Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:45.835Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79365f2d0bddea04bc4c8"
+  },
+  "name": "LHX",
+  "createdAt": {
+    "$date": "2023-08-12T14:12:53.705Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:12:53.705Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d7936df2d0bddea04bc4cb"
+  },
+  "name": "Wolf Nuts",
+  "createdAt": {
+    "$date": "2023-08-12T14:13:01.533Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:13:01.533Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79388f2d0bddea04bc4ce"
+  },
+  "name": "Ticklepuss",
+  "createdAt": {
+    "$date": "2023-08-12T14:13:28.055Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:13:28.055Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79392f2d0bddea04bc4d1"
+  },
+  "name": "Adolf Oliver Nipples",
+  "createdAt": {
+    "$date": "2023-08-12T14:13:38.139Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:13:38.139Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793a6f2d0bddea04bc4d5"
+  },
+  "name": "Jeelock",
+  "createdAt": {
+    "$date": "2023-08-12T14:13:58.104Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:13:58.104Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793b0f2d0bddea04bc4d8"
+  },
+  "name": "Lloyd10xmas",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:08.769Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:08.769Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793b8f2d0bddea04bc4db"
+  },
+  "name": "TecmoJon",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:16.817Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:16.817Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793c4f2d0bddea04bc4de"
+  },
+  "name": "Dinkleberg",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:28.999Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:28.999Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793cbf2d0bddea04bc4e1"
+  },
+  "name": "MNYoda",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:35.322Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:35.322Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793d2f2d0bddea04bc4e4"
+  },
+  "name": "Red",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:42.212Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:42.212Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793daf2d0bddea04bc4e7"
+  },
+  "name": "Derek Sutton",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:50.387Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:50.387Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793e3f2d0bddea04bc4ea"
+  },
+  "name": "NathanMB",
+  "createdAt": {
+    "$date": "2023-08-12T14:14:59.779Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:14:59.779Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793eff2d0bddea04bc4ed"
+  },
+  "name": "SalvoTonic",
+  "createdAt": {
+    "$date": "2023-08-12T14:15:11.414Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:15:11.414Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793f6f2d0bddea04bc4f0"
+  },
+  "name": "Jer_33",
+  "createdAt": {
+    "$date": "2023-08-12T14:15:18.483Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:15:18.483Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d793fcf2d0bddea04bc4f3"
+  },
+  "name": "Chalk",
+  "createdAt": {
+    "$date": "2023-08-12T14:15:24.721Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:15:24.721Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64d79406f2d0bddea04bc4f6"
+  },
+  "name": "GOLFERGIB",
+  "createdAt": {
+    "$date": "2023-08-12T14:15:34.452Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-12T14:15:34.452Z"
+  },
+  "__v": 0
+}]
