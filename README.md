@@ -6,6 +6,12 @@
 
 ## Api notes
 
+Example api request that would return the standings field from what is in the w_seasons.json file (which is a collection in the database)
+
+```
+https://TheSitesWierdName/app/api/season-data?league=w&season-number=8&field=standings
+```
+
 - /api/(read)/season-data api is where we can request any data from a particular season. This data can be seen in './data/w_seasons.json'
 - season-data api takes in 3 parameters.
   - league name
