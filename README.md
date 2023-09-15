@@ -1,34 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Database files
 
-## Getting Started
+- I temp enabled the 'data' folder so you can load each json file with the ability to expand and collapse fields
+- Each file is exactly what I uploaded to the database
+- After you've cloned this branch we can add 'data' to .ignore
 
-First, run the development server:
+## Api notes
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- /api/(read)/season-data api is where we can request any data from a particular season. This data can be seen in './data/w_seasons.json'
+- season-data api takes in 3 parameters.
+  - league name
+  - season number
+  - field
+- inside of season-data api I have a switch statement that takes in the value from the field parameter. The idea is to return the requested field from the seasons collection.
+- currently I only have 3 switch cases created and they are
+  - standings (each teams record but NOT sorted yet. example a teams wins, losses, ties, etc...)
+  - teamsDictCodes (used for returning all the teams 3 letter codes required for the game parser)
+  - recent-results (used for displaying recent games in horizontal scoreboard)
