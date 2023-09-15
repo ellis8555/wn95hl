@@ -102,7 +102,9 @@ function Standings({
         setIsLoading(false);
       })
       .catch((error) => {
-        // setServerMessage(error);
+        // custom api error message flashes on screen then rerender removes it
+        // address setServerMessage in the future
+        // setServerMessage(error.message);
         setIsLoading(false);
       });
   }, [updateStandings]);
