@@ -6,6 +6,8 @@
 
 ## Api notes
 
+I've temp commented out an area that checks for duplicates and also something to do with scheduling. So as of now we can submit gamestates without them getting rejected which is good for testing.
+
 Example api request that would return the standings field from what is in the w_seasons.json file (which is a collection in the database)
 
 ```
