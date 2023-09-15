@@ -30,7 +30,7 @@ export const POST = async (req) => {
     // create new user
     const newUser = await createNewUser(name);
 
-    return nextResponse(newUser, 200, "POST");
+    return nextResponse({ message: `${name} has been added` }, 200, "POST");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
