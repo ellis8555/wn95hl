@@ -215,19 +215,23 @@ export const POST = async (req, res) => {
     getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
     getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
 
-    await getLeagueModel.updateOne(
-      {
-        _id: getSeasonData._id,
-      },
-      {
-        $set: {
-          [`teams.${homeTeamsObjectIndex}.schedule.home`]:
-            getHomeTeamsHomeSchedule,
-          [`teams.${awayTeamsObjectIndex}.schedule.away`]:
-            getAwayTeamsHomeSchedule,
-        },
-      }
-    );
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // the following removes teams from a teams schedules.
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    // await getLeagueModel.updateOne(
+    //   {
+    //     _id: getSeasonData._id,
+    //   },
+    //   {
+    //     $set: {
+    //       [`teams.${homeTeamsObjectIndex}.schedule.home`]:
+    //         getHomeTeamsHomeSchedule,
+    //       [`teams.${awayTeamsObjectIndex}.schedule.away`]:
+    //         getAwayTeamsHomeSchedule,
+    //     },
+    //   }
+    // );
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
