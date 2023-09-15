@@ -24,8 +24,8 @@ export const GET = async (req, res) => {
     if (!doesSeasonExist) {
       throw new Error(`Season ${seasonNumber} has not been found`);
     }
-    const Season = getSeasonsModel(leagueName);
-    const seasonData = await Season.findOne({ seasonNumber: seasonNumber });
+    const League = getSeasonsModel(leagueName);
+    const seasonData = await League.findOne({ seasonNumber: seasonNumber });
 
     //////////////////////////////////////////////////////////////////////////
     // switch takes field key from url params responds depending on the value
