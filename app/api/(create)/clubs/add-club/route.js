@@ -35,7 +35,11 @@ export const POST = async (req) => {
     });
     await addClub.save();
 
-    return nextResponse(addClub, 200, "POST");
+    return nextResponse(
+      { message: `The ${name} ${nickname} have been added` },
+      200,
+      "POST"
+    );
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
