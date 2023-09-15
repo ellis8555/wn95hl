@@ -12,7 +12,7 @@ Example api request that would return the standings field from what is in the w_
 https://TheSitesWierdName/app/api/season-data?league=w&season-number=8&field=standings
 ```
 
-- /api/(read)/season-data api is where we can request any data from a particular season. This data can be seen in './data/w_seasons.json'
+- /api/(read)/season-data api is where we can request any data from a particular season.
 - season-data api takes in 3 parameters.
   - league name
   - season number
@@ -22,3 +22,4 @@ https://TheSitesWierdName/app/api/season-data?league=w&season-number=8&field=sta
   - standings (each teams record but NOT sorted yet. example a teams wins, losses, ties, etc...)
   - teamsDictCodes (used for returning all the teams 3 letter codes required for the game parser)
   - recent-results (used for displaying recent games in horizontal scoreboard)
+    So you can replace 'standings' in the above URL with the just mentioned values
