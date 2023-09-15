@@ -1,6 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import getSeasonsModel from "@/schemas/season/season";
 import nextResponse from "@/utils/api/next-response";
+import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-for-a-season";
 
 let db;
 
@@ -11,6 +12,15 @@ export const PATCH = async (req, res) => {
 
   try {
     db = await connectToDb();
+
+    const doesSeasonExist = await queryForIfSeasonExists(
+      leagueName,
+      seasonNumber
+    );
+
+    if (!doesSeasonExist) {
+      throw new Error(`Season ${seasonNumber} has not been found`);
+    }
 
     const getLeaguesModel = getSeasonsModel(leagueName);
     const fetchSeason = await getLeaguesModel.findOne({
@@ -30,16 +40,13 @@ export const PATCH = async (req, res) => {
       });
     });
 
-    // create empty array to replace previous game entries
-    const emptySeasonsGames = [];
-
     // update the database
     await getLeaguesModel.updateOne(
       { _id: seasonData._id },
       {
         $set: {
           standings: teamsRecords,
-          seasonGames: emptySeasonsGames,
+          seasonGames: [],
           startDate: null,
         },
       }
