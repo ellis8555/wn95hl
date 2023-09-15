@@ -96,8 +96,8 @@ export const POST = async (req, res) => {
       );
     }
 
-    const getSeasonModel = getSeasonsModel(currentLeague);
-    const Season = await getSeasonModel.findOne({
+    const getLeagueModel = getSeasonsModel(currentLeague);
+    const Season = await getLeagueModel.findOne({
       seasonNumber: currentSeason,
     });
 
@@ -215,7 +215,7 @@ export const POST = async (req, res) => {
     getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
     getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
 
-    await getSeasonModel.updateOne(
+    await getLeagueModel.updateOne(
       {
         _id: getSeasonData._id,
       },
@@ -236,7 +236,7 @@ export const POST = async (req, res) => {
     // check if season Start date has been set in the db
     // first game entry is the starting point for a season
     if (getSeasonData.startDate == null)
-      await getSeasonModel.updateOne(
+      await getLeagueModel.updateOne(
         {
           _id: getSeasonData._id,
         },
@@ -255,7 +255,7 @@ export const POST = async (req, res) => {
 
     // subtract one as this game state has yet to be added so the count will be less one at this point
     if (getCurrentTotalGamesPlayed === getTotalGamesToBePlayed - 1) {
-      await getSeasonModel.updateOne(
+      await getLeagueModel.updateOne(
         {
           _id: getSeasonData._id,
         },
@@ -271,7 +271,7 @@ export const POST = async (req, res) => {
     // add the game file to season games array of game results to the database
     getSeasonGames.push(data);
 
-    await getSeasonModel.updateOne(
+    await getLeagueModel.updateOne(
       {
         _id: getSeasonData._id,
       },
@@ -399,7 +399,7 @@ export const POST = async (req, res) => {
     // update the database
     //////////////////////
 
-    await getSeasonModel.updateOne(
+    await getLeagueModel.updateOne(
       {
         _id: getSeasonData._id,
       },
