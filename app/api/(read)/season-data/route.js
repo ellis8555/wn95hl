@@ -22,7 +22,11 @@ export const GET = async (req, res) => {
     );
 
     if (!doesSeasonExist) {
-      throw new Error(`Season ${seasonNumber} has not been found`);
+      return nextResponse(
+        { message: `Season ${seasonNumber} has not been found` },
+        500,
+        "GET"
+      );
     }
     const League = getSeasonsModel(leagueName);
     const seasonData = await League.findOne({ seasonNumber: seasonNumber });
