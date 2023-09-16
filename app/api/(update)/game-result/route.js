@@ -19,6 +19,16 @@ export const POST = async (req, res) => {
   let currentSeason;
   // if the file is not of csv type then process a game state file
   if (!fileName.includes("WN95HL_Game_Stats.csv")) {
+    /////////////////////////////////////////////////////////////////////
+    // TEMP addition for unexpted file name for trade deadline ROM
+    // testing for file name includes '2002TD' is temp fix
+    /////////////////////////////////////////////////////////////////////
+
+    if (fileName.includes("2002TD")) {
+      currentLeague = "W";
+      currentSeason = "8";
+    }
+
     // get currentSeason from the fileName if W league
     // sample file name WS9.state1
     if (fileName[0] === "W") {
