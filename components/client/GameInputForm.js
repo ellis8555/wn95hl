@@ -39,6 +39,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
     e.preventDefault();
 
     const file = fileInputRef.current.files[0];
+    const fileName = file.name;
 
     if (!file) {
       alert("No file selected");
@@ -53,7 +54,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
     try {
       const fetchedCSVData = [];
 
-      if (file.name === "WN95HL_Game_Stats.csv") {
+      if (fileName === "WN95HL_Game_Stats.csv") {
         // this returns all the parsed game data
         const fetchedGameData = await readGameStateFile(
           file,
@@ -97,9 +98,14 @@ function GameInputForm({ leagueName, seasonNumber }) {
         }
       }
 
+      ///////////////////////////////////////////////
+      // temp fix for unexpected file name
+      // ' || fileName.includes('2002TD') is temp
+      ///////////////////////////////////////////////
+
       // pattern to test filename for acceptance
       const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
-      if (statePattern.test(file.name)) {
+      if (statePattern.test(fileName) || fileName.includes("2002TD")) {
         // get the teams registered to this league
         const response = await fetch(
           `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=teamsDictCodes`,
@@ -129,6 +135,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
         );
         fetchedCSVData.push(fetchedGameData);
         setGameData(fetchedCSVData[0]);
+      } else {
+        setServerMessage("File name is not associated with a league yet");
       }
     } catch (error) {
       fileInputRef.current.value = "";
