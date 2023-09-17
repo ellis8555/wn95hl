@@ -29,9 +29,24 @@ export const POST = async (req, res) => {
       currentSeason = "8";
     }
 
+    /////////////////////////////////////////////////////////////////////
+    // TEMP reject game states from before trade deadline
+    // files named 'ws8.state64' temp disabled till seasson ends
+    /////////////////////////////////////////////////////////////////////
+
     // get currentSeason from the fileName if W league
     // sample file name WS9.state1
     if (fileName[0] === "W") {
+      /////////////////////////////////////////////////////////////////////
+      // temp return message informing user normal states disabled
+      /////////////////////////////////////////////////////////////////////
+
+      return nextResponse(
+        { message: "Currently only trade deadline game states being accepted" },
+        400,
+        "POST"
+      );
+
       currentLeague = fileName[0];
       const getTheDot = fileName.indexOf(".");
       if (getTheDot == 3) {
