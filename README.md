@@ -28,8 +28,6 @@ https://TheSitesWierdName/app/api/season-data?league=w&season-number=8&field=sta
 
 ## Other notes
 
-A beginning thought is I think we should blank the home page and start with all new components. I do feel the api is a good starting point. Also I'd def leave the schemas folder and just make changes. Same with the utils folder.
-
 Inside of the utils folder is a subfolder tables and the methods inside here are used when a gamestate is uploaded. The two teams that are in the gamestate use these methods to increment there standings object. Example GP (games played is incremented by one) There is a method in dealing with each teams standings and here is where more stats can be added. Such as Goals against average or whatever...
 
 The game parser I was given was a python file and in it are some variables that contain 'Dict' in the name so I kept them in places though they are python related but whatever.
