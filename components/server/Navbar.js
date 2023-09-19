@@ -5,7 +5,7 @@ import { FaSignInAlt } from "react-icons/fa";
 function Navbar() {
   return (
     <>
-      <nav className="flex flex-row gap-4 justify-between bg-slate-800 mb-2 p-2">
+      <nav className="flex flex-row gap-4 justify-between bg-slate-800 mb-2 p-2 sticky top-0">
         <ul className="flex flex-row">
           <li>
             <Link href="/">
