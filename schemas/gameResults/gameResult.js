@@ -22,6 +22,7 @@ const GameResultSchema = new Schema(
       faceOffs: String,
       ["GAME LENGTH"]: String,
       uniqueGameId: String,
+      submittedAt: Date,
     },
     allGoalsScored: [goalsScoredSchema],
     allPenalties: [penaltiesTakenSchema],
