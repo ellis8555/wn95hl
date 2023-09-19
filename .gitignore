@@ -36,8 +36,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# db json files and game states
-/data
-
 # python files
 *.py
