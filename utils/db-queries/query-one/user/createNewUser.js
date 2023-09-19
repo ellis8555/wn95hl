@@ -1,7 +1,7 @@
 import User from "@/schemas/user";
 
-const createNewUser = async (userName) => {
-  const newUser = await new User({ name: userName });
+const createNewUser = async (userName, isAdmin) => {
+  const newUser = await new User({ name: userName, isAdmin: isAdmin });
   return await newUser.save();
 };
 
