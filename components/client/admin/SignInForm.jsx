@@ -19,11 +19,14 @@ function SignInForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (userName == null) {
+    if (userName == null || userName === "") {
+      setIsAdmin(false);
+      setResponseMessage(null);
       return;
     }
 
     try {
+      setResponseMessage("Loading...");
       const response = await fetch(`/api/coaches/get-coach?name=${userName}`);
       if (!response.ok) {
         const responseError = await response.json();
