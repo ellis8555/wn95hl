@@ -107,4 +107,7 @@ function extractOtherGameStats(gameData, seasonNumber, gameType, leagueName) {
   return otherStatDetails;
 }
 
+// set timestamp on upload
+otherStatDetails["submittedAt"] = Date.now();
+
 export default extractOtherGameStats;
