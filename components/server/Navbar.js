@@ -14,6 +14,7 @@ function Navbar() {
                 alt="NHL 95 online"
                 width={200}
                 height={200}
+                style={{ height: "auto", width: "auto" }}
                 priority
               />
             </Link>
