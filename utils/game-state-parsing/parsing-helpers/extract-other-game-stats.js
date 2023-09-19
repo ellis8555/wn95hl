@@ -104,6 +104,9 @@ function extractOtherGameStats(gameData, seasonNumber, gameType, leagueName) {
     otherStatDetails["overtimeLossTeam"] = "";
   }
 
+  // set timestamp on upload
+  otherStatDetails["submittedAt"] = Date.now();
+
   return otherStatDetails;
 }
 
