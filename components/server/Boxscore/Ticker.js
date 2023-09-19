@@ -49,7 +49,9 @@ function Ticker({ gameData, index, gameDateIndexes }) {
     let date;
     if (gameDateIndexes.includes(index)) {
       isNewGameDate = true;
-      const getGameTimestamp = Date.parse(gameData.createdAt);
+      const getGameTimestamp =
+        Date.parse(gameData.otherGameStats.submittedAt) ||
+        new Date("2022-09-17");
       const dateOfGame = new Date(getGameTimestamp);
       month = months[dateOfGame.getMonth()];
       date = dateOfGame.getDate();

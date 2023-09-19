@@ -7,13 +7,15 @@ function Boxscore({ recentGameResults, isStateUploaded }) {
   const gameDates = [0];
 
   if (recentGameResults.length > 0) {
-    const firstGameTimestampInTicker = Date.parse(
-      recentGameResults[0].createdAt
-    );
+    const firstGameTimestamp =
+      recentGameResults[0].otherGameStats.submittedAt || new Date("2022-09-17");
+    const firstGameTimestampInTicker = Date.parse(firstGameTimestamp);
     gamesDate = new Date(firstGameTimestampInTicker);
     gamesDay = gamesDate.getDate();
     recentGameResults.forEach((game, index) => {
-      const gameTimestampTicker = Date.parse(game.createdAt);
+      const gameTimestampTicker = Date.parse(
+        game.otherGameStats.submittedAt || new Date("2022-09-17")
+      );
       const thisGamesDate = new Date(gameTimestampTicker);
       const thisGamesDay = thisGamesDate.getDate();
 
