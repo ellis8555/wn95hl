@@ -6,7 +6,7 @@ import nextResponse from "@/utils/api/next-response";
 let db;
 
 export const POST = async (req) => {
-  const { name } = await req.json();
+  const { name, isAdmin } = await req.json();
 
   // return if no username input
   if (!name) {
@@ -28,7 +28,7 @@ export const POST = async (req) => {
     }
 
     // create new user
-    const newUser = await createNewUser(name);
+    await createNewUser(name, isAdmin);
 
     return nextResponse({ message: `${name} has been added` }, 200, "POST");
   } catch (error) {
