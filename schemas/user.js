@@ -7,6 +7,13 @@ const UserSchema = new Schema(
       required: [true, "A name is required.."],
       unique: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    password: {
+      type: String,
+    },
   },
   {
     timestamps: true,
