@@ -1,21 +1,21 @@
 ## Database files
 
-- I temp enabled the 'data' folder so you can load each json file with the ability to expand and collapse fields
+- I temp removed the 'data' folder from .ignore so you can have each collection that is currently in the database.
 - Each file is exactly what I uploaded to the database
-- After you've cloned this branch we can add 'data' to .ignore
+- After you've cloned then you could add '/data' to .ignore file
 
 ## Api notes
 
 I've temp commented out an area that checks for duplicates and also something to do with scheduling. So as of now we can submit gamestates without them getting rejected which is good for testing.
 
-Example api request that would return the standings field from what is in the w_seasons.json file (which is a collection in the database)
+Here is an api request that would return the standings field from what is in the w_seasons.json file (which is a collection in the database)
 
 ```
 https://TheSitesWierdName/app/api/season-data?league=w&season-number=8&field=standings
 ```
 
 - /api/(read)/season-data api is where we can request any data from a particular season.
-- season-data api takes in 3 parameters.
+- season-data api takes in 3 parameters for now.
   - league name
   - season number
   - field
