@@ -22,10 +22,10 @@ function Navbar() {
         </ul>
         <ul className="flex flex-row gap-4 items-center">
           <li>
-            <Link href="Standings">Standings</Link>
+            <Link href="standings">Standings</Link>
           </li>
           <li>
-            <Link href="SignIn">
+            <Link href="sign-in">
               <FaSignInAlt />
             </Link>
           </li>
