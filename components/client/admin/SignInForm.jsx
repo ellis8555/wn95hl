@@ -41,7 +41,7 @@ function SignInForm() {
       if (user.isAdmin) {
         // check if user has set a password
         if (user.password) {
-          setUserMessage(`Admin ${user.name}`);
+          setUserMessage(`${user.name} your password is ${user.password}`);
         } else {
           // if password field is not blank then submit users password to be validated and saved
           if (userPassword) {
@@ -88,7 +88,9 @@ function SignInForm() {
   return (
     <div className="flex flex-col w-1/2 mx-auto mt-48">
       {userMessage && (
-        <div className="text-center text-2xl mb-4">{userMessage}</div>
+        <div className="text-center text-2xl mb-4 break-words">
+          {userMessage}
+        </div>
       )}
       <form
         onSubmit={handleSubmit}
