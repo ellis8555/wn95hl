@@ -7,6 +7,9 @@ function SignInForm() {
   const [userPassword, setUserPassword] = useState(null);
   const [showSetPassword, setShowSetPassword] = useState(false);
   const [newPassword, setNewPassword] = useState(null);
+  const [adminDefaultPassword, setAdminDefaultPassword] = useState(
+    `${process.env.NEXT_PUBLIC_REACT_APP_DEFAULT_USER_PASSWORD}`
+  );
   const [userMessage, setUserMessage] = useState("");
 
   // get name input
@@ -50,13 +53,13 @@ function SignInForm() {
       if (user.isAdmin) {
         // check if user has set a password
         if (user.password != undefined) {
-          if (user.password !== "nhl95") {
+          if (user.password !== adminDefaultPassword) {
             setUserMessage(`${user.name} your password is ${user.password}`);
           } else {
             // if password field is not blank then submit users password to be validated and saved
             if (userPassword) {
               // if user has had default password assigned by admin and correctly enters in the password
-              if (userPassword === "nhl95") {
+              if (userPassword === adminDefaultPassword) {
                 setUserMessage("set a new password");
                 setShowSetPassword(true);
                 // if user is admin, has had default password set and correctly enters it they now can reset there password
