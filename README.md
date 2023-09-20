@@ -1,6 +1,6 @@
 ## Database files
 
-- I temp removed the 'data' folder from .ignore so you can have each collection that is currently in the database.
+- data folder contains json files that represent collections in the database
 - Each file is exactly what I uploaded to the database
 - ~~After you've cloned then you could add '/data' to .ignore file~~
 - If adding a new field in a db collection then reflect that in '/data/\*.json' files to reflect how the db currently is defined
