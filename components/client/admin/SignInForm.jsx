@@ -55,9 +55,11 @@ function SignInForm() {
           } else {
             // if password field is not blank then submit users password to be validated and saved
             if (userPassword) {
+              // if user has had default password assigned by admin and correctly enters in the password
               if (userPassword === "nhl95") {
                 setUserMessage("set a new password");
                 setShowSetPassword(true);
+                // if user is admin, has had default password set and correctly enters it they now can reset there password
                 if (showSetPassword) {
                   const response = await fetch("/api/admin/register/", {
                     method: "POST",
@@ -77,6 +79,7 @@ function SignInForm() {
 
                   const userCredentials = await response.json();
 
+                  // reset state variables once password reset is complete
                   setUserMessage(userCredentials.message);
                   setShowSetPassword(false);
                   setUserPassword(null);
