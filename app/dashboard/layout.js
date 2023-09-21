@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
+import { GetAuthorizationStatus } from "../layout";
 import { useRouter } from "next/navigation";
 
 function DashboardLayout({ children }) {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const getAuthorizationContext = useContext(GetAuthorizationStatus);
+
   const router = useRouter();
 
   // validate user before displaying dashbard pate
@@ -16,11 +18,11 @@ function DashboardLayout({ children }) {
         router.push("/sign-in");
         return;
       }
-      setIsAuthorized(true);
+      getAuthorizationContext.setIsAuthorized(true);
     })();
   }, [router]);
 
-  if (!isAuthorized) {
+  if (!getAuthorizationContext.isAuthorized) {
     return <p>Authorizing...</p>;
   }
 
@@ -37,7 +39,7 @@ async function getUser() {
     const response = await fetch("/api/admin/auth");
 
     if (!response.ok) {
-      setIsAuthorized(false);
+      getAuthorizationContext.setIsAuthorized(false);
     }
 
     const data = await response.json();

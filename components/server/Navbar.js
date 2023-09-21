@@ -3,12 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useState } from "react";
+import { GetAuthorizationStatus } from "@/app/layout";
+import { useContext } from "react";
 
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const getAuthorizationContext = useContext(GetAuthorizationStatus);
 
   return (
     <>
@@ -31,8 +32,10 @@ function Navbar() {
           <li>
             <Link href="standings">Standings</Link>
           </li>
-          {isAuthorized && <Link href="dashboard">Dashboard</Link>}
-          {isAuthorized ? (
+          {getAuthorizationContext.isAuthorized && (
+            <Link href="dashboard">Dashboard</Link>
+          )}
+          {getAuthorizationContext.isAuthorized ? (
             <li>
               <Link href="sign-in">
                 <FaSignOutAlt className="text-blue-600" />
