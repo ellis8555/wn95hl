@@ -1,7 +1,14 @@
+"use client";
+
 import "./globals.css";
+
+// hook imports
+import { useState, createContext } from "react";
 
 // component imports
 import Navbar from "@/components/server/Navbar";
+
+export const GetAuthorizationStatus = createContext();
 
 export const metadata = {
   title: "NHL 95",
@@ -9,11 +16,17 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
+        <GetAuthorizationStatus.Provider
+          value={{ isAuthorized, setIsAuthorized }}
+        >
+          <Navbar />
+          {children}
+        </GetAuthorizationStatus.Provider>
       </body>
     </html>
   );
