@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 function SignInForm() {
   const [name, setName] = useState(null);
@@ -8,7 +9,7 @@ function SignInForm() {
   const [showSetPassword, setShowSetPassword] = useState(false);
   const [newPassword, setNewPassword] = useState(null);
   const [adminDefaultPassword, setAdminDefaultPassword] = useState(
-    `${process.env.NEXT_PUBLIC_REACT_APP_DEFAULT_USER_PASSWORD}`
+    process.env.NEXT_PUBLIC_REACT_APP_DEFAULT_USER_PASSWORD
   );
   const [userMessage, setUserMessage] = useState("");
 
@@ -18,6 +19,9 @@ function SignInForm() {
   const passwordInput = useRef();
   // get set password input
   const setPasswordInput = useRef();
+
+  // for navigation redirects
+  const router = useRouter();
 
   // form submit button pressed
   const handleSubmit = async (e) => {
@@ -32,11 +36,16 @@ function SignInForm() {
     // sign user in if they have admin rights
     try {
       // display correct user message depending on action
-      if (showSetPassword) {
-        // if user is authorized and re setting there password
+      if (showSetPassword && newPassword) {
+        // if user is authorized and re new password field is not blank
         setUserMessage("Setting new password...");
-      } else {
+      } else if (showSetPassword && newPassword == null) {
+        // if user is authorized and new password field is empty
+        setUserMessage("new password field is blank");
+      } else if (!showSetPassword) {
         setUserMessage("Loading...");
+      } else {
+        setUserMessage(userMessage);
       }
       // get user
       const response = await fetch(`/api/coaches/get-coach?name=${name}`);
@@ -53,8 +62,44 @@ function SignInForm() {
       if (user.isAdmin) {
         // check if user has set a password
         if (user.password != undefined) {
-          if (user.password !== adminDefaultPassword) {
-            setUserMessage(`${user.name} your password is ${user.password}`);
+          // check if user is still on default password
+          if (user.password != adminDefaultPassword) {
+            // all checks passed attempt to login
+            const response = await fetch("/api/admin/login/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: user.name,
+                password: userPassword,
+              }),
+            });
+
+            // user not authenticated
+            if (!response.ok) {
+              const responseError = await response.json();
+              throw new Error(responseError.message);
+            }
+
+            const getAuthResponse = await fetch("/api/admin/auth");
+            // user not authenticated
+            if (!getAuthResponse.ok) {
+              const responseError = await getAuthResponse.json();
+              throw new Error(responseError.message);
+            }
+
+            // reset state variables once password reset is complete
+            setUserMessage("");
+            setShowSetPassword(false);
+            setUserPassword(null);
+            setNewPassword(null);
+            setName(null);
+            nameInput.current.value = "";
+            passwordInput.current.value = "";
+
+            // finally redirect the authorized user to the dashboard
+            router.push("/dashboard");
           } else {
             // if password field is not blank then submit users password to be validated and saved
             if (userPassword) {
@@ -64,32 +109,36 @@ function SignInForm() {
                 setShowSetPassword(true);
                 // if user is admin, has had default password set and correctly enters it they now can reset there password
                 if (showSetPassword) {
-                  const response = await fetch("/api/admin/register/", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      name: user.name,
-                      password: newPassword,
-                    }),
-                  });
+                  if (newPassword) {
+                    const response = await fetch("/api/admin/register/", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        name: user.name,
+                        password: newPassword,
+                      }),
+                    });
 
-                  if (!response.ok) {
-                    const responseError = await response.json();
-                    throw new Error(responseError.message);
+                    if (!response.ok) {
+                      const responseError = await response.json();
+                      throw new Error(responseError.message);
+                    }
+
+                    const userCredentials = await response.json();
+
+                    // reset state variables once password reset is complete
+                    setUserMessage(userCredentials.message);
+                    setShowSetPassword(false);
+                    setUserPassword(null);
+                    setNewPassword(null);
+                    setName(null);
+                    nameInput.current.value = "";
+                    passwordInput.current.value = "";
+                  } else {
+                    throw new Error("new password field is blank");
                   }
-
-                  const userCredentials = await response.json();
-
-                  // reset state variables once password reset is complete
-                  setUserMessage(userCredentials.message);
-                  setShowSetPassword(false);
-                  setUserPassword(null);
-                  setNewPassword(null);
-                  setName(null);
-                  nameInput.current.value = "";
-                  passwordInput.current.value = "";
                 }
               } else {
                 throw new Error(
