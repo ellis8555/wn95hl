@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 import bcrypt from "bcrypt";
 import validator from "validator";
+import createToken from "@/utils/api/create-token";
 
 const UserSchema = new Schema(
   {
@@ -22,7 +23,7 @@ const UserSchema = new Schema(
   }
 );
 
-// signup method on user objects
+// password change for user
 UserSchema.statics.changePassword = async function (name, password) {
   // validate
   if (!name || !password) {
@@ -40,6 +41,28 @@ UserSchema.statics.changePassword = async function (name, password) {
   user.password = hash;
 
   await user.save();
+
+  return user;
+};
+
+UserSchema.statics.login = async function (name, password) {
+  console.log(name);
+  // validate
+  if (!name || !password) {
+    throw new Error("Both fields need to be filled");
+  }
+
+  const user = await this.findOne({ name });
+
+  if (!user) {
+    throw new Error("User is not registered");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    throw new Error("Credentials not authorized");
+  }
 
   return user;
 };
