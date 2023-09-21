@@ -89,7 +89,7 @@ function SignInForm() {
               throw new Error(responseError.message);
             }
 
-            // reset state variables once password reset is complete
+            // reset state variables once before directing the user to dashboard
             setUserMessage("");
             setShowSetPassword(false);
             setUserPassword(null);
