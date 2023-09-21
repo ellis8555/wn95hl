@@ -4,7 +4,7 @@ function SignIn() {
   return (
     <>
       <div className="text-2xl text-center mt-6 text-orange-400">
-        Under construction
+        Admin login
       </div>
       <SignInForm />
     </>
