@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
-  const getAuthorizationContext = useContext(GetAuthorizationStatus);
+  const { isAuthorized } = useContext(GetAuthorizationStatus);
 
   return (
     <>
@@ -32,10 +32,8 @@ function Navbar() {
           <li>
             <Link href="standings">Standings</Link>
           </li>
-          {getAuthorizationContext.isAuthorized && (
-            <Link href="dashboard">Dashboard</Link>
-          )}
-          {getAuthorizationContext.isAuthorized ? (
+          {isAuthorized && <Link href="dashboard">Dashboard</Link>}
+          {isAuthorized ? (
             <li>
               <Link href="sign-in">
                 <FaSignOutAlt className="text-blue-600" />
