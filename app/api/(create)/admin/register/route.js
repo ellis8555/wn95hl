@@ -16,7 +16,7 @@ export const POST = async (req) => {
     const token = createToken(user._id);
 
     return nextResponse(
-      { message: "Password has been created", token },
+      { message: "Password has been changed", token },
       200,
       "POST"
     );
