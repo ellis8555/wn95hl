@@ -12,8 +12,6 @@ function DashboardLayout({ children }) {
     (async () => {
       const { user, error } = await getUser();
 
-      console.log(user);
-
       if (error) {
         router.push("/sign-in");
         return;

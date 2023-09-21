@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { FaSignInAlt } from "react-icons/fa";
+
+import { useState } from "react";
+
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   return (
     <>
       <nav className="flex flex-row gap-4 justify-between bg-slate-800 mb-2 p-2 sticky top-0">
@@ -24,11 +31,20 @@ function Navbar() {
           <li>
             <Link href="standings">Standings</Link>
           </li>
-          <li>
-            <Link href="sign-in">
-              <FaSignInAlt />
-            </Link>
-          </li>
+          {isAuthorized && <Link href="dashboard">Dashboard</Link>}
+          {isAuthorized ? (
+            <li>
+              <Link href="sign-in">
+                <FaSignOutAlt className="text-blue-600" />
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <Link href="sign-in">
+                <FaSignInAlt className="text-orange-400" />
+              </Link>
+            </li>
+          )}
         </ul>
       </nav>
     </>
