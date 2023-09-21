@@ -1,0 +1,39 @@
+import { cookies } from "next/headers";
+import { connectToDb } from "@/utils/database";
+import createToken from "@/utils/api/create-token";
+import nextResponse from "@/utils/api/next-response";
+import User from "@/schemas/user";
+
+let db;
+
+export const POST = async (req) => {
+  const { name, password } = await req.json();
+  const cookieStore = cookies();
+
+  try {
+    db = await connectToDb();
+
+    const user = await User.login(name, password);
+
+    const token = createToken(user._id);
+
+    const responseCookie = cookieStore.set("auth", token, {
+      httpOnly: true,
+      SameSite: "Strict",
+      path: "/",
+    });
+
+    return nextResponse(
+      { message: `${user.name} you are now logged in` },
+      200,
+      "POST",
+      responseCookie
+    );
+  } catch (error) {
+    return nextResponse({ message: error.message }, 500, "POST");
+  } finally {
+    if (db) {
+      db.close();
+    }
+  }
+};
