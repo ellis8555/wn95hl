@@ -5,7 +5,7 @@ import { GetAuthorizationStatus } from "../layout";
 import { useRouter } from "next/navigation";
 
 function DashboardLayout({ children }) {
-  const getAuthorizationContext = useContext(GetAuthorizationStatus);
+  const { isAuthorized, setIsAuthorized } = useContext(GetAuthorizationStatus);
 
   const router = useRouter();
 
@@ -18,11 +18,11 @@ function DashboardLayout({ children }) {
         router.push("/sign-in");
         return;
       }
-      getAuthorizationContext.setIsAuthorized(true);
+      setIsAuthorized(true);
     })();
   }, [router]);
 
-  if (!getAuthorizationContext.isAuthorized) {
+  if (!isAuthorized) {
     return <p>Authorizing...</p>;
   }
 
@@ -39,7 +39,7 @@ async function getUser() {
     const response = await fetch("/api/admin/auth");
 
     if (!response.ok) {
-      getAuthorizationContext.setIsAuthorized(false);
+      setIsAuthorized(false);
     }
 
     const data = await response.json();
