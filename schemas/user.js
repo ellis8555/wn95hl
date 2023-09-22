@@ -1,7 +1,6 @@
 import { Schema, model, models } from "mongoose";
 import bcrypt from "bcrypt";
 import validator from "validator";
-import createToken from "@/utils/api/create-token";
 
 const UserSchema = new Schema(
   {
@@ -46,7 +45,6 @@ UserSchema.statics.changePassword = async function (name, password) {
 };
 
 UserSchema.statics.login = async function (name, password) {
-  console.log(name);
   // validate
   if (!name || !password) {
     throw new Error("Both fields need to be filled");
