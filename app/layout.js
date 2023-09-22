@@ -1,15 +1,12 @@
 "use client";
 
 import "./globals.css";
-import { AUTH_COOKIE } from "@/utils/constants";
 
 // hook imports
-import { useState, createContext, useEffect } from "react";
+import { UserAuthContextProvider } from "@/context/userAuthContext";
 
 // component imports
 import Navbar from "@/components/server/Navbar";
-
-export const GetAuthorizationStatus = createContext();
 
 export const metadata = {
   title: "NHL 95",
@@ -17,27 +14,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [isAuthorized, setIsAuthorized] = useState(false);
-
-  useEffect(() => {
-    const getCookie = document.cookie;
-    const isUserAuthCookie = getCookie.split("=")[0];
-    if (isUserAuthCookie == AUTH_COOKIE) {
-      setIsAuthorized(true);
-    } else {
-      setIsAuthorized(false);
-    }
-  }, [isAuthorized]);
-
   return (
     <html lang="en">
       <body>
-        <GetAuthorizationStatus.Provider
-          value={{ isAuthorized, setIsAuthorized }}
-        >
+        <UserAuthContextProvider>
           <Navbar />
           {children}
-        </GetAuthorizationStatus.Provider>
+        </UserAuthContextProvider>
       </body>
     </html>
   );
