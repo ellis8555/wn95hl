@@ -28,7 +28,7 @@ function DashboardLayout({ children }) {
 
   return (
     <div>
-      <p>This is the layout page!</p>
+      <p>This is the dashboard layout page!</p>
       {children}
     </div>
   );
