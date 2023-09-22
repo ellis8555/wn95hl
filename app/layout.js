@@ -3,7 +3,7 @@
 import "./globals.css";
 
 // hook imports
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 
 // component imports
 import Navbar from "@/components/server/Navbar";
@@ -17,6 +17,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    const getCookie = document.cookie;
+    const isUserAuthCookie = getCookie.split("=")[0];
+    if (isUserAuthCookie == "userAuth") {
+      setIsAuthorized(true);
+    } else {
+      setIsAuthorized(false);
+    }
+  }, [isAuthorized]);
 
   return (
     <html lang="en">
