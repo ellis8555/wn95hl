@@ -168,7 +168,7 @@ function SignInForm() {
   };
 
   return (
-    <div className="flex flex-col w-1/2 mx-auto mt-48">
+    <div className="flex flex-col mt-48">
       {userMessage && (
         <div className="text-center text-2xl mb-4 break-words">
           {userMessage}
@@ -176,14 +176,14 @@ function SignInForm() {
       )}
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center gap-4 w-3/4 mx-auto"
+        className="flex flex-col items-center gap-4"
         name="adminForm"
       >
         <input
           type="text"
           ref={nameInput}
           name="name"
-          className="bg-slate-600 rounded px-1 w-1/2"
+          className="bg-slate-600 rounded px-1 w-72"
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -196,7 +196,7 @@ function SignInForm() {
           type="text"
           ref={passwordInput}
           name="password"
-          className="bg-slate-600 rounded px-1 w-1/2"
+          className="bg-slate-600 rounded px-1 w-72"
           onChange={(e) => {
             setUserPassword(e.target.value);
           }}
@@ -210,7 +210,7 @@ function SignInForm() {
             type="text"
             ref={setPasswordInput}
             name="setPassword"
-            className="bg-slate-600 rounded px-1 w-1/2"
+            className="bg-slate-600 rounded px-1 w-72"
             onChange={(e) => {
               setNewPassword(e.target.value);
             }}
