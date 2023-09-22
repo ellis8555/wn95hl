@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useContext } from "react";
-import { GetAuthorizationStatus } from "../layout";
+import { useEffect } from "react";
+import { useAuthorizationStatus } from "@/context/userAuthContext";
 import { useRouter } from "next/navigation";
 
 function DashboardLayout({ children }) {
-  const { isAuthorized, setIsAuthorized } = useContext(GetAuthorizationStatus);
+  const { isAuthorized, setIsAuthorized } = useAuthorizationStatus();
 
   const router = useRouter();
 

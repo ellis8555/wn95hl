@@ -3,13 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { GetAuthorizationStatus } from "@/app/layout";
-import { useContext } from "react";
+import { useAuthorizationStatus } from "@/context/userAuthContext";
 
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
-  const { isAuthorized } = useContext(GetAuthorizationStatus);
+  const { isAuthorized } = useAuthorizationStatus();
 
   return (
     <>

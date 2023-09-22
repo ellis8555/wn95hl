@@ -1,11 +1,10 @@
 "use client";
-import { useContext } from "react";
 
-import { GetAuthorizationStatus } from "../layout";
+import { useAuthorizationStatus } from "@/context/userAuthContext";
 import SignInForm from "@/components/client/admin/SignInForm";
 
 function SignIn() {
-  const { isAuthorized } = useContext(GetAuthorizationStatus);
+  const { isAuthorized } = useAuthorizationStatus();
 
   return (
     <>
