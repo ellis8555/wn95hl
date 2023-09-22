@@ -1,6 +1,7 @@
 "use client";
 
 import "./globals.css";
+import { AUTH_COOKIE } from "@/utils/constants";
 
 // hook imports
 import { useState, createContext, useEffect } from "react";
@@ -21,7 +22,7 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const getCookie = document.cookie;
     const isUserAuthCookie = getCookie.split("=")[0];
-    if (isUserAuthCookie == "userAuth") {
+    if (isUserAuthCookie == AUTH_COOKIE) {
       setIsAuthorized(true);
     } else {
       setIsAuthorized(false);

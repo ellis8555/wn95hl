@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { connectToDb } from "@/utils/database";
+import { AUTH_COOKIE } from "@/utils/constants";
 import createToken from "@/utils/api/create-token";
 import nextResponse from "@/utils/api/next-response";
 import User from "@/schemas/user";
@@ -17,7 +18,7 @@ export const POST = async (req) => {
 
     const token = createToken(user._id);
 
-    const responseCookie = cookieStore.set("userAuth", token, {
+    const responseCookie = cookieStore.set(AUTH_COOKIE, token, {
       path: "/",
     });
 

@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
 import { verify } from "jsonwebtoken";
+import { AUTH_COOKIE } from "@/utils/constants";
 import nextResponse from "@/utils/api/next-response";
 
 export async function GET() {
   const cookieStore = cookies();
 
-  const token = cookieStore.get("userAuth");
+  const token = cookieStore.get(AUTH_COOKIE);
 
   if (!token) {
     return nextResponse({ message: "Unauthorized" }, 400, "GET");
