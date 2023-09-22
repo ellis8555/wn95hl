@@ -5,7 +5,7 @@ import nextResponse from "@/utils/api/next-response";
 export async function GET() {
   const cookieStore = cookies();
 
-  const token = cookieStore.get("auth");
+  const token = cookieStore.get("userAuth");
 
   if (!token) {
     return nextResponse({ message: "Unauthorized" }, 400, "GET");

@@ -17,9 +17,7 @@ export const POST = async (req) => {
 
     const token = createToken(user._id);
 
-    const responseCookie = cookieStore.set("auth", token, {
-      httpOnly: true,
-      SameSite: "Strict",
+    const responseCookie = cookieStore.set("userAuth", token, {
       path: "/",
     });
 
