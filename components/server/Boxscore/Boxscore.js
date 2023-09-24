@@ -1,7 +1,6 @@
 import Ticker from "./Ticker";
-import GameResultScore from "./GameResultScore";
 
-function Boxscore({ recentGameResults, isStateUploaded }) {
+function Boxscore({ recentGameResults }) {
   let gamesDate;
   let gamesDay;
   const gameDates = [0];
@@ -39,11 +38,6 @@ function Boxscore({ recentGameResults, isStateUploaded }) {
           />
         ))}
       </div>
-      {isStateUploaded && (
-        <div className="flex sm:hidden flex-row justify-center my-4 gap-1">
-          <GameResultScore recentGameResults={recentGameResults} />
-        </div>
-      )}
     </>
   );
 }
