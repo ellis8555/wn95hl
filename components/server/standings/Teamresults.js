@@ -5,12 +5,12 @@ function Teamresults({
   categories,
   bgColor,
   lineNumber,
-  areStandingsFiltered,
+  isTableFiltered,
 }) {
   return (
     <tr
       className={`${bgColor} text-sm ${
-        areStandingsFiltered
+        isTableFiltered
           ? lineNumber === 7
             ? "border-slate-600 border-b-2"
             : ""
