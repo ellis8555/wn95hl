@@ -7,6 +7,7 @@ function TableButton({
   setStandings,
   divisions,
   setIsTableFiltered,
+  setSplitTables,
 }) {
   const [leagueStandings] = useState(standings);
   const [clarenceCampbell] = useState(
@@ -33,14 +34,21 @@ function TableButton({
         switch (children) {
           case "Clarence Campbell":
             setIsTableFiltered(true);
+            setSplitTables(false);
             setStandings(clarenceCampbell);
             break;
           case "Prince of Wales":
             setIsTableFiltered(true);
+            setSplitTables(false);
             setStandings(princeOfWales);
+            break;
+          case "Conferences":
+            setIsTableFiltered(true);
+            setSplitTables(true);
             break;
           default:
             setIsTableFiltered(false);
+            setSplitTables(false);
             setStandings(leagueStandings);
         }
       }}
