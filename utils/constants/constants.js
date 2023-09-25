@@ -1,4 +1,4 @@
-export const API_DOMAIN = "http://localhost:3000";
+export const API_DOMAIN = "https://tiny-lokum-ab0acc.netlify.app";
 
 export const LEAGUE_TABLE_CATEGORIES = ["GP", "W", "L", "T", "OTL", "Pts"];
 
