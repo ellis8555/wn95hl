@@ -2,7 +2,7 @@ import TableButton from "@/components/server/Buttons/TableButton";
 
 export const COMPONENT_TABLE_BUTTON = function (
   name,
-  { standings, setStandings, divisions, setIsTableFiltered }
+  { standings, setStandings, divisions, setIsTableFiltered, setSplitTables }
 ) {
   return (
     <TableButton
@@ -10,6 +10,7 @@ export const COMPONENT_TABLE_BUTTON = function (
       setStandings={setStandings}
       divisions={divisions}
       setIsTableFiltered={setIsTableFiltered}
+      setSplitTables={setSplitTables}
     >
       {name}
     </TableButton>
