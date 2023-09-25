@@ -4,7 +4,12 @@ import { API_DOMAIN } from "@/utils/constants/constants";
 
 async function getRecentGameResults() {
   const response = await fetch(
-    `${API_DOMAIN}/api/season-data?league=w&season-number=8&field=recent-results`
+    `${API_DOMAIN}/api/season-data?league=w&season-number=8&field=recent-results`,
+    {
+      next: {
+        revalidate: 0,
+      },
+    }
   );
   if (!response.ok) {
     const errorMessage = await response.json();
