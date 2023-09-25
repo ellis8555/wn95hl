@@ -5,7 +5,7 @@ function nextResponse(responseMessage, statusCode, httpMethod) {
     status: statusCode,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": process.env.ALLOW_ORIGIN,
+      "Access-Control-Allow-Origin": process.env.ALLOW_VERCEL_ORIGIN,
       "Access-Control-Allow-Methods": httpMethod,
     },
   });
