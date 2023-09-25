@@ -1,4 +1,5 @@
 import Standings from "@/components/client/Standings";
+import { Suspense } from "react";
 import { API_DOMAIN, SORT_STANDINGS } from "@/utils/constants/constants";
 
 async function getStandingsAndLeagueStructure() {
@@ -27,12 +28,14 @@ async function standingsPage() {
   const standingsArray = leagueData.standings;
   standingsArray.sort((a, b) => SORT_STANDINGS(a, b));
   return (
-    <Standings
-      leagueName="w"
-      seasonNumber="8"
-      leagueTable={standingsArray}
-      leagueStructure={leagueStructure}
-    />
+    <Suspense fallback={<p>Loading table...</p>}>
+      <Standings
+        leagueName="w"
+        seasonNumber="8"
+        leagueTable={standingsArray}
+        leagueStructure={leagueStructure}
+      />
+    </Suspense>
   );
 }
 

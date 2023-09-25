@@ -1,4 +1,5 @@
 import Boxscore from "@/components/server/Boxscore/Boxscore";
+import { Suspense } from "react";
 import { API_DOMAIN } from "@/utils/constants/constants";
 
 async function getRecentGameResults() {
@@ -16,7 +17,11 @@ async function getRecentGameResults() {
 
 async function boxscorePage() {
   const recentGameResults = await getRecentGameResults();
-  return <Boxscore recentGameResults={recentGameResults} />;
+  return (
+    <Suspense fallback={<p>Loading recent results...</p>}>
+      <Boxscore recentGameResults={recentGameResults} />;
+    </Suspense>
+  );
 }
 
 export default boxscorePage;
