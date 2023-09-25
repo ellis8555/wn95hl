@@ -3,22 +3,15 @@
 
 import { useRef, useState, useEffect } from "react";
 import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
-import Standings from "./Standings";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
-import Boxscore from "../server/Boxscore/Boxscore";
-import TableButton from "../server/Buttons/TableButton";
 
 function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
-  const [updateStandings, setUpdateStandings] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
-  const [tableToBeDisplayed, setTableToBeDisplayed] = useState("League");
-  const [secondTableToBeDisplayed, setSecondTableToBeDisplayed] =
-    useState("League");
-  const [splitTable, setSplitTable] = useState(false);
-  const [recentGameResults, setRecentGameResults] = useState([]);
-  const [howManyTickers, setHowManyTickers] = useState(null);
+  const [refreshPage] = useState(() => () => {
+    window.location.reload();
+  });
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -30,21 +23,18 @@ function GameInputForm({ leagueName, seasonNumber }) {
     fetchGameData();
   }, [gameData]);
 
-  useEffect(() => {
-    getRecentGameResults(howManyTickers);
-  }, [updateStandings, howManyTickers]);
-
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const file = fileInputRef.current.files[0];
-    const fileName = file.name;
 
     if (!file) {
       alert("No file selected");
       return;
     }
+
+    const fileName = file.name;
 
     ///////////////////////////////////////////
     // get game type to add to game state file
@@ -89,8 +79,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
-          const newStandings = responses[responses.length - 1].newStandings;
-          setUpdateStandings(newStandings);
+          refreshPage()();
         } catch (error) {
           fileInputRef.current.value = "";
           setIsStateUploaded(false);
@@ -101,11 +90,13 @@ function GameInputForm({ leagueName, seasonNumber }) {
       ///////////////////////////////////////////////
       // temp fix for unexpected file name
       // ' || fileName.includes('2002TD') is temp
+      // only 2002TD file accepted till new season
       ///////////////////////////////////////////////
 
       // pattern to test filename for acceptance
-      const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
-      if (statePattern.test(fileName) || fileName.includes("2002TD")) {
+      // const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
+      // if (statePattern.test(fileName) || fileName.includes("2002TD")) {
+      if (fileName.includes("2002TD")) {
         // get the teams registered to this league
         const response = await fetch(
           `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=teamsDictCodes`,
@@ -144,38 +135,10 @@ function GameInputForm({ leagueName, seasonNumber }) {
       setServerMessage(error.message);
     }
 
-    if (fileInputRef.current) {
+    if (fileInputRef.current != "") {
       fileInputRef.current.value = "";
     }
   };
-
-  async function resetLeagueTable(e) {
-    e.preventDefault();
-    setServerMessage("Resetting the table");
-    try {
-      // message the user request has been sent
-      const response = await fetch(
-        `/api/league-table/reset-table?league=${leagueName}&season-number=${seasonNumber}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error(response.message);
-      }
-
-      const clearedTable = await response.json();
-
-      setServerMessage("");
-      setIsStateUploaded(false);
-      setUpdateStandings(clearedTable.newStandings);
-    } catch (error) {
-      setServerMessage(error.message);
-    }
-  }
 
   async function fetchGameData() {
     if (!gameData) {
@@ -197,36 +160,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
         const responseError = await response.json();
         throw new Error(responseError.message);
       }
-
-      const responseData = await response.json();
       setServerMessage("");
-      setUpdateStandings(responseData.newStandings);
+      refreshPage()();
     } catch (error) {
       fileInputRef.current.value = "";
       setIsStateUploaded(false);
-      setServerMessage(error.message);
-    }
-  }
-
-  async function getRecentGameResults() {
-    try {
-      // message the user request has been sent
-      const response = await fetch(
-        `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=recent-results`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error(response.message);
-      }
-
-      const recentGameResults = await response.json();
-      setRecentGameResults(recentGameResults);
-    } catch (error) {
       setServerMessage(error.message);
     }
   }
@@ -258,62 +196,9 @@ function GameInputForm({ leagueName, seasonNumber }) {
         </div>
       </form>
 
-      <Boxscore
-        recentGameResults={recentGameResults}
-        isStateUploaded={isStateUploaded}
-      />
-
       {serverMessage && (
         <div className="text-center text-xl mt-2">{serverMessage}</div>
       )}
-
-      <div className="my-4 flex flex-row justify-center gap-2">
-        <TableButton
-          setSplitTable={setSplitTable}
-          setTableToBeDisplayed={setTableToBeDisplayed}
-        >
-          League
-        </TableButton>
-        <div className="flex gap-2 lg:hidden">
-          <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
-            Clarence Campbell
-          </TableButton>
-          <TableButton setTableToBeDisplayed={setTableToBeDisplayed}>
-            Prince of Wales
-          </TableButton>
-        </div>
-        <div className="hidden lg:block">
-          <TableButton
-            setSplitTable={setSplitTable}
-            setTableToBeDisplayed={setTableToBeDisplayed}
-            setSecondTableToBeDisplayed={setSecondTableToBeDisplayed}
-          >
-            Conferences
-          </TableButton>
-        </div>
-      </div>
-      <div
-        className={`flex flex-col ${
-          splitTable ? "justify-around lg:flex-row" : ""
-        }`}
-      >
-        <Standings
-          updateStandings={updateStandings}
-          setServerMessage={setServerMessage}
-          leagueName={leagueName}
-          seasonNumber={seasonNumber}
-          tableToBeDisplayed={tableToBeDisplayed}
-        />
-        {splitTable && (
-          <Standings
-            updateStandings={updateStandings}
-            setServerMessage={setServerMessage}
-            leagueName={leagueName}
-            seasonNumber={seasonNumber}
-            secondTableToBeDisplayed={secondTableToBeDisplayed}
-          />
-        )}
-      </div>
     </div>
   );
 }
