@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { ORIGIN } from "../constants";
 
 function nextResponse(responseMessage, statusCode, httpMethod, cookie = null) {
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": process.env.ALLOW_ORIGIN,
+    "Access-Control-Allow-Origin": ORIGIN,
     "Access-Control-Allow-Methods": httpMethod,
   };
 
