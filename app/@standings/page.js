@@ -1,10 +1,10 @@
 import Standings from "@/components/client/Standings";
 import { Suspense } from "react";
-import { API_DOMAIN, SORT_STANDINGS } from "@/utils/constants/constants";
+import { DOMAIN, SORT_STANDINGS } from "@/utils/constants/constants";
 
 async function getStandingsAndLeagueStructure() {
   const response = await fetch(
-    `${API_DOMAIN}/api/season-data?league=w&season-number=8&field=standings`,
+    `${DOMAIN}/api/season-data?league=w&season-number=8&field=standings`,
     {
       next: {
         revalidate: 0,
