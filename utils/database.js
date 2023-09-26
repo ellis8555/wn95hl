@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import { URI } from "./constants";
 
 const connectedMessage = `Connected to wn95hl database`;
 
 export const connectToDb = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_DEV_URI, {
+    await mongoose.connect(URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
