@@ -20,7 +20,7 @@ async function getRecentGameResults() {
   return recentGameResults;
 }
 
-async function boxscorePage() {
+async function recentScores() {
   const recentGameResults = await getRecentGameResults();
   return (
     <Suspense fallback={<p>Loading recent results...</p>}>
@@ -29,4 +29,4 @@ async function boxscorePage() {
   );
 }
 
-export default boxscorePage;
+export default recentScores;
