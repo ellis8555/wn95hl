@@ -1,4 +1,5 @@
 import TeamLogo from "../standings/TeamLogo";
+import { MONTHS, DAYS_OF_WEEK } from "@/utils/constants/constants";
 
 function Ticker({ gameData, index, gameDateIndexes }) {
   if (
@@ -29,43 +30,51 @@ function Ticker({ gameData, index, gameDateIndexes }) {
     const wasGameATie = boxscoreStats["wasGameATie"];
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
 
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
     let isNewGameDate = false;
     let month;
+    let dayOfWeek;
     let date;
+    let isToday = false;
     if (gameDateIndexes.includes(index)) {
       isNewGameDate = true;
       const getGameTimestamp =
         Date.parse(gameData.otherGameStats.submittedAt) ||
-        new Date("2022-09-17");
+        new Date("1970-01-01");
       const dateOfGame = new Date(getGameTimestamp);
-      month = months[dateOfGame.getMonth()];
+      month = MONTHS[dateOfGame.getMonth()];
       date = dateOfGame.getDate();
+      dayOfWeek = DAYS_OF_WEEK[dateOfGame.getDay()];
+      // get current timestamp to see if game is yesterday or today
+      const today = new Date();
+      const estTime = new Date(
+        today.toLocaleDateString("en-US", { timeZone: "America/New_York" })
+      );
+      if (date == estTime.getDate()) {
+        isToday = true;
+      }
     }
-
     return (
       <>
         {/* inside ticker container */}
         {/* set date if date is different from previous game state */}
         {isNewGameDate && (
           <div className="flex border border-black bg-slate-400 items-center">
-            <div className="flex flex-col items-center justify-center font-medium">
-              <div>{month}</div>
-              <div>{date}</div>
+            <div className="flex flex-col items-center justify-center">
+              {isToday ? (
+                <div className="flex flex-col w-6">
+                  {"Today".split("").map((letter, index) => (
+                    <div key={index} className="font-bold text-xs text-center">
+                      {letter}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <div className="font-medium">{dayOfWeek}</div>
+                  <div className="font-small">{month}</div>
+                  <div className="font-small">{date}</div>
+                </>
+              )}
             </div>
           </div>
         )}
