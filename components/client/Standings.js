@@ -8,6 +8,7 @@ import { COMPONENT_TABLE_BUTTON } from "@/utils/constants/component_consts";
 
 function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
   const [standings, setStandings] = useState(leagueTable);
+  const [conference, setConference] = useState("League");
   const [divisions] = useState(leagueStructure);
   const [isTableFiltered, setIsTableFiltered] = useState(false);
   const [splitTables, setSplitTables] = useState(false);
@@ -17,8 +18,8 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
     divisions,
     setIsTableFiltered,
     setSplitTables,
+    setConference,
   });
-
   return (
     <>
       <div
@@ -41,6 +42,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
       </div>
       <div className="lg:hidden">
         <div className="mt-3">
+          <div className="text-2xl text-center">{conference}</div>
           <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
             <thead>
               <tr>
@@ -83,6 +85,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
         {splitTables ? (
           <div className="flex flex-row justify-around gap-8">
             <div className="mt-3">
+              <div className="text-2xl text-center">Clarence Campbell</div>
               <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
                 <thead>
                   <tr>
@@ -133,6 +136,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
               </table>
             </div>
             <div className="mt-3">
+              <div className="text-2xl text-center">Prince of Wales</div>
               <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
                 <thead>
                   <tr>
@@ -185,6 +189,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
           </div>
         ) : (
           <div className="mt-3 w-3/4">
+            <div className="text-2xl text-center">{conference}</div>
             <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
               <thead>
                 <tr>
