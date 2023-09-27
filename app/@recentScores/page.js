@@ -1,4 +1,5 @@
 import Boxscore from "@/components/server/Boxscore/Boxscore";
+import GameResultScore from "@/components/server/Boxscore/GameResultScore";
 import { Suspense } from "react";
 import { DOMAIN } from "@/utils/constants/constants";
 
@@ -23,9 +24,17 @@ async function getRecentGameResults() {
 async function recentScores() {
   const recentGameResults = await getRecentGameResults();
   return (
-    <Suspense fallback={<p>Loading recent results...</p>}>
-      <Boxscore recentGameResults={recentGameResults} />
-    </Suspense>
+    <>
+      <Suspense fallback={<p>Loading recent results...</p>}>
+        <Boxscore recentGameResults={recentGameResults} />
+      </Suspense>
+      <div className="sm:hidden">
+        <div className="text-xl text-center">Most recent result</div>
+        <Suspense fallback={<p>Processing game...</p>}>
+          <GameResultScore recentGameResults={recentGameResults} />
+        </Suspense>
+      </div>
+    </>
   );
 }
 
