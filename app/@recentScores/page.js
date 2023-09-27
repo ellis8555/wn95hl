@@ -29,7 +29,7 @@ async function recentScores() {
         <Boxscore recentGameResults={recentGameResults} />
       </Suspense>
       <div className="sm:hidden">
-        <div className="text-xl text-center">Most recent result</div>
+        <div className="text-xl text-center my-4">Latest result</div>
         <Suspense fallback={<p>Processing game...</p>}>
           <GameResultScore recentGameResults={recentGameResults} />
         </Suspense>
