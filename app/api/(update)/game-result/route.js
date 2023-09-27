@@ -29,6 +29,14 @@ export const POST = async (req, res) => {
       currentSeason = "8";
     }
 
+    if (fileName.includes("WS8")) {
+      return nextResponse(
+        { message: "Currently only trade deadline game states being accepted" },
+        400,
+        "POST"
+      );
+    }
+
     /////////////////////////////////////////////////////////////////////
     // TEMP reject game states from before trade deadline
     // files named 'ws8.state64' temp disabled till seasson ends
