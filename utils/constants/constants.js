@@ -3,14 +3,30 @@ export const DB_CONNECT = process.env.MONGO_URI;
 // export const DB_CONNECT = process.env.MONGO_DEV_URI;
 
 // export const DOMAIN = "http://localhost:3000";
-// export const DOMAIN = "https://tiny-lokum-ab0acc.netlify.app";
 export const DOMAIN = "https://nhl95.vercel.app";
+// export const DOMAIN = "https://tiny-lokum-ab0acc.netlify.app";
 
 // export const ORIGIN = process.env.ALLOW_HOME_ORIGIN;
 export const ORIGIN = process.env.ALLOW_VERCEL_ORIGIN;
 // export const ORIGIN = process.env.ALLOW_NETLIFY_ORIGIN
 
 export const LEAGUE_TABLE_CATEGORIES = ["GP", "W", "L", "T", "OTL", "Pts"];
+
+export const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+export const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export const SORT_STANDINGS = function (a, b) {
   // First, sort by 'Pts' property in descending order
