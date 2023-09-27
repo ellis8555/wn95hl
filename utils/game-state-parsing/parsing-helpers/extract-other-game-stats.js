@@ -14,6 +14,7 @@
 // 12. determine who the home team is
 // 13. determine who the away team is
 // 14. determine which team is losing team in an overtime game
+// 15. get current timestamp
 ///////////////////////////////////////
 
 import createGamesUniqueId from "./sub-helper-methods/create-games-unique-id";
@@ -104,8 +105,12 @@ function extractOtherGameStats(gameData, seasonNumber, gameType, leagueName) {
     otherStatDetails["overtimeLossTeam"] = "";
   }
 
-  // set timestamp on upload
-  otherStatDetails["submittedAt"] = Date.now();
+  // set timestamp on upload in eastern timezone
+  const newDate = new Date();
+  const estTime = new Date(
+    newDate.toLocaleDateString("en-US", { timeZone: "America/New_York" })
+  );
+  otherStatDetails["submittedAt"] = estTime;
 
   return otherStatDetails;
 }
