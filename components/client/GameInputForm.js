@@ -9,9 +9,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
-  const [refreshPage] = useState(() => () => {
-    window.location.reload();
-  });
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -79,7 +76,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
-          refreshPage()();
+          window.location.reload();
         } catch (error) {
           fileInputRef.current.value = "";
           setIsStateUploaded(false);
@@ -161,7 +158,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
         throw new Error(responseError.message);
       }
       setServerMessage("");
-      refreshPage()();
+      window.location.reload();
     } catch (error) {
       fileInputRef.current.value = "";
       setIsStateUploaded(false);
