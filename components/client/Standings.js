@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import LeagueTable from "../server/tables/LeagueTable";
 import FilteredTable from "../server/tables/FilteredTable";
 import { COMPONENT_TABLE_BUTTON } from "@/utils/constants/component_consts";
@@ -20,6 +20,17 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
     setSplitTables,
     setConference,
   });
+
+  const { clientSideStandings, refreshTheStandings, setRefreshTheStandings } =
+    useFullLeagueStandings();
+
+  useEffect(() => {
+    if (refreshTheStandings) {
+      setStandings(clientSideStandings);
+      setRefreshTheStandings(false);
+    }
+  }, [clientSideStandings]);
+
   return (
     <>
       <div
