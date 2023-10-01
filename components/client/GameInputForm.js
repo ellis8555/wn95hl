@@ -2,13 +2,18 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
+import { DOMAIN, SORT_STANDINGS } from "@/utils/constants/constants";
 
 function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
+
+  const { setClientSideStandings, setRefreshTheStandings } =
+    useFullLeagueStandings();
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -76,7 +81,27 @@ function GameInputForm({ leagueName, seasonNumber }) {
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
-          window.location.reload();
+          // update the standings table after submitting game result
+          const standingsResponse = await fetch(
+            `${DOMAIN}/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
+            {
+              next: {
+                revalidate: 0,
+              },
+            }
+          );
+
+          if (!standingsResponse.ok) {
+            const errorMessage = await response.json();
+            throw new Error(errorMessage.message);
+          }
+
+          const leagueAndStructure = await standingsResponse.json();
+          const updatedStandings = leagueAndStructure.standings;
+          updatedStandings.sort((a, b) => SORT_STANDINGS(a, b));
+
+          setRefreshTheStandings(true);
+          setClientSideStandings(updatedStandings);
         } catch (error) {
           fileInputRef.current.value = "";
           setIsStateUploaded(false);
@@ -158,7 +183,27 @@ function GameInputForm({ leagueName, seasonNumber }) {
         throw new Error(responseError.message);
       }
       setServerMessage("");
-      window.location.reload();
+      // update the standings table after submitting game result
+      const standingsResponse = await fetch(
+        `${DOMAIN}/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
+        {
+          next: {
+            revalidate: 0,
+          },
+        }
+      );
+
+      if (!standingsResponse.ok) {
+        const errorMessage = await response.json();
+        throw new Error(errorMessage.message);
+      }
+
+      const leagueAndStructure = await standingsResponse.json();
+      const updatedStandings = leagueAndStructure.standings;
+      updatedStandings.sort((a, b) => SORT_STANDINGS(a, b));
+
+      setRefreshTheStandings(true);
+      setClientSideStandings(updatedStandings);
     } catch (error) {
       fileInputRef.current.value = "";
       setIsStateUploaded(false);
