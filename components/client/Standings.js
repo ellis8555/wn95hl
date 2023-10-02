@@ -21,16 +21,13 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
     setConference,
   });
 
-  const { clientSideStandings, refreshTheStandings, setRefreshTheStandings } =
-    useFullLeagueStandings();
+  const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
 
   useEffect(() => {
     if (refreshTheStandings) {
       setStandings(clientSideStandings);
-      setRefreshTheStandings(false);
     }
   }, [clientSideStandings]);
-
   return (
     <>
       <div
