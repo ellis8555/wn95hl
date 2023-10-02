@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 
 function TableButton({
   children,
@@ -10,8 +11,8 @@ function TableButton({
   setSplitTables,
   setConference,
 }) {
-  const [leagueStandings] = useState(standings);
-  const [clarenceCampbell] = useState(
+  const [leagueStandings, setLeagueStandings] = useState(standings);
+  const [clarenceCampbell, setClarenceCampbell] = useState(
     leagueStandings.filter((team) => {
       if (divisions[team.teamAcronym].conference == "Clarence Campbell") {
         return team;
@@ -19,7 +20,7 @@ function TableButton({
       return;
     })
   );
-  const [princeOfWales] = useState(
+  const [princeOfWales, setPrinceOfWales] = useState(
     leagueStandings.filter((team) => {
       if (divisions[team.teamAcronym].conference == "Prince of Wales") {
         return team;
@@ -27,6 +28,34 @@ function TableButton({
       return;
     })
   );
+  const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
+
+  useEffect(() => {
+    if (refreshTheStandings) {
+      setLeagueStandings(clientSideStandings);
+    }
+  }, [clientSideStandings]);
+
+  useEffect(() => {
+    if (refreshTheStandings) {
+      setClarenceCampbell(
+        leagueStandings.filter((team) => {
+          if (divisions[team.teamAcronym].conference == "Clarence Campbell") {
+            return team;
+          }
+          return;
+        })
+      );
+      setPrinceOfWales(
+        leagueStandings.filter((team) => {
+          if (divisions[team.teamAcronym].conference == "Prince of Wales") {
+            return team;
+          }
+          return;
+        })
+      );
+    }
+  }, [leagueStandings]);
 
   return (
     <button
