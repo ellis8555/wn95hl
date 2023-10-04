@@ -236,10 +236,10 @@ export const POST = async (req, res) => {
     });
 
     const getHomeTeamsHomeSchedule = getHomeTeamsSeasonObject.schedule.home;
-    const getAwayTeamsHomeSchedule = getAwayTeamsSeasonObject.schedule.away;
+    const getAwayTeamsAwaySchedule = getAwayTeamsSeasonObject.schedule.away;
 
     const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
-    const extractAwayOpponent = +getAwayTeamsHomeSchedule.indexOf(homeTeamAbbr);
+    const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
     if (extractHomeOpponent == -1) {
       return nextResponse(
         {
@@ -251,21 +251,13 @@ export const POST = async (req, res) => {
     }
 
     getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
+    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    await League.updateOne(
-      {
-        _id: getSeasonData._id,
-      },
-      {
-        $set: {
-          [`teams.${homeTeamsObjectIndex}.schedule.home`]:
-            getHomeTeamsHomeSchedule,
-          [`teams.${awayTeamsObjectIndex}.schedule.away`]:
-            getAwayTeamsHomeSchedule,
-        },
-      }
-    );
+    // rewrite teams home/away schedules to reflect recent game played and submitted
+    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+      getHomeTeamsHomeSchedule;
+    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+      getAwayTeamsAwaySchedule;
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
@@ -273,17 +265,9 @@ export const POST = async (req, res) => {
 
     // check if season Start date has been set in the db
     // first game entry is the starting point for a season
-    if (getSeasonData.startDate == null)
-      await League.updateOne(
-        {
-          _id: getSeasonData._id,
-        },
-        {
-          $set: {
-            startDate: Date.now(),
-          },
-        }
-      );
+    if (getSeasonData.startDate == null) {
+      seasonDocument.startDate = Date.now();
+    }
 
     // check if season end date needs to be set
 
@@ -293,32 +277,13 @@ export const POST = async (req, res) => {
 
     // subtract one as this game state has yet to be added so the count will be less one at this point
     if (getCurrentTotalGamesPlayed === getTotalGamesToBePlayed - 1) {
-      await League.updateOne(
-        {
-          _id: getSeasonData._id,
-        },
-        {
-          $set: {
-            endDate: Date.now(),
-            hasSeasonEnded: true,
-          },
-        }
-      );
+      seasonDocument.endDate = Date.now();
+      seasonDocument.hasSeasonEnded = true;
     }
 
     // add the game file to season games array of game results to the database
-    getSeasonGames.push(data);
 
-    await League.updateOne(
-      {
-        _id: getSeasonData._id,
-      },
-      {
-        $set: {
-          seasonGames: getSeasonGames,
-        },
-      }
-    );
+    seasonDocument.seasonGames.push(data);
 
     ///////////////////////////
     // update the league table
@@ -433,21 +398,22 @@ export const POST = async (req, res) => {
       awayTeamsStandingIndex,
       getSeasonStandings
     );
+
+    /////////////////////////////////
+    // set standings object
+    /////////////////////////////////
+
+    seasonDocument.standings[homeTeamsStandingIndex] =
+      homeTeamsUpdatedStandings;
+    seasonDocument.standings[awayTeamsStandingIndex] =
+      awayTeamsUpdatedStandings;
+
     //////////////////////
     // update the database
     //////////////////////
 
-    await League.updateOne(
-      {
-        _id: getSeasonData._id,
-      },
-      {
-        $set: {
-          [`standings.${homeTeamsStandingIndex}`]: homeTeamsUpdatedStandings,
-          [`standings.${awayTeamsStandingIndex}`]: awayTeamsUpdatedStandings,
-        },
-      }
-    );
+    await seasonDocument.save();
+
     //////////////////////////////////////////////
     // all file processing complete return to user
     //////////////////////////////////////////////
