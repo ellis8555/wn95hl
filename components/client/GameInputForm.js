@@ -182,7 +182,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
         const responseError = await response.json();
         throw new Error(responseError.message);
       }
-      setServerMessage("");
+      // edit user message
+      setServerMessage("Updating the standings");
       // update the standings table after submitting game result
       const standingsResponse = await fetch(
         `${DOMAIN}/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
@@ -204,6 +205,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
       setRefreshTheStandings(true);
       setClientSideStandings(updatedStandings);
+      setServerMessage("");
     } catch (error) {
       fileInputRef.current.value = "";
       setIsStateUploaded(false);
