@@ -47,6 +47,6 @@ ClubSchema.statics.queryAllClubs = async function () {
   return await this.find({});
 };
 
-const Club = models.Club || model("club", ClubSchema);
+const Club = models.club || model("club", ClubSchema);
 
 export default Club;
