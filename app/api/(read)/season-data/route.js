@@ -12,7 +12,6 @@ export const GET = async (req, res) => {
   const leagueName = searchParams.get("league");
   const seasonNumber = searchParams.get("season-number");
   const getField = searchParams.get("field");
-
   if (!leagueName) {
     return nextResponse(
       { message: `There is an issue with the league name` },
@@ -30,6 +29,7 @@ export const GET = async (req, res) => {
 
   try {
     db = await connectToDb();
+
     const seasonData = await W_Season.findOne({ seasonNumber });
 
     if (!seasonData) {
