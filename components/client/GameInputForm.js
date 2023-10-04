@@ -5,7 +5,8 @@ import { useRef, useState, useEffect } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
-import { DOMAIN, SORT_STANDINGS } from "@/utils/constants/constants";
+import { DOMAIN } from "@/utils/constants/connections";
+import { SORT_STANDINGS } from "@/utils/constants/constants";
 
 function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);

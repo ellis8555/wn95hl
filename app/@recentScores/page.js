@@ -1,7 +1,7 @@
 import Boxscore from "@/components/server/Boxscore/Boxscore";
 import GameResultScore from "@/components/server/Boxscore/GameResultScore";
 import { Suspense } from "react";
-import { DOMAIN } from "@/utils/constants/constants";
+import { DOMAIN } from "@/utils/constants/connections";
 
 async function getRecentGameResults() {
   const response = await fetch(

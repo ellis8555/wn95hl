@@ -1,6 +1,7 @@
 import Standings from "@/components/client/Standings";
 import { Suspense } from "react";
-import { DOMAIN, SORT_STANDINGS } from "@/utils/constants/constants";
+import { SORT_STANDINGS } from "@/utils/constants/constants";
+import { DOMAIN } from "@/utils/constants/connections";
 
 async function getStandingsAndLeagueStructure() {
   const response = await fetch(

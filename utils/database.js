@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DB_CONNECT } from "./constants/constants";
+import { DB_CONNECT } from "./constants/connections";
 
 const connectedMessage = `Connected to wn95hl database`;
 
