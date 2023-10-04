@@ -111,16 +111,28 @@ export const POST = async (req, res) => {
 
   try {
     db = await connectToDb();
+    // get the leagues document for the correct season
+    let League;
+    let Season;
 
-    const Season = await W_Season.findOne({
-      seasonNumber: currentSeason,
-    });
+    switch (currentLeague) {
+      case "W":
+        League = W_Season;
+        Season = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        break;
+      default:
+        Season = await W_Season.findOne({
+          seasonNumber: currentSeason,
+        });
+    }
 
     // if season does not exist exit
     if (!Season) {
       return nextResponse(
         {
-          message: `There is no season ${currentSeason} registered`,
+          message: `The ${currentLeague} has no season ${currentSeason} registered`,
         },
         400,
         "POST"
@@ -153,15 +165,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    // if (isDuplicate) {
-    //   return nextResponse(
-    //     {
-    //       message: `This game appears to be a duplicate. Game data was not saved..`,
-    //     },
-    //     400,
-    //     "POST"
-    //   );
-    // }
+    if (isDuplicate) {
+      return nextResponse(
+        {
+          message: `This game appears to be a duplicate. Game data was not saved..`,
+        },
+        400,
+        "POST"
+      );
+    }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
@@ -241,19 +253,19 @@ export const POST = async (req, res) => {
     getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
     getAwayTeamsHomeSchedule.splice(extractAwayOpponent, 1);
 
-    // await W_Season.updateOne(
-    //   {
-    //     _id: getSeasonData._id,
-    //   },
-    //   {
-    //     $set: {
-    //       [`teams.${homeTeamsObjectIndex}.schedule.home`]:
-    //         getHomeTeamsHomeSchedule,
-    //       [`teams.${awayTeamsObjectIndex}.schedule.away`]:
-    //         getAwayTeamsHomeSchedule,
-    //     },
-    //   }
-    // );
+    await League.updateOne(
+      {
+        _id: getSeasonData._id,
+      },
+      {
+        $set: {
+          [`teams.${homeTeamsObjectIndex}.schedule.home`]:
+            getHomeTeamsHomeSchedule,
+          [`teams.${awayTeamsObjectIndex}.schedule.away`]:
+            getAwayTeamsHomeSchedule,
+        },
+      }
+    );
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
@@ -262,7 +274,7 @@ export const POST = async (req, res) => {
     // check if season Start date has been set in the db
     // first game entry is the starting point for a season
     if (getSeasonData.startDate == null)
-      await W_Season.updateOne(
+      await League.updateOne(
         {
           _id: getSeasonData._id,
         },
@@ -281,7 +293,7 @@ export const POST = async (req, res) => {
 
     // subtract one as this game state has yet to be added so the count will be less one at this point
     if (getCurrentTotalGamesPlayed === getTotalGamesToBePlayed - 1) {
-      await W_Season.updateOne(
+      await League.updateOne(
         {
           _id: getSeasonData._id,
         },
@@ -297,7 +309,7 @@ export const POST = async (req, res) => {
     // add the game file to season games array of game results to the database
     getSeasonGames.push(data);
 
-    await W_Season.updateOne(
+    await League.updateOne(
       {
         _id: getSeasonData._id,
       },
@@ -425,7 +437,7 @@ export const POST = async (req, res) => {
     // update the database
     //////////////////////
 
-    await W_Season.updateOne(
+    await League.updateOne(
       {
         _id: getSeasonData._id,
       },
