@@ -1,4 +1,4 @@
-import TableButton from "@/components/server/Buttons/TableButton";
+import TableButton from "@/components/client/Buttons/TableButton";
 
 export const COMPONENT_TABLE_BUTTON = function (
   name,
