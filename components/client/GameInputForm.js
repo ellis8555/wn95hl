@@ -183,7 +183,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
         throw new Error(responseError.message);
       }
       // edit user message
-      setServerMessage("Updating the standings");
+      setServerMessage("Updating the standings...");
       // update the standings table after submitting game result
       const standingsResponse = await fetch(
         `${DOMAIN}/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
@@ -241,7 +241,9 @@ function GameInputForm({ leagueName, seasonNumber }) {
       </form>
 
       {serverMessage && (
-        <div className="text-center text-xl mt-2">{serverMessage}</div>
+        <div className="text-center text-rose-800 text-xl mt-2">
+          {serverMessage}
+        </div>
       )}
     </div>
   );
