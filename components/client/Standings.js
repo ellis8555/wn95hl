@@ -32,7 +32,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
     <>
       <div
         className="flex flex-row justify-center 
-      gap-4 mt-4 lg:hidden"
+      gap-4 mt-4 md:hidden"
       >
         {COMPONENT_TABLE_BUTTON("League", component_table_button_args)}
         {COMPONENT_TABLE_BUTTON(
@@ -43,12 +43,12 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
       </div>
       <div
         className="flex-row justify-center 
-      gap-4 mt-4 hidden lg:flex"
+      gap-4 mt-4 hidden md:flex"
       >
         {COMPONENT_TABLE_BUTTON("League", component_table_button_args)}
         {COMPONENT_TABLE_BUTTON("Conferences", component_table_button_args)}
       </div>
-      <div className="lg:hidden">
+      <div className="md:hidden">
         <div className="mt-3">
           <div className="text-2xl text-center">{conference}</div>
           <LeagueTable
@@ -59,7 +59,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
           />
         </div>
       </div>
-      <div className="hidden lg:flex flex-row justify-around">
+      <div className="hidden md:flex flex-row justify-around">
         {splitTables ? (
           <div className="flex flex-row justify-around gap-8">
             <div className="mt-3">
