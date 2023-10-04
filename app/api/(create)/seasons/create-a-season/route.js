@@ -51,7 +51,7 @@ export const POST = async (req) => {
     const isGamesVsOtherConferenceValid = numbersOnlyPattern.test(
       +gamesVsOtherConference
     );
-    console.log(isGamesVsOtherConferenceValid);
+
     if (
       !isGamesVsDivisionValid ||
       !isGamesVsConferenceValid ||
