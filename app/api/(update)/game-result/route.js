@@ -113,23 +113,23 @@ export const POST = async (req, res) => {
     db = await connectToDb();
     // get the leagues document for the correct season
     let League;
-    let Season;
+    let seasonDocument;
 
     switch (currentLeague) {
       case "W":
         League = W_Season;
-        Season = await League.findOne({
+        seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
         });
         break;
       default:
-        Season = await W_Season.findOne({
+        seasonDocument = await W_Season.findOne({
           seasonNumber: currentSeason,
         });
     }
 
     // if season does not exist exit
-    if (!Season) {
+    if (!seasonDocument) {
       return nextResponse(
         {
           message: `The ${currentLeague} has no season ${currentSeason} registered`,
@@ -143,7 +143,7 @@ export const POST = async (req, res) => {
     // get the data for this season
     ///////////////////////////////
 
-    const getSeasonData = Season;
+    const getSeasonData = seasonDocument;
     const getSeasonGames = getSeasonData.seasonGames;
     const getSeasonStandings = getSeasonData.standings;
     const otherStats = data.otherGameStats;
