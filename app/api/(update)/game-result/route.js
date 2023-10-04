@@ -1,11 +1,11 @@
 import { connectToDb } from "@/utils/database";
-import getTeamsStandingsIndex from "@/utils/tables/team-standings/get-teams-standings-index";
-import incrementGamesPlayed from "@/utils/tables/team-standings/increment-games-played";
-import incrementWinningTeamsWins from "@/utils/tables/team-standings/increment-winning-teams-wins";
-import incrementLosingTeamsLosses from "@/utils/tables/team-standings/increment-losing-teams-losses";
-import incrementTiesForTieGame from "@/utils/tables/team-standings/increment-ties-for-tie-game";
-import incrementOvertimeLoss from "@/utils/tables/team-standings/increment-overtime-loss";
-import incrementPointsForTeams from "@/utils/tables/team-standings/increment-points-for-teams";
+import getTeamsStandingsIndex from "@/utils/table-methods/team-standings/get-teams-standings-index";
+import incrementGamesPlayed from "@/utils/table-methods/team-standings/increment-games-played";
+import incrementWinningTeamsWins from "@/utils/table-methods/team-standings/increment-winning-teams-wins";
+import incrementLosingTeamsLosses from "@/utils/table-methods/team-standings/increment-losing-teams-losses";
+import incrementTiesForTieGame from "@/utils/table-methods/team-standings/increment-ties-for-tie-game";
+import incrementOvertimeLoss from "@/utils/table-methods/team-standings/increment-overtime-loss";
+import incrementPointsForTeams from "@/utils/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
 import Club from "@/schemas/club";
@@ -254,6 +254,7 @@ export const POST = async (req, res) => {
     getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
     // rewrite teams home/away schedules to reflect recent game played and submitted
+
     seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
       getHomeTeamsHomeSchedule;
     seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
