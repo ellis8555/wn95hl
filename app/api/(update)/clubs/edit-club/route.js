@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import queryOneClub from "@/utils/db-queries/query-one/club/query-one-club";
-import queryOneUser from "@/utils/db-queries/query-one/user/queryOneUser";
+import Club from "@/schemas/club";
+import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
 
 let db;
@@ -12,7 +12,7 @@ export const PATCH = async (req) => {
   try {
     db = await connectToDb();
 
-    const club = await queryOneClub(clubName);
+    const club = await Club.queryOneClub(clubName);
 
     if (!club) {
       return nextResponse({ message: "Team does not exist.." }, 400, "PATCH");
@@ -21,7 +21,7 @@ export const PATCH = async (req) => {
     const listOfChanges = [];
 
     if (coachName) {
-      const coach = await queryOneUser(coachName);
+      const coach = await User.queryOneUser(coachName);
       club.coachId = coach._id;
       listOfChanges.push("coach");
     }

@@ -1,5 +1,5 @@
 import { connectToDb } from "@/utils/database";
-import queryOneClub from "@/utils/db-queries/query-one/club/query-one-club";
+import Club from "@/schemas/club";
 import nextResponse from "@/utils/api/next-response";
 
 let db;
@@ -12,7 +12,7 @@ export const GET = async (req) => {
   try {
     db = await connectToDb();
 
-    const getClub = await queryOneClub(teamName);
+    const getClub = await Club.queryOneClub(teamName);
 
     return nextResponse(getClub, 200, "GET");
   } catch (error) {

@@ -1,7 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import getSeasonsModel from "@/schemas/season/season";
 import nextResponse from "@/utils/api/next-response";
-import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-for-a-season";
+import W_Season from "@/schemas/season/w_season";
 
 let db;
 
@@ -13,24 +12,17 @@ export const PATCH = async (req, res) => {
   try {
     db = await connectToDb();
 
-    const doesSeasonExist = await queryForIfSeasonExists(
-      leagueName,
-      seasonNumber
-    );
-
-    if (!doesSeasonExist) {
+    const fetchSeason = await W_Season.findOne({
+      seasonNumber: seasonNumber,
+    });
+    if (!fetchSeason) {
       throw new Error(`Season ${seasonNumber} has not been found`);
     }
 
-    const getLeaguesModel = getSeasonsModel(leagueName);
-    const fetchSeason = await getLeaguesModel.findOne({
-      seasonNumber: seasonNumber,
-    });
-
     // const season = seasonData[0];
     const seasonData = fetchSeason;
-
-    // get the array that contains each teams current record
+    console.log(seasonData._id);
+    // get the array that contains each teams current recorde
     const teamsRecords = seasonData["standings"];
     const categoriesToReset = ["GP", "W", "L", "T", "OTL", "Pts"];
     // reset the categories listed back to 0
@@ -41,16 +33,10 @@ export const PATCH = async (req, res) => {
     });
 
     // update the database
-    await getLeaguesModel.updateOne(
-      { _id: seasonData._id },
-      {
-        $set: {
-          standings: teamsRecords,
-          seasonGames: [],
-          startDate: null,
-        },
-      }
-    );
+    fetchSeason.standings = teamsRecords;
+    fetchSeason.seasonGames = [];
+    fetchSeason.startDate = null;
+    await fetchSeason.save();
 
     return nextResponse("League table has been reset..", 200, "PATCH");
   } catch (error) {

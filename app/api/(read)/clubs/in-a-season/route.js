@@ -1,7 +1,6 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import getSeasonsModel from "@/schemas/season/season";
-import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-for-a-season";
+import W_Season from "@/schemas/season/w_season";
 
 let db;
 
@@ -13,19 +12,13 @@ export const GET = async (req, res) => {
   try {
     db = await connectToDb();
 
-    // check season number is valid
-    const doesSeasonExist = await queryForIfSeasonExists(
-      leagueName,
-      seasonNumber
-    );
+    // get this seasons document
+    const seasonData = await W_Season.findOne({ seasonNumber });
 
-    if (!doesSeasonExist) {
+    if (!seasonData) {
       throw new Error(`Season ${seasonNumber} has not been found`);
     }
 
-    // get this seasons document
-    const Season = getSeasonsModel(leagueName);
-    const seasonData = await Season.findOne({ seasonNumber: seasonNumber });
     // extract teams array of team objects
     const teamsDictCodes = seasonData.teamsDictCodes;
 

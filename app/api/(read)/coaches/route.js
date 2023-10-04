@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import queryAllUsers from "@/utils/db-queries/query-all/users/queryAllUsers";
 import nextResponse from "@/utils/api/next-response";
+import User from "@/schemas/user";
 
 let db;
 
@@ -8,7 +8,7 @@ export const GET = async () => {
   try {
     db = await connectToDb();
 
-    const users = await queryAllUsers();
+    const users = await User.queryAllUsers();
 
     return nextResponse(users, 200, "GET");
   } catch (error) {

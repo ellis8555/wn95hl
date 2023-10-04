@@ -1,8 +1,7 @@
 import { connectToDb } from "@/utils/database";
-import queryIfClubExists from "@/utils/db-queries/query-one/club/query-if-club-exists";
-import queryOneUser from "@/utils/db-queries/query-one/user/queryOneUser";
 import nextResponse from "@/utils/api/next-response";
 import Club from "@/schemas/club";
+import User from "@/schemas/user";
 
 let db;
 
@@ -14,7 +13,7 @@ export const POST = async (req) => {
     db = await connectToDb();
 
     // prevent duplicate name from being added
-    const searchForIfTeamExists = await queryIfClubExists(name);
+    const searchForIfTeamExists = await Club.queryIfClubExists(name);
     if (searchForIfTeamExists) {
       return nextResponse(
         { message: "This team name is taken.." },
@@ -23,7 +22,7 @@ export const POST = async (req) => {
       );
     }
 
-    const getCoachDocument = await queryOneUser(coachName);
+    const getCoachDocument = await User.queryOneUser(coachName);
     const coachId = getCoachDocument._id;
     const addClub = await new Club({
       name,

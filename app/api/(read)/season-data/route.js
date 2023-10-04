@@ -2,9 +2,8 @@
 // return field via field param that goes through a switch
 
 import { connectToDb } from "@/utils/database";
-import getSeasonsModel from "@/schemas/season/season";
 import nextResponse from "@/utils/api/next-response";
-import queryForIfSeasonExists from "@/utils/db-queries/query-one/season/query-for-a-season";
+import W_Season from "@/schemas/season/w_season";
 
 let db;
 
@@ -31,20 +30,15 @@ export const GET = async (req, res) => {
 
   try {
     db = await connectToDb();
-    const doesSeasonExist = await queryForIfSeasonExists(
-      leagueName,
-      seasonNumber
-    );
+    const seasonData = await W_Season.findOne({ seasonNumber });
 
-    if (!doesSeasonExist) {
+    if (!seasonData) {
       return nextResponse(
         { message: `Season ${seasonNumber} has not been found` },
         500,
         "GET"
       );
     }
-    const League = getSeasonsModel(leagueName);
-    const seasonData = await League.findOne({ seasonNumber: seasonNumber });
 
     //////////////////////////////////////////////////////////////////////////
     // switch takes field key from url params responds depending on the value

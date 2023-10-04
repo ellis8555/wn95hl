@@ -1,8 +1,7 @@
 import { connectToDb } from "@/utils/database";
-import getSeasonsModel from "@/schemas/season/season";
-import queryOneClub from "@/utils/db-queries/query-one/club/query-one-club";
-import queryIfClubExists from "@/utils/db-queries/query-one/club/query-if-club-exists";
 import nextResponse from "@/utils/api/next-response";
+import W_Season from "@/schemas/season/w_season";
+import Club from "@/schemas/club";
 
 let db;
 
@@ -19,7 +18,7 @@ export const POST = async (req) => {
     db = await connectToDb();
 
     // check that team name exists
-    const searchIfTeamExists = await queryIfClubExists(teamName);
+    const searchIfTeamExists = await Club.queryIfClubExists(teamName);
     if (!searchIfTeamExists) {
       return nextResponse(
         { message: "This team is not registered.." },
@@ -28,10 +27,8 @@ export const POST = async (req) => {
       );
     }
 
-    const Season = getSeasonsModel(leagueName);
-
     // check if season has been created in the database
-    let thisSeason = await Season.findOne({ seasonNumber: whichSeason });
+    let thisSeason = await W_Season.findOne({ seasonNumber: whichSeason });
     if (!thisSeason) {
       return nextResponse(
         { message: `Season ${whichSeason} has not been registered` },
@@ -41,7 +38,7 @@ export const POST = async (req) => {
     }
 
     // check if team has already been added to the season
-    const teamObject = await queryOneClub(teamName);
+    const teamObject = await Club.queryOneClub(teamName);
     const teamAcronym = teamObject.teamAcronym;
     const isTeamRegistered = thisSeason.teams.find(
       (team) => team.teamAcronym === teamAcronym

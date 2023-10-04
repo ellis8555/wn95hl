@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import getSeasonsModel from "@/schemas/season/season";
+import W_Season from "@/schemas/season/w_season";
 
 let db;
 
@@ -29,11 +29,10 @@ export const POST = async (req) => {
         "POST"
       );
     }
-
-    const Season = getSeasonsModel(leagueName);
-    const doesSeasonNumberAlreadyExist = await Season.findOne({
+    const doesSeasonNumberAlreadyExist = await W_Season.findOne({
       seasonNumber: seasonNumber,
     });
+
     if (doesSeasonNumberAlreadyExist) {
       return nextResponse(
         {
@@ -52,6 +51,7 @@ export const POST = async (req) => {
     const isGamesVsOtherConferenceValid = numbersOnlyPattern.test(
       +gamesVsOtherConference
     );
+    console.log(isGamesVsOtherConferenceValid);
     if (
       !isGamesVsDivisionValid ||
       !isGamesVsConferenceValid ||
@@ -64,7 +64,7 @@ export const POST = async (req) => {
       );
     }
 
-    const newSeason = await new Season({
+    const newSeason = new W_Season({
       seasonNumber: seasonNumber,
       conferences: conferences,
       divisions: divisions,

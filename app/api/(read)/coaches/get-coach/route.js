@@ -1,5 +1,5 @@
 import { connectToDb } from "@/utils/database";
-import queryOneUser from "@/utils/db-queries/query-one/user/queryOneUser";
+import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
 
 let db;
@@ -12,7 +12,7 @@ export const GET = async (req) => {
   try {
     db = await connectToDb();
 
-    const getCoach = await queryOneUser(name);
+    const getCoach = await User.queryOneUser(name);
 
     if (!getCoach) {
       return nextResponse(

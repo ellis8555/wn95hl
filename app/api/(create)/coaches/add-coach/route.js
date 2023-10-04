@@ -1,7 +1,6 @@
 import { connectToDb } from "@/utils/database";
-import queryIfUserExists from "@/utils/db-queries/query-one/user/queryIfUserExists";
-import createNewUser from "@/utils/db-queries/query-one/user/createNewUser";
 import nextResponse from "@/utils/api/next-response";
+import User from "@/schemas/user";
 
 let db;
 
@@ -17,7 +16,7 @@ export const POST = async (req) => {
     db = await connectToDb();
 
     // prevent duplicate coach name
-    const checkIfCoachExists = await queryIfUserExists(name);
+    const checkIfCoachExists = await User.queryIfUserExists(name);
 
     if (checkIfCoachExists) {
       return nextResponse(
@@ -28,7 +27,7 @@ export const POST = async (req) => {
     }
 
     // create new user
-    const newUser = await createNewUser(name);
+    await User.createNewUser(name);
 
     return nextResponse({ message: `${name} has been added` }, 200, "POST");
   } catch (error) {
