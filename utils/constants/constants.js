@@ -21,7 +21,11 @@ export const SORT_STANDINGS = function (a, b) {
   if (b.Pts - a.Pts !== 0) {
     return b.Pts - a.Pts;
   } else if (b.GP - a.GP !== 0) {
-    return b.GP - a.GP;
+    // if teams are tied with games played then sort team with less GP placed ahead
+    return a.GP - b.GP;
+  } else if (b.GP - a.GP !== 0) {
+    // if teams pts and GP tied then sort team with more wins placed ahead
+    return b.W - a.W;
   } else {
     // If 'Pts' and 'GP' are equal, check 'GP' values for zero
     if (a.GP === 0 && b.GP === 0) {
