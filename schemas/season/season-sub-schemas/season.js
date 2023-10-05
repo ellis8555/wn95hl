@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import LeagueTableSchema from "@/schemas/standings/league-table";
+import LeagueTableSchema from "./leagueTable";
 import LeaguesTeamsSchema from "./leagueTeamsSchema";
-import GameResultSchema from "@/schemas/gameResults/gameResult";
+import GameResultSchema from "@/schemas/game-result/gameResult";
 
 const SeasonSchema = new Schema({
   seasonNumber: String,

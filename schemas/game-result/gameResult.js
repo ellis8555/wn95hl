@@ -1,9 +1,9 @@
 import { Schema } from "mongoose";
-import goalsScoredSchema from "./gameResultSubSchemas/allGoalsScored";
-import penaltiesTakenSchema from "./gameResultSubSchemas/allPenalties";
-import GoalieGameStatsSchema from "./gameResultSubSchemas/goalieGameStats";
-import PlayerGameStatsSchema from "./gameResultSubSchemas/playerGameStats";
-import GameHighlight from "../gameHighlights/gameHighlights";
+import goalsScoredSchema from "./game-result-sub-schemas/allGoalsScored";
+import penaltiesTakenSchema from "./game-result-sub-schemas/allPenalties";
+import GoalieGameStatsSchema from "./game-result-sub-schemas/goalieGameStats";
+import PlayerGameStatsSchema from "./game-result-sub-schemas/playerGameStats";
+import GameHighlight from "./game-result-sub-schemas/gameHighlights";
 
 const GameResultSchema = new Schema(
   {

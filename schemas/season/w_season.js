@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import SeasonSchema from "./seasonSubSchemas/season";
+import SeasonSchema from "./season-sub-schemas/season";
 
 const W_LeagueSchema = new Schema({
   ...SeasonSchema.obj,
