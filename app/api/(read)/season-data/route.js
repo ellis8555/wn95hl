@@ -53,6 +53,11 @@ export const GET = async (req, res) => {
     // switch takes field key from url params responds depending on the value
     //////////////////////////////////////////////////////////////////////////
 
+    // 1. teamDictCodes
+    // 2. standings
+    // 3. teamsConferenceAndDivisions
+    // 4. recent-results
+
     // var that will hold the data that is returned depending on the case
     let requestedData;
 

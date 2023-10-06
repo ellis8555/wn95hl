@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { SORT_STANDINGS } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
-async function getStandingsAndLeagueStructure() {
+async function getStandings() {
   const response = await fetch(
     `${DOMAIN}/api/season-data?league=w&season-number=8&field=standings`,
     {
@@ -21,19 +21,36 @@ async function getStandingsAndLeagueStructure() {
   const leagueAndStructure = await response.json();
   return leagueAndStructure;
 }
+async function getLeagueStructure() {
+  const response = await fetch(
+    `${DOMAIN}/api/season-data?league=w&season-number=8&field=teamsConferencesAndDivisions`,
+    {
+      next: {
+        revalidate: 0,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = await response.json();
+    throw new Error(errorMessage.message);
+  }
+
+  const leagueStructure = await response.json();
+  return leagueStructure;
+}
 
 async function standingsPage() {
-  const leagueData = await getStandingsAndLeagueStructure();
+  const standings = await getStandings();
+  const leagueStructure = await getLeagueStructure();
 
-  const leagueStructure = leagueData.leagueStructure;
-  const standingsArray = leagueData.standings;
-  standingsArray.sort((a, b) => SORT_STANDINGS(a, b));
+  standings.sort((a, b) => SORT_STANDINGS(a, b));
   return (
     <Suspense fallback={<p>Loading table...</p>}>
       <Standings
         leagueName="w"
         seasonNumber="8"
-        leagueTable={standingsArray}
+        leagueTable={standings}
         leagueStructure={leagueStructure}
       />
     </Suspense>
