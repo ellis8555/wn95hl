@@ -61,7 +61,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
                 <LeagueLogo name="clarenceCampbell" width={75} height={75} />
               )}
               {conference === "Prince of Wales" && (
-                <LeagueLogo name="PrinceOfWales" width={75} height={75} />
+                <LeagueLogo name="princeOfWales" width={75} height={75} />
               )}
             </div>
           )}
@@ -115,7 +115,7 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
                   <LeagueLogo name="clarenceCampbell" width={75} height={75} />
                 )}
                 {conference === "Prince of Wales" && (
-                  <LeagueLogo name="PrinceOfWales" width={75} height={75} />
+                  <LeagueLogo name="princeOfWales" width={75} height={75} />
                 )}
               </div>
             )}
