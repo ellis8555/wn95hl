@@ -58,7 +58,9 @@ export const GET = async (req, res) => {
     let requestedData;
 
     switch (getField) {
+      /////////////////////////////////////////
       // gets each teams 3 letter abbreviation
+      /////////////////////////////////////////
       case "teamsDictCodes":
         if (!seasonData.hasSeasonBegun) {
           return nextResponse(
@@ -80,13 +82,18 @@ export const GET = async (req, res) => {
         }
         requestedData = seasonData[getField];
         break;
+      /////////////////////////////////
       // get leagues current standings
+      /////////////////////////////////
       case "standings":
         // the actual standings array
         const standings = seasonData["standings"];
         // return standings and league structure in a single object
         requestedData = standings;
         break;
+      ///////////////////////////////////////////////////////////////
+      // gets conferences and divisions for the league and the season
+      ///////////////////////////////////////////////////////////////
       case "teamsConferencesAndDivisions":
         // object which will contain each teams conference and division
         const leagueStructure = {};
@@ -98,7 +105,9 @@ export const GET = async (req, res) => {
         });
         requestedData = leagueStructure;
         break;
+      ////////////////////////////////////
       // get recent league game results
+      ////////////////////////////////////
       case "recent-results":
         const howManyGamesPlayed = seasonData["seasonGames"].length;
 
@@ -116,6 +125,9 @@ export const GET = async (req, res) => {
         requestedData = recentlyPlayedGames;
 
         break;
+      ////////////////////////////////////////
+      // gets the most recent season
+      ////////////////////////////////////////
       case "most-recent-season":
         const seasons = await League.find({}, "seasonNumber");
         const seasonsList = seasons.map((season) => {
