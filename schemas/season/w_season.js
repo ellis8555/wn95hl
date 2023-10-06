@@ -10,9 +10,7 @@ const W_LeagueSchema = new Schema({
 // 2. queryForIfSeasonExists
 
 W_LeagueSchema.statics.getMostRecentSeasonNumber = async function () {
-  const getSeasonNumberFields = await this.find({})
-    .select("seasonNumber")
-    .exec();
+  const getSeasonNumberFields = await this.find().select("seasonNumber").exec();
   let listOfSeasonNumbers = [];
   getSeasonNumberFields.forEach((season) => {
     listOfSeasonNumbers.push(season.seasonNumber);
