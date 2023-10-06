@@ -93,12 +93,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
           );
 
           if (!standingsResponse.ok) {
-            const errorMessage = await response.json();
+            const errorMessage = await standingsResponse.json();
             throw new Error(errorMessage.message);
           }
 
-          const leagueAndStructure = await standingsResponse.json();
-          const updatedStandings = leagueAndStructure.standings;
+          const updatedStandings = await standingsResponse.json();
           updatedStandings.sort((a, b) => SORT_STANDINGS(a, b));
 
           setRefreshTheStandings(true);
@@ -196,12 +195,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
       );
 
       if (!standingsResponse.ok) {
-        const errorMessage = await response.json();
+        const errorMessage = await standingsResponse.json();
         throw new Error(errorMessage.message);
       }
 
-      const leagueAndStructure = await standingsResponse.json();
-      const updatedStandings = leagueAndStructure.standings;
+      const updatedStandings = await standingsResponse.json();
       updatedStandings.sort((a, b) => SORT_STANDINGS(a, b));
 
       setRefreshTheStandings(true);
