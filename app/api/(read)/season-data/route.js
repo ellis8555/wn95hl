@@ -4,36 +4,31 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
+import {
+  DEFAULT_LEAGUE,
+  LEAGUE_SCHEMA_SWITCH,
+} from "@/utils/constants/constants";
 
 let db;
 
 export const GET = async (req, res) => {
   const { searchParams } = new URL(req.url);
-  const leagueName = searchParams.get("league");
-  const seasonNumber = searchParams.get("season-number");
+  let leagueName = searchParams.get("league");
+  let seasonNumber = searchParams.get("season-number");
   const getField = searchParams.get("field");
+  // if no leagueName paramter set the default as per constant defined
   if (!leagueName) {
-    return nextResponse(
-      { message: `There is an issue with the league name` },
-      500,
-      "GET"
-    );
+    leagueName = DEFAULT_LEAGUE;
   }
+  // grab correct league schema in order to get the correct seasons data
+  const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+  // if no seasonNumber parameter set to most recent season
   if (!seasonNumber) {
-    return nextResponse(
-      { message: `There is an issue with the season number` },
-      500,
-      "GET"
-    );
-  }
-
-  let League;
-  switch (leagueName) {
-    case "w":
-      League = W_Season;
-      break;
-    default:
-      League = W_Season;
+    const seasons = await League.find({}, "seasonNumber");
+    const seasonsList = seasons.map((season) => {
+      return season.seasonNumber;
+    });
+    seasonNumber = Math.max(...seasonsList);
   }
 
   try {
@@ -57,6 +52,7 @@ export const GET = async (req, res) => {
     // 2. standings
     // 3. teamsConferenceAndDivisions
     // 4. recent-results
+    // 5. most-recent-season
 
     // var that will hold the data that is returned depending on the case
     let requestedData;
@@ -119,6 +115,13 @@ export const GET = async (req, res) => {
 
         requestedData = recentlyPlayedGames;
 
+        break;
+      case "most-recent-season":
+        const seasons = await League.find({}, "seasonNumber");
+        const seasonsList = seasons.map((season) => {
+          return season.seasonNumber;
+        });
+        requestedData = Math.max(...seasonsList);
         break;
       default:
         requestedData = seasonData;

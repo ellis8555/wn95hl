@@ -1,6 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
+import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/constants";
 
 let db;
 
@@ -9,10 +10,16 @@ export const PATCH = async (req, res) => {
   const leagueName = searchParams.get("league");
   const seasonNumber = searchParams.get("season-number");
 
+  if (!leagueName) {
+    throw new Error("A league name needs to be given");
+  }
+
   try {
     db = await connectToDb();
 
-    const fetchSeason = await W_Season.findOne({
+    const League = CLEAR_LEAGUE_TABLE_SWITCH(leagueName, W_Season);
+
+    const fetchSeason = await League.findOne({
       seasonNumber: seasonNumber,
     });
     if (!fetchSeason) {
@@ -21,7 +28,6 @@ export const PATCH = async (req, res) => {
 
     // const season = seasonData[0];
     const seasonData = fetchSeason;
-    console.log(seasonData._id);
     // get the array that contains each teams current recorde
     const teamsRecords = seasonData["standings"];
     const categoriesToReset = ["GP", "W", "L", "T", "OTL", "Pts"];

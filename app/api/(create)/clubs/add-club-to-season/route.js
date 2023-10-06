@@ -2,6 +2,7 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
 import Club from "@/schemas/club";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/constants";
 
 let db;
 
@@ -17,6 +18,8 @@ export const POST = async (req) => {
   try {
     db = await connectToDb();
 
+    const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+
     // check that team name exists
     const searchIfTeamExists = await Club.queryIfClubExists(teamName);
     if (!searchIfTeamExists) {
@@ -28,7 +31,7 @@ export const POST = async (req) => {
     }
 
     // check if season has been created in the database
-    let thisSeason = await W_Season.findOne({ seasonNumber: whichSeason });
+    let thisSeason = await League.findOne({ seasonNumber: whichSeason });
     if (!thisSeason) {
       return nextResponse(
         { message: `Season ${whichSeason} has not been registered` },

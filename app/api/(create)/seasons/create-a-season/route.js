@@ -1,6 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/constants";
 
 let db;
 
@@ -18,6 +19,8 @@ export const POST = async (req) => {
   try {
     db = await connectToDb();
 
+    const League = LEAGUE_SCHEMA_SWITCH(seasonNumber, W_Season);
+
     // search if season number has already been used or is not a number
     const numbersOnlyPattern = /^\d+$/;
     const isSeasonNumberValid = numbersOnlyPattern.test(+seasonNumber);
@@ -29,7 +32,7 @@ export const POST = async (req) => {
         "POST"
       );
     }
-    const doesSeasonNumberAlreadyExist = await W_Season.findOne({
+    const doesSeasonNumberAlreadyExist = await League.findOne({
       seasonNumber: seasonNumber,
     });
 
@@ -64,7 +67,7 @@ export const POST = async (req) => {
       );
     }
 
-    const newSeason = new W_Season({
+    const newSeason = new League({
       seasonNumber: seasonNumber,
       conferences: conferences,
       divisions: divisions,

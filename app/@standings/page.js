@@ -4,14 +4,11 @@ import { SORT_STANDINGS } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
 async function getStandings() {
-  const response = await fetch(
-    `${DOMAIN}/api/season-data?league=w&season-number=8&field=standings`,
-    {
-      next: {
-        revalidate: 0,
-      },
-    }
-  );
+  const response = await fetch(`${DOMAIN}/api/season-data?field=standings`, {
+    next: {
+      revalidate: 0,
+    },
+  });
 
   if (!response.ok) {
     const errorMessage = await response.json();
@@ -21,9 +18,10 @@ async function getStandings() {
   const leagueAndStructure = await response.json();
   return leagueAndStructure;
 }
+
 async function getLeagueStructure() {
   const response = await fetch(
-    `${DOMAIN}/api/season-data?league=w&season-number=8&field=teamsConferencesAndDivisions`,
+    `${DOMAIN}/api/season-data?field=teamsConferencesAndDivisions`,
     {
       next: {
         revalidate: 0,
