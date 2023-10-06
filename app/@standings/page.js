@@ -15,11 +15,11 @@ async function getStandings() {
     throw new Error(errorMessage.message);
   }
 
-  const leagueAndStructure = await response.json();
-  return leagueAndStructure;
+  const standings = await response.json();
+  return standings;
 }
 
-async function getLeagueStructure() {
+async function getLeagueDivsionsAndStandings() {
   const response = await fetch(
     `${DOMAIN}/api/season-data?field=teamsConferencesAndDivisions`,
     {
@@ -34,13 +34,13 @@ async function getLeagueStructure() {
     throw new Error(errorMessage.message);
   }
 
-  const leagueStructure = await response.json();
-  return leagueStructure;
+  const divisionsAndConferences = await response.json();
+  return divisionsAndConferences;
 }
 
 async function standingsPage() {
   const standings = await getStandings();
-  const leagueStructure = await getLeagueStructure();
+  const divisionsAndConferences = await getLeagueDivsionsAndStandings();
 
   standings.sort((a, b) => SORT_STANDINGS(a, b));
   return (
@@ -49,7 +49,7 @@ async function standingsPage() {
         leagueName="w"
         seasonNumber="8"
         leagueTable={standings}
-        leagueStructure={leagueStructure}
+        leagueStructure={divisionsAndConferences}
       />
     </Suspense>
   );
