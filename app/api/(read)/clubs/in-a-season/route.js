@@ -7,8 +7,8 @@ let db;
 
 export const GET = async (req, res) => {
   const { searchParams } = new URL(req.url);
-  const leagueName = searchParams.get("league");
-  const seasonNumber = searchParams.get("season-number");
+  let leagueName = searchParams.get("league");
+  let seasonNumber = searchParams.get("season-number");
 
   // if no leagueName paramter set the default as per constant defined
   if (!leagueName) {
