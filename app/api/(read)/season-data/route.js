@@ -27,10 +27,19 @@ export const GET = async (req, res) => {
     );
   }
 
+  let League;
+  switch (leagueName) {
+    case "w":
+      League = W_Season;
+      break;
+    default:
+      League = W_Season;
+  }
+
   try {
     db = await connectToDb();
 
-    const seasonData = await W_Season.findOne({ seasonNumber });
+    const seasonData = await League.findOne({ seasonNumber });
 
     if (!seasonData) {
       return nextResponse(
@@ -72,6 +81,12 @@ export const GET = async (req, res) => {
         break;
       // get leagues current standings
       case "standings":
+        // the actual standings array
+        const standings = seasonData["standings"];
+        // return standings and league structure in a single object
+        requestedData = standings;
+        break;
+      case "teamsConferencesAndDivisions":
         // object which will contain each teams conference and division
         const leagueStructure = {};
         seasonData["teams"].forEach((team) => {
@@ -80,13 +95,7 @@ export const GET = async (req, res) => {
             division: team["division"],
           };
         });
-        // the actual standings array
-        const standings = seasonData["standings"];
-        // return standings and league structure in a single object
-        requestedData = {
-          standings: standings,
-          leagueStructure: leagueStructure,
-        };
+        requestedData = leagueStructure;
         break;
       // get recent league game results
       case "recent-results":
