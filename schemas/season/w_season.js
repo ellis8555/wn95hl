@@ -11,11 +11,10 @@ const W_LeagueSchema = new Schema({
 
 W_LeagueSchema.statics.getMostRecentSeasonNumber = async function () {
   const getSeasonNumberFields = await this.find().select("seasonNumber").exec();
-  let listOfSeasonNumbers = [];
-  getSeasonNumberFields.forEach((season) => {
-    listOfSeasonNumbers.push(season.seasonNumber);
-  });
-  const mostRecentSeason = Math.max(...listOfSeasonNumbers);
+  const seasonNumbers = getSeasonNumberFields.map(
+    (season) => season.seasonNumber
+  );
+  const mostRecentSeason = Math.max(...seasonNumbers);
   return mostRecentSeason;
 };
 
