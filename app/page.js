@@ -1,5 +1,4 @@
 import GameInputForm from "@/components/client/GameInputForm";
-import W_Season from "@/schemas/season/w_season";
 
 export const metadata = {
   title: "NHL95",
@@ -8,7 +7,7 @@ export const metadata = {
 
 export default async function Home() {
   const defaultLeague = "w";
-  const mostRecentWSeason = await W_Season.getMostRecentSeasonNumber();
+  const mostRecentWSeason = "8";
   return (
     <>
       <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>
