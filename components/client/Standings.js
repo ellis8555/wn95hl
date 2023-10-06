@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import LeagueTable from "../server/tables/LeagueTable";
 import FilteredTable from "../server/tables/FilteredTable";
+import LeagueLogo from "../server/Logos/LeagueLogo";
 import { COMPONENT_TABLE_BUTTON } from "@/utils/constants/component_consts";
 
 function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
@@ -50,7 +51,20 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
       </div>
       <div className="md:hidden">
         <div className="mt-3">
-          <div className="text-2xl text-center">{conference}</div>
+          {conference === "League" ? (
+            <div className="flex justify-center">
+              <LeagueLogo name="w" width={75} height={75} />
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              {conference === "Clarence Campbell" && (
+                <LeagueLogo name="clarenceCampbell" width={75} height={75} />
+              )}
+              {conference === "Prince of Wales" && (
+                <LeagueLogo name="PrinceOfWales" width={75} height={75} />
+              )}
+            </div>
+          )}
           <LeagueTable
             leagueName={leagueName}
             seasonNumber={seasonNumber}
@@ -63,7 +77,9 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
         {splitTables ? (
           <div className="flex flex-row justify-around gap-8">
             <div className="mt-3">
-              <div className="text-2xl text-center">Clarence Campbell</div>
+              <div className="flex justify-center">
+                <LeagueLogo name="clarenceCampbell" width={75} height={75} />
+              </div>
               <FilteredTable
                 confDivName="Clarence Campbell"
                 leagueName={leagueName}
@@ -74,7 +90,9 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
               />
             </div>
             <div className="mt-3">
-              <div className="text-2xl text-center">Prince of Wales</div>
+              <div className="flex justify-center">
+                <LeagueLogo name="princeOfWales" width={75} height={75} />
+              </div>
               <FilteredTable
                 confDivName="Prince of Wales"
                 leagueName={leagueName}
@@ -87,7 +105,20 @@ function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
           </div>
         ) : (
           <div className="mt-3 w-3/4">
-            <div className="text-2xl text-center">{conference}</div>
+            {conference === "League" ? (
+              <div className="flex justify-center">
+                <LeagueLogo name="w" width={75} height={75} />
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                {conference === "Clarence Campbell" && (
+                  <LeagueLogo name="clarenceCampbell" width={75} height={75} />
+                )}
+                {conference === "Prince of Wales" && (
+                  <LeagueLogo name="PrinceOfWales" width={75} height={75} />
+                )}
+              </div>
+            )}
             <LeagueTable
               leagueName={leagueName}
               seasonNumber={seasonNumber}
