@@ -1,4 +1,5 @@
 import GameInputForm from "@/components/client/GameInputForm";
+import { DEFAULT_LEAGUE } from "@/utils/constants/constants";
 
 export const metadata = {
   title: "NHL95",
@@ -6,7 +7,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const defaultLeague = "w";
+  const defaultLeague = DEFAULT_LEAGUE;
   const mostRecentWSeason = "8";
   return (
     <>
