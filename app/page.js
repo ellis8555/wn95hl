@@ -30,10 +30,7 @@ export default async function Home() {
   return (
     <>
       <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>
-      <GameInputForm
-        leagueName={DEFAULT_LEAGUE}
-        seasonNumber={mostRecentSeason}
-      />
+      <GameInputForm leagueName="w" seasonNumber={mostRecentSeason} />
     </>
   );
 }

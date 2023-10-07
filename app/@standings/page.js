@@ -65,7 +65,7 @@ async function standingsPage() {
   return (
     <Suspense fallback={<p>Loading table...</p>}>
       <Standings
-        leagueName={DEFAULT_LEAGUE}
+        leagueName="w"
         seasonNumber={mostRecentSeason}
         leagueTable={standings}
         leagueStructure={divisionsAndConferences}

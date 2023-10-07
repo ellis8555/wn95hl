@@ -18,7 +18,7 @@ export const GET = async (req, res) => {
   const getField = searchParams.get("field");
   // if no leagueName paramter set the default as per constant defined
   if (!leagueName) {
-    leagueName = DEFAULT_LEAGUE;
+    leagueName = "w";
   }
 
   try {

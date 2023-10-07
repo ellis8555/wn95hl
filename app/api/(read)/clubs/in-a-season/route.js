@@ -15,7 +15,7 @@ export const GET = async (req, res) => {
 
   // if no leagueName paramter set the default as per constant defined
   if (!leagueName) {
-    leagueName = DEFAULT_LEAGUE;
+    leagueName = "w";
   }
   // grab correct league schema in order to get the correct seasons data
   const League = W_Season;
