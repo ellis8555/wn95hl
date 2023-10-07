@@ -1,7 +1,10 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/constants";
+import {
+  DEFAULT_LEAGUE,
+  LEAGUE_SCHEMA_SWITCH,
+} from "@/utils/constants/constants";
 
 let db;
 
