@@ -26,13 +26,13 @@ async function getMostRecentSeason() {
 }
 
 export default async function Home() {
-  const mostRecentWSeason = await getMostRecentSeason();
+  const mostRecentSeason = await getMostRecentSeason();
   return (
     <>
       <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>
       <GameInputForm
         leagueName={DEFAULT_LEAGUE}
-        seasonNumber={mostRecentWSeason}
+        seasonNumber={mostRecentSeason}
       />
     </>
   );
