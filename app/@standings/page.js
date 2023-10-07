@@ -59,9 +59,9 @@ async function getMostRecentSeason() {
 async function standingsPage() {
   const mostRecentSeason = await getMostRecentSeason();
   const standings = await getStandings();
+  standings.sort((a, b) => SORT_STANDINGS(a, b));
   const divisionsAndConferences = await getLeagueDivsionsAndStandings();
 
-  standings.sort((a, b) => SORT_STANDINGS(a, b));
   return (
     <Suspense fallback={<p>Loading table...</p>}>
       <Standings
