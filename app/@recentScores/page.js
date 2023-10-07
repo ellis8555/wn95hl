@@ -5,7 +5,7 @@ import { DOMAIN } from "@/utils/constants/connections";
 
 async function getRecentGameResults() {
   const response = await fetch(
-    `${DOMAIN}/api/season-data?league=w&season-number=8&field=recent-results`,
+    `${DOMAIN}/api/season-data?field=recent-results`,
     {
       next: {
         revalidate: 0,

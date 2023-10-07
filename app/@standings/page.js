@@ -1,6 +1,6 @@
 import Standings from "@/components/client/Standings";
 import { Suspense } from "react";
-import { SORT_STANDINGS } from "@/utils/constants/constants";
+import { DEFAULT_LEAGUE, SORT_STANDINGS } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
 async function getStandings() {
@@ -38,7 +38,26 @@ async function getLeagueDivsionsAndStandings() {
   return divisionsAndConferences;
 }
 
+async function getMostRecentSeason() {
+  const response = await fetch(
+    `${DOMAIN}/api/season-data?field=most-recent-season`,
+    {
+      next: {
+        revalidate: 0,
+      },
+    }
+  );
+  if (!response.ok) {
+    const errorMessage = await response.json();
+    throw new Error(errorMessage.message);
+  }
+
+  const mostRecentSeason = await response.json();
+  return mostRecentSeason;
+}
+
 async function standingsPage() {
+  const mostRecentSeason = await getMostRecentSeason();
   const standings = await getStandings();
   const divisionsAndConferences = await getLeagueDivsionsAndStandings();
 
@@ -46,8 +65,8 @@ async function standingsPage() {
   return (
     <Suspense fallback={<p>Loading table...</p>}>
       <Standings
-        leaguesName="w"
-        seasonNumber="8"
+        leagueName={DEFAULT_LEAGUE}
+        seasonNumber={mostRecentSeason}
         leagueTable={standings}
         leagueStructure={divisionsAndConferences}
       />
