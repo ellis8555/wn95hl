@@ -14,7 +14,7 @@ W_LeagueSchema.statics.getMostRecentSeasonNumber = async function () {
   const seasonNumbers = getSeasonNumberFields.map(
     (season) => season.seasonNumber
   );
-  const mostRecentSeason = Math.max(...seasonNumbers);
+  const mostRecentSeason = Math.max(...seasonNumbers).toString();
   return mostRecentSeason;
 };
 

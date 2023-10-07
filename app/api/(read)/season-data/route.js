@@ -33,7 +33,7 @@ export const GET = async (req, res) => {
       const seasonsList = seasons.map((season) => {
         return season.seasonNumber;
       });
-      seasonNumber = Math.max(...seasonsList);
+      seasonNumber = Math.max(...seasonsList).toString();
     }
 
     // get season data from correct league and season number
@@ -136,7 +136,7 @@ export const GET = async (req, res) => {
         const seasonsList = seasons.map((season) => {
           return season.seasonNumber;
         });
-        requestedData = Math.max(...seasonsList);
+        requestedData = Math.max(...seasonsList).toString();
         break;
       default:
         requestedData = seasonData;
