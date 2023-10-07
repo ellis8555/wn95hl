@@ -20,20 +20,23 @@ export const GET = async (req, res) => {
   if (!leagueName) {
     leagueName = DEFAULT_LEAGUE;
   }
-  // grab correct league schema in order to get the correct seasons data
-  const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
-  // if no seasonNumber parameter set to most recent season
-  if (!seasonNumber) {
-    const seasons = await League.find({}, "seasonNumber");
-    const seasonsList = seasons.map((season) => {
-      return season.seasonNumber;
-    });
-    seasonNumber = Math.max(...seasonsList);
-  }
 
   try {
     db = await connectToDb();
 
+    // grab correct league schema in order to get the correct seasons data
+    const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+
+    // if no seasonNumber parameter set to most recent season
+    if (!seasonNumber) {
+      const seasons = await League.find({}, "seasonNumber");
+      const seasonsList = seasons.map((season) => {
+        return season.seasonNumber;
+      });
+      seasonNumber = Math.max(...seasonsList);
+    }
+
+    // get season data from correct league and season number
     const seasonData = await League.findOne({ seasonNumber });
 
     if (!seasonData) {
