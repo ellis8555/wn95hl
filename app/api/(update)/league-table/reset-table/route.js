@@ -1,7 +1,10 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
-import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/constants";
+import {
+  CLEAR_LEAGUE_TABLE_SWITCH,
+  LEAGUE_TABLE_CATEGORIES,
+} from "@/utils/constants/constants";
 
 let db;
 
@@ -30,7 +33,7 @@ export const PATCH = async (req, res) => {
     const seasonData = fetchSeason;
     // get the array that contains each teams current recorde
     const teamsRecords = seasonData["standings"];
-    const categoriesToReset = ["GP", "W", "L", "T", "OTL", "Pts"];
+    const categoriesToReset = LEAGUE_TABLE_CATEGORIES;
     // reset the categories listed back to 0
     teamsRecords.forEach((team) => {
       categoriesToReset.forEach((category) => {
