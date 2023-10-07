@@ -31,7 +31,7 @@ export default async function Home() {
     <>
       <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>
       <GameInputForm
-        leaguesName={DEFAULT_LEAGUE}
+        leagueName={DEFAULT_LEAGUE}
         seasonNumber={mostRecentWSeason}
       />
     </>
