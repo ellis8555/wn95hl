@@ -1,4 +1,4 @@
-// returns entire seaon object if field is not defined
+// returns entire season object if field is not defined
 // return field via field param that goes through a switch
 
 import { connectToDb } from "@/utils/database";

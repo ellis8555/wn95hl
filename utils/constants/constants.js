@@ -35,7 +35,7 @@ export const CLEAR_LEAGUE_TABLE_SWITCH = function (leagueName, wLeagueSchema) {
     case "w":
       return wLeagueSchema;
     default:
-      return wLeagueSchema;
+      return;
   }
 };
 
