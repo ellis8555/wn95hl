@@ -20,7 +20,7 @@ export const PATCH = async (req, res) => {
   try {
     db = await connectToDb();
 
-    const League = CLEAR_LEAGUE_TABLE_SWITCH(leagueName, W_Season);
+    const League = W_Season;
 
     const fetchSeason = await League.findOne({
       seasonNumber: seasonNumber,

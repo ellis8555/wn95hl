@@ -18,14 +18,14 @@ export const GET = async (req, res) => {
     leagueName = DEFAULT_LEAGUE;
   }
   // grab correct league schema in order to get the correct seasons data
-  const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+  const League = W_Season;
   // if no seasonNumber parameter set to most recent season
   if (!seasonNumber) {
     const seasons = await League.find({}, "seasonNumber");
     const seasonsList = seasons.map((season) => {
       return season.seasonNumber;
     });
-    seasonNumber = Math.max(...seasonsList);
+    seasonNumber = Math.max(...seasonsList).toString();
   }
 
   try {
