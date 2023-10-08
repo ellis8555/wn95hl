@@ -13,10 +13,6 @@ export const PATCH = async (req, res) => {
   const leagueName = searchParams.get("league");
   const seasonNumber = searchParams.get("season-number");
 
-  if (!leagueName) {
-    throw new Error("A league name needs to be given");
-  }
-
   try {
     db = await connectToDb();
 

@@ -17,10 +17,6 @@ export const GET = async (req, res) => {
   let leagueName = searchParams.get("league");
   let seasonNumber = searchParams.get("season-number");
   const getField = searchParams.get("field");
-  // if no leagueName paramter set the default as per constant defined
-  if (!leagueName) {
-    leagueName = DEFAULT_LEAGUE;
-  }
 
   try {
     db = await connectToDb();
