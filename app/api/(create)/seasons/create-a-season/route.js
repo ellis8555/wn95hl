@@ -19,7 +19,7 @@ export const POST = async (req) => {
   try {
     db = await connectToDb();
 
-    const League = LEAGUE_SCHEMA_SWITCH(seasonNumber, W_Season);
+    const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
 
     // search if season number has already been used or is not a number
     const numbersOnlyPattern = /^\d+$/;

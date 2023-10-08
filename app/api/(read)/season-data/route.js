@@ -26,7 +26,7 @@ export const GET = async (req, res) => {
     db = await connectToDb();
 
     // grab correct league schema in order to get the correct seasons data
-    const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
+    const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
 
     // if no seasonNumber parameter set to most recent season
     if (seasonNumber == MOST_RECENT_SEASON) {

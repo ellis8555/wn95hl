@@ -18,7 +18,7 @@ export const POST = async (req) => {
   try {
     db = await connectToDb();
 
-    const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
+    const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
 
     // check that team name exists
     const searchIfTeamExists = await Club.queryIfClubExists(teamName);
