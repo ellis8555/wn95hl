@@ -4,9 +4,9 @@ import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
-  API_READ_SEASON_DATA,
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
+import { API_READ_SEASON_DATA } from "@/utils/constants/api_consts";
 
 const recentGameResults = await API_READ_SEASON_DATA(
   DOMAIN,

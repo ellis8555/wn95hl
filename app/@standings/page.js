@@ -1,12 +1,12 @@
 import Standings from "@/components/client/Standings";
 import { Suspense } from "react";
 import {
-  API_READ_SEASON_DATA,
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
   SORT_STANDINGS,
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
+import { API_READ_SEASON_DATA } from "@/utils/constants/api_consts";
 
 const mostRecentSeason = await API_READ_SEASON_DATA(
   DOMAIN,
