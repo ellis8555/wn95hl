@@ -5,7 +5,6 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
 import {
-  DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
   LEAGUE_SCHEMA_SWITCH,
 } from "@/utils/constants/constants";
