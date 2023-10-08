@@ -18,7 +18,7 @@ export const GET = async (req, res) => {
     leagueName = "w";
   }
   // grab correct league schema in order to get the correct seasons data
-  const League = W_Season;
+  const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
   // if no seasonNumber parameter set to most recent season
   if (!seasonNumber) {
     const seasons = await League.find({}, "seasonNumber");

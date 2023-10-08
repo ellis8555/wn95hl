@@ -6,6 +6,7 @@ import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
 import {
   DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
   LEAGUE_SCHEMA_SWITCH,
 } from "@/utils/constants/constants";
 
@@ -18,17 +19,17 @@ export const GET = async (req, res) => {
   const getField = searchParams.get("field");
   // if no leagueName paramter set the default as per constant defined
   if (!leagueName) {
-    leagueName = "w";
+    leagueName = DEFAULT_LEAGUE;
   }
 
   try {
     db = await connectToDb();
 
     // grab correct league schema in order to get the correct seasons data
-    const League = W_Season;
+    const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
 
     // if no seasonNumber parameter set to most recent season
-    if (!seasonNumber) {
+    if (seasonNumber == MOST_RECENT_SEASON) {
       const seasons = await League.find({}, "seasonNumber");
       const seasonsList = seasons.map((season) => {
         return season.seasonNumber;
@@ -132,11 +133,7 @@ export const GET = async (req, res) => {
       // gets the most recent season
       ////////////////////////////////////////
       case "most-recent-season":
-        const seasons = await League.find({}, "seasonNumber");
-        const seasonsList = seasons.map((season) => {
-          return season.seasonNumber;
-        });
-        requestedData = Math.max(...seasonsList).toString();
+        requestedData = seasonNumber;
         break;
       default:
         requestedData = seasonData;
