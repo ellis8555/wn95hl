@@ -22,6 +22,7 @@ async function standingsPage() {
     "standings"
   );
 
+  standings.sort((a, b) => SORT_STANDINGS(a, b));
   const divisionsAndConferences = await API_READ_SEASON_DATA(
     DOMAIN,
     DEFAULT_LEAGUE,
