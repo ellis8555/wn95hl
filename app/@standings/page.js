@@ -21,7 +21,7 @@ async function standingsPage() {
     MOST_RECENT_SEASON,
     "standings"
   );
-  console.log(standings);
+
   standings.sort((a, b) => SORT_STANDINGS(a, b));
   const divisionsAndConferences = await API_READ_SEASON_DATA(
     DOMAIN,
