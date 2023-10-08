@@ -8,13 +8,14 @@ import {
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
+const recentGameResults = await API_READ_SEASON_DATA(
+  DOMAIN,
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+  "recent-results"
+);
+
 async function recentScores() {
-  const recentGameResults = await API_READ_SEASON_DATA(
-    DOMAIN,
-    DEFAULT_LEAGUE,
-    MOST_RECENT_SEASON,
-    "recent-results"
-  );
   return (
     <>
       <Suspense fallback={<p>Loading recent results...</p>}>

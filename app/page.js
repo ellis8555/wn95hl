@@ -11,13 +11,14 @@ export const metadata = {
   description: "Test site for NHL95",
 };
 
+const mostRecentSeason = await API_READ_SEASON_DATA(
+  DOMAIN,
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+  "most-recent-season"
+);
+
 export default async function Home() {
-  const mostRecentSeason = await API_READ_SEASON_DATA(
-    DOMAIN,
-    DEFAULT_LEAGUE,
-    MOST_RECENT_SEASON,
-    "most-recent-season"
-  );
   return (
     <>
       <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>

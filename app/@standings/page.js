@@ -8,27 +8,28 @@ import {
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
-async function standingsPage() {
-  const mostRecentSeason = await API_READ_SEASON_DATA(
-    DOMAIN,
-    DEFAULT_LEAGUE,
-    MOST_RECENT_SEASON,
-    "most-recent-season"
-  );
-  const standings = await API_READ_SEASON_DATA(
-    DOMAIN,
-    DEFAULT_LEAGUE,
-    MOST_RECENT_SEASON,
-    "standings"
-  );
+const mostRecentSeason = await API_READ_SEASON_DATA(
+  DOMAIN,
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+  "most-recent-season"
+);
+const standings = await API_READ_SEASON_DATA(
+  DOMAIN,
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+  "standings"
+);
+standings.sort((a, b) => SORT_STANDINGS(a, b));
 
-  standings.sort((a, b) => SORT_STANDINGS(a, b));
-  const divisionsAndConferences = await API_READ_SEASON_DATA(
-    DOMAIN,
-    DEFAULT_LEAGUE,
-    MOST_RECENT_SEASON,
-    "teamsConferencesAndDivisions"
-  );
+const divisionsAndConferences = await API_READ_SEASON_DATA(
+  DOMAIN,
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+  "teamsConferencesAndDivisions"
+);
+
+async function standingsPage() {
   return (
     <Suspense fallback={<p>Loading table...</p>}>
       <Standings
