@@ -7,7 +7,6 @@ import {
   SORT_STANDINGS,
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
-import getTeamsStandingsIndex from "@/utils/api/table-methods/team-standings/get-teams-standings-index";
 
 async function standingsPage() {
   const mostRecentSeason = await API_READ_SEASON_DATA(
@@ -16,12 +15,13 @@ async function standingsPage() {
     MOST_RECENT_SEASON,
     "most-recent-season"
   );
-  const standings = await API_READ_SEASON_DATA(
+  const standingsObject = await API_READ_SEASON_DATA(
     DOMAIN,
     DEFAULT_LEAGUE,
     MOST_RECENT_SEASON,
     "standings"
   );
+  const standings = Array.from(standingsObject);
   standings.sort((a, b) => {
     // First, sort by 'Pts' property in descending order
     if (b.Pts - a.Pts !== 0) {
