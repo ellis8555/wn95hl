@@ -21,7 +21,7 @@ export const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export const DEFAULT_LEAGUE = "w";
 
-export const MOST_RECENT_SEASON = "mostRecentSeason";
+export const MOST_RECENT_SEASON = "8";
 
 export const API_READ_SEASON_DATA = async function (
   domain,
