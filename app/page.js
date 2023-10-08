@@ -1,5 +1,9 @@
 import GameInputForm from "@/components/client/GameInputForm";
-import { DEFAULT_LEAGUE } from "@/utils/constants/constants";
+import {
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+  API_READ_SEASON_DATA,
+} from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
 export const metadata = {
@@ -7,30 +11,20 @@ export const metadata = {
   description: "Test site for NHL95",
 };
 
-async function getMostRecentSeason() {
-  const response = await fetch(
-    `${DOMAIN}/api/season-data?field=most-recent-season`,
-    {
-      next: {
-        revalidate: 0,
-      },
-    }
-  );
-  if (!response.ok) {
-    const errorMessage = await response.json();
-    throw new Error(errorMessage.message);
-  }
-
-  const mostRecentSeason = await response.json();
-  return mostRecentSeason;
-}
-
 export default async function Home() {
-  const mostRecentSeason = await getMostRecentSeason();
+  const mostRecentSeason = await API_READ_SEASON_DATA(
+    DOMAIN,
+    DEFAULT_LEAGUE,
+    MOST_RECENT_SEASON,
+    "most-recent-season"
+  );
   return (
     <>
       <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>
-      <GameInputForm leagueName="w" seasonNumber={mostRecentSeason} />
+      <GameInputForm
+        leagueName={DEFAULT_LEAGUE}
+        seasonNumber={mostRecentSeason}
+      />
     </>
   );
 }
