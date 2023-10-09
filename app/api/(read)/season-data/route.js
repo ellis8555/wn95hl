@@ -93,7 +93,7 @@ export const GET = async (req, res) => {
       ///////////////////////////////////////////////////////////////
       // gets conferences and divisions for the league and the season
       ///////////////////////////////////////////////////////////////
-      case "teamsConferencesAndDivisions":
+      case "teams-conferences-and-divisions":
         // object which will contain each teams conference and division
         const leagueStructure = {};
         seasonData["teams"].forEach((team) => {
