@@ -23,15 +23,6 @@ export const GET = async (req, res) => {
     // grab correct league schema in order to get the correct seasons data
     const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
 
-    // if no seasonNumber parameter set to most recent season
-    if (seasonNumber == MOST_RECENT_SEASON) {
-      const seasons = await League.find({}, "seasonNumber");
-      const seasonsList = seasons.map((season) => {
-        return season.seasonNumber;
-      });
-      seasonNumber = Math.max(...seasonsList).toString();
-    }
-
     // get season data from correct league and season number
     const seasonData = await League.findOne({ seasonNumber });
 
@@ -128,7 +119,7 @@ export const GET = async (req, res) => {
       // gets the most recent season
       ////////////////////////////////////////
       case "most-recent-season":
-        requestedData = seasonNumber;
+        requestedData = MOST_RECENT_SEASON;
         break;
       default:
         requestedData = seasonData;
