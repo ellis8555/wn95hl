@@ -2,14 +2,14 @@ import Standings from "@/components/client/Standings";
 import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
-  SORT_STANDINGS,
   MOST_RECENT_SEASON,
+  SORT_STANDINGS,
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
 async function getStandings() {
   const response = await fetch(
-    `${DOMAIN}/api/season-data?league=w&season-number=8&field=standings`,
+    `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/teams-conferences-and-divisions`,
     {
       next: {
         revalidate: 0,
@@ -23,32 +23,15 @@ async function getStandings() {
 
   const responseData = await response.json();
 
-  return responseData;
-}
-async function getDivisionsAndConferences() {
-  const response = await fetch(
-    `${DOMAIN}/api/season-data?league=w&season-number=8&field=teams-conferences-and-divisions`,
-    {
-      next: {
-        revalidate: 0,
-      },
-    }
-  );
-  if (!response.ok) {
-    const errorMessage = await response.json();
-    throw new Error(errorMessage.message);
-  }
-
-  const responseData = await response.json();
   return responseData;
 }
 
 async function standingsPage() {
-  const [standings, divisionsAndConferences] = await Promise.all([
-    getStandings(),
-    getDivisionsAndConferences(),
-  ]);
+  const leagueData = await getStandings();
+  const standings = leagueData.standings;
   standings.sort((a, b) => SORT_STANDINGS(a, b));
+  const divisionsAndConferences = leagueData.divisionsAndConferences;
+
   return (
     <Suspense fallback={<p>Loading table...</p>}>
       <Standings

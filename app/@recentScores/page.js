@@ -2,10 +2,14 @@ import Boxscore from "@/components/server/Boxscore/Boxscore";
 import GameResultScore from "@/components/server/Boxscore/GameResultScore";
 import { Suspense } from "react";
 import { DOMAIN } from "@/utils/constants/connections";
+import {
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+} from "@/utils/constants/constants";
 
 async function getRecentGameResults() {
   const response = await fetch(
-    `${DOMAIN}/api/season-data?league=w&season-number=8&field=recent-results`,
+    `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/recent-results`,
     {
       next: {
         revalidate: 0,
@@ -22,7 +26,8 @@ async function getRecentGameResults() {
 }
 
 async function recentScores() {
-  const recentGameResults = await getRecentGameResults();
+  const leagueData = await getRecentGameResults();
+  const recentGameResults = leagueData.recentlyPlayedGames;
   return (
     <>
       <Suspense fallback={<p>Loading recent results...</p>}>
