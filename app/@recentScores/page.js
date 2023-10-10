@@ -27,16 +27,16 @@ async function getRecentGameResults() {
 
 async function recentScores() {
   const leagueData = await getRecentGameResults();
-  const recentGameResults = leagueData.recentlyPlayedGames;
+  const { recentlyPlayedGames } = leagueData;
   return (
     <>
       <Suspense fallback={<p>Loading recent results...</p>}>
-        <Boxscore recentGameResults={recentGameResults} />
+        <Boxscore recentGameResults={recentlyPlayedGames} />
       </Suspense>
       <div className="sm:hidden">
         <div className="text-xl text-center my-4">Latest result</div>
         <Suspense fallback={<p>Processing game...</p>}>
-          <GameResultScore recentGameResults={recentGameResults} />
+          <GameResultScore recentGameResults={recentlyPlayedGames} />
         </Suspense>
       </div>
     </>
