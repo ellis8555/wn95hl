@@ -6,7 +6,6 @@ import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
 import { DOMAIN } from "@/utils/constants/connections";
-import { SORT_STANDINGS } from "@/utils/constants/constants";
 
 function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
@@ -84,7 +83,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
           );
           // update the standings table after submitting game result
           const standingsResponse = await fetch(
-            `${DOMAIN}/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
+            `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`,
             {
               next: {
                 revalidate: 0,
@@ -97,8 +96,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
             throw new Error(errorMessage.message);
           }
 
-          const updatedStandings = await standingsResponse.json();
-          updatedStandings.sort((a, b) => SORT_STANDINGS(a, b));
+          const leagueData = await standingsResponse.json();
+          const { standings: updatedStandings } = leagueData;
 
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
@@ -121,7 +120,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       if (fileName.includes("2002TD")) {
         // get the teams registered to this league
         const response = await fetch(
-          `/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=teamsDictCodes`,
+          `/api/league-data/${leagueName}/${seasonNumber}/team-codes`,
           {
             method: "GET",
             headers: {
@@ -137,14 +136,15 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
         // teamsDict is name from python file
         // object containing list of team acronyms required for game state parsing
-        const teamsDict = await response.json();
+        const leagueData = await response.json();
+        const { dictCodes } = leagueData;
         // this returns all the parsed game data
         const fetchedGameData = await readBinaryGameState(
           file,
           seasonNumber,
           gameType,
           leagueName,
-          teamsDict
+          dictCodes
         );
         fetchedCSVData.push(fetchedGameData);
         setGameData(fetchedCSVData[0]);
@@ -186,7 +186,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       setServerMessage("Updating the standings...");
       // update the standings table after submitting game result
       const standingsResponse = await fetch(
-        `${DOMAIN}/api/season-data?league=${leagueName}&season-number=${seasonNumber}&field=standings`,
+        `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`,
         {
           next: {
             revalidate: 0,
@@ -199,8 +199,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
         throw new Error(errorMessage.message);
       }
 
-      const updatedStandings = await standingsResponse.json();
-      updatedStandings.sort((a, b) => SORT_STANDINGS(a, b));
+      const leagueData = await standingsResponse.json();
+      const { standings: updatedStandings } = leagueData;
 
       setRefreshTheStandings(true);
       setClientSideStandings(updatedStandings);
