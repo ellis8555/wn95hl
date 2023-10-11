@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
-  SORT_STANDINGS,
 } from "@/utils/constants/constants";
 import { DOMAIN } from "@/utils/constants/connections";
 
@@ -29,7 +28,6 @@ async function getStandings() {
 async function standingsPage() {
   const leagueData = await getStandings();
   const { standings, divisionsAndConferences } = leagueData;
-  standings.sort((a, b) => SORT_STANDINGS(a, b));
 
   return (
     <Suspense fallback={<p>Loading table...</p>}>
