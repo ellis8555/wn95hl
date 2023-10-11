@@ -28,9 +28,8 @@ async function getStandings() {
 
 async function standingsPage() {
   const leagueData = await getStandings();
-  const { standings } = leagueData;
+  const { standings, divisionsAndConferences } = leagueData;
   standings.sort((a, b) => SORT_STANDINGS(a, b));
-  const { divisionsAndConferences } = leagueData;
 
   return (
     <Suspense fallback={<p>Loading table...</p>}>
