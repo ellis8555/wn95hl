@@ -120,7 +120,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       if (fileName.includes("2002TD")) {
         // get the teams registered to this league
         const response = await fetch(
-          `/api/league-data/${leagueName}/${seasonNumber}/team-codes`,
+          `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}/team-codes`,
           {
             method: "GET",
             headers: {
