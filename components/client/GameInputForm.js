@@ -61,7 +61,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
         try {
           const responses = [];
           for (let i = 0; i < howManyGamesSubmitted; i++) {
-            const response = await fetch(`/api/game-result`, {
+            const url = `${DOMAIN}/api/game-result`;
+            const response = await fetch(url, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -82,14 +83,12 @@ function GameInputForm({ leagueName, seasonNumber }) {
             `${howManyGamesSubmitted} games have been submitted`
           );
           // update the standings table after submitting game result
-          const standingsResponse = await fetch(
-            `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`,
-            {
-              next: {
-                revalidate: 0,
-              },
-            }
-          );
+          const url = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`;
+          const standingsResponse = await fetch(url, {
+            next: {
+              revalidate: 0,
+            },
+          });
 
           if (!standingsResponse.ok) {
             const errorMessage = await standingsResponse.json();
@@ -118,16 +117,15 @@ function GameInputForm({ leagueName, seasonNumber }) {
       // const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
       // if (statePattern.test(fileName) || fileName.includes("2002TD")) {
       if (fileName.includes("2002TD")) {
+        const url = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}/team-codes`;
         // get the teams registered to this league
-        const response = await fetch(
-          `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}/team-codes`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           const responseError = await response.json();
@@ -170,7 +168,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
     // message the user request has been sent
     setServerMessage("Sending...");
     try {
-      const response = await fetch(`/api/game-result`, {
+      const url = `${DOMAIN}/api/game-result`;
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -184,15 +183,13 @@ function GameInputForm({ leagueName, seasonNumber }) {
       }
       // edit user message
       setServerMessage("Updating the standings...");
+      const url1 = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`;
       // update the standings table after submitting game result
-      const standingsResponse = await fetch(
-        `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`,
-        {
-          next: {
-            revalidate: 0,
-          },
-        }
-      );
+      const standingsResponse = await fetch(url1, {
+        next: {
+          revalidate: 0,
+        },
+      });
 
       if (!standingsResponse.ok) {
         const errorMessage = await standingsResponse.json();

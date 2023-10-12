@@ -7,14 +7,12 @@ import {
 import { DOMAIN } from "@/utils/constants/connections";
 
 async function getStandings() {
-  const response = await fetch(
-    `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/teams-conferences-and-divisions`,
-    {
-      next: {
-        revalidate: 0,
-      },
-    }
-  );
+  const url = `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/teams-conferences-and-divisions`;
+  const response = await fetch(url, {
+    next: {
+      revalidate: 0,
+    },
+  });
   if (!response.ok) {
     const errorMessage = await response.json();
     throw new Error(errorMessage.message);

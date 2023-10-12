@@ -8,14 +8,12 @@ import {
 } from "@/utils/constants/constants";
 
 async function getRecentGameResults() {
-  const response = await fetch(
-    `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/recent-results`,
-    {
-      next: {
-        revalidate: 0,
-      },
-    }
-  );
+  const url = `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/recent-results`;
+  const response = await fetch(url, {
+    next: {
+      revalidate: 0,
+    },
+  });
   if (!response.ok) {
     const errorMessage = await response.json();
     throw new Error(errorMessage.message);
