@@ -1,31 +1,29 @@
 import Boxscore from "@/components/server/Boxscore/Boxscore";
 import GameResultScore from "@/components/server/Boxscore/GameResultScore";
 import { Suspense } from "react";
-import { DOMAIN } from "@/utils/constants/connections";
-import {
-  DEFAULT_LEAGUE,
-  MOST_RECENT_SEASON,
-} from "@/utils/constants/constants";
+import { MOST_RECENT_SEASON } from "@/utils/constants/constants";
+import { connectToDb } from "@/utils/database";
+import W_Season from "@/schemas/season/w_season";
 
-async function getRecentGameResults() {
-  const url = `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/recent-results`;
-  const response = await fetch(url, {
-    next: {
-      revalidate: 0,
-    },
-  });
-  if (!response.ok) {
-    const errorMessage = await response.json();
-    throw new Error(errorMessage.message);
+async function getRecentGameResults(seasonNumber) {
+  await connectToDb();
+
+  const responseData = {};
+
+  const doesSeasonExist = await W_Season.queryForIfSeasonExists(seasonNumber);
+  if (!doesSeasonExist) {
+    throw new Error(`Season ${seasonNumber} does not exist`);
   }
 
-  const responseData = await response.json();
-  return responseData;
+  await W_Season.getFieldData(seasonNumber, "recent-results", responseData);
+
+  return JSON.stringify(responseData);
 }
 
 async function recentScores() {
-  const leagueData = await getRecentGameResults();
-  const { recentlyPlayedGames } = leagueData;
+  const { recentlyPlayedGames } = JSON.parse(
+    await getRecentGameResults(MOST_RECENT_SEASON)
+  );
   return (
     <>
       <Suspense fallback={<p>Loading recent results...</p>}>

@@ -4,28 +4,33 @@ import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
-import { DOMAIN } from "@/utils/constants/connections";
+import { connectToDb } from "@/utils/database";
+import W_Season from "@/schemas/season/w_season";
 
-async function getStandings() {
-  const url = `${DOMAIN}/api/league-data/${DEFAULT_LEAGUE}/${MOST_RECENT_SEASON}/teams-conferences-and-divisions`;
-  const response = await fetch(url, {
-    next: {
-      revalidate: 0,
-    },
-  });
-  if (!response.ok) {
-    const errorMessage = await response.json();
-    throw new Error(errorMessage.message);
+async function getStandings(seasonNumber) {
+  await connectToDb();
+
+  const responseData = {};
+
+  const doesSeasonExist = await W_Season.queryForIfSeasonExists(seasonNumber);
+  if (!doesSeasonExist) {
+    throw new Error(`Season ${seasonNumber} does not exist`);
   }
 
-  const responseData = await response.json();
+  responseData.standings = await W_Season.getSortedStandings(seasonNumber);
+  await W_Season.getFieldData(
+    seasonNumber,
+    "teams-conferences-and-divisions",
+    responseData
+  );
 
-  return responseData;
+  return JSON.stringify(responseData);
 }
 
 async function standingsPage() {
-  const leagueData = await getStandings();
-  const { standings, divisionsAndConferences } = leagueData;
+  const { standings, divisionsAndConferences } = JSON.parse(
+    await getStandings(MOST_RECENT_SEASON)
+  );
 
   return (
     <Suspense fallback={<p>Loading table...</p>}>
