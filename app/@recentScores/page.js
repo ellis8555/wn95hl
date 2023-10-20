@@ -1,7 +1,11 @@
 import Boxscore from "@/components/server/Boxscore/Boxscore";
 import GameResultScore from "@/components/server/Boxscore/GameResultScore";
 import { Suspense } from "react";
-import { MOST_RECENT_SEASON } from "@/utils/constants/constants";
+import {
+  DEFAULT_LEAGUE,
+  LEAGUE_SCHEMA_SWITCH,
+  MOST_RECENT_SEASON,
+} from "@/utils/constants/constants";
 import { connectToDb } from "@/utils/database";
 import W_Season from "@/schemas/season/w_season";
 
@@ -12,12 +16,14 @@ async function getRecentGameResults(seasonNumber) {
 
   const responseData = {};
 
-  const doesSeasonExist = await W_Season.queryForIfSeasonExists(seasonNumber);
+  const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
+
+  const doesSeasonExist = await League.queryForIfSeasonExists(seasonNumber);
   if (!doesSeasonExist) {
     throw new Error(`Season ${seasonNumber} does not exist`);
   }
 
-  await W_Season.getFieldData(seasonNumber, "recent-results", responseData);
+  await League.getFieldData(seasonNumber, "recent-results", responseData);
 
   return JSON.stringify(responseData);
 }

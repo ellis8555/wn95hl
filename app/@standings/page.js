@@ -2,6 +2,7 @@ import Standings from "@/components/client/Standings";
 import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
+  LEAGUE_SCHEMA_SWITCH,
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
 import { connectToDb } from "@/utils/database";
@@ -14,13 +15,15 @@ async function getStandings(seasonNumber) {
 
   const responseData = {};
 
-  const doesSeasonExist = await W_Season.queryForIfSeasonExists(seasonNumber);
+  const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
+
+  const doesSeasonExist = await League.queryForIfSeasonExists(seasonNumber);
   if (!doesSeasonExist) {
     throw new Error(`Season ${seasonNumber} does not exist`);
   }
 
-  responseData.standings = await W_Season.getSortedStandings(seasonNumber);
-  await W_Season.getFieldData(
+  responseData.standings = await League.getSortedStandings(seasonNumber);
+  await League.getFieldData(
     seasonNumber,
     "teams-conferences-and-divisions",
     responseData
