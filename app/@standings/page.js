@@ -7,6 +7,8 @@ import {
 import { connectToDb } from "@/utils/database";
 import W_Season from "@/schemas/season/w_season";
 
+export const dynamic = "force-dynamic";
+
 async function getStandings(seasonNumber) {
   await connectToDb();
 
