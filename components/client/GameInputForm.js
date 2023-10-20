@@ -16,6 +16,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
     useFullLeagueStandings();
 
   const fileInputRef = useRef(null);
+  const submitButtonRef = useRef();
   ///////////////////////////////////////////////////////////
   // gameType still needs to be incorporated and made dynamic
   ///////////////////////////////////////////////////////////
@@ -23,18 +24,28 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
   useEffect(() => {
     fetchGameData();
+    if (submitButtonRef.current.disabled) {
+      submitButtonRef.current.disabled = false;
+    }
   }, [gameData]);
 
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // disable submit button
+    submitButtonRef.current.disabled = true;
 
     const file = fileInputRef.current.files[0];
 
     if (!file) {
+      // re-enable submit button
+      submitButtonRef.current.disabled = false;
       alert("No file selected");
       return;
     }
+
+    // message user the file is being processed
+    setServerMessage("Game file being procressed...");
 
     const fileName = file.name;
 
@@ -98,6 +109,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
           const leagueData = await standingsResponse.json();
           const { standings: updatedStandings } = leagueData;
 
+          // re-enable the submit button
+          submitButtonRef.current.disabled = false;
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
         } catch (error) {
@@ -230,7 +243,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <div className="flex flex-row gap-2">
-          <button className="border rounded-md border-black px-2" type="submit">
+          <button
+            ref={submitButtonRef}
+            className="border rounded-md border-black px-2"
+            type="submit"
+          >
             Submit
           </button>
         </div>
