@@ -3,34 +3,25 @@ import GameResultScore from "@/components/server/Boxscore/GameResultScore";
 import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
-  LEAGUE_SCHEMA_SWITCH,
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
-import { connectToDb } from "@/utils/database";
-import W_Season from "@/schemas/season/w_season";
+import { READ_SEASON_FIELD_DATA } from "@/utils/constants/api_consts";
 
 export const dynamic = "force-dynamic";
 
-async function getRecentGameResults(seasonNumber) {
-  await connectToDb();
+async function getRecentGameResults(leagueName, seasonNumber) {
+  const { recentlyPlayedGames } = await READ_SEASON_FIELD_DATA(
+    leagueName,
+    seasonNumber,
+    "recent-results"
+  );
 
-  const responseData = {};
-
-  const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
-
-  const doesSeasonExist = await League.queryForIfSeasonExists(seasonNumber);
-  if (!doesSeasonExist) {
-    throw new Error(`Season ${seasonNumber} does not exist`);
-  }
-
-  await League.getFieldData(seasonNumber, "recent-results", responseData);
-
-  return JSON.stringify(responseData);
+  return JSON.stringify(recentlyPlayedGames);
 }
 
 async function recentScores() {
-  const { recentlyPlayedGames } = JSON.parse(
-    await getRecentGameResults(MOST_RECENT_SEASON)
+  const recentlyPlayedGames = JSON.parse(
+    await getRecentGameResults(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );
   return (
     <>
