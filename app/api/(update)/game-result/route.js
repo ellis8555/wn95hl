@@ -1,4 +1,4 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import getTeamsStandingsIndex from "@/utils/api/table-methods/team-standings/get-teams-standings-index";
 import incrementGamesPlayed from "@/utils/api/table-methods/team-standings/increment-games-played";
 import incrementWinningTeamsWins from "@/utils/api/table-methods/team-standings/increment-winning-teams-wins";
@@ -9,8 +9,6 @@ import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/in
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
 import Club from "@/schemas/club";
-
-let db;
 
 export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
@@ -110,7 +108,7 @@ export const POST = async (req, res) => {
   }
 
   try {
-    db = await connectToDb();
+    await connectToDb();
     // get the leagues document for the correct season
     let League;
     let seasonDocument;
@@ -429,8 +427,6 @@ export const POST = async (req, res) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

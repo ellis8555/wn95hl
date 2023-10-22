@@ -1,8 +1,6 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
-
-let db;
 
 export const POST = async (req) => {
   const {
@@ -16,7 +14,7 @@ export const POST = async (req) => {
   } = await req.json();
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     const League = LEAGUE_SCHEMA_SWITCH(leagueName);
 
@@ -85,8 +83,6 @@ export const POST = async (req) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

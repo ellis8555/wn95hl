@@ -1,16 +1,14 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import Club from "@/schemas/club";
 import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
-
-let db;
 
 export const PATCH = async (req) => {
   const { clubName, newName, coachName, teamAcronym, teamLogo, teamBanner } =
     await req.json();
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     const club = await Club.queryOneClub(clubName);
 
@@ -75,8 +73,6 @@ export const PATCH = async (req) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "PATCH");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

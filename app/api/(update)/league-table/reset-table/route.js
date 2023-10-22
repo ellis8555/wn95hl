@@ -1,12 +1,7 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import W_Season from "@/schemas/season/w_season";
-import {
-  CLEAR_LEAGUE_TABLE_SWITCH,
-  LEAGUE_TABLE_CATEGORIES,
-} from "@/utils/constants/constants";
-
-let db;
+import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
+import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/api_consts";
 
 export const PATCH = async (req, res) => {
   const { searchParams } = new URL(req.url);
@@ -14,9 +9,9 @@ export const PATCH = async (req, res) => {
   const seasonNumber = searchParams.get("season-number");
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
-    const League = CLEAR_LEAGUE_TABLE_SWITCH(leagueName, W_Season);
+    const League = CLEAR_LEAGUE_TABLE_SWITCH(leagueName);
 
     const fetchSeason = await League.findOne({
       seasonNumber: seasonNumber,
@@ -47,8 +42,6 @@ export const PATCH = async (req, res) => {
   } catch (error) {
     return nextResponse(error.message, 500, "PATCH");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

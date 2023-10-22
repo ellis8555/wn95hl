@@ -1,8 +1,6 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import Club from "@/schemas/club";
 import nextResponse from "@/utils/api/next-response";
-
-let db;
 
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url);
@@ -10,7 +8,7 @@ export const GET = async (req) => {
   const teamName = searchParams.get("team-name");
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     const getClub = await Club.queryOneClub(teamName);
 
@@ -18,8 +16,6 @@ export const GET = async (req) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "GET");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

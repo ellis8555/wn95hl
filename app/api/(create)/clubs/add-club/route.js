@@ -1,16 +1,14 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import Club from "@/schemas/club";
 import User from "@/schemas/user";
-
-let db;
 
 export const POST = async (req) => {
   const { name, nickname, teamAcronym, coachName, teamLogo, teamBanner } =
     await req.json();
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     // prevent duplicate name from being added
     const searchForIfTeamExists = await Club.queryIfClubExists(name);
@@ -42,8 +40,6 @@ export const POST = async (req) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

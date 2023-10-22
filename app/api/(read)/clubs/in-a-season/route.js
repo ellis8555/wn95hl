@@ -1,8 +1,6 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
-
-let db;
 
 export const GET = async (req, res) => {
   const { searchParams } = new URL(req.url);
@@ -21,7 +19,7 @@ export const GET = async (req, res) => {
   }
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     // get this seasons document
     const seasonData = await League.findOne({ seasonNumber });
@@ -37,8 +35,6 @@ export const GET = async (req, res) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "GET");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

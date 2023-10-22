@@ -1,8 +1,6 @@
-import { connectToDb } from "@/utils/database";
+import { connectToDb, closeDbConnection } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import User from "@/schemas/user";
-
-let db;
 
 export const POST = async (req) => {
   const { name } = await req.json();
@@ -13,7 +11,7 @@ export const POST = async (req) => {
   }
 
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     // prevent duplicate coach name
     const checkIfCoachExists = await User.queryIfUserExists(name);
@@ -33,8 +31,6 @@ export const POST = async (req) => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };

@@ -1,12 +1,10 @@
-import { connectToDb } from "@/utils/database";
+import { closeDbConnection, connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import User from "@/schemas/user";
 
-let db;
-
 export const GET = async () => {
   try {
-    db = await connectToDb();
+    await connectToDb();
 
     const users = await User.queryAllUsers();
 
@@ -14,8 +12,6 @@ export const GET = async () => {
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "GET");
   } finally {
-    if (db) {
-      db.close();
-    }
+    await closeDbConnection();
   }
 };
