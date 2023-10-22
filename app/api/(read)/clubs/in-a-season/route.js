@@ -1,7 +1,6 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import W_Season from "@/schemas/season/w_season";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/constants";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
 
 let db;
 
@@ -11,7 +10,7 @@ export const GET = async (req, res) => {
   let seasonNumber = searchParams.get("season-number");
 
   // grab correct league schema in order to get the correct seasons data
-  const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+  const League = LEAGUE_SCHEMA_SWITCH(leagueName);
   // if no seasonNumber parameter set to most recent season
   if (!seasonNumber) {
     const seasons = await League.find({}, "seasonNumber");

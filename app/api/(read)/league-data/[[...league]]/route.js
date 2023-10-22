@@ -1,11 +1,10 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import W_Season from "@/schemas/season/w_season";
 import {
   DEFAULT_LEAGUE,
-  LEAGUE_SCHEMA_SWITCH,
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
 
 export const GET = async (req, { params }) => {
   // this will be the object that is returned
@@ -30,7 +29,7 @@ export const GET = async (req, { params }) => {
     try {
       const db = await connectToDb();
       // grab correct league schema in order to get the correct seasons data
-      const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE, W_Season);
+      const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE);
 
       // schema method to determine if season exists
 
@@ -76,7 +75,7 @@ export const GET = async (req, { params }) => {
     try {
       const db = await connectToDb();
       // grab correct league schema in order to get the correct seasons data
-      const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+      const League = LEAGUE_SCHEMA_SWITCH(leagueName);
 
       // schema method to determine if season exists
 

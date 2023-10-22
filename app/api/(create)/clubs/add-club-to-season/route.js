@@ -1,8 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import W_Season from "@/schemas/season/w_season";
 import Club from "@/schemas/club";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/constants";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
 
 let db;
 
@@ -18,7 +17,7 @@ export const POST = async (req) => {
   try {
     db = await connectToDb();
 
-    const League = LEAGUE_SCHEMA_SWITCH(leagueName, W_Season);
+    const League = LEAGUE_SCHEMA_SWITCH(leagueName);
 
     // check that team name exists
     const searchIfTeamExists = await Club.queryIfClubExists(teamName);
