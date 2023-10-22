@@ -1,5 +1,4 @@
 import Standings from "@/components/client/Standings";
-import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -36,14 +35,12 @@ async function standingsPage() {
   );
 
   return (
-    <Suspense fallback={<p>Loading table...</p>}>
-      <Standings
-        leagueName={DEFAULT_LEAGUE}
-        seasonNumber={MOST_RECENT_SEASON}
-        leagueTable={standings}
-        leagueStructure={divisionsAndConferences}
-      />
-    </Suspense>
+    <Standings
+      leagueName={DEFAULT_LEAGUE}
+      seasonNumber={MOST_RECENT_SEASON}
+      leagueTable={standings}
+      leagueStructure={divisionsAndConferences}
+    />
   );
 }
 

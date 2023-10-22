@@ -1,6 +1,5 @@
 import Boxscore from "@/components/server/Boxscore/Boxscore";
 import GameResultScore from "@/components/server/Boxscore/GameResultScore";
-import { Suspense } from "react";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -25,14 +24,10 @@ async function recentScores() {
   );
   return (
     <>
-      <Suspense fallback={<p>Loading recent results...</p>}>
-        <Boxscore recentGameResults={recentlyPlayedGames} />
-      </Suspense>
+      <Boxscore recentGameResults={recentlyPlayedGames} />
       <div className="sm:hidden">
         <div className="text-xl text-center my-4">Latest result</div>
-        <Suspense fallback={<p>Processing game...</p>}>
-          <GameResultScore recentGameResults={recentlyPlayedGames} />
-        </Suspense>
+        <GameResultScore recentGameResults={recentlyPlayedGames} />
       </div>
     </>
   );
