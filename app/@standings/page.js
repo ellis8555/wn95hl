@@ -7,6 +7,7 @@ import {
   READ_SEASON_FIELD_DATA,
   READ_SEASON_STANDINGS,
 } from "@/utils/constants/api_consts";
+import { connectToDb } from "@/utils/database";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,7 @@ async function getStandings(leagueName, seasonNumber) {
     seasonNumber
   );
 
+  await connectToDb();
   const { divisionsAndConferences } = await READ_SEASON_FIELD_DATA(
     leagueName,
     seasonNumber,
@@ -25,7 +27,6 @@ async function getStandings(leagueName, seasonNumber) {
   );
 
   responseData.divisionsAndConferences = divisionsAndConferences;
-
   return JSON.stringify(responseData);
 }
 

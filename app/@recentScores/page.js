@@ -5,16 +5,17 @@ import {
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
 import { READ_SEASON_FIELD_DATA } from "@/utils/constants/api_consts";
+import { connectToDb } from "@/utils/database";
 
 export const dynamic = "force-dynamic";
 
 async function getRecentGameResults(leagueName, seasonNumber) {
+  await connectToDb();
   const { recentlyPlayedGames } = await READ_SEASON_FIELD_DATA(
     leagueName,
     seasonNumber,
     "recent-results"
   );
-
   return JSON.stringify(recentlyPlayedGames);
 }
 
