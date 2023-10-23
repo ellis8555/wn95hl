@@ -16,7 +16,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
     useFullLeagueStandings();
 
   const fileInputRef = useRef(null);
-  const submitButtonRef = useRef();
   ///////////////////////////////////////////////////////////
   // gameType still needs to be incorporated and made dynamic
   ///////////////////////////////////////////////////////////
@@ -24,22 +23,15 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
   useEffect(() => {
     fetchGameData();
-    if (submitButtonRef.current.disabled) {
-      submitButtonRef.current.disabled = false;
-    }
   }, [gameData]);
 
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // disable submit button
-    submitButtonRef.current.disabled = true;
 
     const file = fileInputRef.current.files[0];
 
     if (!file) {
-      // re-enable submit button
-      submitButtonRef.current.disabled = false;
       alert("No file selected");
       return;
     }
@@ -85,11 +77,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
               const responseError = await response.json();
               throw new Error(responseError.message);
             }
-            setServerMessage(`${i} states prcocessed..`);
+            setServerMessage(`${i} states processed..`);
             responses.push(await response.json());
           }
 
-          fileInputRef.current = "";
+          fileInputRef.current = null;
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
@@ -109,12 +101,10 @@ function GameInputForm({ leagueName, seasonNumber }) {
           const leagueData = await standingsResponse.json();
           const { standings: updatedStandings } = leagueData;
 
-          // re-enable the submit button
-          submitButtonRef.current.disabled = false;
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
         } catch (error) {
-          fileInputRef.current.value = "";
+          fileInputRef.current.value = null;
           setIsStateUploaded(false);
           setServerMessage(error.message);
         }
@@ -163,13 +153,13 @@ function GameInputForm({ leagueName, seasonNumber }) {
         setServerMessage("File name is not associated with a league yet");
       }
     } catch (error) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = null;
       setIsStateUploaded(false);
       setServerMessage(error.message);
     }
 
     if (fileInputRef.current != "") {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = null;
     }
   };
 
@@ -216,7 +206,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       setClientSideStandings(updatedStandings);
       setServerMessage("");
     } catch (error) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = null;
       setIsStateUploaded(false);
       setServerMessage(error.message);
     }
@@ -243,11 +233,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <div className="flex flex-row gap-2">
-          <button
-            ref={submitButtonRef}
-            className="border rounded-md border-black px-2"
-            type="submit"
-          >
+          <button className="border rounded-md border-black px-2" type="submit">
             Submit
           </button>
         </div>
