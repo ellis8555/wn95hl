@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import getTeamsStandingsIndex from "@/utils/api/table-methods/team-standings/get-teams-standings-index";
 import incrementGamesPlayed from "@/utils/api/table-methods/team-standings/increment-games-played";
 import incrementWinningTeamsWins from "@/utils/api/table-methods/team-standings/increment-winning-teams-wins";
@@ -426,7 +426,5 @@ export const POST = async (req, res) => {
     );
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
-  } finally {
-    await closeDbConnection();
   }
 };

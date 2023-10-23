@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import Club from "@/schemas/club";
 import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
@@ -72,7 +72,5 @@ export const PATCH = async (req) => {
     return nextResponse({ message: returnedMessage }, 200, "PATCH");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "PATCH");
-  } finally {
-    await closeDbConnection();
   }
 };

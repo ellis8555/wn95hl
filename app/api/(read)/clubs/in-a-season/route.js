@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
 
@@ -8,7 +8,7 @@ export const GET = async (req, res) => {
   let seasonNumber = searchParams.get("season-number");
 
   // grab correct league schema in order to get the correct seasons data
-  const League = LEAGUE_SCHEMA_SWITCH(leagueName);
+  const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
   // if no seasonNumber parameter set to most recent season
   if (!seasonNumber) {
     const seasons = await League.find({}, "seasonNumber");
@@ -34,7 +34,5 @@ export const GET = async (req, res) => {
     return nextResponse(teamsDictCodes, 200, "GET");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "GET");
-  } finally {
-    await closeDbConnection();
   }
 };

@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import {
   DEFAULT_LEAGUE,
@@ -27,7 +27,7 @@ export const GET = async (req, { params }) => {
     try {
       await connectToDb();
       // grab correct league schema in order to get the correct seasons data
-      const League = LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE);
+      const League = await LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE);
 
       // schema method to determine if season exists
 
@@ -53,8 +53,6 @@ export const GET = async (req, { params }) => {
       return nextResponse(requestedData, 200, "GET");
     } catch (error) {
       return nextResponse(error.message, 500, "GET");
-    } finally {
-      await closeDbConnection();
     }
   }
 
@@ -69,7 +67,7 @@ export const GET = async (req, { params }) => {
     try {
       await connectToDb();
       // grab correct league schema in order to get the correct seasons data
-      const League = LEAGUE_SCHEMA_SWITCH(leagueName);
+      const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
 
       // schema method to determine if season exists
 
@@ -104,8 +102,6 @@ export const GET = async (req, { params }) => {
       return nextResponse(requestedData, 200, "GET");
     } catch (error) {
       return nextResponse(error.message, 500, "GET");
-    } finally {
-      await closeDbConnection();
     }
   }
 };

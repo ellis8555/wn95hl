@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
 
@@ -16,7 +16,7 @@ export const POST = async (req) => {
   try {
     await connectToDb();
 
-    const League = LEAGUE_SCHEMA_SWITCH(leagueName);
+    const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
 
     // search if season number has already been used or is not a number
     const numbersOnlyPattern = /^\d+$/;
@@ -82,7 +82,5 @@ export const POST = async (req) => {
     );
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
-  } finally {
-    await closeDbConnection();
   }
 };

@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
 
@@ -23,7 +23,5 @@ export const GET = async (req) => {
     return nextResponse(getCoach, 200, "POST");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
-  } finally {
-    await closeDbConnection();
   }
 };

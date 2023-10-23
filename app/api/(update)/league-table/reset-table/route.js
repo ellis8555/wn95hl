@@ -41,7 +41,5 @@ export const PATCH = async (req, res) => {
     return nextResponse("League table has been reset..", 200, "PATCH");
   } catch (error) {
     return nextResponse(error.message, 500, "PATCH");
-  } finally {
-    await closeDbConnection();
   }
 };

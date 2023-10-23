@@ -1,4 +1,4 @@
-import { connectToDb, closeDbConnection } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import User from "@/schemas/user";
 
@@ -30,7 +30,5 @@ export const POST = async (req) => {
     return nextResponse({ message: `${name} has been added` }, 200, "POST");
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
-  } finally {
-    await closeDbConnection();
   }
 };

@@ -1,4 +1,4 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import Club from "@/schemas/club";
 import User from "@/schemas/user";
@@ -39,7 +39,5 @@ export const POST = async (req) => {
     );
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
-  } finally {
-    await closeDbConnection();
   }
 };
