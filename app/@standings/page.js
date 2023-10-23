@@ -9,8 +9,6 @@ import {
 } from "@/utils/constants/api_consts";
 import { connectToDb } from "@/utils/database";
 
-export const dynamic = "force-dynamic";
-
 async function getStandings(leagueName, seasonNumber) {
   const standings = await READ_SEASON_STANDINGS(leagueName, seasonNumber);
 
@@ -34,9 +32,6 @@ async function standingsPage() {
   const divisionsAndConferences = JSON.parse(
     await getDivisionsAndConferences(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );
-
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  console.log(divisionsAndConferences);
   return (
     <Standings
       leagueName={DEFAULT_LEAGUE}

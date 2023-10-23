@@ -7,8 +7,6 @@ import {
 import { READ_SEASON_FIELD_DATA } from "@/utils/constants/api_consts";
 import { connectToDb } from "@/utils/database";
 
-export const dynamic = "force-dynamic";
-
 async function getRecentGameResults(leagueName, seasonNumber) {
   await connectToDb();
 
