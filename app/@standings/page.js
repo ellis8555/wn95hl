@@ -12,6 +12,8 @@ import { connectToDb } from "@/utils/database";
 export const dynamic = "force-dynamic";
 
 async function getStandings(leagueName, seasonNumber) {
+  await connectToDb();
+
   const responseData = {};
 
   responseData.standings = await READ_SEASON_STANDINGS(
@@ -19,7 +21,6 @@ async function getStandings(leagueName, seasonNumber) {
     seasonNumber
   );
 
-  await connectToDb();
   const { divisionsAndConferences } = await READ_SEASON_FIELD_DATA(
     leagueName,
     seasonNumber,

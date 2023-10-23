@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 
 async function getRecentGameResults(leagueName, seasonNumber) {
   await connectToDb();
+
   const { recentlyPlayedGames } = await READ_SEASON_FIELD_DATA(
     leagueName,
     seasonNumber,
