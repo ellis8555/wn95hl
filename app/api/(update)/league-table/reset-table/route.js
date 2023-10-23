@@ -11,7 +11,7 @@ export const PATCH = async (req, res) => {
   try {
     await connectToDb();
 
-    const League = CLEAR_LEAGUE_TABLE_SWITCH(leagueName);
+    const League = await CLEAR_LEAGUE_TABLE_SWITCH(leagueName);
 
     const fetchSeason = await League.findOne({
       seasonNumber: seasonNumber,
