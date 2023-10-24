@@ -9,7 +9,7 @@ import {
 } from "@/utils/constants/api_consts";
 import { connectToDb } from "@/utils/database";
 
-export const revalidate = 10;
+export const revalidate = 1;
 
 async function getStandings(leagueName, seasonNumber) {
   const standings = await READ_SEASON_STANDINGS(leagueName, seasonNumber);
