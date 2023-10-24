@@ -11,7 +11,9 @@ function LeagueStandingsProvider({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    router.refresh();
+    if (refreshTheStandings) {
+      router.refresh();
+    }
   }, [clientSideStandings]);
 
   return (
