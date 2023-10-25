@@ -1,20 +1,14 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { createContext, useContext, useState } from "react";
 
 const FullLeagueStandingsContext = createContext();
 
 function LeagueStandingsProvider({ children }) {
   const [clientSideStandings, setClientSideStandings] = useState({});
   const [refreshTheStandings, setRefreshTheStandings] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (refreshTheStandings) {
-      router.refresh();
-    }
-  }, [clientSideStandings]);
+  const [clientRecentlyPlayedGames, setClientRecentlyPlayedGames] =
+    useState(null);
 
   return (
     <FullLeagueStandingsContext.Provider
@@ -23,6 +17,8 @@ function LeagueStandingsProvider({ children }) {
         setClientSideStandings,
         refreshTheStandings,
         setRefreshTheStandings,
+        clientRecentlyPlayedGames,
+        setClientRecentlyPlayedGames,
       }}
     >
       {children}
