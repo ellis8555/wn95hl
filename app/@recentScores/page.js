@@ -17,6 +17,9 @@ async function recentScores() {
         <div className="text-xl text-center my-4">Latest result</div>
         <GameResultScore recentGameResults={recentlyPlayedGames} />
       </div>
+      <p className="text-center text-red-500">
+        Table currently does not reflect any league
+      </p>
     </>
   );
 }
