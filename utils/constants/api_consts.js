@@ -1,4 +1,5 @@
 import W_Season from "@/schemas/season/w_season";
+import { DEFAULT_LEAGUE } from "./constants";
 
 export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
   switch (leagueName) {
@@ -36,7 +37,7 @@ export async function CLEAR_LEAGUE_TABLE_SWITCH(leagueName) {
     case "w":
       return W_Season;
     default:
-      return;
+      return DEFAULT_LEAGUE;
   }
 }
 
