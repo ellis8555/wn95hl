@@ -2,7 +2,7 @@ import { cache } from "react";
 import { connectToDb } from "@/utils/database";
 import { READ_SEASON_FIELD_DATA } from "@/utils/constants/api_consts";
 
-export const revalidate = 1;
+export const revalidate = 0;
 
 export const getRecentGameResults = cache(async function (
   leagueName,

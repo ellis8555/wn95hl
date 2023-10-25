@@ -6,7 +6,7 @@ export const metadata = {
   description: "League website for the NHL 95",
 };
 
-export const revalidate = 1;
+export const revalidate = 0;
 
 export default function RootLayout({ children, recentScores, standings }) {
   return (
