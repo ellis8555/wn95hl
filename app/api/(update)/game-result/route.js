@@ -163,15 +163,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    if (isDuplicate) {
-      return nextResponse(
-        {
-          message: `This game appears to be a duplicate. Game data was not saved..`,
-        },
-        400,
-        "POST"
-      );
-    }
+    // if (isDuplicate) {
+    //   return nextResponse(
+    //     {
+    //       message: `This game appears to be a duplicate. Game data was not saved..`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
@@ -233,30 +233,30 @@ export const POST = async (req, res) => {
       }
     });
 
-    const getHomeTeamsHomeSchedule = getHomeTeamsSeasonObject.schedule.home;
-    const getAwayTeamsAwaySchedule = getAwayTeamsSeasonObject.schedule.away;
+    // const getHomeTeamsHomeSchedule = getHomeTeamsSeasonObject.schedule.home;
+    // const getAwayTeamsAwaySchedule = getAwayTeamsSeasonObject.schedule.away;
 
-    const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
-    const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
-    if (extractHomeOpponent == -1) {
-      return nextResponse(
-        {
-          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-        },
-        400,
-        "POST"
-      );
-    }
+    // const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
+    // const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
+    // if (extractHomeOpponent == -1) {
+    //   return nextResponse(
+    //     {
+    //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
-    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+    // getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    // getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    // rewrite teams home/away schedules to reflect recent game played and submitted
+    // // rewrite teams home/away schedules to reflect recent game played and submitted
 
-    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-      getHomeTeamsHomeSchedule;
-    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-      getAwayTeamsAwaySchedule;
+    // seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+    //   getHomeTeamsHomeSchedule;
+    // seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+    //   getAwayTeamsAwaySchedule;
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
