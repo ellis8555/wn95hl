@@ -12,8 +12,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
 
-  const { setClientSideStandings, setRefreshTheStandings } =
-    useFullLeagueStandings();
+  const {
+    setClientRecentlyPlayedGames,
+    setClientSideStandings,
+    setRefreshTheStandings,
+  } = useFullLeagueStandings();
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -101,8 +104,21 @@ function GameInputForm({ leagueName, seasonNumber }) {
           const leagueData = await standingsResponse.json();
           const { standings: updatedStandings } = leagueData;
 
+          // update the boxscores
+          let updateRecentlyPlayedGames;
+          if (updatedStandings.length < 8) {
+            updateRecentlyPlayedGames = updatedStandings;
+          } else {
+            const howManyGamesPlayed = updatedStandings.length;
+            updateRecentlyPlayedGames = updatedStandings.slice(
+              howManyGamesPlayed - 8
+            );
+          }
+
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
+          setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
+          setServerMessage("");
         } catch (error) {
           fileInputRef.current.value = null;
           setIsStateUploaded(false);
@@ -186,7 +202,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       }
       // edit user message
       setServerMessage("Updating the standings...");
-      const url1 = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`;
+      const url1 = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}/recent-results`;
       // update the standings table after submitting game result
       const standingsResponse = await fetch(url1, {
         next: {
@@ -199,11 +215,24 @@ function GameInputForm({ leagueName, seasonNumber }) {
         throw new Error(errorMessage.message);
       }
 
+      // get newly updated standings
       const leagueData = await standingsResponse.json();
-      const { standings: updatedStandings } = leagueData;
+      console.log(leagueData);
+      const { standings: updatedStandings, recentlyPlayedGames } = leagueData;
 
+      // update the boxscores
+      let updateRecentlyPlayedGames;
+      if (recentlyPlayedGames.length < 8) {
+        updateRecentlyPlayedGames = recentlyPlayedGames;
+      } else {
+        const howManyGamesPlayed = recentlyPlayedGames.length;
+        updateRecentlyPlayedGames = recentlyPlayedGames.slice(
+          howManyGamesPlayed - 8
+        );
+      }
       setRefreshTheStandings(true);
       setClientSideStandings(updatedStandings);
+      setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
       setServerMessage("");
     } catch (error) {
       fileInputRef.current.value = null;
