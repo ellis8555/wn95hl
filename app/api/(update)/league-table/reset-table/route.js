@@ -1,11 +1,11 @@
-import { closeDbConnection, connectToDb } from "@/utils/database";
+import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/api_consts";
 
 export const PATCH = async (req, res) => {
   const { searchParams } = new URL(req.url);
-  const leagueName = searchParams.get("league");
+  const leagueName = searchParams.get("league-name");
   const seasonNumber = searchParams.get("season-number");
 
   try {
