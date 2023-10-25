@@ -20,6 +20,7 @@ async function recentScores() {
       <p className="text-center text-red-500">
         Table currently does not reflect any league
       </p>
+      <p className="text-center text-red-500">Testing being done</p>
     </>
   );
 }
