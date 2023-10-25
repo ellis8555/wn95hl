@@ -1,35 +1,55 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import Ticker from "./Ticker";
 
 function Boxscore({ recentGameResults }) {
-  let gamesDate;
-  let gamesDay;
-  const gameDates = [0];
+  const [recentGamesPlayed, setrecentGamesPlayed] = useState(recentGameResults);
+  const gamesDate = useRef();
+  const gamesDay = useRef();
+  const [gameDates, setGameDates] = useState([]);
 
-  if (recentGameResults.length > 0) {
-    const firstGameTimestamp =
-      recentGameResults[0].otherGameStats.submittedAt || new Date("2022-09-17");
-    const firstGameTimestampInTicker = Date.parse(firstGameTimestamp);
-    gamesDate = new Date(firstGameTimestampInTicker);
-    gamesDay = gamesDate.getDate();
-    recentGameResults.forEach((game, index) => {
-      const gameTimestampTicker = Date.parse(
-        game.otherGameStats.submittedAt || new Date("2022-09-17")
-      );
-      const thisGamesDate = new Date(gameTimestampTicker);
-      const thisGamesDay = thisGamesDate.getDate();
+  const { clientRecentlyPlayedGames, refreshTheStandings } =
+    useFullLeagueStandings();
 
-      if (thisGamesDay != gamesDay) {
-        gameDates.push(index);
-        gamesDay = thisGamesDay;
-      }
-    });
-  }
+  useEffect(() => {
+    if (refreshTheStandings) {
+      setrecentGamesPlayed(clientRecentlyPlayedGames);
+    }
+  }, [clientRecentlyPlayedGames]);
+
+  useEffect(() => {
+    const gameDatesArray = [0];
+
+    if (recentGamesPlayed.length > 0) {
+      const firstGameTimestamp =
+        recentGamesPlayed[0].otherGameStats.submittedAt ||
+        new Date("2022-09-17");
+      const firstGameTimestampInTicker = Date.parse(firstGameTimestamp);
+      gamesDate.current = new Date(firstGameTimestampInTicker);
+      gamesDay.current = gamesDate.current.getDate();
+      recentGamesPlayed.forEach((game, index) => {
+        const gameTimestampTicker = Date.parse(
+          game.otherGameStats.submittedAt || new Date("2022-09-17")
+        );
+        const thisGamesDate = new Date(gameTimestampTicker);
+        const thisGamesDay = thisGamesDate.getDate();
+
+        if (thisGamesDay != gamesDay.current) {
+          gameDatesArray.push(index);
+          gamesDay.current = thisGamesDay;
+        }
+      });
+      setGameDates(gameDatesArray);
+    }
+  }, [recentGamesPlayed]);
 
   return (
     <>
       {/* entire score ticker container */}
       <div className="hidden sm:flex flex-row justify-center my-4 gap-1">
-        {recentGameResults.map((game, index) => (
+        {recentGamesPlayed.map((game, index) => (
           <Ticker
             gameData={game}
             index={index}
