@@ -4,7 +4,7 @@ import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
 export const GET = async (req, { params }) => {
   // this will be the object that is returned

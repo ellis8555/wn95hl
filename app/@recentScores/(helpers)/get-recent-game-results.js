@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { connectToDb } from "@/utils/database";
-import { READ_SEASON_FIELD_DATA } from "@/utils/constants/api_consts";
+import { READ_SEASON_FIELD_DATA } from "@/utils/constants/data-calls/db_calls";
 
 export const revalidate = 0;
 

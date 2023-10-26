@@ -1,5 +1,5 @@
 import W_Season from "@/schemas/season/w_season";
-import { DEFAULT_LEAGUE } from "./constants";
+import { DEFAULT_LEAGUE } from "../constants";
 
 export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
   switch (leagueName) {

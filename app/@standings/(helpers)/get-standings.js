@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { READ_SEASON_STANDINGS } from "@/utils/constants/api_consts";
+import { READ_SEASON_STANDINGS } from "@/utils/constants/data-calls/db_calls";
 
 export const revalidate = 0;
 

@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/api_consts";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
 export const GET = async (req, res) => {
   const { searchParams } = new URL(req.url);

@@ -1,7 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
-import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/api_consts";
+import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
 export const PATCH = async (req, res) => {
   const { searchParams } = new URL(req.url);
