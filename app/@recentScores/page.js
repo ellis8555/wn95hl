@@ -1,5 +1,5 @@
-import Boxscore from "@/components/server/Boxscore/Boxscore";
-import GameResultScore from "@/components/server/Boxscore/GameResultScore";
+import Boxscore from "@/components/client/Boxscore/Boxscore";
+import GameResultScore from "@/components/client/Boxscore/GameResultScore";
 import { getRecentGameResults } from "./(helpers)/get-recent-game-results";
 import {
   DEFAULT_LEAGUE,
@@ -14,7 +14,11 @@ async function recentScores() {
     <>
       <Boxscore recentGameResults={recentlyPlayedGames} />
       <div className="sm:hidden">
-        <div className="text-xl text-center my-4">Latest result</div>
+        <div className="text-xl text-center my-4">
+          {recentlyPlayedGames.length > 0
+            ? "Recent Game"
+            : "No games have been played"}
+        </div>
         <GameResultScore recentGameResults={recentlyPlayedGames} />
       </div>
       <p className="text-center text-red-500">
