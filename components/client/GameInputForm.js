@@ -217,7 +217,6 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
       // get newly updated standings
       const leagueData = await standingsResponse.json();
-      console.log(leagueData);
       const { standings: updatedStandings, recentlyPlayedGames } = leagueData;
 
       // update the boxscores

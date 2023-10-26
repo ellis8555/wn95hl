@@ -1,8 +1,23 @@
-import TeamLogo from "../standings/TeamLogo";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
+import TeamLogo from "../../server/standings/TeamLogo";
 
 function GameResultScore({ recentGameResults }) {
-  const mostRecentGame = recentGameResults.length - 1;
-  const gameData = recentGameResults[mostRecentGame];
+  const [gameData, setGameData] = useState(
+    recentGameResults[recentGameResults.length - 1]
+  );
+  const { clientRecentlyPlayedGames, refreshTheStandings } =
+    useFullLeagueStandings();
+
+  useEffect(() => {
+    if (refreshTheStandings) {
+      setGameData(
+        clientRecentlyPlayedGames[clientRecentlyPlayedGames.length - 1]
+      );
+    }
+  }, [clientRecentlyPlayedGames]);
 
   if (
     gameData !== undefined &&
