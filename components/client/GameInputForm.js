@@ -5,7 +5,10 @@ import { useRef, useState, useEffect } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
-import { DOMAIN } from "@/utils/constants/connections";
+import {
+  GET_LEAGUE_DATA,
+  SUBMIT_GAME_RESULT,
+} from "@/utils/constants/data-calls/api_calls";
 
 function GameInputForm({ leagueName, seasonNumber }) {
   const [gameData, setGameData] = useState(null);
@@ -67,19 +70,8 @@ function GameInputForm({ leagueName, seasonNumber }) {
         try {
           const responses = [];
           for (let i = 0; i < howManyGamesSubmitted; i++) {
-            const url = `${DOMAIN}/api/game-result`;
-            const response = await fetch(url, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(fetchedCSVData[i]),
-            });
+            const response = await SUBMIT_GAME_RESULT(fetchedCSVData[i]);
 
-            if (!response.ok) {
-              const responseError = await response.json();
-              throw new Error(responseError.message);
-            }
             setServerMessage(`${i} states processed..`);
             responses.push(await response.json());
           }
@@ -88,21 +80,16 @@ function GameInputForm({ leagueName, seasonNumber }) {
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
+
           // update the standings table after submitting game result
-          const url = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}`;
-          const standingsResponse = await fetch(url, {
-            next: {
-              revalidate: 0,
-            },
-          });
-
-          if (!standingsResponse.ok) {
-            const errorMessage = await standingsResponse.json();
-            throw new Error(errorMessage.message);
-          }
-
-          const leagueData = await standingsResponse.json();
-          const { standings: updatedStandings } = leagueData;
+          const standingsResponse = await GET_LEAGUE_DATA(
+            leagueName,
+            seasonNumber,
+            "standings"
+          );
+          // get the standings object out of the fetch
+          const { standings: updatedStandings } =
+            await standingsResponse.json();
 
           // update the boxscores
           let updateRecentlyPlayedGames;
@@ -136,25 +123,14 @@ function GameInputForm({ leagueName, seasonNumber }) {
       // const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
       // if (statePattern.test(fileName) || fileName.includes("2002TD")) {
       if (fileName.includes("2002TD")) {
-        const url = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}/team-codes`;
-        // get the teams registered to this league
-
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          const responseError = await response.json();
-          throw new Error(responseError.message);
-        }
-
+        const response = await GET_LEAGUE_DATA(
+          leagueName,
+          seasonNumber,
+          "team-codes"
+        );
         // teamsDict is name from python file
         // object containing list of team acronyms required for game state parsing
-        const leagueData = await response.json();
-        const { dictCodes } = leagueData;
+        const { dictCodes } = await response.json();
         // this returns all the parsed game data
         const fetchedGameData = await readBinaryGameState(
           file,
@@ -187,38 +163,20 @@ function GameInputForm({ leagueName, seasonNumber }) {
     // message the user request has been sent
     setServerMessage("Sending...");
     try {
-      const url = `${DOMAIN}/api/game-result`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(gameData),
-      });
+      await SUBMIT_GAME_RESULT(gameData);
 
-      if (!response.ok) {
-        const responseError = await response.json();
-        throw new Error(responseError.message);
-      }
       // edit user message
       setServerMessage("Updating the standings...");
-      const url1 = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}/recent-results`;
-      // update the standings table after submitting game result
-      const standingsResponse = await fetch(url1, {
-        next: {
-          revalidate: 0,
-        },
-      });
 
-      if (!standingsResponse.ok) {
-        const errorMessage = await standingsResponse.json();
-        throw new Error(errorMessage.message);
-      }
-
+      const standingsResponse = await GET_LEAGUE_DATA(
+        leagueName,
+        seasonNumber,
+        "standings",
+        "recent-results"
+      );
       // get newly updated standings
-      const leagueData = await standingsResponse.json();
-      const { standings: updatedStandings, recentlyPlayedGames } = leagueData;
-
+      const { standings: updatedStandings, recentlyPlayedGames } =
+        await standingsResponse.json();
       // update the boxscores
       let updateRecentlyPlayedGames;
       if (recentlyPlayedGames.length < 8) {
