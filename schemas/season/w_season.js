@@ -67,6 +67,12 @@ W_LeagueSchema.statics.getFieldData = async function (
   requestedDataObject
 ) {
   const seasonDocument = await this.findOne({ seasonNumber: seasonNumber });
+  ////////////////////////////////////////
+  // get the leagues standings
+  ////////////////////////////////////////
+  if (paramtersList.includes("standings")) {
+    requestedDataObject.standings = seasonDocument["standings"];
+  }
   /////////////////////////////////////////////////////
   // if divisions and conferences are required then add
   /////////////////////////////////////////////////////
