@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
-import Ticker from "./Ticker";
+import Ticker from "../../server/Boxscore/Ticker";
 
 function Boxscore({ recentGameResults }) {
   const [recentGamesPlayed, setrecentGamesPlayed] = useState(recentGameResults);
