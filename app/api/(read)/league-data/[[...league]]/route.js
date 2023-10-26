@@ -80,22 +80,16 @@ export const GET = async (req, { params }) => {
         );
       }
 
-      // schema static to add current seasons standings
-
-      requestedData.standings = await League.getSortedStandings(seasonNumber);
-
       //////////////////////////////////////////////////////////////////
       // schema method takes in parameter list and requestedData object
       // requestedData object has properties added within this method
       //////////////////////////////////////////////////////////////////
 
-      if (requestedLeagueDetails.length > 2) {
-        await League.getFieldData(
-          seasonNumber,
-          requestedLeagueDetails,
-          requestedData
-        );
-      }
+      await League.getFieldData(
+        seasonNumber,
+        requestedLeagueDetails,
+        requestedData
+      );
 
       // return requested data
 
