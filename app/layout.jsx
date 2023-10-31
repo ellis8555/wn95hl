@@ -1,5 +1,6 @@
 import "./globals.css";
 import { LeagueStandingsProvider } from "@/context/FullLeagueStandingsContext";
+import Navbar from "@/components/server/Navbar/Navbar";
 
 export const metadata = {
   title: "NHL 95",
@@ -13,6 +14,7 @@ export default function RootLayout({ children, recentScores, standings }) {
     <html lang="en">
       <body>
         <LeagueStandingsProvider>
+          <Navbar />
           {children}
           {recentScores}
           {standings}
