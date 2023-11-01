@@ -1,5 +1,5 @@
 import "./globals.css";
-import Navbar from "@/components/server/Navbar/Navbar";
+import Navbar from "@/components/client/Navbar/Navbar";
 import { LeagueStandingsProvider } from "@/context/FullLeagueStandingsContext";
 import { UserAuthContextProvider } from "@/context/UserAuthContext";
 

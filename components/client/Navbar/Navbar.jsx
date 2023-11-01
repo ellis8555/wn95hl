@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import GeneralLogo from "../Logos/GeneralLogo";
-import LeagueLogo from "../Logos/LeagueLogo";
+import GeneralLogo from "@/components/server/Logos/GeneralLogo";
+import LeagueLogo from "@/components/server/Logos/LeagueLogo";
 
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
@@ -41,7 +41,7 @@ function Navbar() {
           </li>
           {isAuthorized && (
             <li>
-              <Link href="dashboard">Dashboard</Link>
+              <Link href="/dashboard">Dashboard</Link>
             </li>
           )}
           {isAuthorized ? (
