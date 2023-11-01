@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState, useEffect, useContext } from "react";
-import { AUTH_COOKIE } from "@/utils/constants";
+import { AUTH_COOKIE } from "@/utils/constants/constants";
 
 const GetAuthorizationStatus = createContext();
 
