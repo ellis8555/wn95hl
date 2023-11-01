@@ -96,6 +96,6 @@ UserSchema.statics.login = async function (name, password) {
   return user;
 };
 
-const User = models.User || model("user", UserSchema);
+const User = models.user || model("user", UserSchema);
 
 export default User;
