@@ -1,22 +1,17 @@
-import GameInputForm from "@/components/client/GameInputForm";
-import {
-  DEFAULT_LEAGUE,
-  MOST_RECENT_SEASON,
-} from "@/utils/constants/constants";
+import LeagueLogo from "@/components/server/Logos/LeagueLogo";
+import Link from "next/link";
 
 export const metadata = {
   title: "NHL95",
   description: "Test site for NHL95",
 };
 
-export default async function Home() {
+export default async function Page() {
   return (
-    <>
-      <h1 className="text-3xl text-center">nhl95.net affiliated test area</h1>
-      <GameInputForm
-        leagueName={DEFAULT_LEAGUE}
-        seasonNumber={MOST_RECENT_SEASON}
-      />
-    </>
+    <div className="text-slate-300">
+      <h1 className="text-6xl text-center pt-4 center-div absolute">
+        NHL95 in development
+      </h1>
+    </div>
   );
 }
