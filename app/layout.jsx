@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/server/Navbar/Navbar";
 import { LeagueStandingsProvider } from "@/context/FullLeagueStandingsContext";
+import { UserAuthContextProvider } from "@/context/UserAuthContext";
 
 export const metadata = {
   title: "NHL 95",
@@ -13,11 +14,13 @@ export default function RootLayout({ children, recentScores }) {
   return (
     <html lang="en">
       <body className="bg-slate-700">
-        <LeagueStandingsProvider>
-          {recentScores}
-          <Navbar />
-          {children}
-        </LeagueStandingsProvider>
+        <UserAuthContextProvider>
+          <LeagueStandingsProvider>
+            {recentScores}
+            <Navbar />
+            {children}
+          </LeagueStandingsProvider>
+        </UserAuthContextProvider>
       </body>
     </html>
   );
