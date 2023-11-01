@@ -12,10 +12,15 @@ export const metadata = {
 
 export default async function Page() {
   return (
-    <div className="flex justify-center mt-8">
+    <div className="flex justify-center mt-2">
       <div className="text-slate-300">
-        <p className="text-center">
-          Temporary demo login:{" "}
+        <GameInputForm
+          leagueName={DEFAULT_LEAGUE}
+          seasonNumber={MOST_RECENT_SEASON}
+        />
+        <p className="text-center mt-4">
+          Temporary demo login:
+          <br />
           <span className="underline underline-offset-4">
             username and password
           </span>{" "}
@@ -24,11 +29,9 @@ export default async function Page() {
           <span className="underline underline-offset-4">Arrow icon</span> on
           navbar is login/out
         </p>
-        <GameInputForm
-          leagueName={DEFAULT_LEAGUE}
-          seasonNumber={MOST_RECENT_SEASON}
-        />
-        <h1 className="text-6xl text-center pt-4">NHL95 in development</h1>
+        <h1 className="text-4xl lg:text-6xl text-center pt-4">
+          NHL95 in development
+        </h1>
       </div>
     </div>
   );
