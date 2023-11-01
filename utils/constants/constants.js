@@ -16,6 +16,9 @@ export const MONTHS = [
 ];
 export const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+// name of cookie for authorization
+export const AUTH_COOKIE = "userAuth";
+
 export const DEFAULT_LEAGUE = "w";
 
 export const MOST_RECENT_SEASON = "8";
