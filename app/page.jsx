@@ -1,6 +1,3 @@
-import LeagueLogo from "@/components/server/Logos/LeagueLogo";
-import Link from "next/link";
-
 export const metadata = {
   title: "NHL95",
   description: "Test site for NHL95",
