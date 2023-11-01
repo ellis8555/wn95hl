@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { DOMAIN } from "@/utils/constants/connections";
 
 function LogInForm() {
   const [name, setName] = useState(null);
@@ -33,22 +34,26 @@ function LogInForm() {
       return;
     }
 
+    // display correct user message depending on action
+    if (showSetPassword && newPassword) {
+      // if user is authorized and re new password field is not blank
+      setUserMessage("Setting new password...");
+    } else if (showSetPassword && newPassword == null) {
+      // if user is authorized and new password field is empty
+      setUserMessage("new password field is blank");
+      return;
+    } else if (!showSetPassword) {
+      setUserMessage("Loading...");
+    } else {
+      setUserMessage(userMessage);
+    }
+
     // sign user in if they have admin rights
     try {
-      // display correct user message depending on action
-      if (showSetPassword && newPassword) {
-        // if user is authorized and re new password field is not blank
-        setUserMessage("Setting new password...");
-      } else if (showSetPassword && newPassword == null) {
-        // if user is authorized and new password field is empty
-        setUserMessage("new password field is blank");
-      } else if (!showSetPassword) {
-        setUserMessage("Loading...");
-      } else {
-        setUserMessage(userMessage);
-      }
       // get user
-      const response = await fetch(`/api/coaches/get-coach?name=${name}`);
+      const response = await fetch(
+        `${DOMAIN}/api/coaches/get-coach?name=${name}`
+      );
       // if no user or some other error return
       if (!response.ok) {
         const responseError = await response.json();
@@ -65,7 +70,7 @@ function LogInForm() {
           // check if user is still on default password
           if (user.password != adminDefaultPassword) {
             // all checks passed attempt to login
-            const response = await fetch("/api/admin/login/", {
+            const response = await fetch(`${DOMAIN}/api/login/`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -82,7 +87,7 @@ function LogInForm() {
               throw new Error(responseError.message);
             }
 
-            const getAuthResponse = await fetch("/api/admin/auth");
+            const getAuthResponse = await fetch(`${DOMAIN}/api/auth`);
             // user not authenticated
             if (!getAuthResponse.ok) {
               const responseError = await getAuthResponse.json();
@@ -110,7 +115,7 @@ function LogInForm() {
                 // if user is admin, has had default password set and correctly enters it they now can reset there password
                 if (showSetPassword) {
                   if (newPassword) {
-                    const response = await fetch("/api/admin/register/", {
+                    const response = await fetch(`${DOMAIN}/api/register/`, {
                       method: "POST",
                       headers: {
                         "Content-Type": "application/json",
