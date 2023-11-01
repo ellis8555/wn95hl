@@ -11,21 +11,12 @@ async function recentScores() {
     await getRecentGameResults(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );
   return (
-    <>
+    <div className="text-slate-300">
       <Boxscore recentGameResults={recentlyPlayedGames} />
       <div className="sm:hidden">
-        <div className="text-xl text-center my-4">
-          {recentlyPlayedGames.length > 0
-            ? "Recent Game"
-            : "No games have been played"}
-        </div>
         <GameResultScore recentGameResults={recentlyPlayedGames} />
       </div>
-      <p className="text-center text-red-500">
-        Table currently does not reflect any league
-      </p>
-      <p className="text-center text-red-500">Testing being done</p>
-    </>
+    </div>
   );
 }
 
