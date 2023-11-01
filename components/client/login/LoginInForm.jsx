@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-function SignInForm() {
+function LogInForm() {
   const [name, setName] = useState(null);
   const [userPassword, setUserPassword] = useState(null);
   const [showSetPassword, setShowSetPassword] = useState(false);
@@ -229,4 +229,4 @@ function SignInForm() {
   );
 }
 
-export default SignInForm;
+export default LogInForm;
