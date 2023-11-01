@@ -1,5 +1,9 @@
-function Dashboard() {
-  return <div>Dashboard</div>;
+function Page() {
+  return (
+    <div>
+      <h1 className="pt-4 text-4xl text-center">Dashboard</h1>
+    </div>
+  );
 }
 
-export default Dashboard;
+export default Page;
