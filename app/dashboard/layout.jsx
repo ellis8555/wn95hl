@@ -26,17 +26,12 @@ function DashboardLayout({ children }) {
     return <p>Authorizing...</p>;
   }
 
-  return (
-    <div>
-      <p>This is the dashboard layout page!</p>
-      {children}
-    </div>
-  );
+  return <div className="text-slate-300">{children}</div>;
 }
 
 async function getUser() {
   try {
-    const response = await fetch("/api/admin/auth");
+    const response = await fetch("/api/auth");
 
     if (!response.ok) {
       setIsAuthorized(false);
