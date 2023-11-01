@@ -12,7 +12,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="flex flex-row gap-4 justify-between bg-slate-800 p-2 sticky top-0">
+      <nav className="flex flex-row gap-4 justify-between bg-slate-800 p-2 sticky top-0 sm:relative">
         <ul className="flex flex-row">
           <li>
             <Link href="/">
@@ -24,7 +24,7 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-row gap-4 items-center">
+        <ul className="flex flex-row gap-4 items-center sm:absolute sm:left-1/2">
           <li>
             <Link href="/standings">
               <LeagueLogo name="w" width="50" height="50" />
@@ -32,13 +32,6 @@ function Navbar() {
           </li>
         </ul>
         <ul className="flex flex-row gap-4 items-center text-orange-400">
-          <li>
-            <Link href="/submit-game">
-              <button className=" rounded-md p-1 border-orange-400 border">
-                Submit Game
-              </button>
-            </Link>
-          </li>
           {isAuthorized && (
             <li>
               <Link href="/dashboard">Dashboard</Link>
@@ -46,7 +39,7 @@ function Navbar() {
           )}
           {isAuthorized ? (
             <li>
-              <Link href="/sign-out">
+              <Link href="/logout">
                 <FaSignOutAlt className="text-green-600" />
               </Link>
             </li>
