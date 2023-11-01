@@ -205,7 +205,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       }}
     >
       <form
-        className="flex flex-row justify-between w-full mt-4 bg-slate-500 mx-auto md:rounded-lg p-3 md:max-w-md"
+        className="flex flex-row justify-between w-full mt-4 bg-slate-800 mx-auto md:rounded-lg p-3 md:max-w-md"
         onSubmit={handleSubmit}
       >
         <input
@@ -214,19 +214,23 @@ function GameInputForm({ leagueName, seasonNumber }) {
           id="fileInput"
           name="fileInput"
           onClick={() => setServerMessage("")}
+          className="text-slate-300"
         />
 
         <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <div className="flex flex-row gap-2">
-          <button className="border rounded-md border-black px-2" type="submit">
+          <button
+            className="border rounded-md border-slate-300 text-slate-300 px-2"
+            type="submit"
+          >
             Submit
           </button>
         </div>
       </form>
 
       {serverMessage && (
-        <div className="text-center text-rose-800 text-xl mt-2">
+        <div className="text-center text-slate-300 text-xl mt-2">
           {serverMessage}
         </div>
       )}
