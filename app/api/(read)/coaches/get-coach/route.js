@@ -10,18 +10,17 @@ export const GET = async (req) => {
   try {
     await connectToDb();
 
-    const getCoach = await User.queryOneUser(name);
+    const coach = await User.queryOneUser(name);
 
-    if (!getCoach) {
+    if (!coach) {
       return nextResponse(
         { message: "That coach was not found.." },
         400,
-        "POST"
+        "GET"
       );
     }
-
-    return nextResponse(getCoach, 200, "POST");
+    return nextResponse(coach, 200, "GET");
   } catch (error) {
-    return nextResponse({ message: error.message }, 500, "POST");
+    return nextResponse({ message: error.message }, 500, "GET");
   }
 };
