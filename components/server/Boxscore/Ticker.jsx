@@ -58,7 +58,7 @@ function Ticker({ gameData, index, gameDateIndexes }) {
         {/* inside ticker container */}
         {/* set date if date is different from previous game state */}
         {isNewGameDate && (
-          <div className="flex border border-black bg-slate-400 items-center p-1">
+          <div className="flex border border-black bg-slate-800 items-center p-1">
             <div className="flex flex-col items-center justify-center">
               {isToday ? (
                 <div className="flex flex-col w-6">

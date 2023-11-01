@@ -12,7 +12,7 @@ function FilteredTable({
   return (
     <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
       <thead>
-        <tr>
+        <tr className="text-slate-300">
           <th className="text-xl">Team</th>
           {LEAGUE_TABLE_CATEGORIES.map((header, index) => (
             <th className="p-4 sm:text-xl" key={index}>
@@ -37,7 +37,7 @@ function FilteredTable({
                 team={team}
                 categories={LEAGUE_TABLE_CATEGORIES}
                 isTableFiltered={isTableFiltered}
-                bgColor={index % 2 === 0 ? "bg-slate-200" : "bg-white"}
+                bgColor={index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"}
               />
             ))
         ) : (
