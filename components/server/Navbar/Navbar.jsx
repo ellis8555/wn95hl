@@ -1,11 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import GeneralLogo from "../Logos/GeneralLogo";
 import LeagueLogo from "../Logos/LeagueLogo";
 
+import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
-  const isAuthorized = false;
+  const { isAuthorized } = useAuthorizationStatus();
 
   return (
     <>
@@ -28,25 +31,29 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-row gap-4 items-center">
+        <ul className="flex flex-row gap-4 items-center text-orange-400">
           <li>
-            <Link href="/submit-game" className="text-orange-400">
+            <Link href="/submit-game">
               <button className=" rounded-md p-1 border-orange-400 border">
                 Submit Game
               </button>
             </Link>
           </li>
-          {isAuthorized && <Link href="dashboard">Dashboard</Link>}
+          {isAuthorized && (
+            <li>
+              <Link href="dashboard">Dashboard</Link>
+            </li>
+          )}
           {isAuthorized ? (
             <li>
-              <Link href="sign-in">
-                <FaSignOutAlt className="text-blue-600" />
+              <Link href="/sign-out">
+                <FaSignOutAlt className="text-green-600" />
               </Link>
             </li>
           ) : (
             <li>
-              <Link href="sign-in">
-                <FaSignInAlt className="text-orange-400" />
+              <Link href="/login">
+                <FaSignInAlt />
               </Link>
             </li>
           )}
