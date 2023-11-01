@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
-import Ticker from "../../server/Boxscore/Ticker";
+import Ticker from "@/components/server/Boxscore/Ticker";
 
 function Boxscore({ recentGameResults }) {
   const [recentGamesPlayed, setrecentGamesPlayed] = useState(recentGameResults);
@@ -48,7 +48,7 @@ function Boxscore({ recentGameResults }) {
   return (
     <>
       {/* entire score ticker container */}
-      <div className="hidden sm:flex flex-row justify-center my-4 gap-1">
+      <div className="hidden sm:flex flex-row justify-center gap-1">
         {recentGamesPlayed.map((game, index) => (
           <Ticker
             gameData={game}
