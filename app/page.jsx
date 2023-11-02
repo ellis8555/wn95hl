@@ -14,6 +14,9 @@ export default async function Page() {
   return (
     <div className="flex justify-center mt-2">
       <div className="text-slate-300">
+        <h1 className="text-4xl lg:text-6xl text-center pt-4">
+          NHL95 in development
+        </h1>
         <GameInputForm
           leagueName={DEFAULT_LEAGUE}
           seasonNumber={MOST_RECENT_SEASON}
@@ -29,9 +32,6 @@ export default async function Page() {
           <span className="underline underline-offset-4">Arrow icon</span> on
           navbar is login/out
         </p>
-        <h1 className="text-4xl lg:text-6xl text-center pt-4">
-          NHL95 in development
-        </h1>
       </div>
     </div>
   );
