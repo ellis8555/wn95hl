@@ -7,7 +7,7 @@ import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-ga
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
 import {
   GET_LEAGUE_DATA,
-  SUBMIT_GAME_RESULT,
+  POST_JSON_TO_API,
 } from "@/utils/constants/data-calls/api_calls";
 
 function GameInputForm({ leagueName, seasonNumber }) {
@@ -70,7 +70,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
         try {
           const responses = [];
           for (let i = 0; i < howManyGamesSubmitted; i++) {
-            const response = await SUBMIT_GAME_RESULT(fetchedCSVData[i]);
+            const response = await POST_JSON_TO_API(fetchedCSVData[i]);
 
             setServerMessage(`${i} states processed..`);
             responses.push(await response.json());
@@ -163,7 +163,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
     // message the user request has been sent
     setServerMessage("Sending...");
     try {
-      await SUBMIT_GAME_RESULT(gameData);
+      await POST_JSON_TO_API("game-result", gameData);
 
       // edit user message
       setServerMessage("Updating the standings...");
