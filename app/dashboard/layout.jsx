@@ -15,7 +15,7 @@ function DashboardLayout({ children }) {
       const { user, error } = await getUser();
 
       if (error) {
-        router.push("/sign-in");
+        router.push("/login");
         return;
       }
       setIsAuthorized(true);
