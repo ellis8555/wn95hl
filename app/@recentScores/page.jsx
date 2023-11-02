@@ -11,7 +11,7 @@ async function recentScores() {
     await getRecentGameResults(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );
   return (
-    <div className="text-slate-300">
+    <div className="text-slate-300 mb-[1px]">
       <Boxscore recentGameResults={recentlyPlayedGames} />
       <div className="sm:hidden">
         <GameResultScore recentGameResults={recentlyPlayedGames} />
