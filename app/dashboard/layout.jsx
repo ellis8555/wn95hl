@@ -23,7 +23,7 @@ function DashboardLayout({ children }) {
   }, [router]);
 
   if (!isAuthorized) {
-    return <p>Authorizing...</p>;
+    return <p className="text-slate-300 text-center">Authorizing...</p>;
   }
 
   return <div className="text-slate-300">{children}</div>;
