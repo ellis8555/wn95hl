@@ -13,7 +13,7 @@ export async function GET() {
   }
 
   const { value } = token;
-  const secret = process.env.NEXT_PUBLIC_REACT_APP_SECRET_KEY;
+  const secret = process.env.SECRET_KEY;
 
   try {
     const user = verify(value, secret);
