@@ -15,15 +15,20 @@ export const GET_LEAGUE_DATA = async (leagueName, seasonNumber, ...fields) => {
     fieldsToGet += `/${field}`;
   });
   const url = `${DOMAIN}/api/league-data/${leagueName}/${seasonNumber}${fieldsToGet}`;
-  const leagueData = await fetch(url, {
+  const response = await fetch(url, {
     next: {
       revalidate: 0,
     },
   });
 
-  await checkResponseOk(leagueData);
+  if (!response.ok) {
+    const errorMessage = await response.json();
+    return new Error(errorMessage.message);
+  }
 
-  return leagueData;
+  const responseData = await response.json();
+
+  return responseData;
 };
 
 //////////////////////
@@ -33,15 +38,20 @@ export const GET_API_WITH_PARAMS = async (segments, params) => {
   const url = `${DOMAIN}/api/${segments}?${params}`;
   const response = await fetch(url);
 
-  await checkResponseOk(response);
+  if (!response.ok) {
+    const errorMessage = await response.json();
+    return new Error(errorMessage.message);
+  }
 
-  return await response.json();
+  const responseData = await response.json();
+
+  return await responseData;
 };
 
 ///////////////////
 // POST_JSON_TO_API
 ///////////////////
-export const POST_JSON_TO_API = async (segments, body) => {
+export async function POST_JSON_TO_API(segments, body) {
   const url = `${DOMAIN}/api/${segments}`;
   const response = await fetch(url, {
     method: "POST",
@@ -51,10 +61,15 @@ export const POST_JSON_TO_API = async (segments, body) => {
     body: JSON.stringify(body),
   });
 
-  await checkResponseOk(response);
+  if (!response.ok) {
+    const errorMessage = await response.json();
+    return new Error(errorMessage.message);
+  }
 
-  return await response.json();
-};
+  const responseData = await response.json();
+
+  return responseData;
+}
 
 ////////////
 // GET_API
@@ -63,15 +78,12 @@ export const GET_API = async (segments) => {
   const url = `${DOMAIN}/api/${segments}`;
   const response = await fetch(url);
 
-  await checkResponseOk(response);
-
-  return await response.json();
-};
-
-async function checkResponseOk(res) {
-  if (!res.ok) {
-    const errorMessage = await res.json();
+  if (!response.ok) {
+    const errorMessage = await response.json();
     return new Error(errorMessage.message);
   }
-  return;
-}
+
+  const responseData = await response.json();
+
+  return await responseData;
+};
