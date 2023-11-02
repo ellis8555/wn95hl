@@ -6,6 +6,7 @@ import LeagueLogo from "@/components/server/Logos/LeagueLogo";
 
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 function Navbar() {
   const { isAuthorized } = useAuthorizationStatus();
@@ -37,16 +38,21 @@ function Navbar() {
               <Link href="/dashboard">Dashboard</Link>
             </li>
           )}
+          <li>
+            <Link href="/submit">
+              <AiOutlineCloudUpload size="1.75rem" />
+            </Link>
+          </li>
           {isAuthorized ? (
             <li>
               <Link href="/logout">
-                <FaSignOutAlt className="text-green-600" />
+                <FaSignOutAlt className="text-green-600" size="1.75rem" />
               </Link>
             </li>
           ) : (
             <li>
               <Link href="/login">
-                <FaSignInAlt />
+                <FaSignInAlt size="1.75rem" />
               </Link>
             </li>
           )}
