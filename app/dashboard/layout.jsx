@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { useRouter } from "next/navigation";
+import { DOMAIN } from "@/utils/constants/connections";
 
 function DashboardLayout({ children }) {
   const { isAuthorized, setIsAuthorized } = useAuthorizationStatus();
@@ -31,7 +32,7 @@ function DashboardLayout({ children }) {
 
 async function getUser() {
   try {
-    const response = await fetch("/api/auth");
+    const response = await fetch(`${DOMAIN}/api/auth`);
 
     if (!response.ok) {
       setIsAuthorized(false);
