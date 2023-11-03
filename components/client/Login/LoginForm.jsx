@@ -72,11 +72,8 @@ function LogInForm() {
               password: userPassword,
             };
 
+            // cookie is set here
             const response = await POST_JSON_TO_API("login", bodyObject);
-
-            // submit cookie for verification
-            // returns error if !verified
-            const getAuthResponse = await GET_API("auth");
 
             // reset state variables once before directing the user to dashboard
             setUserMessage("");
