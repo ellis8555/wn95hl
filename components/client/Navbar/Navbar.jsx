@@ -40,19 +40,19 @@ function Navbar() {
           )}
           <li>
             <Link href="/submit">
-              <AiOutlineCloudUpload size="1.75rem" />
+              <AiOutlineCloudUpload size="1.5rem" />
             </Link>
           </li>
           {isAuthorized ? (
             <li>
               <Link href="/logout">
-                <FaSignOutAlt className="text-green-600" size="1.75rem" />
+                <FaSignOutAlt className="text-green-600" size="1.5rem" />
               </Link>
             </li>
           ) : (
             <li>
               <Link href="/login">
-                <FaSignInAlt size="1.75rem" />
+                <FaSignInAlt size="1.5rem" />
               </Link>
             </li>
           )}
