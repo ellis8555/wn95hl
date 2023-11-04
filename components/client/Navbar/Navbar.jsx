@@ -1,19 +1,30 @@
 "use client";
 
+import "./styles.css";
 import Link from "next/link";
 import GeneralLogo from "@/components/server/Logos/GeneralLogo";
 import LeagueLogo from "@/components/server/Logos/LeagueLogo";
-
+import { useState } from "react";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { FaHockeyPuck } from "react-icons/fa";
 
 function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthorized } = useAuthorizationStatus();
+
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
 
   return (
     <>
-      <nav className="flex flex-row gap-4 justify-between bg-slate-800 p-2 sticky top-0 sm:relative">
+      <nav className="flex flex-row gap-4 justify-center items-center sm:justify-between bg-slate-800 p-2 sticky top-0 relative">
+        <FaHockeyPuck
+          className="text-orange-400 absolute sm:hidden right-2 text-2xl hover:cursor-pointer"
+          onClick={toggleMenu}
+        />
         <ul className="flex flex-row">
           <li>
             <Link href="/">
@@ -25,14 +36,14 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-row gap-4 items-center sm:absolute sm:left-1/2">
+        <ul className="hidden sm:flex flex-row gap-4 items-center sm:absolute sm:left-1/2">
           <li>
             <Link href="/standings">
               <LeagueLogo name="w" width="50" height="50" />
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-row gap-4 items-center text-orange-400">
+        <ul className="hidden sm:flex flex-row gap-4 items-center text-orange-400">
           {isAuthorized && (
             <li>
               <Link href="/dashboard">Dashboard</Link>
@@ -58,6 +69,36 @@ function Navbar() {
           )}
         </ul>
       </nav>
+      <div className="text-slate-900 bg-slate-500 sm:hidden relative">
+        <ul
+          className={`menuClosed ${
+            isMenuOpen ? "toggleMenu" : ""
+          } overflow-hidden`}
+        >
+          <Link href="/">
+            <li>
+              Home{" "}
+              <span
+                className="float-right mr-2 text-slate-800 text-xl"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                X
+              </span>
+            </li>
+          </Link>
+          <Link href="/standings">
+            <li>Standings</li>
+          </Link>
+
+          <Link href="/submit">
+            <li>Submit</li>
+          </Link>
+
+          <Link href="/login">
+            <li>Login</li>
+          </Link>
+        </ul>
+      </div>
     </>
   );
 }
