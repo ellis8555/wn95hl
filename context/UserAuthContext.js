@@ -10,7 +10,7 @@ function UserAuthContextProvider({ children }) {
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    async function authenticateUser() {
+    (async () => {
       const getCookie = document.cookie;
       if (getCookie == "") {
         setIsAuthorized(false);
@@ -27,8 +27,7 @@ function UserAuthContextProvider({ children }) {
           setIsAuthorized(true);
         }
       }
-    }
-    authenticateUser();
+    })();
   }, [isAuthorized]);
 
   return (
