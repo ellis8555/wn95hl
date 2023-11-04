@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
-  GET_API,
   GET_API_WITH_PARAMS,
   POST_JSON_TO_API,
 } from "@/utils/constants/data-calls/api_calls";
