@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { useRouter } from "next/navigation";
 import { DOMAIN } from "@/utils/constants/connections";
+import { GET_API } from "@/utils/constants/data-calls/api_calls";
 
 function DashboardLayout({ children }) {
   const { isAuthorized, setIsAuthorized } = useAuthorizationStatus();
@@ -14,10 +15,10 @@ function DashboardLayout({ children }) {
   useEffect(() => {
     (async () => {
       const { user, error } = await getUser();
-
       if (error) {
-        router.push("/login");
-        return;
+        await GET_API("logout");
+        setIsAuthorized(false);
+        window.location.reload();
       }
       setIsAuthorized(true);
     })();
@@ -35,7 +36,8 @@ async function getUser() {
     const response = await fetch(`${DOMAIN}/api/auth`);
 
     if (!response.ok) {
-      setIsAuthorized(false);
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
     const data = await response.json();
