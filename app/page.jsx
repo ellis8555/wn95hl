@@ -21,12 +21,15 @@ export default async function Page() {
           </span>{" "}
           are both <span className="text-green-400">'admin'</span>
           <br />
+          Desktop:{" "}
           <span className="underline underline-offset-4">Arrow icon</span> on
           navbar is login/out
+          <br />
+          Mobile: Login in menu
         </p>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
-          <Link href="/league">
+          <Link href="/league/w">
             <div className="flex flex-col gap-6 border rounded-md p-8 shadow-2xl text-center">
               <LeagueLogo name="w" width="100" height="100" />
               <div>The W</div>
