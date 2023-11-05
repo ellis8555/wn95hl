@@ -47,7 +47,7 @@ function GameResultScore({ recentGameResults }) {
     const wasGameATie = boxscoreStats["wasGameATie"];
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
-      <>
+      <div className="sm:hidden">
         <div className="flex flex-col">
           {!wasGameATie && wasOvertimeRequired && (
             <div className="text-center text-4xl">OT</div>
@@ -62,7 +62,7 @@ function GameResultScore({ recentGameResults }) {
             Away
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
