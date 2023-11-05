@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
+import { useAuthorizationStatus } from "@/context/UserAuthContext";
+import { HiMiniCog6Tooth } from "react-icons/hi2";
 import TeamLogo from "@/components/server/standings/TeamLogo";
 
 function GameResultScore({ recentGameResult }) {
@@ -9,6 +12,7 @@ function GameResultScore({ recentGameResult }) {
   const [teamLogoWidthHeight, setTeamLogoWidthHeight] = useState(40);
   const { clientRecentlyPlayedGames, refreshTheStandings } =
     useFullLeagueStandings();
+  const { isAuthorized } = useAuthorizationStatus();
 
   useEffect(() => {
     if (refreshTheStandings) {
@@ -46,12 +50,12 @@ function GameResultScore({ recentGameResult }) {
     const wasGameATie = boxscoreStats["wasGameATie"];
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
-      <div className=" text-slate-300 w-10/12 pb-2 md:w-1/2 m-auto mt-2">
+      <div className=" text-slate-300 pb-2 md:w-1/2 m-auto mt-2">
         <div className="flex flex-col">
           {!wasGameATie && wasOvertimeRequired && (
             <div className="text-center text-4xl">OT</div>
           )}
-          <div className="w-full flex justify-center gap-6 items-center sm:w-3/4 sm:mx-auto">
+          <div className="w-full flex justify-center gap-2 items-center sm:w-3/4 sm:mx-auto sm:gap-6">
             <TeamLogo
               name={awayAcronym}
               width={teamLogoWidthHeight}
@@ -66,6 +70,14 @@ function GameResultScore({ recentGameResult }) {
               width={teamLogoWidthHeight}
               height={teamLogoWidthHeight}
             />
+            <div className="bg-green-600 text-xs ml-2 p-1 text-white rounded">
+              <Link href="/boxscore">Boxscore</Link>
+            </div>
+            {isAuthorized && (
+              <Link href="/edit-boxscore">
+                <HiMiniCog6Tooth />
+              </Link>
+            )}
           </div>
         </div>
       </div>
