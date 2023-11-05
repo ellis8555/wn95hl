@@ -205,7 +205,7 @@ function GameInputForm({ leagueName, seasonNumber }) {
       }}
     >
       <form
-        className="flex flex-row justify-between w-full mt-4 bg-slate-800 mx-auto md:rounded-lg p-3 md:max-w-md"
+        className="flex flex-row justify-between w-10/12 mt-4 bg-slate-800 mx-auto md:rounded-lg p-3 md:max-w-md"
         onSubmit={handleSubmit}
       >
         <input
