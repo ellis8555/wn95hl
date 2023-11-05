@@ -40,13 +40,6 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <ul className="hidden sm:flex flex-row gap-4 items-center sm:absolute sm:left-1/2">
-          <li>
-            <Link href="/standings">
-              <LeagueLogo name="w" width="50" height="50" />
-            </Link>
-          </li>
-        </ul>
         <ul className="hidden sm:flex flex-row gap-4 items-center text-orange-400">
           {/* Authorization related links */}
           {isAuthorized && (
