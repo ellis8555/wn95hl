@@ -81,6 +81,9 @@ function Navbar() {
             isMenuOpen ? "openMenu" : ""
           } overflow-hidden`}
         >
+          <Link href="/recent-scores">
+            <li>Scores</li>
+          </Link>
           <Link href="/standings">
             <li>Standings</li>
           </Link>
