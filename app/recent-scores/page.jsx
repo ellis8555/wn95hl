@@ -14,7 +14,9 @@ async function page() {
   );
   return (
     <div>
-      <h1 className="text-3xl text-center text-slate-300">Recent Scores</h1>
+      <h1 className="text-xl text-center text-slate-300 my-3 md:text-3xl md:my-6">
+        Recent Scores
+      </h1>
       {recentlyPlayedGames.map((gameResult, index) => (
         <GameResultScore key={index} recentGameResult={gameResult} />
       ))}
