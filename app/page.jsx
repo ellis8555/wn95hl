@@ -1,3 +1,6 @@
+import Link from "next/link";
+import LeagueLogo from "@/components/server/Logos/LeagueLogo";
+
 export const metadata = {
   title: "NHL95",
   description: "Test site for NHL95",
@@ -21,6 +24,16 @@ export default async function Page() {
           <span className="underline underline-offset-4">Arrow icon</span> on
           navbar is login/out
         </p>
+        {/* beginning of league cards */}
+        <div className="flex flex-row justify-center mt-3 md:mt-6">
+          <Link href="/standings">
+            <div className="flex flex-col gap-6 border rounded-md p-8 shadow-2xl text-center">
+              <LeagueLogo name="w" width="100" height="100" />
+              <div>The W</div>
+            </div>
+          </Link>
+        </div>
+        {/* end of league cards */}
       </div>
     </div>
   );
