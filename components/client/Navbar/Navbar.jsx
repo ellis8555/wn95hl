@@ -19,10 +19,14 @@ function Navbar() {
   }
 
   return (
-    <>
-      <nav className="flex flex-row gap-4 justify-center items-center sm:justify-between bg-slate-800 p-2 sticky top-0 relative">
+    <div className="relative sticky top-0">
+      <nav className="flex flex-row gap-4 justify-center items-center sm:justify-between bg-slate-800 p-2">
+        {/* mobile toggle menu icon */}
         <FaHockeyPuck
-          className="text-orange-400 absolute sm:hidden right-2 text-2xl hover:cursor-pointer"
+          // if logged in menu icon green otherwise orange
+          className={`${
+            isAuthorized ? "text-green-400" : "text-orange-400"
+          } absolute sm:hidden right-2 text-2xl hover:cursor-pointer`}
           onClick={toggleMenu}
         />
         <ul className="flex flex-row">
@@ -69,23 +73,14 @@ function Navbar() {
           )}
         </ul>
       </nav>
-      <div className="text-slate-900 bg-slate-500 sm:hidden relative">
+      {/*  mobile menu */}
+      <div className="text-slate-900 bg-slate-500 sm:hidden">
+        {/* toggle class depending on menu being opened or closed */}
         <ul
           className={`menuClosed ${
-            isMenuOpen ? "toggleMenu" : ""
+            isMenuOpen ? "openMenu" : ""
           } overflow-hidden`}
         >
-          <Link href="/">
-            <li>
-              Home{" "}
-              <span
-                className="float-right mr-2 text-slate-800 text-xl"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                X
-              </span>
-            </li>
-          </Link>
           <Link href="/standings">
             <li>Standings</li>
           </Link>
@@ -93,13 +88,25 @@ function Navbar() {
           <Link href="/submit">
             <li>Submit</li>
           </Link>
-
-          <Link href="/login">
-            <li>Login</li>
-          </Link>
+          {/* if logged in display dashboard and logout */}
+          {isAuthorized ? (
+            <div>
+              <Link href="/dashboard">
+                <li>Dashboard</li>
+              </Link>
+              <Link href="/logout">
+                <li>Logout</li>
+              </Link>
+            </div>
+          ) : (
+            // if not logged in display login
+            <Link href="/login">
+              <li>Login</li>
+            </Link>
+          )}
         </ul>
       </div>
-    </>
+    </div>
   );
 }
 
