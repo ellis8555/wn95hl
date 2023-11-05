@@ -1,3 +1,4 @@
+import Link from "next/link";
 import TeamLogo from "../standings/TeamLogo";
 import { MONTHS, DAYS_OF_WEEK } from "@/utils/constants/constants";
 
@@ -81,35 +82,40 @@ function Ticker({ gameData, index, gameDateIndexes }) {
             </div>
           </div>
         )}
-        <div className="flex flex-row w-28 p-1 border border-black">
-          {/* actual score tickers container */}
-          <div className="flex items-center">
-            <div className="flex flex-col items-center">
-              {/* away team */}
-              <div className="flex flex-row gap-4 items-center ">
-                <div>
-                  <TeamLogo name={awayAcronym} width={30} height={30} />
+        <div className="flex flex-col border border-black">
+          <div className="flex flex-row w-28 p-1">
+            {/* actual score tickers container */}
+            <div className="flex items-center">
+              <div className="flex flex-col items-center">
+                {/* away team */}
+                <div className="flex flex-row gap-4 items-center ">
+                  <div>
+                    <TeamLogo name={awayAcronym} width={30} height={30} />
+                  </div>
+                  <div>
+                    <div>{awayScore}</div>
+                  </div>
                 </div>
-                <div>
-                  <div>{awayScore}</div>
-                </div>
-              </div>
-              {/* home team */}
-              <div className="flex flex-row gap-4 items-center ">
-                <div>
-                  <TeamLogo name={homeAcronym} width={30} height={30} />
-                </div>
-                <div>
-                  <div>{homeScore}</div>
+                {/* home team */}
+                <div className="flex flex-row gap-4 items-center ">
+                  <div>
+                    <TeamLogo name={homeAcronym} width={30} height={30} />
+                  </div>
+                  <div>
+                    <div>{homeScore}</div>
+                  </div>
                 </div>
               </div>
             </div>
+            {!wasGameATie && wasOvertimeRequired ? (
+              <div className="flex flex-col justify-center mx-auto">OT</div>
+            ) : (
+              ""
+            )}
           </div>
-          {!wasGameATie && wasOvertimeRequired ? (
-            <div className="flex flex-col justify-center mx-auto">OT</div>
-          ) : (
-            ""
-          )}
+          <div className="bg-green-600 text-xs p-[.1rem] text-white rounded w-fit m-auto">
+            <Link href="/boxscore">Boxscore</Link>
+          </div>
         </div>
       </>
     );
