@@ -48,6 +48,7 @@ function Navbar() {
           </li>
         </ul>
         <ul className="hidden sm:flex flex-row gap-4 items-center text-orange-400">
+          {/* Authorization related links */}
           {isAuthorized && (
             <li>
               <Link href="/dashboard">Dashboard</Link>
