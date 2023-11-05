@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import TeamLogo from "../../server/standings/TeamLogo";
 
-function GameResultScore({ recentGameResults }) {
-  const [gameData, setGameData] = useState(
-    recentGameResults[recentGameResults.length - 1]
-  );
+function GameResultScore({ recentGameResult }) {
+  console.log(recentGameResult);
+  const [gameData, setGameData] = useState(recentGameResult);
   const { clientRecentlyPlayedGames, refreshTheStandings } =
     useFullLeagueStandings();
 
@@ -47,15 +46,15 @@ function GameResultScore({ recentGameResults }) {
     const wasGameATie = boxscoreStats["wasGameATie"];
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
-      <div className="sm:hidden">
+      <div className=" text-slate-300 border border-slate-300 rounded-md w-3/4 md:w-1/2 m-auto mt-2">
         <div className="flex flex-col">
           {!wasGameATie && wasOvertimeRequired && (
             <div className="text-center text-4xl">OT</div>
           )}
-          <div className="w-full flex justify-center gap-3 items-center sm:w-1/2 sm:mx-auto">
+          <div className="w-full flex justify-center gap-3 items-center sm:w-3/4 sm:mx-auto">
             Home
             <TeamLogo name={homeAcronym} width={60} height={60} />
-            <div className="text-4xl">
+            <div className="text-3xl">
               {homeScore} - {awayScore}
             </div>
             <TeamLogo name={awayAcronym} width={60} height={60} />
