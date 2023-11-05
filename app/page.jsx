@@ -25,8 +25,8 @@ export default async function Page() {
           navbar is login/out
         </p>
         {/* beginning of league cards */}
-        <div className="flex flex-row justify-center mt-3 md:mt-6">
-          <Link href="/standings">
+        <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
+          <Link href="/league">
             <div className="flex flex-col gap-6 border rounded-md p-8 shadow-2xl text-center">
               <LeagueLogo name="w" width="100" height="100" />
               <div>The W</div>
