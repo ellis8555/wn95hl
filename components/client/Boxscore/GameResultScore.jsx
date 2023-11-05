@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
-import TeamLogo from "../../server/standings/TeamLogo";
+import TeamLogo from "@/components/server/standings/TeamLogo";
 
 function GameResultScore({ recentGameResult }) {
-  console.log(recentGameResult);
   const [gameData, setGameData] = useState(recentGameResult);
+  const [teamLogoWidthHeight, setTeamLogoWidthHeight] = useState(40);
   const { clientRecentlyPlayedGames, refreshTheStandings } =
     useFullLeagueStandings();
 
@@ -46,19 +46,26 @@ function GameResultScore({ recentGameResult }) {
     const wasGameATie = boxscoreStats["wasGameATie"];
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
-      <div className=" text-slate-300 border border-slate-300 rounded-md w-3/4 md:w-1/2 m-auto mt-2">
+      <div className=" text-slate-300 w-10/12 pb-2 md:w-1/2 m-auto mt-2">
         <div className="flex flex-col">
           {!wasGameATie && wasOvertimeRequired && (
             <div className="text-center text-4xl">OT</div>
           )}
-          <div className="w-full flex justify-center gap-3 items-center sm:w-3/4 sm:mx-auto">
-            Home
-            <TeamLogo name={homeAcronym} width={60} height={60} />
-            <div className="text-3xl">
-              {homeScore} - {awayScore}
+          <div className="w-full flex justify-center gap-6 items-center sm:w-3/4 sm:mx-auto">
+            <TeamLogo
+              name={awayAcronym}
+              width={teamLogoWidthHeight}
+              height={teamLogoWidthHeight}
+            />
+            <div className="text-xl md:text-2xl">
+              {awayScore} - {homeScore}
             </div>
-            <TeamLogo name={awayAcronym} width={60} height={60} />
-            Away
+            <span className="text-orange-400">@</span>
+            <TeamLogo
+              name={homeAcronym}
+              width={teamLogoWidthHeight}
+              height={teamLogoWidthHeight}
+            />
           </div>
         </div>
       </div>
