@@ -1,4 +1,5 @@
 import Standings from "@/components/client/Standings";
+import getLeagueSchema from "@/app/(helpers)/get-league-schema";
 import { getStandings } from "../(helpers)/get-standings";
 import { getDivisionsAndConferences } from "../(helpers)/get-divisions-and-conferences";
 import { connectToDb } from "@/utils/database";
@@ -7,14 +8,7 @@ async function standingsPage({ params }) {
   // get league name from url param
   const leagueName = params["league-name"];
   // set the correct leagues schema to the matching league param
-  let LeagueSchema;
-  switch (leagueName) {
-    case "w":
-      LeagueSchema = (await import("@/schemas/season/w_season")).default;
-      break;
-    default:
-      LeagueSchema = (await import("@/schemas/season/w_season")).default;
-  }
+  const LeagueSchema = await getLeagueSchema(leagueName);
   await connectToDb();
   // get the most recent season number for the league
   const getMostRecentSeason = await LeagueSchema.getMostRecentSeasonNumber();
