@@ -5,14 +5,34 @@ import { useEffect, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { HiMiniCog6Tooth } from "react-icons/hi2";
+import { DAYS_OF_WEEK, MONTHS } from "@/utils/constants/constants";
 import TeamLogo from "@/components/server/standings/TeamLogo";
 
-function GameResultScore({ recentGameResult }) {
+function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
   const [gameData, setGameData] = useState(recentGameResult);
+  const [gamesDate, setGamesDate] = useState(null);
+  const [gamesDayOfWeek, setGamesDayOfWeek] = useState(null);
+  const [gamesMonth, setGamesMonth] = useState(null);
+  const [gameDateChanged, setGameDateChanged] = useState(false);
+  const [dateOfDifferentDay, setDateOfDifferentDay] = useState(null);
   const [teamLogoWidthHeight, setTeamLogoWidthHeight] = useState(40);
   const { clientRecentlyPlayedGames, refreshTheStandings } =
     useFullLeagueStandings();
   const { isAuthorized } = useAuthorizationStatus();
+
+  useEffect(() => {
+    if (gameDateIndexes.includes(index)) {
+      const firstGameTimestamp =
+        recentGameResult.otherGameStats.submittedAt || new Date("1970-01-01");
+      const firstGameTimestampInTicker = new Date(
+        Date.parse(firstGameTimestamp)
+      );
+      setGamesDate(firstGameTimestampInTicker.getDate());
+      setGamesDayOfWeek(DAYS_OF_WEEK[firstGameTimestampInTicker.getDay()]);
+      setGamesMonth(MONTHS[firstGameTimestampInTicker.getMonth()]);
+      setGameDateChanged(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (refreshTheStandings) {
@@ -51,6 +71,11 @@ function GameResultScore({ recentGameResult }) {
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
       <div className=" text-slate-300 pb-2 md:w-3/4 lg:w-1/2 m-auto mt-2">
+        {gameDateChanged && (
+          <h3 className="text-center text-lg mb-2">
+            {gamesDayOfWeek}, {gamesMonth} {gamesDate}
+          </h3>
+        )}
         <div className="flex flex-col">
           {!wasGameATie && wasOvertimeRequired && (
             <div className="text-center text-4xl">OT</div>
