@@ -73,6 +73,12 @@ W_LeagueSchema.statics.getFieldData = async function (
   if (paramtersList.includes("standings")) {
     requestedDataObject.standings = await this.getSortedStandings(seasonNumber);
   }
+  ////////////////////////////////////////
+  // get the most recent-season
+  ////////////////////////////////////////
+  if (paramtersList.includes("recent-season")) {
+    requestedDataObject.recentSeason = await this.getMostRecentSeasonNumber();
+  }
   /////////////////////////////////////////////////////
   // if divisions and conferences are required then add
   /////////////////////////////////////////////////////
