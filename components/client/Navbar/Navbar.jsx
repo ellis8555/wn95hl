@@ -78,10 +78,6 @@ function Navbar() {
           <Link href="/recent-scores">
             <li>Scores</li>
           </Link>
-          <Link href="/standings">
-            <li>Standings</li>
-          </Link>
-
           <Link href="/submit">
             <li>Submit</li>
           </Link>
