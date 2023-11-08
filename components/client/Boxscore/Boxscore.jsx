@@ -77,7 +77,7 @@ function Boxscore({ recentGameResults }) {
       gamesDay.current = gamesDate.current.getDate();
       recentGamesPlayed.forEach((game, index) => {
         const gameTimestampTicker = Date.parse(
-          game.otherGameStats.submittedAt || new Date("2022-09-17")
+          game.otherGameStats.submittedAt || new Date("1970-01-01")
         );
         const thisGamesDate = new Date(gameTimestampTicker);
         const thisGamesDay = thisGamesDate.getDate();
