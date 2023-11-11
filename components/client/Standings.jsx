@@ -28,6 +28,7 @@ function Standings({
     setIsTableFiltered,
     setSplitTables,
     setConference,
+    conferenceNamesList,
   });
 
   const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
@@ -39,6 +40,7 @@ function Standings({
   }, [clientSideStandings]);
   return (
     <>
+      {/* smaller screens have button for each conference name */}
       <div
         className="flex flex-row justify-center 
       gap-4 mt-4 md:hidden"
@@ -50,6 +52,7 @@ function Standings({
         )}
         {COMPONENT_TABLE_BUTTON("Prince of Wales", component_table_button_args)}
       </div>
+      {/* medium screens has button for 'conferences' which split screens tables for each conference */}
       <div
         className="flex-row justify-center 
       gap-4 mt-4 hidden md:flex"
@@ -57,6 +60,7 @@ function Standings({
         {COMPONENT_TABLE_BUTTON("League", component_table_button_args)}
         {COMPONENT_TABLE_BUTTON("Conferences", component_table_button_args)}
       </div>
+      {/* small screens only ever display single table */}
       <div className="md:hidden">
         <div className="mt-3">
           {conference === "League" ? (
@@ -81,6 +85,7 @@ function Standings({
           />
         </div>
       </div>
+      {/* medium screens displays conferences via multiple tables on page */}
       <div className="hidden md:flex flex-row justify-around">
         {splitTables ? (
           <div className="flex flex-row justify-around gap-8">
