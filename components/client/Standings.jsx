@@ -7,8 +7,16 @@ import FilteredTable from "../server/tables/FilteredTable";
 import LeagueLogo from "../server/Logos/LeagueLogo";
 import { COMPONENT_TABLE_BUTTON } from "@/utils/constants/component_consts";
 
-function Standings({ leagueName, seasonNumber, leagueTable, leagueStructure }) {
+function Standings({
+  leagueName,
+  seasonNumber,
+  leagueTable,
+  leagueStructure,
+  conferenceNames,
+}) {
   const [standings, setStandings] = useState(leagueTable);
+  const { conferences } = conferenceNames;
+  const [conferenceNamesList, setConferenceNamesList] = useState(conferences);
   const [conference, setConference] = useState("League");
   const [divisions] = useState(leagueStructure);
   const [isTableFiltered, setIsTableFiltered] = useState(false);
