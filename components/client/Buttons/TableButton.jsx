@@ -10,6 +10,7 @@ function TableButton({
   setIsTableFiltered,
   setSplitTables,
   setConference,
+  conferenceNames,
 }) {
   const [leagueStandings, setLeagueStandings] = useState(standings);
   const [clarenceCampbell, setClarenceCampbell] = useState(

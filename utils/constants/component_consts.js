@@ -9,6 +9,7 @@ export const COMPONENT_TABLE_BUTTON = function (
     setIsTableFiltered,
     setSplitTables,
     setConference,
+    conferenceNamesList,
   }
 ) {
   return (
@@ -19,6 +20,7 @@ export const COMPONENT_TABLE_BUTTON = function (
       setIsTableFiltered={setIsTableFiltered}
       setSplitTables={setSplitTables}
       setConference={setConference}
+      conferenceNames={conferenceNamesList}
     >
       {name}
     </TableButton>
