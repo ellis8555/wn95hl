@@ -139,10 +139,10 @@ W_LeagueSchema.statics.getFieldData = async function (
   }
 
   //////////////////////////////////
-  // returns conferences
+  // returns conferences sorted
   //////////////////////////////////
   if (paramtersList.includes("conferences")) {
-    requestedDataObject.conferences = seasonDocument["conferences"];
+    requestedDataObject.conferences = seasonDocument["conferences"].sort();
   }
 };
 
