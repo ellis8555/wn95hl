@@ -137,6 +137,13 @@ W_LeagueSchema.statics.getFieldData = async function (
 
     requestedDataObject.recentlyPlayedGames = recentlyPlayedGames;
   }
+
+  //////////////////////////////////
+  // returns conferences
+  //////////////////////////////////
+  if (paramtersList.includes("conferences")) {
+    requestedDataObject.conferences = seasonDocument["conferences"];
+  }
 };
 
 /////////////////////////
