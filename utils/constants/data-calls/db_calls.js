@@ -10,26 +10,18 @@ export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
   }
 }
 
-// returns an object
-export async function READ_SEASON_FIELD_DATA(
-  leagueName,
-  seasonNumber,
-  requestedField
-) {
-  const League = await getLeagueAndSeason(leagueName, seasonNumber);
-
-  const fieldData = {};
-  await League.getFieldData(seasonNumber, requestedField, fieldData);
-
-  return fieldData;
-}
-
 export async function READ_SEASON_STANDINGS(leagueName, seasonNumber) {
   const League = await getLeagueAndSeason(leagueName, seasonNumber);
 
   const standings = await League.getSortedStandings(seasonNumber);
 
   return standings;
+}
+
+export async function READ_SEASON_CONFERENCES(leagueName, seasonNumber) {
+  const League = await getLeagueAndSeason(leagueName, seasonNumber);
+  const conferences = await League.getConferences(seasonNumber);
+  return conferences;
 }
 
 export async function CLEAR_LEAGUE_TABLE_SWITCH(leagueName) {
@@ -39,6 +31,21 @@ export async function CLEAR_LEAGUE_TABLE_SWITCH(leagueName) {
     default:
       return DEFAULT_LEAGUE;
   }
+}
+
+////////////////
+// api method
+////////////////
+// returns an object
+export async function READ_SEASON_FIELD_DATA(
+  leagueName,
+  seasonNumber,
+  requestedField
+) {
+  const League = await getLeagueAndSeason(leagueName, seasonNumber);
+  const fieldData = {};
+  await League.getFieldData(seasonNumber, requestedField, fieldData);
+  return fieldData;
 }
 
 ////////////////////////////////////////////
