@@ -12,11 +12,10 @@ function Standings({
   seasonNumber,
   leagueTable,
   leagueStructure,
-  conferenceNames,
+  conferences,
 }) {
   const [standings, setStandings] = useState(leagueTable);
-  const { conferences } = conferenceNames;
-  const [conferenceNamesList, setConferenceNamesList] = useState(conferences);
+  const [conferenceDetails, setConferenceDetails] = useState(conferences);
   const [conference, setConference] = useState("League");
   const [divisions] = useState(leagueStructure);
   const [isTableFiltered, setIsTableFiltered] = useState(false);
@@ -28,9 +27,8 @@ function Standings({
     setIsTableFiltered,
     setSplitTables,
     setConference,
-    conferenceNamesList,
+    conferenceDetails,
   });
-
   const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
 
   useEffect(() => {
@@ -46,11 +44,9 @@ function Standings({
       gap-4 mt-4 md:hidden"
       >
         {COMPONENT_TABLE_BUTTON("League", component_table_button_args)}
-        {COMPONENT_TABLE_BUTTON(
-          "Clarence Campbell",
-          component_table_button_args
+        {conferenceDetails.map((eachConf) =>
+          COMPONENT_TABLE_BUTTON(eachConf.name, component_table_button_args)
         )}
-        {COMPONENT_TABLE_BUTTON("Prince of Wales", component_table_button_args)}
       </div>
       {/* medium screens has button for 'conferences' which split screens tables for each conference */}
       <div
@@ -65,16 +61,20 @@ function Standings({
         <div className="mt-3">
           {conference === "League" ? (
             <div className="flex justify-center">
-              <LeagueLogo name="w" width={75} height={75} />
+              <LeagueLogo name={leagueName} width={75} height={75} />
             </div>
           ) : (
             <div className="flex justify-center">
-              {conference === "Clarence Campbell" && (
-                <LeagueLogo name="clarenceCampbell" width={75} height={75} />
-              )}
-              {conference === "Prince of Wales" && (
-                <LeagueLogo name="princeOfWales" width={75} height={75} />
-              )}
+              {conferenceDetails.map((eachConf) => {
+                return conference === eachConf.name ? (
+                  <LeagueLogo
+                    key={eachConf.name}
+                    name={eachConf.logo}
+                    width={75}
+                    height={75}
+                  />
+                ) : null;
+              })}
             </div>
           )}
           <LeagueTable
@@ -89,47 +89,40 @@ function Standings({
       <div className="hidden md:flex flex-row justify-around">
         {splitTables ? (
           <div className="flex flex-row justify-around gap-8">
-            <div className="mt-3">
-              <div className="flex justify-center">
-                <LeagueLogo name="clarenceCampbell" width={75} height={75} />
+            {conferenceDetails.map((eachConf) => (
+              <div className="mt-3" key={eachConf.name}>
+                <div className="flex justify-center">
+                  <LeagueLogo name={eachConf.logo} width={75} height={75} />
+                </div>
+                <FilteredTable
+                  confDivName={eachConf.name}
+                  leagueName={leagueName}
+                  seasonNumber={seasonNumber}
+                  standings={standings}
+                  divisions={divisions}
+                  isTableFiltered={isTableFiltered}
+                />
               </div>
-              <FilteredTable
-                confDivName="Clarence Campbell"
-                leagueName={leagueName}
-                seasonNumber={seasonNumber}
-                standings={standings}
-                divisions={divisions}
-                isTableFiltered={isTableFiltered}
-              />
-            </div>
-            <div className="mt-3">
-              <div className="flex justify-center">
-                <LeagueLogo name="princeOfWales" width={75} height={75} />
-              </div>
-              <FilteredTable
-                confDivName="Prince of Wales"
-                leagueName={leagueName}
-                seasonNumber={seasonNumber}
-                standings={standings}
-                divisions={divisions}
-                isTableFiltered={isTableFiltered}
-              />
-            </div>
+            ))}
           </div>
         ) : (
           <div className="mt-3 w-3/4">
             {conference === "League" ? (
               <div className="flex justify-center">
-                <LeagueLogo name="w" width={75} height={75} />
+                <LeagueLogo name={leagueName} width={75} height={75} />
               </div>
             ) : (
               <div className="flex justify-center">
-                {conference === "Clarence Campbell" && (
-                  <LeagueLogo name="clarenceCampbell" width={75} height={75} />
-                )}
-                {conference === "Prince of Wales" && (
-                  <LeagueLogo name="princeOfWales" width={75} height={75} />
-                )}
+                {conferenceDetails.map((eachConf) => {
+                  return conference === eachConf.name ? (
+                    <LeagueLogo
+                      key={eachConf.name}
+                      name={eachConf.logo}
+                      width={75}
+                      height={75}
+                    />
+                  ) : null;
+                })}
               </div>
             )}
             <LeagueTable
