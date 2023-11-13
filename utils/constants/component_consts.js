@@ -9,18 +9,19 @@ export const COMPONENT_TABLE_BUTTON = function (
     setIsTableFiltered,
     setSplitTables,
     setConference,
-    conferenceNamesList,
+    conferenceDetails,
   }
 ) {
   return (
     <TableButton
+      key={name}
       standings={standings}
       setStandings={setStandings}
       divisions={divisions}
       setIsTableFiltered={setIsTableFiltered}
       setSplitTables={setSplitTables}
       setConference={setConference}
-      conferenceNames={conferenceNamesList}
+      conferenceDetails={conferenceDetails}
     >
       {name}
     </TableButton>

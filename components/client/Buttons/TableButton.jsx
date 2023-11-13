@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 
 function TableButton({
@@ -10,26 +10,49 @@ function TableButton({
   setIsTableFiltered,
   setSplitTables,
   setConference,
-  conferenceNames,
+  conferenceDetails,
 }) {
   const [leagueStandings, setLeagueStandings] = useState(standings);
-  const [clarenceCampbell, setClarenceCampbell] = useState(
-    leagueStandings.filter((team) => {
-      if (divisions[team.teamAcronym].conference == "Clarence Campbell") {
-        return team;
-      }
-      return;
-    })
-  );
-  const [princeOfWales, setPrinceOfWales] = useState(
-    leagueStandings.filter((team) => {
-      if (divisions[team.teamAcronym].conference == "Prince of Wales") {
-        return team;
-      }
-      return;
-    })
-  );
+
+  const firstConferenceDetails = useRef(null);
+  const firstConferenceStandings = useRef(null);
+  const secondConferenceDetails = useRef(null);
+  const secondConferenceStandings = useRef(null);
+
+  const [howManyConferences] = useState(conferenceDetails.length);
+
   const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
+
+  useEffect(() => {
+    if (howManyConferences > 1) {
+      switch (howManyConferences) {
+        case 2:
+          firstConferenceDetails.current = conferenceDetails[0];
+          firstConferenceStandings.current = leagueStandings.filter((team) => {
+            if (
+              divisions[team.teamAcronym].conference ==
+              firstConferenceDetails.current.name
+            ) {
+              return team;
+            }
+            return;
+          });
+          secondConferenceDetails.current = conferenceDetails[1];
+          secondConferenceStandings.current = leagueStandings.filter((team) => {
+            if (
+              divisions[team.teamAcronym].conference ==
+              secondConferenceDetails.current.name
+            ) {
+              return team;
+            }
+            return;
+          });
+          break;
+        default:
+          return;
+      }
+    }
+  }, [leagueStandings]);
 
   useEffect(() => {
     if (refreshTheStandings) {
@@ -38,23 +61,25 @@ function TableButton({
   }, [clientSideStandings]);
 
   useEffect(() => {
-    if (refreshTheStandings) {
-      setClarenceCampbell(
-        leagueStandings.filter((team) => {
-          if (divisions[team.teamAcronym].conference == "Clarence Campbell") {
-            return team;
-          }
-          return;
-        })
-      );
-      setPrinceOfWales(
-        leagueStandings.filter((team) => {
-          if (divisions[team.teamAcronym].conference == "Prince of Wales") {
-            return team;
-          }
-          return;
-        })
-      );
+    if (refreshTheStandings && howManyConferences > 1) {
+      firstConferenceStandings.current = leagueStandings.filter((team) => {
+        if (
+          divisions[team.teamAcronym].conference ==
+          firstConferenceDetails.current.name
+        ) {
+          return team;
+        }
+        return;
+      });
+      secondConferenceStandings.current = leagueStandings.filter((team) => {
+        if (
+          divisions[team.teamAcronym].conference ==
+          secondConferenceDetails.current.name
+        ) {
+          return team;
+        }
+        return;
+      });
     }
   }, [leagueStandings]);
 
@@ -63,17 +88,17 @@ function TableButton({
       className="bg-slate-300 rounded p-1"
       onClick={() => {
         switch (children) {
-          case "Clarence Campbell":
+          case firstConferenceDetails.current.name:
             setIsTableFiltered(true);
             setSplitTables(false);
             setConference(children);
-            setStandings(clarenceCampbell);
+            setStandings(firstConferenceStandings.current);
             break;
-          case "Prince of Wales":
+          case secondConferenceDetails.current.name:
             setIsTableFiltered(true);
             setSplitTables(false);
             setConference(children);
-            setStandings(princeOfWales);
+            setStandings(secondConferenceStandings.current);
             break;
           case "Conferences":
             setIsTableFiltered(true);
