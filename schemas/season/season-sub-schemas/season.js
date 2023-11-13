@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 import LeagueTableSchema from "./leagueTable";
 import LeaguesTeamsSchema from "./leagueTeamsSchema";
+import LeaguesConferencesSchema from "./conferences";
 import GameResultSchema from "@/schemas/game-result/gameResult";
 
 const SeasonSchema = new Schema({
@@ -13,7 +14,7 @@ const SeasonSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  conferences: [String],
+  conferences: [LeaguesConferencesSchema],
   divisions: [String],
   teams: [LeaguesTeamsSchema],
   teamsDictCodes: {
