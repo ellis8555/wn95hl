@@ -28,6 +28,13 @@ W_LeagueSchema.statics.queryForIfSeasonExists = async function (seasonNumber) {
   return true;
 };
 
+W_LeagueSchema.statics.getConferences = async function (seasonNumber) {
+  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
+  const conferences = getSeasonDocument["conferences"];
+
+  return conferences;
+};
+
 W_LeagueSchema.statics.getSortedStandings = async function (seasonNumber) {
   const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
   const standings = getSeasonDocument["standings"];
@@ -136,13 +143,6 @@ W_LeagueSchema.statics.getFieldData = async function (
     }
 
     requestedDataObject.recentlyPlayedGames = recentlyPlayedGames;
-  }
-
-  //////////////////////////////////
-  // returns conferences sorted
-  //////////////////////////////////
-  if (paramtersList.includes("conferences")) {
-    requestedDataObject.conferences = seasonDocument["conferences"].sort();
   }
 };
 
