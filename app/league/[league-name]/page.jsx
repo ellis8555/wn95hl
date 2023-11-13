@@ -2,8 +2,8 @@ import Standings from "@/components/client/Standings";
 import getLeagueSchema from "@/app/(helpers)/get-league-schema";
 import { getStandings } from "../(helpers)/get-standings";
 import { getDivisionsAndConferences } from "../(helpers)/get-divisions-and-conferences";
+import { getConferences } from "../(helpers)/get-conferences";
 import { connectToDb } from "@/utils/database";
-import { READ_SEASON_FIELD_DATA } from "@/utils/constants/data-calls/db_calls";
 
 async function standingsPage({ params }) {
   // get league name from url param
@@ -14,10 +14,8 @@ async function standingsPage({ params }) {
   // get the most recent season number for the league
   const getMostRecentSeason = await LeagueSchema.getMostRecentSeasonNumber();
   // get leagues conferences
-  const getLeaguesConferences = await READ_SEASON_FIELD_DATA(
-    leagueName,
-    getMostRecentSeason,
-    "conferences"
+  const getLeaguesConferences = JSON.parse(
+    await getConferences(leagueName, getMostRecentSeason)
   );
   // get the leagues standings
   const standings = JSON.parse(
@@ -33,7 +31,7 @@ async function standingsPage({ params }) {
       seasonNumber={getMostRecentSeason}
       leagueTable={standings}
       leagueStructure={divisionsAndConferences}
-      conferenceNames={getLeaguesConferences}
+      conferences={getLeaguesConferences}
     />
   );
 }
