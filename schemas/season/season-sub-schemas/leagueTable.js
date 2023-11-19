@@ -3,6 +3,7 @@ import { Schema } from "mongoose";
 const LeagueTableSchema = new Schema({
   teamName: String,
   teamAcronym: String,
+  teamLogo: String,
   GP: {
     type: Number,
     default: 0,
