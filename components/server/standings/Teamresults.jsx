@@ -21,7 +21,7 @@ function Teamresults({
     >
       <td className="flex justify-center">
         <div className="flex items-center h-10">
-          <TeamLogo name={team.teamAcronym} width={25} height={15} />
+          <TeamLogo name={team.teamLogo} width={25} height={15} />
         </div>
       </td>
       {categories.map((category, index) => (
