@@ -7,6 +7,7 @@ export const POST = async (req) => {
   const {
     teamName,
     leagueName,
+    logo,
     seasonNumber: whichSeason,
     conference,
     division,
@@ -55,8 +56,17 @@ export const POST = async (req) => {
     }
 
     // check if the conference exists
+    // get array of conference objects
     const conferenceList = thisSeason.conferences;
-    const isConferenceValid = conferenceList.includes(conference);
+    // begin search with conference not found
+    let isConferenceValid = false;
+    // loop through leagues conferences and set isConferenceValid true if teams conference is in leagues conference array
+    conferenceList.forEach((conf) => {
+      if (conf.name === conference) {
+        isConferenceValid = true;
+      }
+    });
+    // const isConferenceValid = conferenceList.includes(conference);
     if (!isConferenceValid) {
       return nextResponse({
         message: `${conference} conference is not registered to this league`,
@@ -98,6 +108,7 @@ export const POST = async (req) => {
 
     const createTeamsObject = {
       teamAcronym,
+      logo,
       conference,
       division,
       schedule: {
