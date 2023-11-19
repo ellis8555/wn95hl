@@ -169,7 +169,11 @@ export const POST = async (req) => {
 
     // add team to the standings array
 
-    thisSeason.standings.push({ teamName: teamName, teamAcronym: teamAcronym });
+    thisSeason.standings.push({
+      teamName: teamName,
+      teamAcronym: teamAcronym,
+      teamLogo: logo,
+    });
 
     // recreate teamsDictCodes essential for team positions within any custom game ROM
     const tempTeamAcronymsArray = [];
