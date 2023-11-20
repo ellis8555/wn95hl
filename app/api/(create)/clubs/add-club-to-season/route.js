@@ -4,7 +4,7 @@ import Club from "@/schemas/club";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
 export const POST = async (req) => {
-  const {
+  let {
     teamName,
     leagueName,
     logo,
@@ -12,6 +12,14 @@ export const POST = async (req) => {
     conference,
     division,
   } = await req.json();
+
+  // if league has no divisions or conferences set defaults to league for each
+  if (division === "") {
+    division = "League";
+  }
+  if (conference === "") {
+    conference = "League";
+  }
 
   try {
     await connectToDb();
@@ -86,22 +94,10 @@ export const POST = async (req) => {
     // set schedules for teams to reflect newly added team
     //////////////////////////////////////////////////////
 
-    // get how many games vs each based on league structure
     // divide by 2 to set home and away games
     const gamesVsDivision = +thisSeason.divisionalGames / 2;
     const gamesVsConference = +thisSeason.conferenceGames / 2;
     const gamesVsOtherConference = +thisSeason.otherConferenceGames / 2;
-
-    if (
-      (gamesVsDivision || gamesVsConference || gamesVsOtherConference) % 2 !==
-      0
-    ) {
-      return nextResponse(
-        { message: "currently only even numbered games vs opponents works" },
-        400,
-        "POST"
-      );
-    }
 
     // add seasonNumber
     thisSeason.seasonNumber = whichSeason;
