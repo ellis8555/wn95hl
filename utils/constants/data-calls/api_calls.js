@@ -20,13 +20,16 @@ export const GET_LEAGUE_DATA = async (leagueName, seasonNumber, ...fields) => {
       revalidate: 0,
     },
   });
+  let responseData = {};
 
   if (!response.ok) {
     const errorMessage = await response.json();
-    return new Error(errorMessage.message);
+    responseData.error = true;
+    responseData.message = errorMessage.message;
+    return responseData;
   }
 
-  const responseData = await response.json();
+  responseData = await response.json();
 
   return responseData;
 };
@@ -61,12 +64,16 @@ export async function POST_JSON_TO_API(segments, body) {
     body: JSON.stringify(body),
   });
 
+  let responseData = {};
+
   if (!response.ok) {
     const errorMessage = await response.json();
-    return new Error(errorMessage.message);
+    responseData.error = true;
+    responseData.message = errorMessage.message;
+    return responseData;
   }
 
-  const responseData = await response.json();
+  responseData = await response.json();
 
   return responseData;
 }
