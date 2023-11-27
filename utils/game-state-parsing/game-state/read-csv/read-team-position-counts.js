@@ -1,7 +1,7 @@
 // Function to read and process the CSV file using async/await
 
-async function readTeamPositionCounts() {
-  const teamCsvFile = "./csv/Team_Position_Counts.csv";
+async function readTeamPositionCounts(leagueName, seasonNumber) {
+  const teamCsvFile = `./csv/${leagueName}/${seasonNumber}/Team_Position_Counts.csv`;
 
   const teamsArray = [];
   const teamsContainingObject = {};

@@ -1,7 +1,7 @@
 // Function to read and process the CSV file using async/await
 
-async function readSkatersAttributes() {
-  const skaterCsvFile = "./csv/Skater_Attributes.csv";
+async function readSkatersAttributes(leagueName, seasonNumber) {
+  const skaterCsvFile = `./csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`;
 
   const skatersArray = [];
   const skatersContainingObject = {};

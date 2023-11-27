@@ -18,9 +18,12 @@ async function readBinaryGameState(
   leagueName,
   teamsDictCodes
 ) {
-  const goalieDict = await readGoalieAttributes();
-  const skaterDict = await readSkatersAttributes();
-  const teamPositionNumbersDict = await readTeamPositionCounts();
+  const goalieDict = await readGoalieAttributes(leagueName, seasonNumber);
+  const skaterDict = await readSkatersAttributes(leagueName, seasonNumber);
+  const teamPositionNumbersDict = await readTeamPositionCounts(
+    leagueName,
+    seasonNumber
+  );
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -36,35 +39,33 @@ async function readBinaryGameState(
       //   0: "AHC",
       //   1: "AUT",
       //   2: "BAY",
-      //   3: "CDA",
-      //   4: "DIN",
-      //   5: "HAM",
-      //   6: "HIG",
-      //   7: "HOT",
-      //   8: "SPG",
-      //   9: "ITA",
+      //   3: "DIN",
+      //   4: "HAM",
+      //   5: "HIG",
+      //   6: "HOT",
+      //   7: "IFV",
+      //   8: "ITA",
+      //   9: "KVK",
       //   10: "MHA",
       //   11: "MHT",
       //   12: "MGG",
       //   13: "NBK",
       //   14: "OCW",
-      //   15: "PIT",
-      //   16: "PRO",
-      //   17: "REN",
-      //   18: "RIC",
-      //   19: "ROM",
-      //   20: "SAG",
-      //   21: "SDM",
-      //   22: "KVK",
+      //   15: "PNS",
+      //   16: "PIT",
+      //   17: "PRO",
+      //   18: "REN",
+      //   19: "RIC",
+      //   20: "ROM",
+      //   21: "SAG",
+      //   22: "SDM",
       //   23: "SOV",
       //   24: "SVF",
       //   25: "SUM",
       //   26: "SUN",
       //   27: "TAI",
-      //   28: "TBP",
-      //   29: "IVF",
-      //   30: "THT",
-      //   31: "UGA",
+      //   28: "TEG",
+      //   29: "TBP",
       // };
       //////////////////////////////////////////////////
       // end of testing area
@@ -1531,8 +1532,7 @@ async function readBinaryGameState(
         ////////////////////////////////////////
         // object containing all the games data
         ////////////////////////////////////////
-        let gameProperties = {};
-        gameProperties = {
+        let gameProperties = {
           currSeason: seasonNumber,
           fileName: file.name,
           fileSize: file.size,
@@ -1541,7 +1541,7 @@ async function readBinaryGameState(
         };
         resolve(gameProperties);
       } catch (error) {
-        gameProperties = {
+        let gameProperties = {
           data: "There was an error processing the file",
         };
         reject(gameProperties);
