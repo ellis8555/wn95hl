@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 import SeasonSchema from "./season-sub-schemas/season";
-import nextResponse from "@/utils/api/next-response";
+
+const leagueName = "W";
 
 const W_LeagueSchema = new Schema({
   ...SeasonSchema.obj,
@@ -106,22 +107,14 @@ W_LeagueSchema.statics.getFieldData = async function (
   ////////////////////////////////////////
   if (paramtersList.includes("team-codes")) {
     if (!seasonDocument.hasSeasonBegun) {
-      return nextResponse(
-        {
-          message: `Season ${seasonNumber} of the ${leagueName.toUpperCase()} has not officially began.`,
-        },
-        400,
-        "GET"
-      );
+      requestedDataObject.error = true;
+      requestedDataObject.message = `Season ${seasonNumber} of the ${leagueName.toUpperCase()} has not officially began.`;
+      return requestedDataObject;
     }
     if (seasonDocument.hasSeasonEnded) {
-      return nextResponse(
-        {
-          message: `Season ${seasonNumber} of the ${leagueName.toUpperCase()} has officially ended.`,
-        },
-        400,
-        "GET"
-      );
+      requestedDataObject.error = true;
+      requestedDataObject.message = `Season ${seasonNumber} of the ${leagueName.toUpperCase()} has officially ended.`;
+      return requestedDataObject;
     }
     requestedDataObject.dictCodes = seasonDocument["teamsDictCodes"];
   }
@@ -145,6 +138,7 @@ W_LeagueSchema.statics.getFieldData = async function (
 
     requestedDataObject.recentlyPlayedGames = recentlyPlayedGames;
   }
+  return requestedDataObject;
 };
 
 /////////////////////////
