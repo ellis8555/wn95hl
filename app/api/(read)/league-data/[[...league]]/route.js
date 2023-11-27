@@ -79,21 +79,24 @@ export const GET = async (req, { params }) => {
           "GET"
         );
       }
-
       //////////////////////////////////////////////////////////////////
       // schema method takes in parameter list and requestedData object
       // requestedData object has properties added within this method
       //////////////////////////////////////////////////////////////////
 
-      await League.getFieldData(
+      const response = await League.getFieldData(
         seasonNumber,
         requestedLeagueDetails,
         requestedData
       );
 
-      // return requested data
+      if (response.error) {
+        return nextResponse(response, 400, "GET");
+      } else {
+        return nextResponse(requestedData, 200, "GET");
+      }
 
-      return nextResponse(requestedData, 200, "GET");
+      // return requested data
     } catch (error) {
       return nextResponse(error.message, 500, "GET");
     }
