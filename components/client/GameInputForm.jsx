@@ -9,8 +9,12 @@ import {
   GET_LEAGUE_DATA,
   POST_JSON_TO_API,
 } from "@/utils/constants/data-calls/api_calls";
+import {
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+} from "@/utils/constants/constants";
 
-function GameInputForm({ leagueName, seasonNumber }) {
+function GameInputForm() {
   const [gameData, setGameData] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
@@ -20,6 +24,9 @@ function GameInputForm({ leagueName, seasonNumber }) {
     setClientSideStandings,
     setRefreshTheStandings,
   } = useFullLeagueStandings();
+
+  const leagueName = useRef(DEFAULT_LEAGUE);
+  const seasonNumber = useRef(MOST_RECENT_SEASON);
 
   const fileInputRef = useRef(null);
   ///////////////////////////////////////////////////////////
@@ -36,16 +43,22 @@ function GameInputForm({ leagueName, seasonNumber }) {
     e.preventDefault();
 
     const file = fileInputRef.current.files[0];
-
     if (!file) {
       alert("No file selected");
       return;
     }
 
+    const fileName = file.name;
+
+    leagueName.current = fileName[0].toLowerCase();
+    if (fileName[2] === "0") {
+      seasonNumber.current = fileName[3];
+    } else {
+      seasonNumber.current = fileName[2] + fileName[3];
+    }
+
     // message user the file is being processed
     setServerMessage("Game file being procressed...");
-
-    const fileName = file.name;
 
     ///////////////////////////////////////////
     // get game type to add to game state file
@@ -59,9 +72,9 @@ function GameInputForm({ leagueName, seasonNumber }) {
         // this returns all the parsed game data
         const fetchedGameData = await readGameStateFile(
           file,
-          seasonNumber,
+          seasonNumber.current,
           gameType,
-          leagueName
+          leagueName.current
         );
         fetchedGameData.forEach((gameState) => fetchedCSVData.push(gameState));
         const howManyGamesSubmitted = fetchedCSVData.length;
@@ -71,6 +84,11 @@ function GameInputForm({ leagueName, seasonNumber }) {
           const responses = [];
           for (let i = 0; i < howManyGamesSubmitted; i++) {
             const response = await POST_JSON_TO_API(fetchedCSVData[i]);
+
+            if (response.error) {
+              const errorMessage = response.message;
+              throw Error(errorMessage + ` at index ${i}`);
+            }
 
             setServerMessage(`${i} states processed..`);
             responses.push(await response.json());
@@ -83,13 +101,12 @@ function GameInputForm({ leagueName, seasonNumber }) {
 
           // update the standings table after submitting game result
           const standingsResponse = await GET_LEAGUE_DATA(
-            leagueName,
-            seasonNumber,
+            leagueName.current,
+            seasonNumber.current,
             "standings"
           );
           // get the standings object out of the fetch
-          const { standings: updatedStandings } =
-            await standingsResponse.json();
+          const { standings: updatedStandings } = standingsResponse;
 
           // update the boxscores
           let updateRecentlyPlayedGames;
@@ -109,34 +126,30 @@ function GameInputForm({ leagueName, seasonNumber }) {
         } catch (error) {
           fileInputRef.current.value = null;
           setIsStateUploaded(false);
-          setServerMessage(error.message);
+          throw Error(error.message);
         }
       }
-
-      ///////////////////////////////////////////////
-      // temp fix for unexpected file name
-      // ' || fileName.includes('2002TD') is temp
-      // only 2002TD file accepted till new season
-      ///////////////////////////////////////////////
-
       // pattern to test filename for acceptance
-      // const statePattern = /[WQ]S?\d{1,3}\.state\d{1,3}/;
-      // if (statePattern.test(fileName) || fileName.includes("2002TD")) {
-      if (fileName.includes("2002TD")) {
+      const statePattern = /[WQ][SP]?\d{1,3}\.state\d{1,3}/;
+      if (statePattern.test(fileName)) {
         const response = await GET_LEAGUE_DATA(
-          leagueName,
-          seasonNumber,
+          leagueName.current,
+          seasonNumber.current,
           "team-codes"
         );
+        if (response.error) {
+          // throw Error("An error has occured. File has not been submitted.");
+          throw Error(response.message);
+        }
         // teamsDict is name from python file
         // object containing list of team acronyms required for game state parsing
-        const { dictCodes } = await response.json();
+        const { dictCodes } = response;
         // this returns all the parsed game data
         const fetchedGameData = await readBinaryGameState(
           file,
-          seasonNumber,
+          seasonNumber.current,
           gameType,
-          leagueName,
+          leagueName.current,
           dictCodes
         );
         fetchedCSVData.push(fetchedGameData);
@@ -163,20 +176,23 @@ function GameInputForm({ leagueName, seasonNumber }) {
     // message the user request has been sent
     setServerMessage("Sending...");
     try {
-      await POST_JSON_TO_API("game-result", gameData);
+      const response = await POST_JSON_TO_API("game-result", gameData);
+
+      if (response.error) {
+        throw Error(response.message);
+      }
 
       // edit user message
       setServerMessage("Updating the standings...");
-
       const standingsResponse = await GET_LEAGUE_DATA(
-        leagueName,
-        seasonNumber,
+        leagueName.current,
+        seasonNumber.current,
         "standings",
         "recent-results"
       );
       // get newly updated standings
       const { standings: updatedStandings, recentlyPlayedGames } =
-        await standingsResponse.json();
+        standingsResponse;
       // update the boxscores
       let updateRecentlyPlayedGames;
       if (recentlyPlayedGames.length < 8) {
