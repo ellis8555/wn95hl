@@ -16,62 +16,16 @@ export const POST = async (req, res) => {
   let currentSeason;
   // if the file is not of csv type then process a game state file
   if (!fileName.includes("WN95HL_Game_Stats.csv")) {
-    /////////////////////////////////////////////////////////////////////
-    // TEMP addition for unexpted file name for trade deadline ROM
-    // testing for file name includes '2002TD' is temp fix
-    /////////////////////////////////////////////////////////////////////
-
-    if (fileName.includes("2002TD")) {
-      currentLeague = "W";
-      currentSeason = "8";
-    }
-
-    if (fileName.includes("WS8")) {
-      return nextResponse(
-        { message: "Currently only trade deadline game states being accepted" },
-        400,
-        "POST"
-      );
-    }
-
-    /////////////////////////////////////////////////////////////////////
-    // TEMP reject game states from before trade deadline
-    // files named 'ws8.state64' temp disabled till seasson ends
-    /////////////////////////////////////////////////////////////////////
-
-    // get currentSeason from the fileName if W league
-    // sample file name WS9.state1
-    if (fileName[0] === "W") {
-      /////////////////////////////////////////////////////////////////////
-      // temp return message informing user normal states disabled
-      /////////////////////////////////////////////////////////////////////
-
-      return nextResponse(
-        { message: "Currently only trade deadline game states being accepted" },
-        400,
-        "POST"
-      );
-
-      currentLeague = fileName[0];
-      const getTheDot = fileName.indexOf(".");
-      if (getTheDot == 3) {
-        currentSeason = fileName[getTheDot - 1];
-      }
-      if (getTheDot == 4) {
-        currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
-      }
-    }
-    // get currentSeason from the fileName if Q league
-    // sample file name Q86.state1
-    if (fileName[0] === "Q") {
-      currentLeague = fileName[0];
-      const getTheDot = fileName.indexOf(".");
-      if (getTheDot == 3) {
-        currentSeason = fileName[getTheDot - 2] + fileName[getTheDot - 1];
-      }
+    // extract leagueName from gamestate file name
+    currentLeague = fileName[0].toUpperCase();
+    // extract season number from game state file name
+    // drop the 0 if season begins with zero ex '02'
+    if (fileName[2] === "0") {
+      currentSeason = fileName[3];
+    } else {
+      currentSeason = fileName[2] + fileName[3];
     }
   }
-
   // if the file is of csv type then process
   if (fileName.includes("WN95HL_Game_Stats.csv")) {
     currentLeague = data.otherGameStats.league;
@@ -137,6 +91,18 @@ export const POST = async (req, res) => {
       );
     }
 
+    // check if season has been officially begun as per commisioner setting 'hasSeasonBegun = true'
+    // check if season has been officially ended as per commisioner setting 'hasSeasonEnded = false'
+    if (!seasonDocument.hasSeasonBegun || seasonDocument.hasSeasonEnded) {
+      return nextResponse(
+        {
+          message: `The ${currentLeague} season ${currentSeason} has not officially begun yet`,
+        },
+        400,
+        "POST"
+      );
+    }
+
     ///////////////////////////////
     // get the data for this season
     ///////////////////////////////
@@ -163,15 +129,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    // if (isDuplicate) {
-    //   return nextResponse(
-    //     {
-    //       message: `This game appears to be a duplicate. Game data was not saved..`,
-    //     },
-    //     400,
-    //     "POST"
-    //   );
-    // }
+    if (isDuplicate) {
+      return nextResponse(
+        {
+          message: `This game appears to be a duplicate. Game data was not saved..`,
+        },
+        400,
+        "POST"
+      );
+    }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
@@ -233,30 +199,30 @@ export const POST = async (req, res) => {
       }
     });
 
-    // const getHomeTeamsHomeSchedule = getHomeTeamsSeasonObject.schedule.home;
-    // const getAwayTeamsAwaySchedule = getAwayTeamsSeasonObject.schedule.away;
+    const getHomeTeamsHomeSchedule = getHomeTeamsSeasonObject.schedule.home;
+    const getAwayTeamsAwaySchedule = getAwayTeamsSeasonObject.schedule.away;
 
-    // const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
-    // const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
-    // if (extractHomeOpponent == -1) {
-    //   return nextResponse(
-    //     {
-    //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-    //     },
-    //     400,
-    //     "POST"
-    //   );
-    // }
+    const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
+    const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
+    if (extractHomeOpponent == -1) {
+      return nextResponse(
+        {
+          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+        },
+        400,
+        "POST"
+      );
+    }
 
-    // getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    // getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    // // rewrite teams home/away schedules to reflect recent game played and submitted
+    // rewrite teams home/away schedules to reflect recent game played and submitted
 
-    // seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-    //   getHomeTeamsHomeSchedule;
-    // seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-    //   getAwayTeamsAwaySchedule;
+    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+      getHomeTeamsHomeSchedule;
+    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+      getAwayTeamsAwaySchedule;
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
