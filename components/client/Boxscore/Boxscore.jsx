@@ -42,7 +42,6 @@ function Boxscore({ recentGameResults }) {
       }
       // if recent score ticker is requested to change from home page
       if (path == "/" && params.has("league")) {
-        console.log("inside of params scores");
         // get the leagues name
         const leagueName = params.get("league");
         // fetch that leagues most recent games
