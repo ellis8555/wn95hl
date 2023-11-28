@@ -1,23 +1,24 @@
 "use client";
 
+//////////////////////////////////////////////
+// Displays recent single game score on mobile
+//////////////////////////////////////////////
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { HiMiniCog6Tooth } from "react-icons/hi2";
 import { DAYS_OF_WEEK, MONTHS } from "@/utils/constants/constants";
 import TeamLogo from "@/components/server/standings/TeamLogo";
 
 function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
-  const [gameData, setGameData] = useState(recentGameResult);
+  const [gameData] = useState(recentGameResult);
   const [gamesDate, setGamesDate] = useState(null);
   const [gamesDayOfWeek, setGamesDayOfWeek] = useState(null);
   const [gamesMonth, setGamesMonth] = useState(null);
   const [gameDateChanged, setGameDateChanged] = useState(false);
   const [dateOfDifferentDay, setDateOfDifferentDay] = useState(null);
   const [teamLogoWidthHeight, setTeamLogoWidthHeight] = useState(40);
-  const { clientRecentlyPlayedGames, refreshTheStandings } =
-    useFullLeagueStandings();
   const { isAuthorized } = useAuthorizationStatus();
 
   useEffect(() => {
@@ -33,14 +34,6 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
       setGameDateChanged(true);
     }
   }, []);
-
-  useEffect(() => {
-    if (refreshTheStandings) {
-      setGameData(
-        clientRecentlyPlayedGames[clientRecentlyPlayedGames.length - 1]
-      );
-    }
-  }, [clientRecentlyPlayedGames]);
 
   if (
     gameData !== undefined &&
@@ -87,9 +80,8 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
               height={teamLogoWidthHeight}
             />
             <div className="text-xl md:text-2xl">
-              {awayScore} - {homeScore}
+              {awayScore} @ {homeScore}
             </div>
-            <span className="text-orange-400">@</span>
             <TeamLogo
               name={homeAcronym}
               width={teamLogoWidthHeight}
