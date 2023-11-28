@@ -3,7 +3,6 @@
 import "./styles.css";
 import Link from "next/link";
 import GeneralLogo from "@/components/server/Logos/GeneralLogo";
-import LeagueLogo from "@/components/server/Logos/LeagueLogo";
 import { useState } from "react";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
@@ -19,7 +18,7 @@ function Navbar() {
   }
 
   return (
-    <div className="relative sticky top-0">
+    <div className="relative sticky top-0 w-full">
       <nav className="flex flex-row gap-4 justify-center items-center sm:justify-between bg-slate-800 p-2">
         {/* mobile toggle menu icon */}
         <FaHockeyPuck
