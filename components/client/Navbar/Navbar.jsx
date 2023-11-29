@@ -19,13 +19,13 @@ function Navbar() {
 
   return (
     <div className="relative sticky top-0 w-full">
-      <nav className="flex flex-row gap-4 justify-center items-center sm:justify-between bg-slate-800 p-2">
+      <nav className="flex flex-row gap-4 justify-center items-center lg:justify-between bg-slate-800 p-2">
         {/* mobile toggle menu icon */}
         <FaHockeyPuck
           // if logged in menu icon green otherwise orange
           className={`${
             isAuthorized ? "text-green-400" : "text-orange-400"
-          } absolute sm:hidden right-2 text-2xl hover:cursor-pointer`}
+          } absolute lg:hidden right-2 text-2xl hover:cursor-pointer`}
           onClick={toggleMenu}
         />
         <ul className="flex flex-row">
@@ -39,7 +39,7 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <ul className="hidden sm:flex flex-row gap-4 items-center text-orange-400">
+        <ul className="hidden lg:flex flex-row gap-4 items-center text-orange-400">
           {/* Authorization related links */}
           {isAuthorized && (
             <li>
@@ -67,7 +67,7 @@ function Navbar() {
         </ul>
       </nav>
       {/*  mobile menu */}
-      <div className="text-slate-900 bg-slate-500 sm:hidden">
+      <div className="text-slate-900 bg-slate-500 lg:hidden">
         {/* toggle class depending on menu being opened or closed */}
         <ul
           className={`menuClosed ${

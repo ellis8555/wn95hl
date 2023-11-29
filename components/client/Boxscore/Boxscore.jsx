@@ -93,7 +93,7 @@ function Boxscore({ recentGameResults }) {
   return (
     <>
       {/* entire score ticker container */}
-      <div className="hidden sm:flex flex-row justify-center gap-1">
+      <div className="hidden lg:flex flex-row justify-center gap-[1px]">
         {recentGamesPlayed.map((game, index) => (
           <Ticker
             gameData={game}
