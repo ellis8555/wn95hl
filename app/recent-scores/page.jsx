@@ -15,7 +15,7 @@ async function page() {
   );
   return (
     <div>
-      <h1 className="text-xl text-center text-slate-300 my-3 md:text-3xl md:my-6">
+      <h1 className="text-xl text-center text-orange-400 my-3 md:text-3xl md:my-6">
         Recent Scores
       </h1>
       <GameResults recentGameResults={recentlyPlayedGames} />
