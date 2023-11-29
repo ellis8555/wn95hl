@@ -33,7 +33,7 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
       setGamesMonth(MONTHS[firstGameTimestampInTicker.getMonth()]);
       setGameDateChanged(true);
     }
-  }, []);
+  }, [index, gameDateIndexes]);
 
   if (
     gameData !== undefined &&
@@ -80,7 +80,7 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
               height={teamLogoWidthHeight}
             />
             <div className="text-xl md:text-2xl">
-              {awayScore} @ {homeScore}
+              {awayScore} <span className="text-sm">@</span> {homeScore}
             </div>
             <TeamLogo
               name={homeAcronym}
