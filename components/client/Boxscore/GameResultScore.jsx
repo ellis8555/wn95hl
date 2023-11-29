@@ -71,7 +71,7 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
         )}
         <div className="flex flex-col">
           {!wasGameATie && wasOvertimeRequired && (
-            <div className="text-center text-4xl">OT</div>
+            <div className="text-center text-xl text-orange-400">OT</div>
           )}
           <div className="w-full flex justify-center gap-2 items-center sm:w-3/4 sm:mx-auto sm:gap-6">
             <TeamLogo
@@ -79,7 +79,14 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
               width={teamLogoWidthHeight}
               height={teamLogoWidthHeight}
             />
-            <div className="text-xl md:text-2xl">
+            {/* <div className="text-xl md:text-2xl"> */}
+            <div
+              className={
+                !wasGameATie && wasOvertimeRequired
+                  ? "text-xl md:text-2xl text-orange-400"
+                  : "text-xl md:text-2xl"
+              }
+            >
               {awayScore} <span className="text-sm">@</span> {homeScore}
             </div>
             <TeamLogo
