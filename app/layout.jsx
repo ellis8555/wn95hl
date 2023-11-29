@@ -26,7 +26,7 @@ export default async function RootLayout({ children }) {
       <body className="bg-slate-700">
         <UserAuthContextProvider>
           <LeagueStandingsProvider>
-            <div className="text-slate-300 mb-[1px]">
+            <div className="text-slate-300 mb-[1px] overflow-hidden">
               <Boxscore recentGameResults={recentlyPlayedGames} />
             </div>
             <Navbar />
