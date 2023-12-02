@@ -7,7 +7,7 @@ import { GET_LEAGUE_DATA } from "@/utils/constants/data-calls/api_calls";
 import { MOST_RECENT_SEASON } from "@/utils/constants/constants";
 import Ticker from "@/components/server/Boxscore/Ticker";
 
-function Boxscore({ recentGameResults }) {
+function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   // used to update the ticker scores on user selecting various leagues
   const path = usePathname();
   const params = useSearchParams();
@@ -99,6 +99,8 @@ function Boxscore({ recentGameResults }) {
             gameData={game}
             index={index}
             gameDateIndexes={gameDates}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
             key={index}
           />
         ))}
@@ -107,4 +109,4 @@ function Boxscore({ recentGameResults }) {
   );
 }
 
-export default Boxscore;
+export default RecentScoresTicker;

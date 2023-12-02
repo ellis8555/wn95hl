@@ -1,13 +1,20 @@
-import Link from "next/link";
 import TeamLogo from "../standings/TeamLogo";
 import { MONTHS, DAYS_OF_WEEK } from "@/utils/constants/constants";
+import BoxscoreButton from "./BoxscoreButton";
 
-function Ticker({ gameData, index, gameDateIndexes }) {
+function Ticker({
+  gameData,
+  index,
+  gameDateIndexes,
+  leagueName,
+  seasonNumber,
+}) {
   if (
     gameData !== undefined &&
     gameData !== null &&
     Object.keys(gameData).length !== 0
   ) {
+    const gameId = gameData._id;
     const homeData = gameData.homeTeamGameStats;
     const awayData = gameData.awayTeamGameStats;
     const otherData = gameData.otherGameStats;
@@ -113,9 +120,11 @@ function Ticker({ gameData, index, gameDateIndexes }) {
               ""
             )}
           </div>
-          <div className="bg-green-600 text-xs p-[.1rem] text-white rounded w-fit m-auto">
-            <Link href="/boxscore">Boxscore</Link>
-          </div>
+          <BoxscoreButton
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
+            gameId={gameId}
+          />
         </div>
       </>
     );

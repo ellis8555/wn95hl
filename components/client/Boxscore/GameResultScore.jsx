@@ -10,8 +10,15 @@ import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { HiMiniCog6Tooth } from "react-icons/hi2";
 import { DAYS_OF_WEEK, MONTHS } from "@/utils/constants/constants";
 import TeamLogo from "@/components/server/standings/TeamLogo";
+import BoxscoreButton from "@/components/server/Boxscore/BoxscoreButton";
 
-function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
+function GameResultScore({
+  recentGameResult,
+  gameDateIndexes,
+  leagueName,
+  seasonNumber,
+  index,
+}) {
   const [gameData] = useState(recentGameResult);
   const [gamesDate, setGamesDate] = useState(null);
   const [gamesDayOfWeek, setGamesDayOfWeek] = useState(null);
@@ -40,6 +47,7 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
     gameData !== null &&
     Object.keys(gameData).length !== 0
   ) {
+    const gameId = gameData._id;
     const homeData = gameData.homeTeamGameStats;
     const awayData = gameData.awayTeamGameStats;
     const otherData = gameData.otherGameStats;
@@ -94,9 +102,11 @@ function GameResultScore({ recentGameResult, gameDateIndexes, index }) {
               width={teamLogoWidthHeight}
               height={teamLogoWidthHeight}
             />
-            <div className="bg-green-600 text-xs ml-2 p-1 text-white rounded">
-              <Link href="/boxscore">Boxscore</Link>
-            </div>
+            <BoxscoreButton
+              leagueName={leagueName}
+              seasonNumber={seasonNumber}
+              gameId={gameId}
+            />
             {isAuthorized && (
               <Link href="/edit-boxscore">
                 <HiMiniCog6Tooth />

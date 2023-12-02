@@ -2,7 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/client/Navbar/Navbar";
 import { LeagueStandingsProvider } from "@/context/FullLeagueStandingsContext";
 import { UserAuthContextProvider } from "@/context/UserAuthContext";
-import Boxscore from "@/components/client/Boxscore/Boxscore";
+import RecentScoresTicker from "@/components/client/Boxscore/RecentScoresTicker";
 import { getRecentGameResults } from "./(helpers)/get-recent-game-results";
 import {
   DEFAULT_LEAGUE,
@@ -27,7 +27,11 @@ export default async function RootLayout({ children }) {
         <UserAuthContextProvider>
           <LeagueStandingsProvider>
             <div className="text-slate-300 mb-[1px] overflow-hidden">
-              <Boxscore recentGameResults={recentlyPlayedGames} />
+              <RecentScoresTicker
+                recentGameResults={recentlyPlayedGames}
+                leagueName={DEFAULT_LEAGUE}
+                seasonNumber={MOST_RECENT_SEASON}
+              />
             </div>
             <Navbar />
             {children}

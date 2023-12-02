@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import GameResultScore from "./GameResultScore";
 
-function GameResults({ recentGameResults }) {
+function GameResults({ recentGameResults, leagueName, seasonNumber }) {
   const [recentGamesPlayed, setRecentGamesPlayed] = useState(recentGameResults);
   const gamesDate = useRef();
   const gamesDay = useRef();
@@ -57,6 +57,8 @@ function GameResults({ recentGameResults }) {
           recentGameResult={game}
           gameDateIndexes={gameDates}
           index={index}
+          leagueName={leagueName}
+          seasonNumber={seasonNumber}
           key={index}
         />
       ))}
