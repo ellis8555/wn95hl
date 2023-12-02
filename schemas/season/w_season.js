@@ -37,6 +37,13 @@ W_LeagueSchema.statics.getConferences = async function (seasonNumber) {
   return conferences;
 };
 
+W_LeagueSchema.statics.getSingleGame = async function (seasonNumber, gameId) {
+  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
+  const seasonGames = getSeasonDocument.seasonGames;
+  const findGame = seasonGames.filter((game) => game._id == gameId);
+  return findGame;
+};
+
 W_LeagueSchema.statics.getSortedStandings = async function (seasonNumber) {
   const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
   const standings = getSeasonDocument["standings"];
