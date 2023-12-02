@@ -71,13 +71,13 @@ function GameResultScore({
     const wasGameATie = boxscoreStats["wasGameATie"];
     const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
     return (
-      <div className=" text-slate-300 pb-2 md:w-3/4 lg:w-1/2 m-auto mt-2">
+      <div className=" text-slate-300 pb-2 md:w-3/4 lg:w-1/2 mx-auto mt-2">
         {gameDateChanged && (
           <h3 className="text-center text-lg mb-2">
             {gamesDayOfWeek}, {gamesMonth} {gamesDate}
           </h3>
         )}
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           {!wasGameATie && wasOvertimeRequired && (
             <div className="text-center text-xl text-orange-400">OT</div>
           )}
@@ -102,11 +102,13 @@ function GameResultScore({
               width={teamLogoWidthHeight}
               height={teamLogoWidthHeight}
             />
-            <BoxscoreButton
-              leagueName={leagueName}
-              seasonNumber={seasonNumber}
-              gameId={gameId}
-            />
+            <div className="bg-green-600 text-xs p-[.1rem] text-white rounded">
+              <BoxscoreButton
+                leagueName={leagueName}
+                seasonNumber={seasonNumber}
+                gameId={gameId}
+              />
+            </div>
             {isAuthorized && (
               <Link href="/edit-boxscore">
                 <HiMiniCog6Tooth />
