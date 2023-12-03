@@ -10,8 +10,11 @@ const W_LeagueSchema = new Schema({
 // statics list
 // 1. getMostRecentSeasonNumber
 // 2. queryForIfSeasonExists
-// 3. getSortedStandings
-// 4. getFieldData
+// 3. query for conference names
+// 4. query for a single game record
+// 5. query for a teams ranking in the standings
+// 6. getSortedStandings
+// 7. getFieldData
 
 W_LeagueSchema.statics.getMostRecentSeasonNumber = async function () {
   const getSeasonNumberFields = await this.find().select("seasonNumber").exec();
@@ -42,6 +45,18 @@ W_LeagueSchema.statics.getSingleGame = async function (seasonNumber, gameId) {
   const seasonGames = getSeasonDocument.seasonGames;
   const findGame = seasonGames.filter((game) => game._id == gameId);
   return findGame;
+};
+
+W_LeagueSchema.statics.getSingleTeamStandings = async function (
+  seasonNumber,
+  teamAcronym
+) {
+  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
+  const standings = getSeasonDocument.standings;
+  const findTeamInStandings = standings.find(
+    (standing) => standing.teamAcronym == teamAcronym
+  );
+  return findTeamInStandings;
 };
 
 W_LeagueSchema.statics.getSortedStandings = async function (seasonNumber) {
