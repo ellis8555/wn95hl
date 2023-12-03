@@ -71,7 +71,7 @@ async function page({ params }) {
   }
 
   return (
-    <div className="text-center text-slate-300  w-4/5 md:w-3/4 mx-auto">
+    <div className="text-center text-slate-300  w-11/12 md:w-3/4 mx-auto">
       {overtimeGame && <div className="text-3xl text-orange-400 mt-4">OT</div>}
       {/* team logos */}
       <div className="flex flex-row justify-center items-center gap-12 pt-3 md:pt-6 lg:w-1/2 mx-auto">
