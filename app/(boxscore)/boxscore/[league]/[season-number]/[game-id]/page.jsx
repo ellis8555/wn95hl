@@ -54,10 +54,10 @@ async function page({ params }) {
   // returns formatted stat
   function DisplayStat({ awayStat, statName, homeStat }) {
     return (
-      <div className="flex flex-row justify-center items-center gap-12 py-3 lg:w-1/2 mx-auto">
-        <div className="w-5/12">{awayStat}</div>
-        <div className="w-2/12 font-bold">{statName}</div>
-        <div className="w-5/12">{homeStat}</div>
+      <div className="flex flex-row justify-center items-center gap-2 py-3 lg:w-1/2 mx-auto">
+        <div className="w-4/12 bg-slate-800">{awayStat}</div>
+        <div className="w-8/12 bg-slate-800 font-bold">{statName}</div>
+        <div className="w-4/12 bg-slate-800">{homeStat}</div>
       </div>
     );
   }
@@ -70,7 +70,7 @@ async function page({ params }) {
         <div className="w-5/12 flex justify-end ">
           <TeamLogo name={awayTeam} width="50" height="50" />
         </div>
-        <div className="w-2/12 font-bold">@</div>
+        <div className="w-2/12 font-bold text-xl">@</div>
         <div className="w-5/12 flex justify-start">
           <TeamLogo name={homeTeam} width="50" height="50" />
         </div>
