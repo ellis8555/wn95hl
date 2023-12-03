@@ -103,15 +103,15 @@ async function page({ params }) {
       />
       {/* breakaways */}
       <DisplayStat
-        awayStat={`${awayBreakAways} / ${awayBreakAwayGoals}`}
+        awayStat={`${awayBreakAwayGoals} / ${awayBreakAways}`}
         statName="Breakaways"
-        homeStat={`${homeBreakAways} / ${homeBreakAwayGoals}`}
+        homeStat={`${homeBreakAwayGoals} / ${homeBreakAways}`}
       />
       {/* penalty shots */}
       <DisplayStat
-        awayStat={`${awayPenaltyShots} / ${awayPenaltyShotGoals}`}
+        awayStat={`${awayPenaltyShotGoals} / ${awayPenaltyShots}`}
         statName="Penalty Shots"
-        homeStat={`${homePenaltyShots} / ${homePenaltyShotGoals}`}
+        homeStat={`${homePenaltyShotGoals} / ${homePenaltyShots}`}
       />
       {/* body  checks */}
       <DisplayStat
