@@ -14,10 +14,11 @@ async function page({ params }) {
   const fetchGamesData = await LeagueSchema.getSingleGame(seasonNumber, gameId);
   const gamesData = fetchGamesData[0];
 
-  const homeTeam = gamesData.otherGameStats["homeTeam"];
-  const awayTeam = gamesData.otherGameStats["awayTeam"];
+  // was OT required
+  const overtimeGame = gamesData.otherGameStats["overtimeRequired"];
 
   // home team stats
+  const homeTeam = gamesData.otherGameStats["homeTeam"];
   const homeGoals = gamesData.homeTeamGameStats["HomeGOALS"];
   const homeShots = gamesData.homeTeamGameStats["HomeSHOTS"];
   const homeShootingPct = (homeGoals / homeShots) * 100;
@@ -34,6 +35,7 @@ async function page({ params }) {
   const homeAttackZone = gamesData.homeTeamGameStats["HomeATTACK"];
 
   //away team stats
+  const awayTeam = gamesData.otherGameStats["awayTeam"];
   const awayGoals = gamesData.awayTeamGameStats["AwayGOALS"];
   const awayShots = gamesData.awayTeamGameStats["AwaySHOTS"];
   const awayShootingPct = (awayGoals / awayShots) * 100;
@@ -62,6 +64,7 @@ async function page({ params }) {
 
   return (
     <div className="text-center text-slate-300  w-4/5 md:w-3/4 mx-auto">
+      {overtimeGame && <div className="text-3xl text-orange-400 mt-4">OT</div>}
       {/* team logos */}
       <div className="flex flex-row justify-center items-center gap-12 py-3 md:py-6 lg:w-1/2 mx-auto">
         <div className="w-5/12 flex justify-end ">
