@@ -54,7 +54,7 @@ async function page({ params }) {
     return (
       <div className="flex flex-row justify-center items-center gap-12 py-3 lg:w-1/2 mx-auto">
         <div className="w-5/12">{awayStat}</div>
-        <div className="w-2/12">{statName}</div>
+        <div className="w-2/12 font-bold">{statName}</div>
         <div className="w-5/12">{homeStat}</div>
       </div>
     );
@@ -67,7 +67,7 @@ async function page({ params }) {
         <div className="w-5/12 flex justify-end ">
           <TeamLogo name={awayTeam} width="50" height="50" />
         </div>
-        <div className="w-2/12">@</div>
+        <div className="w-2/12 font-bold">@</div>
         <div className="w-5/12 flex justify-start">
           <TeamLogo name={homeTeam} width="50" height="50" />
         </div>
