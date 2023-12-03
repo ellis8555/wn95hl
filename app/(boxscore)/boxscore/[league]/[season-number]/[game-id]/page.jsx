@@ -62,8 +62,6 @@ async function page({ params }) {
 
   return (
     <div className="text-center text-slate-300  w-4/5 md:w-3/4 mx-auto">
-      <h1 className="text-3xl py-3 text-orange-400">More stats coming soon</h1>
-
       {/* team logos */}
       <div className="flex flex-row justify-center items-center gap-12 py-3 md:py-6 lg:w-1/2 mx-auto">
         <div className="w-5/12 flex justify-end ">
