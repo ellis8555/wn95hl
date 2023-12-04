@@ -184,7 +184,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
       return;
     }
     const diff = totalGamesPlayed - indexOfCurrentGamesDisplayed.current;
-    if (diff <= 15) {
+    if (diff <= 16) {
       indexOfCurrentGamesDisplayed.current = totalGamesPlayed - 8;
 
       setDisplayNextGamesArrow(false);
