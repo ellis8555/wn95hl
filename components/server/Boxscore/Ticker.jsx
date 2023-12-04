@@ -120,7 +120,7 @@ function Ticker({
               ""
             )}
           </div>
-          <div className="bg-green-600 text-xs p-[.1rem] text-white rounded w-fit m-auto">
+          <div className="bg-green-600 text-xs p-[.1rem] text-white rounded w-fit m-auto mb-0">
             <BoxscoreButton
               leagueName={leagueName}
               seasonNumber={seasonNumber}
