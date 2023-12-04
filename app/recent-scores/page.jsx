@@ -1,4 +1,4 @@
-import GameResults from "@/components/client/Boxscore/GameResults";
+import GameResultsContainer from "@/components/client/Boxscore/GameResultsContainer";
 import { getRecentGameResults } from "../(helpers)/get-recent-game-results";
 
 import {
@@ -10,16 +10,19 @@ export const revalidate = 0;
 
 async function page() {
   // fetch most recent games
-  const recentlyPlayedGames = JSON.parse(
+  const gameData = JSON.parse(
     await getRecentGameResults(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );
+
+  const { recentlyPlayedGames, totalGamesSubmitted } = gameData;
   return (
     <div>
       <h1 className="text-xl text-center text-orange-400 my-3 md:text-3xl md:my-6">
         Recent Scores
       </h1>
-      <GameResults
+      <GameResultsContainer
         recentGameResults={recentlyPlayedGames}
+        totalGamesSubmitted={totalGamesSubmitted}
         leagueName={DEFAULT_LEAGUE}
         seasonNumber={MOST_RECENT_SEASON}
       />

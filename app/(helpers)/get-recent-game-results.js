@@ -10,10 +10,12 @@ export const getRecentGameResults = cache(async function (
 ) {
   await connectToDb();
 
-  const { recentlyPlayedGames } = await READ_SEASON_FIELD_DATA(
-    leagueName,
-    seasonNumber,
-    "recent-results"
-  );
-  return JSON.stringify(recentlyPlayedGames);
+  const { recentlyPlayedGames, totalGamesSubmitted } =
+    await READ_SEASON_FIELD_DATA(leagueName, seasonNumber, "recent-results");
+
+  const gameData = {
+    recentlyPlayedGames,
+    totalGamesSubmitted,
+  };
+  return JSON.stringify(gameData);
 });

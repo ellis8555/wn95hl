@@ -17,9 +17,11 @@ export const metadata = {
 export const revalidate = 0;
 
 export default async function RootLayout({ children }) {
-  const recentlyPlayedGames = JSON.parse(
+  const gameData = JSON.parse(
     await getRecentGameResults(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );
+
+  const { recentlyPlayedGames } = gameData;
 
   return (
     <html lang="en">
