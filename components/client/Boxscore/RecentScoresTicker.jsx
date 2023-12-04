@@ -119,6 +119,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   useEffect(() => {
     if (refreshTheStandings) {
       setRecentGamesPlayed(clientRecentlyPlayedGames);
+      window.location.reload();
     }
   }, [clientRecentlyPlayedGames]);
 
