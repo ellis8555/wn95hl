@@ -90,7 +90,6 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
           setDisplayNextGamesArrow(false);
         }
         setRecentGamesPlayed(recentlyPlayedGames);
-        return;
       } else {
         // display on original home page landing
         const { recentlyPlayedGames, totalGamesSubmitted } =
@@ -112,7 +111,6 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
           setDisplayNextGamesArrow(false);
         }
         setRecentGamesPlayed(recentlyPlayedGames);
-        return;
       }
     })();
   }, [refreshTheStandings]);
