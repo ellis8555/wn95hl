@@ -20,6 +20,9 @@ async function page() {
       <h1 className="text-xl text-center text-orange-400 my-3 md:text-3xl md:my-6">
         Recent Scores
       </h1>
+      <div className="text-red-500 text-center mb-2">
+        Navigation buttons not functioning yet
+      </div>
       <GameResultsContainer
         recentGameResults={recentlyPlayedGames}
         totalGamesSubmitted={totalGamesSubmitted}

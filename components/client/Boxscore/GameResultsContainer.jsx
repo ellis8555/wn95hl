@@ -62,11 +62,11 @@ function GameResultsContainer({
       <div className="flex flex-row justify-center gap-24">
         <FaCircleArrowLeft
           onClick={updateScoresPreviousGames}
-          className="text-2xl cursor-pointer text-slate-300 hover:text-orange-400"
+          className="text-2xl cursor-pointer text-slate-300 hover:text-red-500"
         />
         <FaCircleArrowRight
           onClick={updateScoresNextGames}
-          className="text-2xl cursor-pointer text-slate-300 hover:text-orange-400"
+          className="text-2xl cursor-pointer text-slate-300 hover:text-red-500"
         />
       </div>
       <GameResults
