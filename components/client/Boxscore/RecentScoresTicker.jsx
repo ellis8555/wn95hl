@@ -32,8 +32,11 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   const gamesDay = useRef();
   const [gameDates, setGameDates] = useState([]);
 
-  const { clientRecentlyPlayedGames, refreshTheStandings } =
-    useFullLeagueStandings();
+  const {
+    clientRecentlyPlayedGames,
+    refreshTheStandings,
+    setRefreshTheStandings,
+  } = useFullLeagueStandings();
 
   // detect league change to display correct leagues ticker scores
   useEffect(() => {
@@ -119,7 +122,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   useEffect(() => {
     if (refreshTheStandings) {
       setRecentGamesPlayed(clientRecentlyPlayedGames);
-      window.location.reload();
+      setRefreshTheStandings(false);
     }
   }, [clientRecentlyPlayedGames]);
 
