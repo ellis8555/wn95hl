@@ -7,8 +7,7 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 
 import { GET_API_WITH_PARAMS } from "@/utils/constants/data-calls/api_calls";
-
-const HOW_MANY_GAME_RESULTS = 8;
+import { HOW_MANY_GAME_RESULTS } from "@/utils/constants/constants";
 
 function GameResultsContainer({
   recentGameResults,

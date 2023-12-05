@@ -10,12 +10,11 @@ import {
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
+  HOW_MANY_GAME_RESULTS,
 } from "@/utils/constants/constants";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import Ticker from "@/components/server/Boxscore/Ticker";
-
-const HOW_MANY_GAME_RESULTS = 8;
 
 function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   // used to update the ticker scores on user selecting various leagues
