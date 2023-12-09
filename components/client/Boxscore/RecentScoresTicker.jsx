@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import {
   GET_API_WITH_PARAMS,
   GET_LEAGUE_DATA,
 } from "@/utils/constants/data-calls/api_calls";
 import {
-  DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
   HOW_MANY_GAME_RESULTS,
 } from "@/utils/constants/constants";
@@ -17,13 +15,9 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 import Ticker from "@/components/server/Boxscore/Ticker";
 
 function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
-  // used to update the ticker scores on user selecting various leagues
-  const path = usePathname();
-  const params = useSearchParams();
-
   const [recentGamesPlayed, setRecentGamesPlayed] = useState(recentGameResults);
   const [totalGamesPlayed, setTotalGamesPlayed] = useState();
-  const indexOfCurrentGamesDisplayed = useRef();
+  const indexOfCurrentGamesDisplayedLAYOUT = useRef();
   const [displayPreviousGamesArrow, setDisplayPreviousGamesArrow] =
     useState(true);
   const [displayNextGamesArrow, setDisplayNextGamesArrow] = useState(false);
@@ -35,85 +29,28 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
     clientRecentlyPlayedGames,
     refreshTheStandings,
     setRefreshTheStandings,
+    league,
   } = useFullLeagueStandings();
 
   // detect league change to display correct leagues ticker scores
   useEffect(() => {
     (async () => {
-      if (path != "/") {
-        // leagues linked page uses paths
-        // split the url
-        const urlParts = path.split("/");
-        // the last segment contains the league name
-        const leagueName = urlParts[urlParts.length - 1];
-        // fetch that leagues most recent games
-        const { recentlyPlayedGames, totalGamesSubmitted } =
-          await GET_LEAGUE_DATA(
-            leagueName,
-            MOST_RECENT_SEASON,
-            "recent-results"
-          );
-        setTotalGamesPlayed(totalGamesSubmitted);
-        indexOfCurrentGamesDisplayed.current = totalGamesSubmitted - 8;
-        if (indexOfCurrentGamesDisplayed.current < 0) {
-          indexOfCurrentGamesDisplayed.current = 0;
-        }
-        if (totalGamesPlayed <= 8) {
-          setDisplayPreviousGamesArrow(false);
-          setDisplayNextGamesArrow(false);
-        } else {
-          setDisplayPreviousGamesArrow(true);
-          setDisplayNextGamesArrow(false);
-        }
-        setRecentGamesPlayed(recentlyPlayedGames);
-        return;
+      // display on original home page landing
+      const { recentlyPlayedGames, totalGamesSubmitted } =
+        await GET_LEAGUE_DATA(league, MOST_RECENT_SEASON, "recent-results");
+      setTotalGamesPlayed(totalGamesSubmitted);
+      indexOfCurrentGamesDisplayedLAYOUT.current = totalGamesSubmitted - 8;
+      if (indexOfCurrentGamesDisplayedLAYOUT.current < 0) {
+        indexOfCurrentGamesDisplayedLAYOUT.current = 0;
       }
-      // if recent score ticker is requested to change from home page
-      if (path == "/" && params.has("league")) {
-        // get the leagues name
-        const leagueName = params.get("league");
-        // fetch that leagues most recent games
-        const { recentlyPlayedGames, totalGamesSubmitted } =
-          await GET_LEAGUE_DATA(
-            leagueName,
-            MOST_RECENT_SEASON,
-            "recent-results"
-          );
-        setTotalGamesPlayed(totalGamesSubmitted);
-        indexOfCurrentGamesDisplayed.current = totalGamesSubmitted - 8;
-        if (indexOfCurrentGamesDisplayed.current < 0) {
-          indexOfCurrentGamesDisplayed.current = 0;
-        }
-        if (totalGamesPlayed <= 8) {
-          setDisplayPreviousGamesArrow(false);
-          setDisplayNextGamesArrow(false);
-        } else {
-          setDisplayPreviousGamesArrow(true);
-          setDisplayNextGamesArrow(false);
-        }
-        setRecentGamesPlayed(recentlyPlayedGames);
+      if (totalGamesPlayed <= 8) {
+        setDisplayPreviousGamesArrow(false);
+        setDisplayNextGamesArrow(false);
       } else {
-        // display on original home page landing
-        const { recentlyPlayedGames, totalGamesSubmitted } =
-          await GET_LEAGUE_DATA(
-            DEFAULT_LEAGUE,
-            MOST_RECENT_SEASON,
-            "recent-results"
-          );
-        setTotalGamesPlayed(totalGamesSubmitted);
-        indexOfCurrentGamesDisplayed.current = totalGamesSubmitted - 8;
-        if (indexOfCurrentGamesDisplayed.current < 0) {
-          indexOfCurrentGamesDisplayed.current = 0;
-        }
-        if (totalGamesPlayed <= 8) {
-          setDisplayPreviousGamesArrow(false);
-          setDisplayNextGamesArrow(false);
-        } else {
-          setDisplayPreviousGamesArrow(true);
-          setDisplayNextGamesArrow(false);
-        }
-        setRecentGamesPlayed(recentlyPlayedGames);
+        setDisplayPreviousGamesArrow(true);
+        setDisplayNextGamesArrow(false);
       }
+      setRecentGamesPlayed(recentlyPlayedGames);
     })();
   }, [refreshTheStandings]);
 
@@ -156,54 +93,57 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   async function updateTickerPreviousGames() {
     // hide if less than 8 games submitted
     if (totalGamesPlayed < 8) {
-      indexOfCurrentGamesDisplayed.current = 0;
+      indexOfCurrentGamesDisplayedLAYOUT.current = 0;
       setDisplayPreviousGamesArrow(false);
       return;
     }
-    if (indexOfCurrentGamesDisplayed.current <= 8) {
-      indexOfCurrentGamesDisplayed.current = 0;
-
+    if (indexOfCurrentGamesDisplayedLAYOUT.current <= 8) {
+      indexOfCurrentGamesDisplayedLAYOUT.current = 0;
       setDisplayPreviousGamesArrow(false);
       setDisplayNextGamesArrow(true);
     }
-    if (indexOfCurrentGamesDisplayed.current > 8) {
-      indexOfCurrentGamesDisplayed.current -= 8;
+    if (indexOfCurrentGamesDisplayedLAYOUT.current > 8) {
+      indexOfCurrentGamesDisplayedLAYOUT.current -= 8;
       setDisplayPreviousGamesArrow(true);
       setDisplayNextGamesArrow(true);
     }
-    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayed.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
-    const games = await GET_API_WITH_PARAMS("recent-games", paramsList);
-    setRecentGamesPlayed(games);
+    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayedLAYOUT.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
+    const { selectedGames } = await GET_API_WITH_PARAMS(
+      "recent-games",
+      paramsList
+    );
+    setRecentGamesPlayed(selectedGames);
   }
 
   // handle next games button
   async function updateTickerNextGames() {
     // hide if less than 8 games submitted
     if (totalGamesPlayed < 8) {
-      indexOfCurrentGamesDisplayed.current = 0;
+      indexOfCurrentGamesDisplayedLAYOUT.current = 0;
       setDisplayNextGamesArrow(false);
       return;
     }
-    const diff = totalGamesPlayed - indexOfCurrentGamesDisplayed.current;
+    const diff = totalGamesPlayed - indexOfCurrentGamesDisplayedLAYOUT.current;
     if (diff <= 16) {
-      indexOfCurrentGamesDisplayed.current = totalGamesPlayed - 8;
-
+      indexOfCurrentGamesDisplayedLAYOUT.current = totalGamesPlayed - 8;
       setDisplayNextGamesArrow(false);
-      if (indexOfCurrentGamesDisplayed.current > 7) {
+      if (indexOfCurrentGamesDisplayedLAYOUT.current > 7) {
         setDisplayPreviousGamesArrow(true);
       }
     } else {
-      indexOfCurrentGamesDisplayed.current += 8;
+      indexOfCurrentGamesDisplayedLAYOUT.current += 8;
       setDisplayNextGamesArrow(true);
-      if (indexOfCurrentGamesDisplayed.current > 7) {
+      if (indexOfCurrentGamesDisplayedLAYOUT.current > 7) {
         setDisplayPreviousGamesArrow(true);
       }
     }
-    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayed.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
-    const games = await GET_API_WITH_PARAMS("recent-games", paramsList);
-    setRecentGamesPlayed(games);
+    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayedLAYOUT.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
+    const { selectedGames } = await GET_API_WITH_PARAMS(
+      "recent-games",
+      paramsList
+    );
+    setRecentGamesPlayed(selectedGames);
   }
-
   return (
     <>
       {/* entire score ticker container */}
