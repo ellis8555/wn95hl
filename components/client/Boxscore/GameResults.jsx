@@ -14,7 +14,7 @@ function GameResults({ recentGameResults, leagueName, seasonNumber }) {
   const gamesDay = useRef();
   const [gameDates, setGameDates] = useState([]);
 
-  const { clientRecentlyPlayedGames, refreshTheStandings } =
+  const { refreshTheStandings, clientRecentlyPlayedGames } =
     useFullLeagueStandings();
 
   // update recent scores when a new game file is uploaded

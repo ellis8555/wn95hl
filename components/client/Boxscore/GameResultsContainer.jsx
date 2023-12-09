@@ -1,17 +1,17 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import GameResults from "./GameResults";
+
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { FaCircleArrowLeft } from "react-icons/fa6";
-
-import { GET_API_WITH_PARAMS } from "@/utils/constants/data-calls/api_calls";
-import { HOW_MANY_GAME_RESULTS } from "@/utils/constants/constants";
 
 function GameResultsContainer({
   recentGameResults,
   totalGamesSubmitted,
+  currentIndex,
   leagueName,
   seasonNumber,
 }) {
@@ -19,8 +19,13 @@ function GameResultsContainer({
   const [league, setLeague] = useState(leagueName);
   const [seasonNum, setSeasonNum] = useState(seasonNumber);
   const [totalGamesPlayed, setTotalGamesPlayed] = useState(totalGamesSubmitted);
+  const [displayPreviousGamesArrow, setDisplayPreviousGamesArrow] =
+    useState(true);
+  const [displayNextGamesArrow, setDisplayNextGamesArrow] = useState(true);
 
-  const indexOfCurrentGamesDisplayed = useRef(totalGamesPlayed - 8);
+  const indexOfCurrentGamesDisplayed = useRef(currentIndex);
+
+  const router = useRouter();
 
   async function updateScoresPreviousGames() {
     // hide if less than 8 games submitted
@@ -34,39 +39,41 @@ function GameResultsContainer({
     if (indexOfCurrentGamesDisplayed.current > 8) {
       indexOfCurrentGamesDisplayed.current -= 8;
     }
-    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayed.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
-    const games = await GET_API_WITH_PARAMS("recent-games", paramsList);
-    setScoresToDisplay(games);
+    const url = `/recent-scores/${leagueName}/${seasonNumber}/${indexOfCurrentGamesDisplayed.current}`;
+    router.push(url);
   }
 
   async function updateScoresNextGames() {
     // hide if less than 8 games submitted
     if (totalGamesPlayed < 8) {
       indexOfCurrentGamesDisplayed.current = 0;
+      setDisplayNextGamesArrow(false);
       return;
     }
     const diff = totalGamesPlayed - indexOfCurrentGamesDisplayed.current;
-    if (diff <= 15) {
+    if (diff <= 16) {
       indexOfCurrentGamesDisplayed.current = totalGamesPlayed - 8;
     } else {
       indexOfCurrentGamesDisplayed.current += 8;
     }
-    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayed.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
-    const games = await GET_API_WITH_PARAMS("recent-games", paramsList);
-    setScoresToDisplay(games);
+    const url = `/recent-scores/${leagueName}/${seasonNumber}/${indexOfCurrentGamesDisplayed.current}`;
+    router.push(url);
   }
-
   return (
     <>
       <div className="flex flex-row justify-center gap-24">
-        <FaCircleArrowLeft
-          onClick={updateScoresPreviousGames}
-          className="text-2xl cursor-pointer text-slate-300 hover:text-red-500"
-        />
-        <FaCircleArrowRight
-          onClick={updateScoresNextGames}
-          className="text-2xl cursor-pointer text-slate-300 hover:text-red-500"
-        />
+        {displayPreviousGamesArrow && (
+          <FaCircleArrowLeft
+            onClick={updateScoresPreviousGames}
+            className="text-2xl cursor-pointer text-slate-300 hover:text-orange-400"
+          />
+        )}
+        {displayNextGamesArrow && (
+          <FaCircleArrowRight
+            onClick={updateScoresNextGames}
+            className="text-2xl cursor-pointer text-slate-300 hover:text-orange-400"
+          />
+        )}
       </div>
       <GameResults
         recentGameResults={scoresToDisplay}
