@@ -75,10 +75,10 @@ function Navbar() {
           } overflow-hidden`}
         >
           <Link href="/recent-scores">
-            <li>Scores</li>
+            <li onClick={toggleMenu}>Scores</li>
           </Link>
           <Link href="/submit">
-            <li>Submit</li>
+            <li onClick={toggleMenu}>Submit</li>
           </Link>
           {/* if logged in display dashboard and logout */}
           {isAuthorized ? (
@@ -93,7 +93,7 @@ function Navbar() {
           ) : (
             // if not logged in display login
             <Link href="/login">
-              <li>Login</li>
+              <li onClick={toggleMenu}>Login</li>
             </Link>
           )}
         </ul>
