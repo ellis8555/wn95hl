@@ -55,9 +55,10 @@ W_LeagueSchema.statics.getSelectedGames = async function (
 ) {
   const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
   const seasonGames = getSeasonDocument.seasonGames;
+  const totalGamesSubmitted = seasonGames.length;
   const endIndex = beginIndex + howManyGamesToGet;
   const selectedGames = seasonGames.slice(beginIndex, endIndex);
-  return selectedGames;
+  return { selectedGames, totalGamesSubmitted };
 };
 
 W_LeagueSchema.statics.getSingleTeamStandings = async function (
