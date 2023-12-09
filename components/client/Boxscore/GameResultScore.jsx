@@ -19,12 +19,36 @@ function GameResultScore({
   seasonNumber,
   index,
 }) {
-  const [gameData] = useState(recentGameResult);
+  // game related data
+  const [gameId, setGameId] = useState(recentGameResult._id);
+  const [wasGameATie, setWasGameATie] = useState(
+    recentGameResult.otherGameStats.wasGameATie
+  );
+  const [wasOvertimeRequired, setWasOvertimeRequired] = useState(
+    recentGameResult.otherGameStats.overtimeRequired
+  );
+
+  // teams related data
+
+  const [homeAcronym, sethomeAcronym] = useState(
+    recentGameResult.otherGameStats.homeTeam
+  );
+  const [homeScore, setHomeScore] = useState(
+    recentGameResult.homeTeamGameStats.HomeGOALS
+  );
+  const [awayAcronym, setAwayAcronym] = useState(
+    recentGameResult.otherGameStats.awayTeam
+  );
+  const [awayScore, setAwayScore] = useState(
+    recentGameResult.awayTeamGameStats.AwayGOALS
+  );
+
+  // date related information
   const [gamesDate, setGamesDate] = useState(null);
   const [gamesDayOfWeek, setGamesDayOfWeek] = useState(null);
   const [gamesMonth, setGamesMonth] = useState(null);
   const [gameDateChanged, setGameDateChanged] = useState(false);
-  const [dateOfDifferentDay, setDateOfDifferentDay] = useState(null);
+
   const [teamLogoWidthHeight, setTeamLogoWidthHeight] = useState(40);
   const { isAuthorized } = useAuthorizationStatus();
 
@@ -42,83 +66,54 @@ function GameResultScore({
     }
   }, [index, gameDateIndexes]);
 
-  if (
-    gameData !== undefined &&
-    gameData !== null &&
-    Object.keys(gameData).length !== 0
-  ) {
-    const gameId = gameData._id;
-    const homeData = gameData.homeTeamGameStats;
-    const awayData = gameData.awayTeamGameStats;
-    const otherData = gameData.otherGameStats;
-    const boxscoreStats = {
-      overtimeRequired: otherData.overtimeRequired,
-      wasGameATie: otherData.wasGameATie,
-      homeTeam: {
-        acronym: otherData.homeTeam,
-        homeScore: homeData.HomeGOALS,
-      },
-      awayTeam: {
-        acronym: otherData.awayTeam,
-        awayScore: awayData.AwayGOALS,
-      },
-    };
-
-    const homeAcronym = boxscoreStats["homeTeam"]["acronym"];
-    const homeScore = boxscoreStats["homeTeam"]["homeScore"];
-    const awayAcronym = boxscoreStats["awayTeam"]["acronym"];
-    const awayScore = boxscoreStats["awayTeam"]["awayScore"];
-    const wasGameATie = boxscoreStats["wasGameATie"];
-    const wasOvertimeRequired = boxscoreStats["overtimeRequired"];
-    return (
-      <div className=" text-slate-300 pb-2 md:w-3/4 lg:w-1/2 mx-auto mt-2">
-        {gameDateChanged && (
-          <h3 className="text-center text-lg mb-2">
-            {gamesDayOfWeek}, {gamesMonth} {gamesDate}
-          </h3>
+  return (
+    <div className=" text-slate-300 pb-2 md:w-3/4 lg:w-1/2 mx-auto mt-2">
+      {gameDateChanged && (
+        <h3 className="text-center text-xl text-blue-400 mb-2">
+          {gamesDayOfWeek}, {gamesMonth} {gamesDate}
+        </h3>
+      )}
+      <div className="flex flex-col ">
+        {!wasGameATie && wasOvertimeRequired && (
+          <div className="text-center text-xl text-orange-400">OT</div>
         )}
-        <div className="flex flex-col ">
-          {!wasGameATie && wasOvertimeRequired && (
-            <div className="text-center text-xl text-orange-400">OT</div>
-          )}
-          <div className="w-full flex justify-center gap-2 items-center sm:w-3/4 sm:mx-auto sm:gap-6">
-            <TeamLogo
-              name={awayAcronym}
-              width={teamLogoWidthHeight}
-              height={teamLogoWidthHeight}
-            />
-            {/* <div className="text-xl md:text-2xl"> */}
-            <div
-              className={
-                !wasGameATie && wasOvertimeRequired
-                  ? "text-xl md:text-2xl text-orange-400"
-                  : "text-xl md:text-2xl"
-              }
-            >
-              {awayScore} <span className="text-sm">@</span> {homeScore}
-            </div>
-            <TeamLogo
-              name={homeAcronym}
-              width={teamLogoWidthHeight}
-              height={teamLogoWidthHeight}
-            />
-            <div className="bg-green-600 text-xs p-[.1rem] text-white rounded">
-              <BoxscoreButton
-                leagueName={leagueName}
-                seasonNumber={seasonNumber}
-                gameId={gameId}
-              />
-            </div>
-            {isAuthorized && (
-              <Link href="/edit-boxscore">
-                <HiMiniCog6Tooth />
-              </Link>
-            )}
+        <div className="w-full flex justify-center gap-2 items-center sm:w-3/4 sm:mx-auto sm:gap-6">
+          <TeamLogo
+            name={awayAcronym}
+            width={teamLogoWidthHeight}
+            height={teamLogoWidthHeight}
+          />
+          {/* <div className="text-xl md:text-2xl"> */}
+          <div
+            className={
+              !wasGameATie && wasOvertimeRequired
+                ? "text-xl md:text-2xl text-orange-400"
+                : "text-xl md:text-2xl"
+            }
+          >
+            {awayScore} <span className="text-sm">@</span> {homeScore}
           </div>
+          <TeamLogo
+            name={homeAcronym}
+            width={teamLogoWidthHeight}
+            height={teamLogoWidthHeight}
+          />
+          <div className="bg-green-600 text-xs p-[.1rem] text-white rounded">
+            <BoxscoreButton
+              leagueName={leagueName}
+              seasonNumber={seasonNumber}
+              gameId={gameId}
+            />
+          </div>
+          {isAuthorized && (
+            <Link href="/edit-boxscore">
+              <HiMiniCog6Tooth />
+            </Link>
+          )}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default GameResultScore;
