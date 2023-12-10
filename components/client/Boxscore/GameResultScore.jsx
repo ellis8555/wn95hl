@@ -69,7 +69,7 @@ function GameResultScore({
   return (
     <div className=" text-slate-300 pb-2 md:w-3/4 lg:w-1/2 mx-auto mt-2">
       {gameDateChanged && (
-        <h3 className="text-center text-xl text-blue-400 mb-2">
+        <h3 className="text-center text-xl text-blue-400 mb-2 bg-slate-800">
           {gamesDayOfWeek}, {gamesMonth} {gamesDate}
         </h3>
       )}
