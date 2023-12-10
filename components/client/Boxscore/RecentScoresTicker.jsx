@@ -21,6 +21,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   const [displayPreviousGamesArrow, setDisplayPreviousGamesArrow] =
     useState(true);
   const [displayNextGamesArrow, setDisplayNextGamesArrow] = useState(false);
+  const [displayNavigationArrows, setDisplayNavigationArrows] = useState(true);
   const gamesDate = useRef();
   const gamesDay = useRef();
   const [gameDates, setGameDates] = useState([]);
@@ -91,6 +92,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
 
   // handle previous games button
   async function updateTickerPreviousGames() {
+    setDisplayNavigationArrows(false);
     // hide if less than 8 games submitted
     if (totalGamesPlayed < 8) {
       indexOfCurrentGamesDisplayedLAYOUT.current = 0;
@@ -113,10 +115,12 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
       paramsList
     );
     setRecentGamesPlayed(selectedGames);
+    setDisplayNavigationArrows(true);
   }
 
   // handle next games button
   async function updateTickerNextGames() {
+    setDisplayNavigationArrows(false);
     // hide if less than 8 games submitted
     if (totalGamesPlayed < 8) {
       indexOfCurrentGamesDisplayedLAYOUT.current = 0;
@@ -143,18 +147,23 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
       paramsList
     );
     setRecentGamesPlayed(selectedGames);
+    setDisplayNavigationArrows(true);
   }
   return (
     <>
       {/* entire score ticker container */}
       <div className="hidden lg:flex flex-row justify-center gap-[1px]">
-        {displayPreviousGamesArrow && (
-          <div className="flex items-center pr-1">
-            <FaCircleArrowLeft
-              className="text-xl cursor-pointer hover:text-orange-400"
-              onClick={updateTickerPreviousGames}
-            />
-          </div>
+        {displayNavigationArrows && (
+          <>
+            {displayPreviousGamesArrow && (
+              <div className="flex items-center pr-1">
+                <FaCircleArrowLeft
+                  className="text-xl cursor-pointer hover:text-orange-400"
+                  onClick={updateTickerPreviousGames}
+                />
+              </div>
+            )}
+          </>
         )}
         {recentGamesPlayed.map((game, index) => (
           <Ticker
@@ -166,13 +175,17 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
             key={index}
           />
         ))}
-        {displayNextGamesArrow && (
-          <div className="flex items-center pl-1">
-            <FaCircleArrowRight
-              className="text-xl cursor-pointer hover:text-orange-400"
-              onClick={updateTickerNextGames}
-            />
-          </div>
+        {displayNavigationArrows && (
+          <>
+            {displayNextGamesArrow && (
+              <div className="flex items-center pl-1">
+                <FaCircleArrowRight
+                  className="text-xl cursor-pointer hover:text-orange-400"
+                  onClick={updateTickerNextGames}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
