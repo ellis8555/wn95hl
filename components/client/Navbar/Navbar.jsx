@@ -30,7 +30,7 @@ function Navbar() {
         />
         <ul className="flex flex-row">
           <li>
-            <Link href="/">
+            <Link href="/" onClick={toggleMenu}>
               <GeneralLogo
                 name="NHL95-sprites-banner"
                 width={200}
