@@ -13,20 +13,6 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
-        <p className="text-center mt-4">
-          Temporary demo login:
-          <br />
-          <span className="underline underline-offset-4">
-            username and password
-          </span>{" "}
-          are both <span className="text-green-400">'admin'</span>
-          <br />
-          Desktop:{" "}
-          <span className="underline underline-offset-4">Arrow icon</span> on
-          navbar is login/out
-          <br />
-          Mobile: Login in menu
-        </p>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <Link href="/league/w">
