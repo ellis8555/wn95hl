@@ -17,6 +17,10 @@ function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   }
 
+  function closeMenu() {
+    setIsMenuOpen(false);
+  }
+
   return (
     <div className="relative sticky top-0 w-full">
       <nav className="flex flex-row gap-4 justify-center items-center lg:justify-between bg-slate-800 p-2">
@@ -30,7 +34,7 @@ function Navbar() {
         />
         <ul className="flex flex-row">
           <li>
-            <Link href="/" onClick={toggleMenu}>
+            <Link href="/" onClick={closeMenu}>
               <GeneralLogo
                 name="NHL95-sprites-banner"
                 width={200}
