@@ -17,6 +17,8 @@ import {
 function GameInputForm() {
   const [gameData, setGameData] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
+  const [gameSubmitError, setGameSubmitError] = useState(false);
+  const [gameScoreOnError, setGameScoreOnError] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
 
   const {
@@ -206,11 +208,19 @@ function GameInputForm() {
       setRefreshTheStandings(true);
       setClientSideStandings(updatedStandings);
       setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
-      setServerMessage("");
+      setServerMessage("Game submitted");
     } catch (error) {
+      const homeTeam = gameData["data"]["homeTeamGameStats"]["HomeTeam"];
+      const homeTeamScore = gameData["data"]["homeTeamGameStats"]["HomeGOALS"];
+      const awayTeam = gameData["data"]["awayTeamGameStats"]["AwayTeam"];
+      const awayTeamScore = gameData["data"]["awayTeamGameStats"]["AwayGOALS"];
+      const gameScoreOnErrorMessage = `(Away)  ${awayTeam} ${awayTeamScore} - ${homeTeamScore} ${homeTeam}  (Home)`;
+      // console.log(gameData.data);
       fileInputRef.current.value = null;
       setIsStateUploaded(false);
       setServerMessage(error.message);
+      setGameScoreOnError(gameScoreOnErrorMessage);
+      setGameSubmitError(true);
     }
   }
 
@@ -229,7 +239,11 @@ function GameInputForm() {
           ref={fileInputRef}
           id="fileInput"
           name="fileInput"
-          onClick={() => setServerMessage("")}
+          onClick={() => {
+            setServerMessage("");
+            setGameSubmitError(false);
+            setGameScoreOnError("");
+          }}
           className="text-slate-300"
         />
 
@@ -249,6 +263,16 @@ function GameInputForm() {
         <div className="text-center text-slate-300 text-xl mt-2">
           {serverMessage}
         </div>
+      )}
+      {gameSubmitError && (
+        <>
+          <div className="text-center text-slate-300 text-xl mt-2">
+            Following game was not submitted
+          </div>
+          <div className="text-center text-slate-300 text-xl mt-2">
+            {gameScoreOnError}
+          </div>
+        </>
       )}
     </div>
   );
