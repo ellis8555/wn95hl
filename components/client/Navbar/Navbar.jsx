@@ -3,7 +3,8 @@
 import "./styles.css";
 import Link from "next/link";
 import GeneralLogo from "@/components/server/Logos/GeneralLogo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { AiOutlineCloudUpload } from "react-icons/ai";
@@ -11,7 +12,14 @@ import { FaHockeyPuck } from "react-icons/fa";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [recentScoresURL, setRecentScoresURL] = useState("/recent-scores");
+  const { league } = useFullLeagueStandings();
   const { isAuthorized } = useAuthorizationStatus();
+
+  useEffect(() => {
+    const URL = `/recent-scores/${league}`;
+    setRecentScoresURL(URL);
+  }, [league]);
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -78,7 +86,7 @@ function Navbar() {
             isMenuOpen ? "openMenu" : ""
           } overflow-hidden`}
         >
-          <Link href="/recent-scores">
+          <Link href={recentScoresURL}>
             <li onClick={toggleMenu}>Scores</li>
           </Link>
           <Link href="/submit">
