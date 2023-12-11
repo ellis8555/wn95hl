@@ -1,3 +1,4 @@
+import { connectToDb } from "@/utils/database";
 import TeamLogo from "@/components/server/standings/TeamLogo";
 import Club from "@/schemas/club";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
@@ -9,6 +10,7 @@ import {
 async function page({ params }) {
   const teamAcronym = params["team-Acronym"];
 
+  await connectToDb();
   const getClub = await Club.queryClubDetail(
     "teamAcronym",
     teamAcronym,
