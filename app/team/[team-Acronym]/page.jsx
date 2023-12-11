@@ -84,7 +84,7 @@ async function page({ params }) {
             game.otherGameStats.homeTeamPoints == 1 &&
             game.otherGameStats.awayTeamPoints == 1
           ) {
-            bgColor = "bg-slate-200";
+            bgColor = "bg-slate-700";
             result = "T";
           } else {
             bgColor = "bg-green-600";
