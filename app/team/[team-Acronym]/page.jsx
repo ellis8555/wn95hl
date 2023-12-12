@@ -7,6 +7,8 @@ import {
   MOST_RECENT_SEASON,
 } from "@/utils/constants/constants";
 
+export const revalidate = 0;
+
 async function page({ params }) {
   const teamAcronym = params["team-Acronym"];
 
