@@ -1,5 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import TeamLogo from "@/components/server/standings/TeamLogo";
+import FinalResult from "@/components/server/Results/FinalResult";
+import ScheduleResult from "@/components/server/Results/ScheduleResult";
 import Club from "@/schemas/club";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 import {
@@ -56,8 +58,21 @@ async function page({ params }) {
   const homeGames = teamsGames.filter(
     (game) => game.otherGameStats.homeTeam == teamAcronym
   );
+
   const awayGames = teamsGames.filter(
     (game) => game.otherGameStats.awayTeam == teamAcronym
+  );
+
+  // sort games by opposing teams alphabetical order
+  homeGames.sort((a, b) =>
+    a["otherGameStats"]["awayTeam"].localeCompare(
+      b["otherGameStats"]["awayTeam"]
+    )
+  );
+  awayGames.sort((a, b) =>
+    a["otherGameStats"]["homeTeam"].localeCompare(
+      b["otherGameStats"]["homeTeam"]
+    )
   );
 
   return (
@@ -71,38 +86,24 @@ async function page({ params }) {
           <div className="text-center">{`( ${teamsRecord.W} - ${teamsRecord.L} - ${teamsRecord.T} - ${teamsRecord.OTL} )`}</div>
         </div>
       </div>
-      <div className="text-center text-xl mt-8">Current streak</div>
+      {/* <div className="text-center text-xl mt-8">Current streak</div> */}
       <div className="flex flex-row justify-center gap-1">
         {recentGames.map((game) => {
-          let bgColor;
-          let result;
-          if (game.otherGameStats.losingTeam == teamAcronym) {
-            if (game.otherGameStats.overtimeLossTeam == teamAcronym) {
-              bgColor = "bg-orange-600";
-              result = "OTL";
-            } else {
-              bgColor = "bg-red-600";
-              result = "L";
-            }
-          } else if (
-            game.otherGameStats.homeTeamPoints == 1 &&
-            game.otherGameStats.awayTeamPoints == 1
-          ) {
-            bgColor = "bg-slate-700";
-            result = "T";
-          } else {
-            bgColor = "bg-green-600";
-            result = "W";
-          }
           return (
-            <div
-              key={game._id}
-              className={`flex justify-center border border-slate-300 p-1 my-4 w-10 ${bgColor}`}
-            >
-              {result}
-            </div>
+            <FinalResult key={game._id} teamAcronym={teamAcronym} game={game} />
           );
         })}
+      </div>
+      {/* Game results going here */}
+      <div className="flex flex-row gap-4 justify-evenly w-full md:w-3/4 mx-auto">
+        <div>
+          <div className="text-center text-xl mb-4">Home</div>
+          <ScheduleResult teamAcronym={teamAcronym} games={homeGames} />
+        </div>
+        <div>
+          <div className="text-center text-xl mb-4">Away</div>
+          <ScheduleResult teamAcronym={teamAcronym} games={awayGames} />
+        </div>
       </div>
     </div>
   );
