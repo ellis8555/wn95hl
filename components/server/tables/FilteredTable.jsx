@@ -38,6 +38,8 @@ function FilteredTable({
                 categories={LEAGUE_TABLE_CATEGORIES}
                 isTableFiltered={isTableFiltered}
                 bgColor={index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"}
+                leagueName={leagueName}
+                seasonNumber={seasonNumber}
               />
             ))
         ) : (

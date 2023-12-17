@@ -6,6 +6,8 @@ function Teamresults({
   bgColor,
   lineNumber,
   isTableFiltered,
+  leagueName,
+  seasonNumber,
 }) {
   return (
     <tr
@@ -21,7 +23,13 @@ function Teamresults({
     >
       <td className="flex justify-center">
         <div className="flex items-center h-10">
-          <TeamLogo name={team.teamLogo} width={25} height={15} />
+          <TeamLogo
+            name={team.teamLogo}
+            width={25}
+            height={15}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
+          />
         </div>
       </td>
       {categories.map((category, index) => (

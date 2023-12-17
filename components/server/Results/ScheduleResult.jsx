@@ -3,7 +3,7 @@ import TeamLogo from "../standings/TeamLogo";
 
 const widthHeight = 40;
 
-function ScheduleResult({ teamAcronym, games }) {
+function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
   return (
     <div className="flex flex-col">
       {games.map((game) => {
@@ -20,6 +20,8 @@ function ScheduleResult({ teamAcronym, games }) {
                   name={game["otherGameStats"]["awayTeam"]}
                   width={widthHeight}
                   height={widthHeight}
+                  leagueName={leagueName}
+                  seasonNumber={seasonNumber}
                 />
                 <div className="text-lg">{`${goalsByEachTeam[0]} - ${goalsByEachTeam[1]}`}</div>
               </div>
@@ -30,6 +32,8 @@ function ScheduleResult({ teamAcronym, games }) {
                   name={game["otherGameStats"]["homeTeam"]}
                   width={widthHeight}
                   height={widthHeight}
+                  leagueName={leagueName}
+                  seasonNumber={seasonNumber}
                 />
                 <div className="text-lg">{`${goalsByEachTeam[0]} - ${goalsByEachTeam[1]}`}</div>
               </div>

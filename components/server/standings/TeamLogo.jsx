@@ -1,9 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
+import {
+  DEFAULT_LEAGUE,
+  MOST_RECENT_SEASON,
+} from "@/utils/constants/constants";
 
-function TeamLogo({ name, width, height }) {
+function TeamLogo({
+  name,
+  width,
+  height,
+  leagueName = DEFAULT_LEAGUE,
+  seasonNumber = MOST_RECENT_SEASON,
+}) {
   return (
-    <Link href={`/team/${name}`}>
+    <Link href={`/team/${leagueName}/${seasonNumber}/${name}`}>
       <Image
         src={`/images/team-logos/${name}.png`}
         width={width}

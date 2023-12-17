@@ -97,7 +97,13 @@ function Ticker({
                 {/* away team */}
                 <div className="flex flex-row gap-4 items-center ">
                   <div>
-                    <TeamLogo name={awayAcronym} width={30} height={30} />
+                    <TeamLogo
+                      name={awayAcronym}
+                      width={30}
+                      height={30}
+                      leagueName={leagueName}
+                      seasonNumber={seasonNumber}
+                    />
                   </div>
                   <div>
                     <div>{awayScore}</div>
@@ -106,7 +112,13 @@ function Ticker({
                 {/* home team */}
                 <div className="flex flex-row gap-4 items-center ">
                   <div>
-                    <TeamLogo name={homeAcronym} width={30} height={30} />
+                    <TeamLogo
+                      name={homeAcronym}
+                      width={30}
+                      height={30}
+                      leagueName={leagueName}
+                      seasonNumber={seasonNumber}
+                    />
                   </div>
                   <div>
                     <div>{homeScore}</div>
