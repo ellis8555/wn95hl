@@ -1,5 +1,5 @@
 import FinalResult from "./FinalResult";
-import TeamLogo from "../standings/TeamLogo";
+import TeamLogo from "../Logos/TeamLogo";
 
 const widthHeight = 40;
 

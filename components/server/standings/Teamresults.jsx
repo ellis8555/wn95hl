@@ -1,4 +1,4 @@
-import TeamLogo from "./TeamLogo";
+import TeamLogo from "../Logos/TeamLogo";
 
 function Teamresults({
   team,

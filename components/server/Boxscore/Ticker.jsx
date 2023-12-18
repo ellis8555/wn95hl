@@ -1,4 +1,4 @@
-import TeamLogo from "../standings/TeamLogo";
+import TeamLogo from "../Logos/TeamLogo";
 import { MONTHS, DAYS_OF_WEEK } from "@/utils/constants/constants";
 import BoxscoreButton from "./BoxscoreButton";
 

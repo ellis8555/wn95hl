@@ -1,5 +1,5 @@
 import getLeagueSchema from "@/app/(helpers)/get-league-schema";
-import TeamLogo from "@/components/server/standings/TeamLogo";
+import TeamLogo from "@/components/server/Logos/TeamLogo";
 
 import { connectToDb } from "@/utils/database";
 

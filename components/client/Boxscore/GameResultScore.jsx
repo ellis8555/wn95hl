@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { HiMiniCog6Tooth } from "react-icons/hi2";
 import { DAYS_OF_WEEK, MONTHS } from "@/utils/constants/constants";
-import TeamLogo from "@/components/server/standings/TeamLogo";
+import TeamLogo from "@/components/server/Logos/TeamLogo";
 import BoxscoreButton from "@/components/server/Boxscore/BoxscoreButton";
 
 function GameResultScore({
