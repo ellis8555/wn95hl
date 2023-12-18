@@ -60,7 +60,7 @@ function GameInputForm() {
     }
 
     // message user the file is being processed
-    setServerMessage("Game file being procressed...");
+    setServerMessage("Game file being processed...");
 
     ///////////////////////////////////////////
     // get game type to add to game state file
