@@ -1,5 +1,5 @@
 import { connectToDb } from "@/utils/database";
-import TeamLogo from "@/components/server/standings/TeamLogo";
+import TeamLogoNoLink from "@/components/server/Logos/TeamLogoNoLink";
 import FinalResult from "@/components/server/Results/FinalResult";
 import ScheduleResult from "@/components/server/Results/ScheduleResult";
 import Club from "@/schemas/club";
@@ -146,13 +146,7 @@ async function page({ params }) {
     <div className="text-slate-300">
       <div className="flex flex-row justify-center gap-4 mt-4 w-4/6 mx-auto sm:w-full">
         <div className="flex justify-center">
-          <TeamLogo
-            name={teamAcronym}
-            width={100}
-            height={100}
-            leagueName={leagueName}
-            seasonNumber={seasonNumber}
-          />
+          <TeamLogoNoLink name={teamAcronym} width={100} height={100} />
         </div>
         <div className="my-auto">
           <div className="text-center text-3xl">{`${teamName} ${teamNickname}`}</div>
