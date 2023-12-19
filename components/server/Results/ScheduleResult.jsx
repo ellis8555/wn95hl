@@ -43,18 +43,20 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
           );
         } else {
           return (
-            <div key={index} className="flex flex-row justify-center gap-4">
-              <TeamLogo
-                name={
-                  game["otherGameStats"]["awayTeam"] ??
-                  game["otherGameStats"]["homeTeam"]
-                }
-                width={widthHeight}
-                height={widthHeight}
-                leagueName={leagueName}
-                seasonNumber={seasonNumber}
-              />
-              <span className="text-md text-orange-400"> *</span>
+            <div key={index} className="flex flex-row gap-4 justify-center">
+              <div className="flex flex-row items-center gap-4 py-1">
+                <TeamLogo
+                  name={
+                    game["otherGameStats"]["awayTeam"] ??
+                    game["otherGameStats"]["homeTeam"]
+                  }
+                  width={widthHeight}
+                  height={widthHeight}
+                  leagueName={leagueName}
+                  seasonNumber={seasonNumber}
+                />
+                <span className="text-md text-orange-400"> *</span>
+              </div>
             </div>
           );
         }
