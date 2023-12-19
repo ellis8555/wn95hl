@@ -53,10 +53,48 @@ async function page({ params }) {
   const homeGames = teamsGames.filter(
     (game) => game.otherGameStats.homeTeam == teamAcronym
   );
+  const homeGamesLength = homeGames.length;
 
   const awayGames = teamsGames.filter(
     (game) => game.otherGameStats.awayTeam == teamAcronym
   );
+  const awayGamesLength = awayGames.length;
+
+  // look for missing game states or odd number of played games in order to layout results page nicely
+
+  // get list of home team opponents
+  const homeGameOpponents = homeGames
+    .map((opponent) => {
+      return opponent["otherGameStats"]["awayTeam"];
+    })
+    .sort();
+
+  // get list of away team opponents
+  const awayGameOpponents = awayGames
+    .map((opponent) => {
+      return opponent["otherGameStats"]["homeTeam"];
+    })
+    .sort();
+
+  // get missing home opponents
+  const missingHomeOpponents = [];
+  const missingHomeOpponentsIndex = [];
+  awayGameOpponents.forEach((awayOpponent, index) => {
+    if (!homeGameOpponents.includes(awayOpponent)) {
+      missingHomeOpponents.push(awayOpponent);
+      missingHomeOpponentsIndex.push(index);
+    }
+  });
+
+  // get missing away opponents
+  const missingAwayOpponents = [];
+  const missingAwayOpponentsIndex = [];
+  homeGameOpponents.forEach((homeOpponent, index) => {
+    if (!awayGameOpponents.includes(homeOpponent)) {
+      missingAwayOpponents.push(homeOpponent);
+      missingAwayOpponentsIndex.push(index);
+    }
+  });
 
   // get home record
   const homeRecord = {
@@ -130,6 +168,30 @@ async function page({ params }) {
     }
   });
 
+  // insert missing states into games list which creates a smoother layout in teams results page
+
+  // home games updated with missing opponents
+  missingHomeOpponentsIndex.forEach((homeOpponent, index) => {
+    const missingGameObject = {
+      otherGameStats: {
+        missingState: true,
+        awayTeam: missingHomeOpponents[index],
+      },
+    };
+    homeGames.push(missingGameObject);
+  });
+
+  // away games updated with missing opponents
+  missingAwayOpponentsIndex.forEach((awayOpponent, index) => {
+    const missingGameObject = {
+      otherGameStats: {
+        missingState: true,
+        homeTeam: missingAwayOpponents[index],
+      },
+    };
+    awayGames.push(missingGameObject);
+  });
+
   // sort games by opposing teams alphabetical order
   homeGames.sort((a, b) =>
     a["otherGameStats"]["awayTeam"].localeCompare(
@@ -165,7 +227,12 @@ async function page({ params }) {
       <div className="flex flex-row gap-4 justify-evenly w-full md:w-3/4 mx-auto">
         <div>
           <div className="text-center text-xl">Home</div>
-          <div className="text-center text-sm md:text-lg mb-4">{`( ${homeRecord.W} - ${homeRecord.L} - ${homeRecord.T} - ${homeRecord.OTL} )`}</div>
+          <div className="text-center text-sm md:text-lg mb-4">
+            {`( ${homeRecord.W} - ${homeRecord.L} - ${homeRecord.T} - ${homeRecord.OTL} )`}
+            {missingHomeOpponents.length > 0 && (
+              <span className="text-orange-400"> *</span>
+            )}
+          </div>
           <ScheduleResult
             teamAcronym={teamAcronym}
             games={homeGames}
@@ -175,7 +242,12 @@ async function page({ params }) {
         </div>
         <div>
           <div className="text-center text-xl">Away</div>
-          <div className="text-center text-sm md:text-lg mb-4">{`( ${awayRecord.W} - ${awayRecord.L} - ${awayRecord.T} - ${awayRecord.OTL} )`}</div>
+          <div className="text-center text-sm md:text-lg mb-4">
+            {`( ${awayRecord.W} - ${awayRecord.L} - ${awayRecord.T} - ${awayRecord.OTL} )`}
+            {missingAwayOpponents.length > 0 && (
+              <span className="text-orange-400"> *</span>
+            )}
+          </div>
           <ScheduleResult
             teamAcronym={teamAcronym}
             games={awayGames}
