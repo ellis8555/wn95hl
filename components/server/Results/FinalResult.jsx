@@ -22,7 +22,7 @@ function Result({ teamAcronym, game }) {
   return (
     <div
       key={game._id}
-      className={`flex justify-center border border-slate-300 p-0 my-4 w-10 ${bgColor}`}
+      className={`flex justify-center border border-slate-300 p-0 my-4 w-8 ${bgColor}`}
     >
       {result}
     </div>
