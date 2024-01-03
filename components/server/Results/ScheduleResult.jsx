@@ -24,7 +24,7 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
                     leagueName={leagueName}
                     seasonNumber={seasonNumber}
                   />
-                  <div className="text-lg">{`${goalsByEachTeam[0]} - ${goalsByEachTeam[1]}`}</div>
+                  <div className="text-sm md:text-lg">{`${goalsByEachTeam[0]} - ${goalsByEachTeam[1]}`}</div>
                 </div>
               ) : (
                 <div className="flex flex-row items-center gap-4">
@@ -36,7 +36,7 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
                     leagueName={leagueName}
                     seasonNumber={seasonNumber}
                   />
-                  <div className="text-lg">{`${goalsByEachTeam[0]} - ${goalsByEachTeam[1]}`}</div>
+                  <div className="text-sm md:text-lg">{`${goalsByEachTeam[0]} - ${goalsByEachTeam[1]}`}</div>
                 </div>
               )}
             </div>
