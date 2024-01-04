@@ -8,15 +8,10 @@ import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
 export const GET = async (req, { params }) => {
   // this will be the object that is returned
-  // list of proptertis so far contained within this object
-  // 1. standings
-  // 2. divisionsAndConferences
-  // 3. dictCodes
-  // 4. recentlyPlayedGames
+
   let requestedData = {};
 
   // check if api path requires default or specific league/sesason
-  // if length is zero then return default league most recent season
   const isParams = Object.keys(params).length;
 
   //////////////////////////////////////////////////////////
@@ -60,7 +55,7 @@ export const GET = async (req, { params }) => {
   // a specific league has been requested
   ////////////////////////////////////////
 
-  if (isParams > 0) {
+  if (isParams === 1) {
     const requestedLeagueDetails = params.league;
     const [leagueName, seasonNumber] = requestedLeagueDetails;
 
@@ -68,7 +63,6 @@ export const GET = async (req, { params }) => {
       await connectToDb();
       // grab correct league schema in order to get the correct seasons data
       const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
-
       // schema method to determine if season exists
 
       const doesSeasonExist = await League.queryForIfSeasonExists(seasonNumber);
@@ -79,6 +73,7 @@ export const GET = async (req, { params }) => {
           "GET"
         );
       }
+
       //////////////////////////////////////////////////////////////////
       // schema method takes in parameter list and requestedData object
       // requestedData object has properties added within this method
@@ -93,7 +88,7 @@ export const GET = async (req, { params }) => {
       if (response.error) {
         return nextResponse(response, 400, "GET");
       } else {
-        return nextResponse(requestedData, 200, "GET");
+        return nextResponse(response, 200, "GET");
       }
 
       // return requested data
