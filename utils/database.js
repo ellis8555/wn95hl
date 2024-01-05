@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { DB_CONNECT } from "./constants/connections";
 
-const connectedMessage = `Connected to wn95hl database`;
+const connectedMessage = "Connected to wn95hl database";
+const disconnectedMessage = "Database connection closed.";
 
 export const connectToDb = async () => {
   try {
@@ -20,7 +21,7 @@ export const connectToDb = async () => {
 export const closeDbConnection = async () => {
   try {
     await mongoose.disconnect();
-    console.log("Database connection closed.");
+    console.log(disconnectedMessage);
   } catch (error) {
     console.log(error);
   }
