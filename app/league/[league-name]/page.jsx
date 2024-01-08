@@ -9,8 +9,8 @@ async function standingsPage({ params }) {
   // get league name from url param
   const leagueName = params["league-name"];
   // set the correct leagues schema to the matching league param
-  const LeagueSchema = await getLeagueSchema(leagueName);
   await connectToDb();
+  const LeagueSchema = await getLeagueSchema(leagueName);
   // get the most recent season number for the league
   const getMostRecentSeason = await LeagueSchema.getMostRecentSeasonNumber();
   // get leagues conferences
