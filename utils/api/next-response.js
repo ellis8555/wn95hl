@@ -6,7 +6,7 @@ function nextResponse(responseMessage, statusCode, httpMethod) {
     status: statusCode,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": ORIGIN,
+      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": httpMethod,
     },
   });
