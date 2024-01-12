@@ -3,7 +3,7 @@ import { DB_CONNECT } from "./constants/connections";
 
 const connectedMessage = "Connected to wn95hl database";
 const disconnectedMessage = "Database connection closed.";
-const notYetLocated = "(yet to be located)";
+const notYetLocated = "yet to be located";
 
 export const connectToDb = async (callingLocation = notYetLocated) => {
   try {
@@ -12,7 +12,7 @@ export const connectToDb = async (callingLocation = notYetLocated) => {
       useUnifiedTopology: true,
     });
 
-    console.log(`${connectedMessage} ${callingLocation}`);
+    console.log(`${connectedMessage} (${callingLocation})`);
   } catch (error) {
     console.log(error);
     throw new Error(`An error has occured with the database..`);
@@ -22,7 +22,7 @@ export const connectToDb = async (callingLocation = notYetLocated) => {
 export const closeDbConnection = async (callingLocation = notYetLocated) => {
   try {
     await mongoose.disconnect();
-    console.log(`${disconnectedMessage} ${callingLocation}`);
+    console.log(`${disconnectedMessage} (${callingLocation})`);
   } catch (error) {
     console.log(error);
   }
