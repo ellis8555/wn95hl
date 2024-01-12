@@ -123,7 +123,8 @@ export const GET = async (req, { params }) => {
 
           return new Response(standingsTableHTML);
         } else {
-          return nextResponse(response, 200, "GET");
+          // return nextResponse(response, 200, "GET");
+          return new Response(req.url);
         }
       }
 
