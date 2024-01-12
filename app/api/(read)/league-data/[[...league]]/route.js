@@ -3,6 +3,7 @@ import nextResponse from "@/utils/api/next-response";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
+  LEAGUE_TABLE_CATEGORIES,
 } from "@/utils/constants/constants";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
@@ -90,7 +91,40 @@ export const GET = async (req, { params }) => {
       if (response.error) {
         return nextResponse(response, 400, "GET");
       } else {
-        return nextResponse(response, 200, "GET");
+        // check if request is from magnus official page
+        if (req.url.includes("atari-embeds.googleusercontent.com")) {
+          const standingsTableHTML = `
+          <table>
+            <thead>
+              <tr>
+                ${LEAGUE_TABLE_CATEGORIES.map(
+                  (category) => `<th>${category}</th>`
+                ).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${response.standings
+                .map(
+                  (standing) => `
+                <tr>
+                <td>
+                  ${standing["teamName"]}
+                </td>
+                  ${LEAGUE_TABLE_CATEGORIES.map(
+                    (category) => `<td>${standing[category]}</td>`
+                  ).join("")}
+                </tr>
+              `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+
+          return new Response(standingsTableHTML);
+        } else {
+          return nextResponse(response, 200, "GET");
+        }
       }
 
       // return requested data
