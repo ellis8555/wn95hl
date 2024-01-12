@@ -2,6 +2,8 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import User from "@/schemas/user";
 
+const dbCallFrom = "api create coaches/add-coach";
+
 export const POST = async (req) => {
   const { name } = await req.json();
 
@@ -11,7 +13,7 @@ export const POST = async (req) => {
   }
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     // prevent duplicate coach name
     const checkIfCoachExists = await User.queryIfUserExists(name);

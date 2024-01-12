@@ -8,8 +8,10 @@ import {
 } from "@/utils/constants/constants";
 import { connectToDb } from "@/utils/database";
 
+const dbCallFrom = "league";
+
 async function standingsPage() {
-  await connectToDb();
+  await connectToDb(dbCallFrom);
   const standings = JSON.parse(
     await getStandings(DEFAULT_LEAGUE, MOST_RECENT_SEASON)
   );

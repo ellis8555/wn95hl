@@ -6,6 +6,8 @@ import {
 } from "@/utils/constants/constants";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
+const dbCallFrom = "api read league-data/[[...league]]";
+
 export const GET = async (req, { params }) => {
   // this will be the object that is returned
 
@@ -20,7 +22,7 @@ export const GET = async (req, { params }) => {
 
   if (isParams === 0) {
     try {
-      await connectToDb();
+      await connectToDb(dbCallFrom);
       // grab correct league schema in order to get the correct seasons data
       const League = await LEAGUE_SCHEMA_SWITCH(DEFAULT_LEAGUE);
 
@@ -60,7 +62,7 @@ export const GET = async (req, { params }) => {
     const [leagueName, seasonNumber] = requestedLeagueDetails;
 
     try {
-      await connectToDb();
+      await connectToDb(dbCallFrom);
       // grab correct league schema in order to get the correct seasons data
       const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
       // schema method to determine if season exists

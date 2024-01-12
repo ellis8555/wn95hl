@@ -2,9 +2,11 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import User from "@/schemas/user";
 
+const dbCallFrom = "api read coaches";
+
 export const GET = async () => {
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const users = await User.queryAllUsers();
 

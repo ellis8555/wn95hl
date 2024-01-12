@@ -3,13 +3,15 @@ import TeamLogo from "@/components/server/Logos/TeamLogo";
 
 import { connectToDb } from "@/utils/database";
 
+const dbCallFrom = "boxscore/[league]/[season-number]/[game=id]";
+
 async function page({ params }) {
   const leagueName = params["league"];
   const seasonNumber = params["season-number"];
   const gameId = params["game-id"];
 
   const LeagueSchema = await getLeagueSchema(leagueName);
-  await connectToDb();
+  await connectToDb(dbCallFrom);
 
   const fetchGamesData = await LeagueSchema.getSingleGame(seasonNumber, gameId);
   const gamesData = fetchGamesData[0];

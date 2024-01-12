@@ -2,6 +2,8 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
+const dbCallFrom = "api read clubs/in-a-season";
+
 export const GET = async (req, res) => {
   const { searchParams } = new URL(req.url);
   let leagueName = searchParams.get("league");
@@ -19,7 +21,7 @@ export const GET = async (req, res) => {
   }
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     // get this seasons document
     const seasonData = await League.findOne({ seasonNumber });

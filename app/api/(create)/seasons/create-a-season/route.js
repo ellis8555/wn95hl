@@ -2,6 +2,8 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
+const dbCallFrom = "api create seasons/create-a-season";
+
 export const POST = async (req) => {
   let {
     leagueName,
@@ -77,7 +79,7 @@ export const POST = async (req) => {
   }
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
 

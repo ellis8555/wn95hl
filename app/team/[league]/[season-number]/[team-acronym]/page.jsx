@@ -7,12 +7,14 @@ import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
 export const revalidate = 0;
 
+const dbCallFrom = "team/[league]/[season-number]/[team-acronym]";
+
 async function page({ params }) {
   const leagueName = params["league"];
   const seasonNumber = +params["season-number"];
   const teamAcronym = params["team-acronym"];
 
-  await connectToDb();
+  await connectToDb(dbCallFrom);
   const getClub = await Club.queryClubDetail(
     "teamAcronym",
     teamAcronym,

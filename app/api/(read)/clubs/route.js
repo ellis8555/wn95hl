@@ -2,9 +2,11 @@ import { connectToDb } from "@/utils/database";
 import Club from "@/schemas/club";
 import nextResponse from "@/utils/api/next-response";
 
+const dbCallFrom = "api read clubs";
+
 export const GET = async () => {
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const teams = await Club.queryAllClubs();
 

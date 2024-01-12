@@ -10,6 +10,8 @@ import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
 import Club from "@/schemas/club";
 
+const dbCallFrom = "api update game-result";
+
 export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
   let currentLeague;
@@ -62,7 +64,7 @@ export const POST = async (req, res) => {
   }
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
     // get the leagues document for the correct season
     let League;
     let seasonDocument;

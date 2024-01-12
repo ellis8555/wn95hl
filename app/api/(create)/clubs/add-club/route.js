@@ -3,12 +3,14 @@ import nextResponse from "@/utils/api/next-response";
 import Club from "@/schemas/club";
 import User from "@/schemas/user";
 
+const dbCallFrom = "create api club/add-club";
+
 export const POST = async (req) => {
   const { name, nickname, teamAcronym, coachName, teamLogo, teamBanner } =
     await req.json();
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     // prevent duplicate name from being added
     const searchForIfTeamExists = await Club.queryIfClubExists(name);

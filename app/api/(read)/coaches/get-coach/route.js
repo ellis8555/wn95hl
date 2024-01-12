@@ -2,13 +2,15 @@ import { connectToDb } from "@/utils/database";
 import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
 
+const dbCallFrom = "api read coaches/get-coach";
+
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url);
 
   const name = searchParams.get("name");
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const coach = await User.queryOneUser(name);
 

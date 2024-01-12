@@ -3,12 +3,14 @@ import Club from "@/schemas/club";
 import User from "@/schemas/user";
 import nextResponse from "@/utils/api/next-response";
 
+const dbCallFrom = "api update clubs/edit-club";
+
 export const PATCH = async (req) => {
   const { clubName, newName, coachName, teamAcronym, teamLogo, teamBanner } =
     await req.json();
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const club = await Club.queryOneClub(clubName);
 

@@ -3,6 +3,8 @@ import nextResponse from "@/utils/api/next-response";
 import Club from "@/schemas/club";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
+const dbCallFrom = "api create clubs/add-club-to-season";
+
 export const POST = async (req) => {
   let {
     teamName,
@@ -22,7 +24,7 @@ export const POST = async (req) => {
   }
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
 

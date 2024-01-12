@@ -3,13 +3,15 @@ import nextResponse from "@/utils/api/next-response";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 import { CLEAR_LEAGUE_TABLE_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
+const dbCallFrom = "api update league-table/reset-table";
+
 export const PATCH = async (req, res) => {
   const { searchParams } = new URL(req.url);
   const leagueName = searchParams.get("league-name");
   const seasonNumber = searchParams.get("season-number");
 
   try {
-    await connectToDb();
+    await connectToDb(dbCallFrom);
 
     const League = await CLEAR_LEAGUE_TABLE_SWITCH(leagueName);
 
