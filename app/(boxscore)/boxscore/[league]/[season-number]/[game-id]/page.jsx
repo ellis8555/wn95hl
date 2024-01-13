@@ -10,8 +10,8 @@ async function page({ params }) {
   const seasonNumber = params["season-number"];
   const gameId = params["game-id"];
 
-  const LeagueSchema = await getLeagueSchema(leagueName);
   await connectToDb(dbCallFrom);
+  const LeagueSchema = await getLeagueSchema(leagueName);
 
   const fetchGamesData = await LeagueSchema.getSingleGame(seasonNumber, gameId);
   const gamesData = fetchGamesData[0];
@@ -103,9 +103,9 @@ async function page({ params }) {
       <DisplayStat awayStat={awayShots} statName="Shots" homeStat={homeShots} />
       {/* shooting percentage */}
       <DisplayStat
-        awayStat={awayShootingPct.toFixed(2) + "%"}
+        awayStat={awayShootingPct.toFixed(0) + "%"}
         statName="Shooting"
-        homeStat={homeShootingPct.toFixed(2) + "%"}
+        homeStat={homeShootingPct.toFixed(0) + "%"}
       />
       {/* power play */}
       <DisplayStat
