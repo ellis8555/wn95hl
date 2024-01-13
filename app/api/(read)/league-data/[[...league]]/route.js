@@ -97,28 +97,31 @@ export const GET = async (req, { params }) => {
         // origin/api/league-data/w/3/standings/htmx
         if (params.league.includes("htmx")) {
           const standingsTableHTML = `
-          <table>
+          <table class="table-auto mx-auto">
             <thead>
               <tr>
                 ${LEAGUE_HTMX_TABLE_CATEGORIES.map(
-                  (category) => `<th>${category}</th>`
+                  (category) =>
+                    `<th class="bg-zinc-400 py-2 px-4">${category}</th>`
                 ).join("")}
               </tr>
             </thead>
             <tbody>
               ${response.standings
                 .map(
-                  (standing) => `
-                <tr>
-                  ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
-                    if (category === "Team") {
-                      return `<td>${standing["teamName"]}</td>`;
-                    } else {
-                      return `<td>${standing[category]}</td>`;
-                    }
-                  }).join("")}
-                </tr>
-              `
+                  (standing, index) => `
+                    <tr ${
+                      index === 15 ? 'class="border-black border-b-2"' : ""
+                    }>
+                      ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
+                        if (category === "Team") {
+                          return `<td class="mx-2 py-2 ps-2">${standing["teamName"]}</td>`;
+                        } else {
+                          return `<td class="text-center mx-2 py-2">${standing[category]}</td>`;
+                        }
+                      }).join("")}
+                    </tr>
+                  `
                 )
                 .join("")}
             </tbody>
