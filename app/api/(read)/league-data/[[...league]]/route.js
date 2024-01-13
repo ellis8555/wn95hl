@@ -101,8 +101,7 @@ export const GET = async (req, { params }) => {
             <thead>
               <tr>
                 ${LEAGUE_HTMX_TABLE_CATEGORIES.map(
-                  (category) =>
-                    `<th class="bg-zinc-400 py-2 px-4">${category}</th>`
+                  (category) => `<th class="py-2 px-4">${category}</th>`
                 ).join("")}
               </tr>
             </thead>
