@@ -1,9 +1,11 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
+import nextResponseHTMX from "@/utils/api/next-response-htmx";
+
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
-  LEAGUE_TABLE_CATEGORIES,
+  LEAGUE_HTMX_TABLE_CATEGORIES,
 } from "@/utils/constants/constants";
 import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 
@@ -92,12 +94,12 @@ export const GET = async (req, { params }) => {
         return nextResponse(response, 400, "GET");
       } else {
         // check if request is from magnus official page
-        if (req.url.includes("atari-embeds.googleusercontent.com")) {
+        if (req.url.includes("atari" && "google")) {
           const standingsTableHTML = `
           <table>
             <thead>
               <tr>
-                ${LEAGUE_TABLE_CATEGORIES.map(
+                ${LEAGUE_HTMX_TABLE_CATEGORIES.map(
                   (category) => `<th>${category}</th>`
                 ).join("")}
               </tr>
@@ -107,12 +109,13 @@ export const GET = async (req, { params }) => {
                 .map(
                   (standing) => `
                 <tr>
-                <td>
-                  ${standing["teamName"]}
-                </td>
-                  ${LEAGUE_TABLE_CATEGORIES.map(
-                    (category) => `<td>${standing[category]}</td>`
-                  ).join("")}
+                  ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
+                    if (category === "Team") {
+                      return `<td>${standing["teamName"]}</td>`;
+                    } else {
+                      return `<td>${standing[category]}</td>`;
+                    }
+                  }).join("")}
                 </tr>
               `
                 )
@@ -120,12 +123,9 @@ export const GET = async (req, { params }) => {
             </tbody>
           </table>
         `;
-
-          return new Response(standingsTableHTML);
+          return nextResponseHTMX(standingsTableHTML, 200, "GET");
         } else {
-          // return nextResponse(response, 200, "GET");
-
-          return new Response("<h1>Test Response</h1>");
+          return nextResponse(response, 200, "GET");
         }
       }
 
