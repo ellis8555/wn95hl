@@ -13,9 +13,6 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
-        <div className="mt-4 text-center bg-orange-400 text-white">
-          Currently there is an issue loading the standings
-        </div>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <Link href="/league/w">
