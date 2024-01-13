@@ -94,7 +94,8 @@ export const GET = async (req, { params }) => {
         return nextResponse(response, 400, "GET");
       } else {
         // check if request is from magnus official page
-        if (req.url.includes("localhost")) {
+        // origin/api/league-data/w/3/standings/htmx
+        if (params.league.includes("htmx")) {
           const standingsTableHTML = `
           <table>
             <thead>
@@ -125,6 +126,8 @@ export const GET = async (req, { params }) => {
         `;
           return nextResponseHTMX(standingsTableHTML, 200, "GET");
         } else {
+          // return json standings data for next js page
+          // origin/api/league-data/w/3/standings
           return nextResponse(response, 200, "GET");
         }
       }
