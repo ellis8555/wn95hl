@@ -125,13 +125,7 @@ export const GET = async (req, { params }) => {
         `;
           return nextResponseHTMX(standingsTableHTML, 200, "GET");
         } else {
-          // return nextResponse(response, 200, "GET");
-          const reqHeaders = new Headers(req.headers);
-          return nextResponseHTMX(
-            `<h3>${reqHeaders.get("host")}</h3>`,
-            200,
-            "GET"
-          );
+          return nextResponse(response, 200, "GET");
         }
       }
 
