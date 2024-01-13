@@ -94,7 +94,7 @@ export const GET = async (req, { params }) => {
         return nextResponse(response, 400, "GET");
       } else {
         // check if request is from magnus official page
-        if (req.url.includes("atari" && "google")) {
+        if (req.url.includes("localhost")) {
           const standingsTableHTML = `
           <table>
             <thead>
@@ -125,7 +125,9 @@ export const GET = async (req, { params }) => {
         `;
           return nextResponseHTMX(standingsTableHTML, 200, "GET");
         } else {
-          return nextResponse(response, 200, "GET");
+          // return nextResponse(response, 200, "GET");
+          const url = new URL(req.url);
+          return nextResponseHTMX(`<h1>${url.href}</h1>`, 200, "GET");
         }
       }
 
