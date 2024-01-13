@@ -18,7 +18,7 @@ export default async function Page() {
           <Link href="/league/w">
             <div className="flex flex-col gap-6 border rounded-md p-8 shadow-2xl text-center">
               <LeagueLogo name="w" width="100" height="100" />
-              <div>The W</div>
+              <div>W standings</div>
             </div>
           </Link>
         </div>
