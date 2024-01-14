@@ -28,11 +28,11 @@ export default function Loading() {
       {/* teams records */}
       <div className="flex flex-row justify-center items-center gap-12 py-3 lg:w-1/2 mx-auto">
         <div className="w-5/12 flex justify-end ">
-          <div>{`(  -  -  - )`}</div>
+          <div>{`(  Loading  )`}</div>
         </div>
         <div className="w-2/12 font-bold text-xl"></div>
         <div className="w-5/12 flex justify-start">
-          <div>{`(  -  -  -  )`}</div>
+          <div>{`(  Boxscore  )`}</div>
         </div>
       </div>
       {/* game stats begin */}
