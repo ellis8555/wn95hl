@@ -19,9 +19,10 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
   const [totalGamesPlayed, setTotalGamesPlayed] = useState();
   const indexOfCurrentGamesDisplayedLAYOUT = useRef();
   const [displayPreviousGamesArrow, setDisplayPreviousGamesArrow] =
-    useState(true);
+    useState(false);
   const [displayNextGamesArrow, setDisplayNextGamesArrow] = useState(false);
   const [displayNavigationArrows, setDisplayNavigationArrows] = useState(true);
+  const onLoadTotalGamesPlayed = useRef();
   const gamesDate = useRef();
   const gamesDay = useRef();
   const [gameDates, setGameDates] = useState([]);
@@ -40,11 +41,15 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
       const { recentlyPlayedGames, totalGamesSubmitted } =
         await GET_LEAGUE_DATA(league, MOST_RECENT_SEASON, "recent-results");
       setTotalGamesPlayed(totalGamesSubmitted);
+      // use a ref to remove navigation arrows if <= 8 games submitted
+      onLoadTotalGamesPlayed.current = totalGamesSubmitted;
+      // set the index to 8 games less than length of games submitted
       indexOfCurrentGamesDisplayedLAYOUT.current = totalGamesSubmitted - 8;
+      // set index to zero if games played minus 8 is less than zero
       if (indexOfCurrentGamesDisplayedLAYOUT.current < 0) {
         indexOfCurrentGamesDisplayedLAYOUT.current = 0;
       }
-      if (totalGamesPlayed <= 8) {
+      if (onLoadTotalGamesPlayed.current <= 8) {
         setDisplayPreviousGamesArrow(false);
         setDisplayNextGamesArrow(false);
       } else {
