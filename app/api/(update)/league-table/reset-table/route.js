@@ -36,7 +36,6 @@ export const PATCH = async (req, res) => {
 
     // update the database
     fetchSeason.standings = teamsRecords;
-    fetchSeason.seasonGames = [];
     fetchSeason.startDate = null;
     await fetchSeason.save();
 
