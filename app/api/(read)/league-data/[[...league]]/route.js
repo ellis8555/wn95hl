@@ -7,7 +7,10 @@ import {
   MOST_RECENT_SEASON,
   LEAGUE_HTMX_TABLE_CATEGORIES,
 } from "@/utils/constants/constants";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
+import {
+  LEAGUE_SCHEMA_SWITCH,
+  LEAGUE_GAMES_SCHEMA_SWITCH,
+} from "@/utils/constants/data-calls/db_calls";
 
 const dbCallFrom = "api read league-data/[[...league]]";
 
@@ -84,11 +87,24 @@ export const GET = async (req, { params }) => {
       // requestedData object has properties added within this method
       //////////////////////////////////////////////////////////////////
 
-      const response = await League.getFieldData(
-        seasonNumber,
-        requestedLeagueDetails,
-        requestedData
-      );
+      let response;
+
+      if (params.league.includes("recent-results")) {
+        const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
+        response = await Games.getFieldData(
+          seasonNumber,
+          requestedLeagueDetails,
+          // requested data is empty object declared higher up which has data appended to it then returned
+          requestedData
+        );
+      } else {
+        response = await League.getFieldData(
+          seasonNumber,
+          requestedLeagueDetails,
+          // requested data is empty object declared higher up which has data appended to it then returned
+          requestedData
+        );
+      }
 
       if (response.error) {
         return nextResponse(response, 400, "GET");
