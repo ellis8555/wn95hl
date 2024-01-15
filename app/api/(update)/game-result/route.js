@@ -7,8 +7,10 @@ import incrementTiesForTieGame from "@/utils/api/table-methods/team-standings/in
 import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
-import W_Season from "@/schemas/season/w_season";
-import W_Game from "@/schemas/games/w_games";
+import {
+  LEAGUE_SCHEMA_SWITCH,
+  LEAGUE_GAMES_SCHEMA_SWITCH,
+} from "@/utils/constants/data-calls/db_calls";
 import Club from "@/schemas/club";
 
 const dbCallFrom = "api update game-result";
@@ -73,17 +75,18 @@ export const POST = async (req, res) => {
 
     switch (currentLeague) {
       case "W":
-        League = W_Season;
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
         seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
         });
-        LeagueGames = W_Game;
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
         break;
       default:
-        seasonDocument = await W_Season.findOne({
+        League = await LEAGUE_SCHEMA_SWITCH("w");
+        seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
         });
-        LeagueGames = W_Game;
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH("w");
     }
 
     // if season does not exist exit
@@ -138,15 +141,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    if (isDuplicate) {
-      return nextResponse(
-        {
-          message: `This game appears to be a duplicate. Game data was not saved..`,
-        },
-        400,
-        "POST"
-      );
-    }
+    // if (isDuplicate) {
+    //   return nextResponse(
+    //     {
+    //       message: `This game appears to be a duplicate. Game data was not saved..`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
@@ -212,25 +215,25 @@ export const POST = async (req, res) => {
 
     const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
     const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
-    if (extractHomeOpponent == -1) {
-      return nextResponse(
-        {
-          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-        },
-        400,
-        "POST"
-      );
-    }
+    // if (extractHomeOpponent == -1) {
+    //   return nextResponse(
+    //     {
+    //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
-    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+    // getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    // getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    // rewrite teams home/away schedules to reflect recent game played and submitted
+    // // rewrite teams home/away schedules to reflect recent game played and submitted
 
-    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-      getHomeTeamsHomeSchedule;
-    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-      getAwayTeamsAwaySchedule;
+    // seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+    //   getHomeTeamsHomeSchedule;
+    // seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+    //   getAwayTeamsAwaySchedule;
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission

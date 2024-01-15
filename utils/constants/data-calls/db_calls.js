@@ -1,23 +1,27 @@
-import W_Season from "@/schemas/season/w_season";
-import W_Game from "@/schemas/games/w_games";
 import { DEFAULT_LEAGUE, HOW_MANY_GAME_RESULTS } from "../constants";
 
 export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
+  let LeagueSchema;
   switch (leagueName) {
     case "w":
-      return W_Season;
+      LeagueSchema = (await import("@/schemas/season/w_season")).default;
+      break;
     default:
-      return W_Season;
+      LeagueSchema = (await import("@/schemas/season/w_season")).default;
   }
+  return LeagueSchema;
 }
 
 export async function LEAGUE_GAMES_SCHEMA_SWITCH(leagueName) {
+  let GameSchema;
   switch (leagueName) {
     case "w":
-      return W_Game;
+      GameSchema = (await import("@/schemas/games/w_games")).default;
+      break;
     default:
-      return W_Game;
+      GameSchema = (await import("@/schemas/games/w_games")).default;
   }
+  return GameSchema;
 }
 
 export async function READ_SEASON_STANDINGS(leagueName, seasonNumber) {
@@ -35,12 +39,15 @@ export async function READ_SEASON_CONFERENCES(leagueName, seasonNumber) {
 }
 
 export async function CLEAR_LEAGUE_TABLE_SWITCH(leagueName) {
+  let LeagueSchema;
   switch (leagueName) {
     case "w":
-      return W_Season;
+      LeagueSchema = (await import("@/schemas/season/w_season")).default;
+      break;
     default:
-      return DEFAULT_LEAGUE;
+      LeagueSchema = DEFAULT_LEAGUE;
   }
+  return LeagueSchema;
 }
 
 ////////////////
