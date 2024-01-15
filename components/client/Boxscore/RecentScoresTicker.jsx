@@ -136,13 +136,13 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
     if (diff <= 16) {
       indexOfCurrentGamesDisplayedLAYOUT.current = totalGamesPlayed - 8;
       setDisplayNextGamesArrow(false);
-      if (indexOfCurrentGamesDisplayedLAYOUT.current > 7) {
+      if (indexOfCurrentGamesDisplayedLAYOUT.current > 0) {
         setDisplayPreviousGamesArrow(true);
       }
     } else {
       indexOfCurrentGamesDisplayedLAYOUT.current += 8;
       setDisplayNextGamesArrow(true);
-      if (indexOfCurrentGamesDisplayedLAYOUT.current > 7) {
+      if (indexOfCurrentGamesDisplayedLAYOUT.current > 0) {
         setDisplayPreviousGamesArrow(true);
       }
     }
