@@ -11,12 +11,9 @@ const W_LeagueSchema = new Schema({
 // 1. getMostRecentSeasonNumber
 // 2. queryForIfSeasonExists
 // 3. query for conference names
-// 4. query for a single game record
-// 5. query for segment of games for ticker or scoreboard
-// 6. query for a teams ranking in the standings
-// 7. getSortedStandings
-// 8. getFieldData
-// 9. query for games from specific team
+// 4. query for a teams ranking in the standings
+// 5. getSortedStandings
+// 6. getFieldData
 
 W_LeagueSchema.statics.getMostRecentSeasonNumber = async function () {
   const getSeasonNumberFields = await this.find().select("seasonNumber").exec();
@@ -40,40 +37,6 @@ W_LeagueSchema.statics.getConferences = async function (seasonNumber) {
   const conferences = getSeasonDocument["conferences"];
 
   return conferences;
-};
-
-W_LeagueSchema.statics.getSingleGame = async function (seasonNumber, gameId) {
-  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
-  const seasonGames = getSeasonDocument.seasonGames;
-  const findGame = seasonGames.filter((game) => game._id == gameId);
-  return findGame;
-};
-
-W_LeagueSchema.statics.getSelectedGames = async function (
-  seasonNumber,
-  beginIndex,
-  howManyGamesToGet
-) {
-  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
-  const seasonGames = getSeasonDocument.seasonGames;
-  const totalGamesSubmitted = seasonGames.length;
-  const endIndex = beginIndex + howManyGamesToGet;
-  const selectedGames = seasonGames.slice(beginIndex, endIndex);
-  return { selectedGames, totalGamesSubmitted };
-};
-
-W_LeagueSchema.statics.getTeamsGames = async function (
-  seasonNumber,
-  teamAcronym
-) {
-  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
-  const seasonGames = getSeasonDocument.seasonGames;
-  const teamsGames = seasonGames.filter(
-    (game) =>
-      game.otherGameStats.homeTeam == teamAcronym ||
-      game.otherGameStats.awayTeam == teamAcronym
-  );
-  return teamsGames;
 };
 
 W_LeagueSchema.statics.getSingleTeamStandings = async function (
@@ -168,27 +131,6 @@ W_LeagueSchema.statics.getFieldData = async function (
       return requestedDataObject;
     }
     requestedDataObject.dictCodes = seasonDocument["teamsDictCodes"];
-  }
-
-  //////////////////////////////////
-  // if recent results are required
-  //////////////////////////////////
-  if (paramtersList.includes("recent-results")) {
-    const howManyGamesPlayed = seasonDocument["seasonGames"].length;
-
-    let recentlyPlayedGames = [];
-    if (howManyGamesPlayed < 8) {
-      seasonDocument["seasonGames"].forEach((game) =>
-        recentlyPlayedGames.push(game)
-      );
-    } else {
-      recentlyPlayedGames = seasonDocument["seasonGames"].slice(
-        howManyGamesPlayed - 8
-      );
-    }
-
-    requestedDataObject.recentlyPlayedGames = recentlyPlayedGames;
-    requestedDataObject.totalGamesSubmitted = howManyGamesPlayed;
   }
 
   return requestedDataObject;
