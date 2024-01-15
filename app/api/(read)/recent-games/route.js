@@ -1,6 +1,9 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
+import {
+  LEAGUE_SCHEMA_SWITCH,
+  LEAGUE_GAMES_SCHEMA_SWITCH,
+} from "@/utils/constants/data-calls/db_calls";
 
 const dbCallFrom = "api read recent-games";
 
@@ -32,8 +35,9 @@ export const GET = async (req, res) => {
       throw new Error(`Season ${seasonNumber} has not been found`);
     }
 
-    // extract teams array of team objects
-    const selectedGames = await League.getSelectedGames(
+    // extract teams array of game objects
+    const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
+    const selectedGames = await Games.getSelectedGames(
       seasonNumber,
       beginningIndex,
       howManyGamesToGet
