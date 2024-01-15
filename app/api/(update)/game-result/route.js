@@ -8,6 +8,7 @@ import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/incr
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
 import W_Season from "@/schemas/season/w_season";
+import W_Game from "@/schemas/games/w_games";
 import Club from "@/schemas/club";
 
 const dbCallFrom = "api update game-result";
@@ -68,6 +69,7 @@ export const POST = async (req, res) => {
     // get the leagues document for the correct season
     let League;
     let seasonDocument;
+    let LeagueGames;
 
     switch (currentLeague) {
       case "W":
@@ -75,11 +77,13 @@ export const POST = async (req, res) => {
         seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
         });
+        LeagueGames = W_Game;
         break;
       default:
         seasonDocument = await W_Season.findOne({
           seasonNumber: currentSeason,
         });
+        LeagueGames = W_Game;
     }
 
     // if season does not exist exit
@@ -110,7 +114,10 @@ export const POST = async (req, res) => {
     ///////////////////////////////
 
     const getSeasonData = seasonDocument;
-    const getSeasonGames = getSeasonData.seasonGames;
+    const getSeasonGames = await LeagueGames.getGamesBySeasonNumber(
+      +currentSeason,
+      "season"
+    );
     const getSeasonStandings = getSeasonData.standings;
     const otherStats = data.otherGameStats;
     const getRegisteredTeams = getSeasonData.teams.map((team) => {
@@ -148,7 +155,6 @@ export const POST = async (req, res) => {
     ////////////////////////////////////////////
 
     const homeTeamAbbr = otherStats.homeTeam;
-
     const homeTeamName = await Club.queryClubDetail(
       "teamAcronym",
       homeTeamAbbr,
@@ -238,7 +244,7 @@ export const POST = async (req, res) => {
 
     // check if season end date needs to be set
 
-    const getCurrentTotalGamesPlayed = getSeasonData.seasonGames.length;
+    const getCurrentTotalGamesPlayed = getSeasonGames.length;
 
     const getTotalGamesToBePlayed = +getSeasonData.totalGamesToBePlayed;
 
@@ -247,10 +253,6 @@ export const POST = async (req, res) => {
       seasonDocument.endDate = Date.now();
       seasonDocument.hasSeasonEnded = true;
     }
-
-    // add the game file to season games array of game results to the database
-
-    seasonDocument.seasonGames.push(data);
 
     ///////////////////////////
     // update the league table
@@ -375,11 +377,16 @@ export const POST = async (req, res) => {
     seasonDocument.standings[awayTeamsStandingIndex] =
       awayTeamsUpdatedStandings;
 
-    //////////////////////
-    // update the database
-    //////////////////////
+    ////////////////////////
+    // update the databases
+    ////////////////////////
 
+    // update seasons collection
     await seasonDocument.save();
+
+    // add game to games collection
+    const game = new LeagueGames(data);
+    await game.save();
 
     //////////////////////////////////////////////
     // all file processing complete return to user
