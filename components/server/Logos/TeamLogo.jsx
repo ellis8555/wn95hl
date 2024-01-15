@@ -11,9 +11,10 @@ function TeamLogo({
   height,
   leagueName = DEFAULT_LEAGUE,
   seasonNumber = MOST_RECENT_SEASON,
+  gameType = "season",
 }) {
   return (
-    <Link href={`/team/${leagueName}/${seasonNumber}/${name}`}>
+    <Link href={`/team/${leagueName}/${seasonNumber}/${name}/${gameType}`}>
       <Image
         src={`/images/team-logos/${name}.png`}
         width={width}
