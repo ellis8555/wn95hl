@@ -1,4 +1,5 @@
 import W_Season from "@/schemas/season/w_season";
+import W_Game from "@/schemas/games/w_games";
 import { DEFAULT_LEAGUE, HOW_MANY_GAME_RESULTS } from "../constants";
 
 export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
@@ -10,8 +11,17 @@ export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
   }
 }
 
+export async function LEAGUE_GAMES_SCHEMA_SWITCH(leagueName) {
+  switch (leagueName) {
+    case "w":
+      return W_Game;
+    default:
+      return W_Game;
+  }
+}
+
 export async function READ_SEASON_STANDINGS(leagueName, seasonNumber) {
-  const League = await getLeagueAndSeason(leagueName, seasonNumber);
+  const League = await getLeagueSchema(leagueName, seasonNumber);
 
   const standings = await League.getSortedStandings(seasonNumber);
 
@@ -19,7 +29,7 @@ export async function READ_SEASON_STANDINGS(leagueName, seasonNumber) {
 }
 
 export async function READ_SEASON_CONFERENCES(leagueName, seasonNumber) {
-  const League = await getLeagueAndSeason(leagueName, seasonNumber);
+  const League = await getLeagueSchema(leagueName, seasonNumber);
   const conferences = await League.getConferences(seasonNumber);
   return conferences;
 }
@@ -42,9 +52,21 @@ export async function READ_SEASON_FIELD_DATA(
   seasonNumber,
   requestedField
 ) {
-  const League = await getLeagueAndSeason(leagueName, seasonNumber);
+  const League = await getLeagueSchema(leagueName, seasonNumber);
   const fieldData = {};
   await League.getFieldData(seasonNumber, requestedField, fieldData);
+  return fieldData;
+}
+
+// returns an object
+export async function READ_SEASON_GAMES_FIELD_DATA(
+  leagueName,
+  seasonNumber,
+  requestedField
+) {
+  const Games = await getGamesSchema(leagueName, seasonNumber);
+  const fieldData = {};
+  await Games.getFieldData(seasonNumber, requestedField, fieldData);
   return fieldData;
 }
 
@@ -57,8 +79,8 @@ export async function READ_SEASON_GAME_RESULTS(
   seasonNumber,
   indexNumber
 ) {
-  const League = await getLeagueAndSeason(leagueName, seasonNumber);
-  const { selectedGames, totalGamesSubmitted } = await League.getSelectedGames(
+  const Games = await getGamesSchema(leagueName, seasonNumber);
+  const { selectedGames, totalGamesSubmitted } = await Games.getSelectedGames(
     seasonNumber,
     indexNumber,
     HOW_MANY_GAME_RESULTS
@@ -72,7 +94,8 @@ export async function READ_SEASON_GAME_RESULTS(
 // helper methods for above constant methods
 ////////////////////////////////////////////
 
-async function getLeagueAndSeason(leagueName, seasonNumber) {
+// returns league schema if season number exists
+async function getLeagueSchema(leagueName, seasonNumber) {
   const leagueSchema = await LEAGUE_SCHEMA_SWITCH(leagueName);
 
   const doesSeasonExist = await leagueSchema.queryForIfSeasonExists(
@@ -83,4 +106,20 @@ async function getLeagueAndSeason(leagueName, seasonNumber) {
   }
 
   return leagueSchema;
+}
+
+// returns games schema if season exists
+async function getGamesSchema(leagueName, seasonNumber) {
+  const leagueSchema = await LEAGUE_SCHEMA_SWITCH(leagueName);
+
+  const doesSeasonExist = await leagueSchema.queryForIfSeasonExists(
+    seasonNumber
+  );
+  if (!doesSeasonExist) {
+    throw new Error(`Season ${seasonNumber} does not exist`);
+  }
+
+  const gamesSchema = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
+
+  return gamesSchema;
 }
