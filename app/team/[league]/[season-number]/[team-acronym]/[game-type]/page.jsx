@@ -3,7 +3,10 @@ import TeamLogoNoLink from "@/components/server/Logos/TeamLogoNoLink";
 import FinalResult from "@/components/server/Results/FinalResult";
 import ScheduleResult from "@/components/server/Results/ScheduleResult";
 import Club from "@/schemas/club";
-import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
+import {
+  LEAGUE_SCHEMA_SWITCH,
+  LEAGUE_GAMES_SCHEMA_SWITCH,
+} from "@/utils/constants/data-calls/db_calls";
 
 export const revalidate = 0;
 
@@ -13,6 +16,7 @@ async function page({ params }) {
   const leagueName = params["league"];
   const seasonNumber = +params["season-number"];
   const teamAcronym = params["team-acronym"];
+  const gameType = params["game-type"];
 
   await connectToDb(dbCallFrom);
   const getClub = await Club.queryClubDetail(
@@ -37,8 +41,15 @@ async function page({ params }) {
     teamAcronym
   );
 
+  // get correct league schema
+  const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
+
   // get teams games for the season
-  const teamsGames = await League.getTeamsGames(seasonNumber, teamAcronym);
+  const teamsGames = await Games.getTeamsGames(
+    seasonNumber,
+    gameType,
+    teamAcronym
+  );
 
   // get how many season games team has played
   const totalGamesPlayed = teamsGames.length;
