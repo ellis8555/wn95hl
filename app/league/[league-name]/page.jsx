@@ -1,5 +1,5 @@
 import Standings from "@/components/client/Standings";
-import getLeagueSchema from "@/app/(helpers)/get-league-schema";
+import { LEAGUE_SCHEMA_SWITCH } from "@/utils/constants/data-calls/db_calls";
 import { getStandings } from "../(helpers)/get-standings";
 import { getDivisionsAndConferences } from "../(helpers)/get-divisions-and-conferences";
 import { getConferences } from "../(helpers)/get-conferences";
@@ -12,7 +12,7 @@ async function standingsPage({ params }) {
   const leagueName = params["league-name"];
   // set the correct leagues schema to the matching league param
   await connectToDb(dbCallFrom);
-  const LeagueSchema = await getLeagueSchema(leagueName);
+  const LeagueSchema = await LEAGUE_SCHEMA_SWITCH(leagueName);
   // get the most recent season number for the league
   const getMostRecentSeason = await LeagueSchema.getMostRecentSeasonNumber();
   // get leagues conferences

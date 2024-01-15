@@ -1,5 +1,7 @@
-import getLeagueSchema from "@/app/(helpers)/get-league-schema";
-import getGameSchema from "@/app/(helpers)/get-game-schema";
+import {
+  LEAGUE_SCHEMA_SWITCH,
+  LEAGUE_GAMES_SCHEMA_SWITCH,
+} from "@/utils/constants/data-calls/db_calls";
 import TeamLogo from "@/components/server/Logos/TeamLogo";
 
 import { connectToDb } from "@/utils/database";
@@ -12,8 +14,8 @@ async function page({ params }) {
   const gameId = params["game-id"];
 
   await connectToDb(dbCallFrom);
-  const LeagueSchema = await getLeagueSchema(leagueName);
-  const GameSchema = await getGameSchema(leagueName);
+  const LeagueSchema = await LEAGUE_SCHEMA_SWITCH(leagueName);
+  const GameSchema = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
 
   const gamesData = await GameSchema.getSingleGame(gameId);
 
