@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import GameResultSchema from "../game-result/gameResult";
+import GameResultSchema from "./game-result/gameResult";
 
 const leagueName = "W";
 
