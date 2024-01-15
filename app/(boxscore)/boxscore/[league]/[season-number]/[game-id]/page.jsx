@@ -1,4 +1,5 @@
 import getLeagueSchema from "@/app/(helpers)/get-league-schema";
+import getGameSchema from "@/app/(helpers)/get-game-schema";
 import TeamLogo from "@/components/server/Logos/TeamLogo";
 
 import { connectToDb } from "@/utils/database";
@@ -12,9 +13,9 @@ async function page({ params }) {
 
   await connectToDb(dbCallFrom);
   const LeagueSchema = await getLeagueSchema(leagueName);
+  const GameSchema = await getGameSchema(leagueName);
 
-  const fetchGamesData = await LeagueSchema.getSingleGame(seasonNumber, gameId);
-  const gamesData = fetchGamesData[0];
+  const gamesData = await GameSchema.getSingleGame(gameId);
 
   // was OT required
   const overtimeGame = gamesData.otherGameStats["overtimeRequired"];
