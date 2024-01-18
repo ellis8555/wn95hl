@@ -9,8 +9,8 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
       {games.map((game, index) => {
         const goalsByEachTeam = [];
         if (game["otherGameStats"]["missingState"] == undefined) {
-          goalsByEachTeam.push(game["homeTeamGameStats"]["HomeGOALS"]);
-          goalsByEachTeam.push(game["awayTeamGameStats"]["AwayGOALS"]);
+          goalsByEachTeam.push(game["otherGameStats"]["homeGoals"]);
+          goalsByEachTeam.push(game["otherGameStats"]["awayGoals"]);
           goalsByEachTeam.sort((a, b) => b - a);
           return (
             <div key={game._id} className="flex flex-row gap-4">
