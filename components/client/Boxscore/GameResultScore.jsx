@@ -34,13 +34,13 @@ function GameResultScore({
     recentGameResult.otherGameStats.homeTeam
   );
   const [homeScore, setHomeScore] = useState(
-    recentGameResult.homeTeamGameStats.HomeGOALS
+    recentGameResult.otherGameStats.homeGoals
   );
   const [awayAcronym, setAwayAcronym] = useState(
     recentGameResult.otherGameStats.awayTeam
   );
   const [awayScore, setAwayScore] = useState(
-    recentGameResult.awayTeamGameStats.AwayGOALS
+    recentGameResult.otherGameStats.awayGoals
   );
 
   // date related information
