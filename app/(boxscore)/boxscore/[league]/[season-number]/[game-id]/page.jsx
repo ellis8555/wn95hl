@@ -17,52 +17,55 @@ async function page({ params }) {
   const LeagueSchema = await LEAGUE_SCHEMA_SWITCH(leagueName);
   const GameSchema = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
 
-  const gamesData = await GameSchema.getSingleGame(gameId);
+  // static methods on game schema to get stats
+  const gamesOtherData = await GameSchema.getSingleGame(gameId);
+  const homeTeamsStats = await GameSchema.getTeamsGameStats(gameId, "home");
+  const awayTeamsStats = await GameSchema.getTeamsGameStats(gameId, "away");
 
   // was OT required
-  const overtimeGame = gamesData.otherGameStats["overtimeRequired"];
+  const overtimeGame = gamesOtherData.otherGameStats["overtimeRequired"];
 
   // home team stats
-  const homeTeam = gamesData.otherGameStats["homeTeam"];
+  const homeTeam = gamesOtherData.otherGameStats["homeTeam"];
   const homeTeamsRecord = await LeagueSchema.getSingleTeamStandings(
     seasonNumber,
     homeTeam
   );
-  const homeGoals = gamesData.homeTeamGameStats["HomeGOALS"];
-  const homeShots = gamesData.homeTeamGameStats["HomeSHOTS"];
+  const homeGoals = homeTeamsStats[0].gameStats["HomeGOALS"];
+  const homeShots = homeTeamsStats[0].gameStats["HomeSHOTS"];
   const homeShootingPct = (homeGoals / homeShots) * 100;
-  const homePenalties = gamesData.homeTeamGameStats["HomePENALTIES"];
-  const homePpGoals = gamesData.homeTeamGameStats["HomePP GOALS"];
-  const homePpOpportunities = gamesData.homeTeamGameStats["HomePP OPP"];
-  const homeShortHandedGoals = gamesData.homeTeamGameStats["HomeSHG"];
-  const homeBreakAways = gamesData.homeTeamGameStats["HomeBREAKAWAY"];
-  const homeBreakAwayGoals = gamesData.homeTeamGameStats["HomeBREAKAWAY GOALS"];
-  const homePenaltyShots = gamesData.homeTeamGameStats["HomePENALTY SHOTS"];
+  const homePenalties = homeTeamsStats[0].gameStats["HomePENALTIES"];
+  const homePpGoals = homeTeamsStats[0].gameStats["HomePP GOALS"];
+  const homePpOpportunities = homeTeamsStats[0].gameStats["HomePP OPP"];
+  const homeShortHandedGoals = homeTeamsStats[0].gameStats["HomeSHG"];
+  const homeBreakAways = homeTeamsStats[0].gameStats["HomeBREAKAWAY"];
+  const homeBreakAwayGoals = homeTeamsStats[0].gameStats["HomeBREAKAWAY GOALS"];
+  const homePenaltyShots = homeTeamsStats[0].gameStats["HomePENALTY SHOTS"];
   const homePenaltyShotGoals =
-    gamesData.homeTeamGameStats["HomePENALTY SHOT GOALS"];
-  const homeBodyChecks = gamesData.homeTeamGameStats["HomeCHECKS"];
-  const homeAttackZone = gamesData.homeTeamGameStats["HomeATTACK"];
+    homeTeamsStats[0].gameStats["HomePENALTY SHOT GOALS"];
+  const homeBodyChecks = homeTeamsStats[0].gameStats["HomeCHECKS"];
+  const homeAttackZone = homeTeamsStats[0].gameStats["HomeATTACK"];
 
   //away team stats
-  const awayTeam = gamesData.otherGameStats["awayTeam"];
+  const awayTeam = gamesOtherData.otherGameStats["awayTeam"];
   const awayTeamsRecord = await LeagueSchema.getSingleTeamStandings(
     seasonNumber,
     awayTeam
   );
-  const awayGoals = gamesData.awayTeamGameStats["AwayGOALS"];
-  const awayShots = gamesData.awayTeamGameStats["AwaySHOTS"];
+  const awayGoals = awayTeamsStats[0].gameStats["AwayGOALS"];
+  const awayShots = awayTeamsStats[0].gameStats["AwaySHOTS"];
   const awayShootingPct = (awayGoals / awayShots) * 100;
-  const awayPenalties = gamesData.awayTeamGameStats["AwayPENALTIES"];
-  const awayPpGoals = gamesData.awayTeamGameStats["AwayPP GOALS"];
-  const awayPpOpportunities = gamesData.awayTeamGameStats["AwayPP OPP"];
-  const awayShortHandedGoals = gamesData.awayTeamGameStats["AwaySHG"];
-  const awayBreakAways = gamesData.awayTeamGameStats["AwayBREAKAWAY"];
-  const awayBreakAwayGoals = gamesData.awayTeamGameStats["AwayBREAKAWAY GOALS"];
-  const awayPenaltyShots = gamesData.awayTeamGameStats["AwayPENALTY SHOTS"];
+  const awayPenalties = awayTeamsStats[0].gameStats["AwayPENALTIES"];
+  const awayPpGoals = awayTeamsStats[0].gameStats["AwayPP GOALS"];
+  const awayPpOpportunities = awayTeamsStats[0].gameStats["AwayPP OPP"];
+  const awayShortHandedGoals = awayTeamsStats[0].gameStats["AwaySHG"];
+  const awayBreakAways = awayTeamsStats[0].gameStats["AwayBREAKAWAY"];
+  const awayBreakAwayGoals = awayTeamsStats[0].gameStats["AwayBREAKAWAY GOALS"];
+  const awayPenaltyShots = awayTeamsStats[0].gameStats["AwayPENALTY SHOTS"];
   const awayPenaltyShotGoals =
-    gamesData.awayTeamGameStats["AwayPENALTY SHOT GOALS"];
-  const awayBodyChecks = gamesData.awayTeamGameStats["AwayCHECKS"];
-  const awayAttackZone = gamesData.awayTeamGameStats["AwayATTACK"];
+    awayTeamsStats[0].gameStats["AwayPENALTY SHOT GOALS"];
+  const awayBodyChecks = awayTeamsStats[0].gameStats["AwayCHECKS"];
+  const awayAttackZone = awayTeamsStats[0].gameStats["AwayATTACK"];
 
   // returns formatted stat
   function DisplayStat({ awayStat, statName, homeStat }) {

@@ -1528,7 +1528,6 @@ async function readBinaryGameState(
           gameType,
           leagueName
         );
-
         ////////////////////////////////////////
         // object containing all the games data
         ////////////////////////////////////////
