@@ -1,7 +1,6 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import nextResponseHTMX from "@/utils/api/next-response-htmx";
-
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -89,7 +88,30 @@ export const GET = async (req, { params }) => {
 
       let response;
 
-      if (params.league.includes("recent-results")) {
+      // if request is game file upload then return recent results AND updated standings
+      if (
+        params.league.includes("recent-results") &&
+        params.league.includes("standings")
+      ) {
+        // get correct games schema
+        const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
+        // fetch recent games for the league
+        await Games.getFieldData(
+          seasonNumber,
+          requestedLeagueDetails,
+          // requested data is empty object declared higher up which has data appended to it then returned
+          requestedData
+        );
+        // get the most recent standings
+        await League.getFieldData(
+          seasonNumber,
+          requestedLeagueDetails,
+          // requested data is empty object declared higher up which has data appended to it then returned
+          requestedData
+        );
+        // place both recent results and standings inside of variable
+        response = requestedData;
+      } else if (params.league.includes("recent-results")) {
         const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
         response = await Games.getFieldData(
           seasonNumber,
