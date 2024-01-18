@@ -1,6 +1,4 @@
-import { Schema } from "mongoose";
-import goalsScoredSchema from "./game-result-sub-schemas/allGoalsScored";
-import penaltiesTakenSchema from "./game-result-sub-schemas/allPenalties";
+import { Schema, Types } from "mongoose";
 import GoalieGameStatsSchema from "./game-result-sub-schemas/goalieGameStats";
 import PlayerGameStatsSchema from "./game-result-sub-schemas/playerGameStats";
 import GameHighlight from "./game-result-sub-schemas/gameHighlights";
@@ -24,70 +22,10 @@ const GameResultSchema = new Schema(
       uniqueGameId: String,
       submittedAt: Date,
     },
-    allGoalsScored: [goalsScoredSchema],
-    allPenalties: [penaltiesTakenSchema],
-    awayTeamGameStats: {
-      ["Away1ST GOALS"]: String,
-      ["Away1ST SHOTS"]: String,
-      ["Away1X ATT"]: String,
-      ["Away1X GOALS"]: String,
-      ["Away2ND GOALS"]: String,
-      ["Away2ND SHOTS"]: String,
-      ["Away3RD GOALS"]: String,
-      ["Away3RD SHOTS"]: String,
-      AwayATTACK: String,
-      AwayBREAKAWAY: String,
-      ["AwayBREAKAWAY GOALS"]: String,
-      AwayCHECKS: String,
-      ["AwayFACEOFFS WON"]: String,
-      AwayGOALS: String,
-      ["AwayOT GOALS"]: String,
-      ["AwayOT SHOTS"]: String,
-      ["AwayPASS ATT"]: String,
-      ["AwayPASS COMP"]: String,
-      AwayPENALTIES: String,
-      ["AwayPENALTY SHOT GOALS"]: String,
-      ["AwayPENALTY SHOTS"]: String,
-      AwayPIM: String,
-      ["AwayPP GOALS"]: String,
-      ["AwayPP MIN"]: String,
-      ["AwayPP OPP"]: String,
-      ["AwayPP SHOTS"]: String,
-      AwaySHG: String,
-      AwaySHOTS: String,
-      AwayTeam: String,
-    },
-    homeTeamGameStats: {
-      ["Home1ST SHOTS"]: String,
-      ["Home1ST GOALS"]: String,
-      ["Home1X ATT"]: String,
-      ["Home1X GOALS"]: String,
-      ["Home2ND GOALS"]: String,
-      ["Home2ND SHOTS"]: String,
-      ["Home3RD GOALS"]: String,
-      ["Home3RD SHOTS"]: String,
-      HomeATTACK: String,
-      HomeBREAKAWAY: String,
-      ["HomeBREAKAWAY GOALS"]: String,
-      HomeCHECKS: String,
-      ["HomeFACEOFFS WON"]: String,
-      HomeGOALS: String,
-      ["HomeOT GOALS"]: String,
-      ["HomeOT SHOTS"]: String,
-      ["HomePASS ATT"]: String,
-      ["HomePASS COMP"]: String,
-      HomePENALTIES: String,
-      ["HomePENALTY SHOT GOALS"]: String,
-      ["HomePENALTY SHOTS"]: String,
-      HomePIM: String,
-      ["HomePP GOALS"]: String,
-      ["HomePP MIN"]: String,
-      ["HomePP OPP"]: String,
-      ["HomePP SHOTS"]: String,
-      HomeSHG: String,
-      HomeSHOTS: String,
-      HomeTeam: String,
-    },
+    allGoalsScored: { type: Types.ObjectId, ref: "Scoring" },
+    allPenalties: { type: Types.ObjectId, ref: "Penalty" },
+    awayTeamGameStats: { type: Types.ObjectId, ref: "Away_Team_Stats" },
+    homeTeamGameStats: { type: Types.ObjectId, ref: "Home_Team_Stats" },
     awayTeamGoalieStats: [GoalieGameStatsSchema],
     homeTeamGoalieStats: [GoalieGameStatsSchema],
     awayTeamPlayerStats: [PlayerGameStatsSchema],
@@ -101,7 +39,5 @@ const GameResultSchema = new Schema(
     timestamps: true,
   }
 );
-
-// const GameResult = models.GameResult || model("GameResult", GameResultSchema);
 
 export default GameResultSchema;
