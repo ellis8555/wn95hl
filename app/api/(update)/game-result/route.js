@@ -12,6 +12,10 @@ import {
   LEAGUE_GAMES_SCHEMA_SWITCH,
 } from "@/utils/constants/data-calls/db_calls";
 import Club from "@/schemas/club";
+import Scoring from "@/schemas/scoring-summary/allGoalsScored";
+import Penalty from "@/schemas/penalty-summary/allPenalties";
+import Away_Team_Stats from "@/schemas/away-team-game-stats/awayTeamGameStats";
+import Home_Team_Stats from "@/schemas/home-team-game-stats/homeTeamGameStats";
 
 const dbCallFrom = "api update game-result";
 
@@ -384,12 +388,46 @@ export const POST = async (req, res) => {
     // update the databases
     ////////////////////////
 
-    // update seasons collection
+    // add goal summary to scoring collection
+    const scoringSummary = await new Scoring({
+      goals: data.allGoalsScored,
+    }).save();
+    // get goal summaries object id and edit data objects scoring reference to this id
+    const scoringSummaryId = scoringSummary._id;
+    data.allGoalsScored = scoringSummaryId;
+    // add penalty summary to penalties collection
+    const penaltySummary = await new Penalty({
+      penalty: data.allPenalties,
+    }).save();
+    // get penalty summaries object id and edit data objects penalty reference to this id
+    const penaltySummaryId = penaltySummary._id;
+    data.allPenalties = penaltySummaryId;
+
+    ////////////////////////
+    // end updating sub docs
+    ////////////////////////
+
+    // add away team game stats to away team stats collection
+    const awayTeamGameStatsSummary = await new Away_Team_Stats({
+      gameStats: data.awayTeamGameStats,
+    }).save();
+    // get away team stats summaries object id and edit data objects away team stats reference to this id
+    const awayTeamGameStatsID = awayTeamGameStatsSummary._id;
+    data.awayTeamGameStats = awayTeamGameStatsID;
+
+    // add home team game stats to home team stats collection
+    const homeTeamGameStatsSummary = await new Home_Team_Stats({
+      gameStats: data.homeTeamGameStats,
+    }).save();
+    // get away team stats summaries object id and edit data objects away team stats reference to this id
+    const homeTeamGameStatsID = homeTeamGameStatsSummary._id;
+    data.homeTeamGameStats = homeTeamGameStatsID;
+
+    // // // update seasons collection
     await seasonDocument.save();
 
-    // add game to games collection
-    const game = new LeagueGames(data);
-    await game.save();
+    // // add game to games collection
+    await new LeagueGames(data).save();
 
     //////////////////////////////////////////////
     // all file processing complete return to user
