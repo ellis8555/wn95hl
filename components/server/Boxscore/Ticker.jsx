@@ -15,22 +15,19 @@ function Ticker({
     Object.keys(gameData).length !== 0
   ) {
     const gameId = gameData._id;
-    const homeData = gameData.homeTeamGameStats;
-    const awayData = gameData.awayTeamGameStats;
     const otherData = gameData.otherGameStats;
     const boxscoreStats = {
       overtimeRequired: otherData.overtimeRequired,
       wasGameATie: otherData.wasGameATie,
       homeTeam: {
         acronym: otherData.homeTeam,
-        homeScore: homeData.HomeGOALS,
+        homeScore: otherData.homeGoals,
       },
       awayTeam: {
         acronym: otherData.awayTeam,
-        awayScore: awayData.AwayGOALS,
+        awayScore: otherData.awayGoals,
       },
     };
-
     const homeAcronym = boxscoreStats["homeTeam"]["acronym"];
     const homeScore = boxscoreStats["homeTeam"]["homeScore"];
     const awayAcronym = boxscoreStats["awayTeam"]["acronym"];
