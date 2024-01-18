@@ -179,7 +179,6 @@ function GameInputForm() {
     setServerMessage("Sending...");
     try {
       const response = await POST_JSON_TO_API("game-result", gameData);
-
       if (response.error) {
         throw Error(response.message);
       }
@@ -193,14 +192,16 @@ function GameInputForm() {
         "recent-results"
       );
       // get newly updated standings
-      const { standings: updatedStandings, recentlyPlayedGames } =
-        standingsResponse;
+      const {
+        standings: updatedStandings,
+        recentlyPlayedGames,
+        totalGamesSubmitted: howManyGamesPlayed,
+      } = standingsResponse;
       // update the boxscores
       let updateRecentlyPlayedGames;
       if (recentlyPlayedGames.length < 8) {
         updateRecentlyPlayedGames = recentlyPlayedGames;
       } else {
-        const howManyGamesPlayed = recentlyPlayedGames.length;
         updateRecentlyPlayedGames = recentlyPlayedGames.slice(
           howManyGamesPlayed - 8
         );
