@@ -77,7 +77,7 @@ W_GamesSchema.statics.getFieldData = async function (
   paramtersList,
   requestedDataObject
 ) {
-  const gamesList = await this.find({
+  let gamesList = await this.find({
     "otherGameStats.seasonNumber": seasonNumber,
   });
   //////////////////////////////////
@@ -85,32 +85,34 @@ W_GamesSchema.statics.getFieldData = async function (
   //////////////////////////////////
   if (paramtersList.includes("recent-results")) {
     const howManyGamesPlayed = gamesList.length;
-
+    // array that will hold the range of games
     let recentlyPlayedGames = [];
-    if (howManyGamesPlayed < 8) {
-      for (const game of gamesList) {
-        // get related document in for home teams game stats
-        const getHomeTeamsGameStatsDoc = await Home_Team_Stats.find({
-          _id: game.homeTeamGameStats,
-        });
-        // get goals scored by the home team
-        const homeGoals = getHomeTeamsGameStatsDoc[0].gameStats.HomeGOALS;
-        // get related document in for away teams game stats
-        const getAwayTeamsGameStatsDoc = await Away_Team_Stats.find({
-          _id: game.awayTeamGameStats,
-        });
-        // get goals scored by the away team
-        const awayGoals = getAwayTeamsGameStatsDoc[0].gameStats.AwayGOALS;
-        // have to convert the mongoose doc into a javascript object in order to add new values
-        const gameObj = game.toObject();
-        // add each teams goals to othergamestats to be used for score ticker or other score related components
-        gameObj.otherGameStats["homeGoals"] = homeGoals;
-        gameObj.otherGameStats["awayGoals"] = awayGoals;
-        recentlyPlayedGames.push(gameObj);
-      }
-    } else {
-      recentlyPlayedGames = gamesList.slice(howManyGamesPlayed - 8);
+
+    if (howManyGamesPlayed > 8) {
+      gamesList = gamesList.slice(howManyGamesPlayed - 8);
     }
+
+    for (const game of gamesList) {
+      // get related document in for home teams game stats
+      const getHomeTeamsGameStatsDoc = await Home_Team_Stats.find({
+        _id: game.homeTeamGameStats,
+      });
+      // get goals scored by the home team
+      const homeGoals = getHomeTeamsGameStatsDoc[0].gameStats.HomeGOALS;
+      // get related document in for away teams game stats
+      const getAwayTeamsGameStatsDoc = await Away_Team_Stats.find({
+        _id: game.awayTeamGameStats,
+      });
+      // get goals scored by the away team
+      const awayGoals = getAwayTeamsGameStatsDoc[0].gameStats.AwayGOALS;
+      // have to convert the mongoose doc into a javascript object in order to add new values
+      const gameObj = game.toObject();
+      // add each teams goals to othergamestats to be used for score ticker or other score related components
+      gameObj.otherGameStats["homeGoals"] = homeGoals;
+      gameObj.otherGameStats["awayGoals"] = awayGoals;
+      recentlyPlayedGames.push(gameObj);
+    }
+
     requestedDataObject.recentlyPlayedGames = recentlyPlayedGames;
     requestedDataObject.totalGamesSubmitted = howManyGamesPlayed;
   }
