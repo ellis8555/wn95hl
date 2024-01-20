@@ -15,15 +15,6 @@ const W_GamesSchema = new Schema({
 // 5. query for segment of games for ticker or scoreboard
 // 6. get game stats for either home or away team
 
-//  1. gets either season or playoff games
-async function getGamesOfType(gamesArray, gameType) {
-  // get a list of games by season number
-  const gamesList = gamesArray.filter(
-    (game) => game.otherGameStats.gameType === gameType
-  );
-  return gamesList;
-}
-
 // 2. filters games by season number
 W_GamesSchema.statics.getGamesBySeasonNumber = async function (seasonNumber) {
   // get a list of games by season number
@@ -68,7 +59,20 @@ W_GamesSchema.statics.getSelectedGames = async function (
   });
   const totalGamesSubmitted = seasonGames.length;
   const endIndex = beginIndex + howManyGamesToGet;
-  const selectedGames = seasonGames.slice(beginIndex, endIndex);
+  const getArrayOfRequestedGames = seasonGames.slice(beginIndex, endIndex);
+  const selectedGames = [];
+  for (const game of getArrayOfRequestedGames) {
+    // get home team goals scored
+    const homeGoals = await getHomeTeamGameStat(game, "HomeGOALS");
+    // get away team goals scored
+    const awayGoals = await getAwayTeamGameStat(game, "AwayGOALS");
+    // add each teams goals to othergamestats to be used for score ticker or other score related components
+    // have to convert the mongoose doc into a javascript object in order to add new values
+    const gameObj = game.toObject();
+    addFieldToGameObject(gameObj, "homeGoals", homeGoals);
+    addFieldToGameObject(gameObj, "awayGoals", awayGoals);
+    selectedGames.push(gameObj);
+  }
   return { selectedGames, totalGamesSubmitted };
 };
 
@@ -93,23 +97,15 @@ W_GamesSchema.statics.getFieldData = async function (
     }
 
     for (const game of gamesList) {
-      // get related document in for home teams game stats
-      const getHomeTeamsGameStatsDoc = await Home_Team_Stats.find({
-        _id: game.homeTeamGameStats,
-      });
-      // get goals scored by the home team
-      const homeGoals = getHomeTeamsGameStatsDoc[0].gameStats.HomeGOALS;
-      // get related document in for away teams game stats
-      const getAwayTeamsGameStatsDoc = await Away_Team_Stats.find({
-        _id: game.awayTeamGameStats,
-      });
-      // get goals scored by the away team
-      const awayGoals = getAwayTeamsGameStatsDoc[0].gameStats.AwayGOALS;
+      // get home team goals scored
+      const homeGoals = await getHomeTeamGameStat(game, "HomeGOALS");
+      // get away team goals scored
+      const awayGoals = await getAwayTeamGameStat(game, "AwayGOALS");
+      // add each teams goals to othergamestats to be used for score ticker or other score related components
       // have to convert the mongoose doc into a javascript object in order to add new values
       const gameObj = game.toObject();
-      // add each teams goals to othergamestats to be used for score ticker or other score related components
-      gameObj.otherGameStats["homeGoals"] = homeGoals;
-      gameObj.otherGameStats["awayGoals"] = awayGoals;
+      addFieldToGameObject(gameObj, "homeGoals", homeGoals);
+      addFieldToGameObject(gameObj, "awayGoals", awayGoals);
       recentlyPlayedGames.push(gameObj);
     }
 
@@ -138,6 +134,51 @@ W_GamesSchema.statics.getTeamsGameStats = async function (gameId, homeOrAway) {
 };
 
 // end statics
+
+///////////////////
+// helper functions
+///////////////////
+
+//  1. gets either season or playoff games
+async function getGamesOfType(gamesArray, gameType) {
+  // get a list of games by season number
+  const gamesList = gamesArray.filter(
+    (game) => game.otherGameStats.gameType === gameType
+  );
+  return gamesList;
+}
+
+// 2. appends game data to a returned game object that has previously been fetched using mongo ref
+function addFieldToGameObject(game, fieldToAdd, fieldSource) {
+  const updatedGameObject = (game.otherGameStats[fieldToAdd] = fieldSource);
+  return updatedGameObject;
+}
+
+// 3. get home team game stat
+async function getHomeTeamGameStat(game, statToGet) {
+  // get related document in for home teams game stats
+  const getHomeTeamsGameStatsDoc = await Home_Team_Stats.find({
+    _id: game.homeTeamGameStats,
+  });
+  // get the requested game stat
+  const stat = getHomeTeamsGameStatsDoc[0]["gameStats"][statToGet];
+  return stat;
+}
+
+// 4. get away team game stat
+async function getAwayTeamGameStat(game, statToGet) {
+  // get related document in for home teams game stats
+  const getAwayTeamsGameStatsDoc = await Away_Team_Stats.find({
+    _id: game.awayTeamGameStats,
+  });
+  // get the requested game stat
+  const stat = getAwayTeamsGameStatsDoc[0]["gameStats"][statToGet];
+  return stat;
+}
+
+////////////////////////
+// end helper functions
+////////////////////////
 
 const W_Game = models.w_game || model("w_game", W_GamesSchema);
 
