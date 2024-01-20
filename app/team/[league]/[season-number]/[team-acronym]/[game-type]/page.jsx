@@ -1,5 +1,4 @@
 import { connectToDb } from "@/utils/database";
-import Alert from "@/components/server/Alerts/Alert";
 import TeamLogoNoLink from "@/components/server/Logos/TeamLogoNoLink";
 import FinalResult from "@/components/server/Results/FinalResult";
 import ScheduleResult from "@/components/server/Results/ScheduleResult";
@@ -67,12 +66,10 @@ async function page({ params }) {
   const homeGames = teamsGames.filter(
     (game) => game.otherGameStats.homeTeam == teamAcronym
   );
-  const homeGamesLength = homeGames.length;
 
   const awayGames = teamsGames.filter(
     (game) => game.otherGameStats.awayTeam == teamAcronym
   );
-  const awayGamesLength = awayGames.length;
 
   // look for missing game states or odd number of played games in order to layout results page nicely
 
@@ -220,7 +217,6 @@ async function page({ params }) {
 
   return (
     <div className="text-slate-300">
-      <Alert>Temporarily scores unavailable</Alert>
       <div className="flex flex-row justify-center gap-4 mt-4 w-4/6 mx-auto sm:w-full">
         <div className="flex justify-center">
           <TeamLogoNoLink name={teamAcronym} width={100} height={100} />
