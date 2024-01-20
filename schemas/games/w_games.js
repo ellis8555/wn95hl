@@ -40,11 +40,24 @@ W_GamesSchema.statics.getTeamsGames = async function (
     "otherGameStats.seasonNumber": seasonNumber,
   });
   const filteredGamesList = await getGamesOfType(getSeasonGames, gameType);
-  const teamsGames = filteredGamesList.filter(
+  const getTeamsGames = filteredGamesList.filter(
     (game) =>
       game.otherGameStats.homeTeam == teamAcronym ||
       game.otherGameStats.awayTeam == teamAcronym
   );
+  let teamsGames = [];
+  for (const game of getTeamsGames) {
+    // get home team goals scored
+    const homeGoals = await getHomeTeamGameStat(game, "HomeGOALS");
+    // get away team goals scored
+    const awayGoals = await getAwayTeamGameStat(game, "AwayGOALS");
+    // add each teams goals to othergamestats to be used for score ticker or other score related components
+    // have to convert the mongoose doc into a javascript object in order to add new values
+    const gameObj = game.toObject();
+    addFieldToGameObject(gameObj, "homeGoals", homeGoals);
+    addFieldToGameObject(gameObj, "awayGoals", awayGoals);
+    teamsGames.push(gameObj);
+  }
   return teamsGames;
 };
 
