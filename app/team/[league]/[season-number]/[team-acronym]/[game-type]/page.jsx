@@ -1,4 +1,5 @@
 import { connectToDb } from "@/utils/database";
+import Alert from "@/components/server/Alerts/Alert";
 import TeamLogoNoLink from "@/components/server/Logos/TeamLogoNoLink";
 import FinalResult from "@/components/server/Results/FinalResult";
 import ScheduleResult from "@/components/server/Results/ScheduleResult";
@@ -217,6 +218,7 @@ async function page({ params }) {
 
   return (
     <div className="text-slate-300">
+      <Alert>Database is missing most games due to under construction</Alert>
       <div className="flex flex-row justify-center gap-4 mt-4 w-4/6 mx-auto sm:w-full">
         <div className="flex justify-center">
           <TeamLogoNoLink name={teamAcronym} width={100} height={100} />
