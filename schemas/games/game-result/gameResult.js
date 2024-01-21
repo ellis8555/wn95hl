@@ -1,7 +1,4 @@
 import { Schema, Types } from "mongoose";
-import GoalieGameStatsSchema from "./game-result-sub-schemas/goalieGameStats";
-import PlayerGameStatsSchema from "./game-result-sub-schemas/playerGameStats";
-import GameHighlight from "./game-result-sub-schemas/gameHighlights";
 
 const GameResultSchema = new Schema(
   {
@@ -26,13 +23,26 @@ const GameResultSchema = new Schema(
     allPenalties: { type: Types.ObjectId, ref: "Penalty" },
     awayTeamGameStats: { type: Types.ObjectId, ref: "Away_Team_Stats" },
     homeTeamGameStats: { type: Types.ObjectId, ref: "Home_Team_Stats" },
-    awayTeamGoalieStats: [GoalieGameStatsSchema],
-    homeTeamGoalieStats: [GoalieGameStatsSchema],
-    awayTeamPlayerStats: [PlayerGameStatsSchema],
-    homeTeamPlayerStats: [PlayerGameStatsSchema],
+    awayTeamGoalieStats: {
+      type: Types.ObjectId,
+      ref: "Away_Team_Goalie_Stats",
+    },
+    homeTeamGoalieStats: {
+      type: Types.ObjectId,
+      ref: "Home_Team_Goalie_Stats",
+    },
+    awayTeamPlayerStats: {
+      type: Types.ObjectId,
+      ref: "Away_Team_Player_Stats",
+    },
+    homeTeamPlayerStats: {
+      type: Types.ObjectId,
+      ref: "Away_Team_Player_Stats",
+    },
     gameHighlights: {
-      type: [GameHighlight],
-      default: [],
+      type: Types.ObjectId,
+      ref: "Game_Highlights",
+      default: null,
     },
   },
   {
