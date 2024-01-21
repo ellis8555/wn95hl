@@ -1,22 +1,21 @@
 import { Schema } from "mongoose";
 
 const GoalieGameStatsSchema = new Schema({
-  A: String,
-  G: String,
-  GA: String,
-  L: String,
   Name: String,
-  OTL: String,
-  PTS: String,
-  PTS: String,
   Pos: String,
-  SH: String,
+  G: String,
+  A: String,
+  PTS: String,
   SO: String,
+  GA: String,
   SV: String,
+  SH: String,
   ["SV%"]: String,
-  T: String,
-  TOI: String,
   W: String,
+  L: String,
+  T: String,
+  OTL: String,
+  TOI: String,
 });
 
 export default GoalieGameStatsSchema;
