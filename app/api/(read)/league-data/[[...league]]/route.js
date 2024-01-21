@@ -152,7 +152,10 @@ export const GET = async (req, { params }) => {
                     }>
                       ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
                         if (category === "Team") {
-                          return `<td class="mx-2 py-2 ps-2">${standing["teamName"]}</td>`;
+                          // return `<td class="mx-2 py-2 ps-2">${standing["teamName"]}</td>`;
+                          return `<td class="mx-2 py-2 ps-2">
+                            <img src=${standing["googleDriveLogo"]} style="width:150px; height:30px" alt=${standing["teamName"]}/>
+                          </td>`;
                         } else {
                           return `<td class="text-center mx-2 py-2">${standing[category]}</td>`;
                         }
