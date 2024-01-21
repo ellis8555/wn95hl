@@ -4,6 +4,7 @@ const LeagueTableSchema = new Schema({
   teamName: String,
   teamAcronym: String,
   teamLogo: String,
+  googleDriveLogo: String,
   GP: {
     type: Number,
     default: 0,
