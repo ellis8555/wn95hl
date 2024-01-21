@@ -1,16 +1,16 @@
 import { Schema } from "mongoose";
 
 const PlayerGameStatsSchema = new Schema({
-  A: String,
-  CHK: String,
-  G: String,
   Name: String,
+  Pos: String,
+  G: String,
+  A: String,
+  PTS: String,
+  SOG: String,
+  CHK: String,
   PIM: String,
   PPP: String,
-  PTS: String,
-  Pos: String,
   SHP: String,
-  SOG: String,
   TOI: String,
 });
 
