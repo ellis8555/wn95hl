@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-const GameHighlight = new Schema(
+const GameHighlightSchema = new Schema(
   {
     href: String,
     description: {
@@ -81,4 +81,4 @@ const GameHighlight = new Schema(
   }
 );
 
-export default GameHighlight;
+export default GameHighlightSchema;
