@@ -54,7 +54,8 @@ export const GET_API_WITH_PARAMS = async (segments, params) => {
 ///////////////////
 // POST_JSON_TO_API
 ///////////////////
-export async function POST_JSON_TO_API(segments, body) {
+// isLastGame checks if csv file with multiple games is the body
+export async function POST_JSON_TO_API(segments, body, isLastGame = true) {
   const url = `${DOMAIN}/api/${segments}`;
   const response = await fetch(url, {
     method: "POST",
@@ -64,16 +65,21 @@ export async function POST_JSON_TO_API(segments, body) {
     body: JSON.stringify(body),
   });
 
-  let responseData = {};
-
   if (!response.ok) {
     const errorMessage = await response.json();
-    responseData.error = true;
-    responseData.message = errorMessage.message;
+    const responseData = {
+      error: true,
+      message: errorMessage.message,
+    };
     return responseData;
   }
 
-  responseData = await response.json();
+  let responseData;
+  if (isLastGame) {
+    responseData = await response.json();
+  } else {
+    responseData = { message: "More games to upload still" };
+  }
 
   return responseData;
 }
