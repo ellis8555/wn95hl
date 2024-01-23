@@ -1,6 +1,8 @@
 function Alert({ children }) {
   return (
-    <div className="mt-4 bg-orange-400 text-white text-center">{children}</div>
+    <div className="mt-4 px-2 bg-orange-400 text-white text-center">
+      {children}
+    </div>
   );
 }
 
