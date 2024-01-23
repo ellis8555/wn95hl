@@ -52,13 +52,6 @@ function GameInputForm() {
 
     const fileName = file.name;
 
-    leagueName.current = fileName[0].toLowerCase();
-    if (fileName[2] === "0") {
-      seasonNumber.current = fileName[3];
-    } else {
-      seasonNumber.current = fileName[2] + fileName[3];
-    }
-
     // message user the file is being processed
     setServerMessage("Game file being processed...");
 
@@ -70,8 +63,15 @@ function GameInputForm() {
     try {
       const fetchedCSVData = [];
 
+      ///////////////////////////
+      // CSV game file sumbission
+      ///////////////////////////
+
       if (fileName === "WN95HL_Game_Stats.csv") {
-        // this returns all the parsed game data
+        // prompt for the league name and season number for which this data applies to
+        leagueName.current = prompt("Enter a league name");
+        seasonNumber.current = prompt("Enter a season number");
+        // this readGameStateFile returns all the parsed game data
         const fetchedGameData = await readGameStateFile(
           file,
           seasonNumber.current,
@@ -83,40 +83,54 @@ function GameInputForm() {
 
         // declare i here so it can be passed to the catch block for error reference
         try {
-          const responses = [];
           for (let i = 0; i < howManyGamesSubmitted; i++) {
-            const response = await POST_JSON_TO_API(fetchedCSVData[i]);
+            // if multiple games uploaded via csv file
+            // set boolean to inform the server that the last game has been submitted
+            // the last game submitted will elicit a response requesting updated standings and recent results
+            let isLastGame = false;
+            if (i === howManyGamesSubmitted - 1) {
+              isLastGame = true;
+            }
+            const response = await POST_JSON_TO_API(
+              "game-result",
+              fetchedCSVData[i],
+              isLastGame
+            );
 
             if (response.error) {
               const errorMessage = response.message;
-              throw Error(errorMessage + ` at index ${i}`);
+              throw Error(errorMessage + ` at excel line ${i + 2}`);
             }
 
             setServerMessage(`${i} states processed..`);
-            responses.push(await response.json());
           }
 
-          fileInputRef.current = null;
+          fileInputRef.current.value = null;
           setServerMessage(
             `${howManyGamesSubmitted} games have been submitted`
           );
 
           // update the standings table after submitting game result
+          setServerMessage("Updating the standings...");
           const standingsResponse = await GET_LEAGUE_DATA(
             leagueName.current,
             seasonNumber.current,
-            "standings"
+            "standings",
+            "recent-results"
           );
-          // get the standings object out of the fetch
-          const { standings: updatedStandings } = standingsResponse;
+          // get newly updated standings
+          const {
+            standings: updatedStandings,
+            recentlyPlayedGames,
+            totalGamesSubmitted: howManyGamesPlayed,
+          } = standingsResponse;
 
           // update the boxscores
           let updateRecentlyPlayedGames;
-          if (updatedStandings.length < 8) {
-            updateRecentlyPlayedGames = updatedStandings;
+          if (recentlyPlayedGames.length < 8) {
+            updateRecentlyPlayedGames = recentlyPlayedGames;
           } else {
-            const howManyGamesPlayed = updatedStandings.length;
-            updateRecentlyPlayedGames = updatedStandings.slice(
+            updateRecentlyPlayedGames = recentlyPlayedGames.slice(
               howManyGamesPlayed - 8
             );
           }
@@ -124,40 +138,53 @@ function GameInputForm() {
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
-          setServerMessage("");
+          fileInputRef.current.value = null;
+          setServerMessage("Game submitted");
         } catch (error) {
           fileInputRef.current.value = null;
           setIsStateUploaded(false);
           throw Error(error.message);
         }
-      }
-      // pattern to test filename for acceptance
-      const statePattern = /[WQ][SP]?\d{1,3}\.state\d{1,3}/;
-      if (statePattern.test(fileName)) {
-        const response = await GET_LEAGUE_DATA(
-          leagueName.current,
-          seasonNumber.current,
-          "team-codes"
-        );
-        if (response.error) {
-          // throw Error("An error has occured. File has not been submitted.");
-          throw Error(response.message);
-        }
-        // teamsDict is name from python file
-        // object containing list of team acronyms required for game state parsing
-        const { dictCodes } = response;
-        // this returns all the parsed game data
-        const fetchedGameData = await readBinaryGameState(
-          file,
-          seasonNumber.current,
-          gameType,
-          leagueName.current,
-          dictCodes
-        );
-        fetchedCSVData.push(fetchedGameData);
-        setGameData(fetchedCSVData[0]);
       } else {
-        setServerMessage("File name is not associated with a league yet");
+        ////////////////////////
+        // game state sumbission
+        ////////////////////////
+
+        // extract league name and season number from file name
+        leagueName.current = fileName[0].toLowerCase();
+        if (fileName[2] === "0") {
+          seasonNumber.current = fileName[3];
+        } else {
+          seasonNumber.current = fileName[2] + fileName[3];
+        }
+        // pattern to test filename for acceptance
+        const statePattern = /[WQ][SP]?\d{1,3}\.state\d{1,3}/;
+        if (statePattern.test(fileName)) {
+          const response = await GET_LEAGUE_DATA(
+            leagueName.current,
+            seasonNumber.current,
+            "team-codes"
+          );
+          if (response.error) {
+            // throw Error("An error has occured. File has not been submitted.");
+            throw Error(response.message);
+          }
+          // teamsDict is name from python file
+          // object containing list of team acronyms required for game state parsing
+          const { dictCodes } = response;
+          // this returns all the parsed game data
+          const fetchedGameData = await readBinaryGameState(
+            file,
+            seasonNumber.current,
+            gameType,
+            leagueName.current,
+            dictCodes
+          );
+          fetchedCSVData.push(fetchedGameData);
+          setGameData(fetchedCSVData[0]);
+        } else {
+          setServerMessage("File name is not associated with a league yet");
+        }
       }
     } catch (error) {
       fileInputRef.current.value = null;

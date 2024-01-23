@@ -30,7 +30,7 @@ export const POST = async (req, res) => {
   // if the file is not of csv type then process a game state file
   if (!fileName.includes("WN95HL_Game_Stats.csv")) {
     // extract leagueName from gamestate file name
-    currentLeague = fileName[0].toUpperCase();
+    currentLeague = fileName[0].toLowerCase();
     // extract season number from game state file name
     // drop the 0 if season begins with zero ex '02'
     if (fileName[2] === "0") {
@@ -51,11 +51,14 @@ export const POST = async (req, res) => {
 
   if (
     (fileName !== "WN95HL_Game_Stats.csv" && !fileName.includes("state")) ||
-    (fileName === "WN95HL_Game_Stats.csv" && fileSize > 1_250_000) ||
+    (fileName === "WN95HL_Game_Stats.csv" && fileSize > 1_400_000) ||
     (fileName.includes("state") && fileSize > 1_400_000)
   ) {
     return nextResponse(
-      { message: "File was not uploaded. Criteria not met." },
+      {
+        message:
+          "File was not uploaded. Either filename not allowed or filesize is to large",
+      },
       400,
       "POST"
     );
@@ -82,7 +85,7 @@ export const POST = async (req, res) => {
     let LeagueGames;
 
     switch (currentLeague) {
-      case "W":
+      case "w":
         League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
         seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
@@ -223,25 +226,29 @@ export const POST = async (req, res) => {
 
     const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
     const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
-    if (extractHomeOpponent == -1) {
-      return nextResponse(
-        {
-          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-        },
-        400,
-        "POST"
-      );
-    }
 
-    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+    ////////////////// TEMP DISABLE SCHEDULE FOR TESTING HERE ///////////////////////////////////////////////
 
-    // rewrite teams home/away schedules to reflect recent game played and submitted
+    // if (extractHomeOpponent == -1) {
+    //   return nextResponse(
+    //     {
+    //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
-    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-      getHomeTeamsHomeSchedule;
-    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-      getAwayTeamsAwaySchedule;
+    // getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    // getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+
+    // // rewrite teams home/away schedules to reflect recent game played and submitted
+
+    // seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+    //   getHomeTeamsHomeSchedule;
+    // seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+    //   getAwayTeamsAwaySchedule;
+    ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
