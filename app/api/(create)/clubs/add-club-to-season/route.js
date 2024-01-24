@@ -10,6 +10,7 @@ export const POST = async (req) => {
     teamName,
     leagueName,
     logo,
+    teamBanner,
     seasonNumber: whichSeason,
     conference,
     division,
@@ -171,6 +172,7 @@ export const POST = async (req) => {
       teamName: teamName,
       teamAcronym: teamAcronym,
       teamLogo: logo,
+      teamBanner: teamBanner,
     });
 
     // recreate teamsDictCodes essential for team positions within any custom game ROM
