@@ -229,25 +229,26 @@ export const POST = async (req, res) => {
 
     ////////////////// TEMP DISABLE SCHEDULE FOR TESTING HERE ///////////////////////////////////////////////
 
-    // if (extractHomeOpponent == -1) {
-    //   return nextResponse(
-    //     {
-    //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-    //     },
-    //     400,
-    //     "POST"
-    //   );
-    // }
+    if (extractHomeOpponent == -1) {
+      return nextResponse(
+        {
+          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+        },
+        400,
+        "POST"
+      );
+    }
 
-    // getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    // getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    // // rewrite teams home/away schedules to reflect recent game played and submitted
+    // rewrite teams home/away schedules to reflect recent game played and submitted
 
-    // seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-    //   getHomeTeamsHomeSchedule;
-    // seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-    //   getAwayTeamsAwaySchedule;
+    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+      getHomeTeamsHomeSchedule;
+    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+      getAwayTeamsAwaySchedule;
+
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////
