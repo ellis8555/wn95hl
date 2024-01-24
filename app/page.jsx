@@ -14,12 +14,9 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
+        <Alert>Season 9 is complete!</Alert>
         <Alert>
-          On Wednesday Jan 24th attempt at re populating the entire database via
-          admins full season file
-        </Alert>
-        <Alert>
-          Success in this will lead to adding other leagues and past seasons!
+          Will rewrite the standings algorithm to properly reflect tie breakers
         </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
