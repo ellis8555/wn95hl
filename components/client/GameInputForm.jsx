@@ -106,9 +106,6 @@ function GameInputForm() {
           }
 
           fileInputRef.current.value = null;
-          setServerMessage(
-            `${howManyGamesSubmitted} games have been submitted`
-          );
 
           // update the standings table after submitting game result
           setServerMessage("Updating the standings...");
@@ -139,7 +136,13 @@ function GameInputForm() {
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
           fileInputRef.current.value = null;
-          setServerMessage("Game submitted");
+          if (howManyGamesPlayed > 1) {
+            setServerMessage(
+              `${howManyGamesSubmitted} games have been submitted`
+            );
+          } else {
+            setServerMessage(`Game submitted`);
+          }
         } catch (error) {
           fileInputRef.current.value = null;
           setIsStateUploaded(false);
