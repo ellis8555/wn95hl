@@ -22,6 +22,8 @@ function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered }) {
               lineNumber={index}
               team={team}
               categories={LEAGUE_TABLE_CATEGORIES}
+              leagueName={leagueName}
+              seasonNumber={seasonNumber}
               isTableFiltered={isTableFiltered}
               bgColor={index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"}
             />
