@@ -15,6 +15,7 @@ function Standings({
   conferences,
 }) {
   const [standings, setStandings] = useState(leagueTable);
+  const [updateSeasonNumber, setUpdateSeasonNumber] = useState(seasonNumber);
   const [conferenceDetails, setConferenceDetails] = useState(conferences);
   const [conference, setConference] = useState("League");
   const [divisions] = useState(leagueStructure);
@@ -30,7 +31,6 @@ function Standings({
     conferenceDetails,
   });
   const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
-
   useEffect(() => {
     if (refreshTheStandings) {
       setStandings(clientSideStandings);
@@ -83,7 +83,7 @@ function Standings({
           )}
           <LeagueTable
             leagueName={leagueName}
-            seasonNumber={seasonNumber}
+            seasonNumber={updateSeasonNumber}
             standings={standings}
             isTableFiltered={isTableFiltered}
           />
@@ -101,7 +101,7 @@ function Standings({
                 <FilteredTable
                   confDivName={eachConf.name}
                   leagueName={leagueName}
-                  seasonNumber={seasonNumber}
+                  seasonNumber={updateSeasonNumber}
                   standings={standings}
                   divisions={divisions}
                   isTableFiltered={isTableFiltered}
@@ -131,7 +131,7 @@ function Standings({
             )}
             <LeagueTable
               leagueName={leagueName}
-              seasonNumber={seasonNumber}
+              seasonNumber={updateSeasonNumber}
               standings={standings}
               isTableFiltered={isTableFiltered}
             />
