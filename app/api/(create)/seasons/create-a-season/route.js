@@ -30,7 +30,7 @@ export const POST = async (req) => {
   }
   // if league does not have divisions then set the minimum games vs other teams to 2
   if (gamesVsDivision === "") {
-    gamesVsDivision = 2;
+    gamesVsDivision = 0;
   }
   // if league does not have conferences then set games vs conferences to zero
   if (gamesVsConference === "") {
