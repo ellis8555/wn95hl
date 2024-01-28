@@ -92,6 +92,27 @@ export const POST = async (req, res) => {
         });
         LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
         break;
+      case "W":
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+        seasonDocument = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
+      case "q":
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+        seasonDocument = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
+      case "Q":
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+        seasonDocument = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
       default:
         League = await LEAGUE_SCHEMA_SWITCH("w");
         seasonDocument = await League.findOne({
