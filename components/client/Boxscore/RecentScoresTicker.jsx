@@ -6,15 +6,12 @@ import {
   GET_API_WITH_PARAMS,
   GET_LEAGUE_DATA,
 } from "@/utils/constants/data-calls/api_calls";
-import {
-  MOST_RECENT_SEASON,
-  HOW_MANY_GAME_RESULTS,
-} from "@/utils/constants/constants";
+import { HOW_MANY_GAME_RESULTS } from "@/utils/constants/constants";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import Ticker from "@/components/server/Boxscore/Ticker";
 
-function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
+function RecentScoresTicker({ recentGameResults }) {
   const [recentGamesPlayed, setRecentGamesPlayed] = useState(recentGameResults);
   const [totalGamesPlayed, setTotalGamesPlayed] = useState();
   const indexOfCurrentGamesDisplayedLAYOUT = useRef();
@@ -31,15 +28,19 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
     clientRecentlyPlayedGames,
     refreshTheStandings,
     setRefreshTheStandings,
-    league,
+    leagueContext,
+    seasonNumberContext,
   } = useFullLeagueStandings();
-
   // detect league change to display correct leagues ticker scores
   useEffect(() => {
     (async () => {
       // display on original home page landing
       const { recentlyPlayedGames, totalGamesSubmitted } =
-        await GET_LEAGUE_DATA(league, MOST_RECENT_SEASON, "recent-results");
+        await GET_LEAGUE_DATA(
+          leagueContext,
+          seasonNumberContext,
+          "recent-results"
+        );
       setTotalGamesPlayed(totalGamesSubmitted);
       // use a ref to remove navigation arrows if <= 8 games submitted
       onLoadTotalGamesPlayed.current = totalGamesSubmitted;
@@ -58,7 +59,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
       }
       setRecentGamesPlayed(recentlyPlayedGames);
     })();
-  }, [refreshTheStandings]);
+  }, [refreshTheStandings, leagueContext]);
 
   // update ticker when a new game file is uploaded
   useEffect(() => {
@@ -114,7 +115,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
       setDisplayPreviousGamesArrow(true);
       setDisplayNextGamesArrow(true);
     }
-    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayedLAYOUT.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
+    const paramsList = `league=${leagueContext}&season-number=${seasonNumberContext}&beginning-index=${indexOfCurrentGamesDisplayedLAYOUT.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
     const { selectedGames } = await GET_API_WITH_PARAMS(
       "recent-games",
       paramsList
@@ -146,7 +147,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
         setDisplayPreviousGamesArrow(true);
       }
     }
-    const paramsList = `league=${leagueName}&season-number=${seasonNumber}&beginning-index=${indexOfCurrentGamesDisplayedLAYOUT.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
+    const paramsList = `league=${leagueContext}&season-number=${seasonNumberContext}&beginning-index=${indexOfCurrentGamesDisplayedLAYOUT.current}&how-many-games=${HOW_MANY_GAME_RESULTS}`;
     const { selectedGames } = await GET_API_WITH_PARAMS(
       "recent-games",
       paramsList
@@ -154,6 +155,7 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
     setRecentGamesPlayed(selectedGames);
     setDisplayNavigationArrows(true);
   }
+
   return (
     <>
       {/* entire score ticker container */}
@@ -175,8 +177,8 @@ function RecentScoresTicker({ recentGameResults, leagueName, seasonNumber }) {
             gameData={game}
             index={index}
             gameDateIndexes={gameDates}
-            leagueName={leagueName}
-            seasonNumber={seasonNumber}
+            leagueName={leagueContext}
+            seasonNumber={seasonNumberContext}
             key={index}
           />
         ))}
