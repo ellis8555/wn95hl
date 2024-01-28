@@ -72,12 +72,18 @@ export const POST = async (req) => {
     // begin search with conference not found
     let isConferenceValid = false;
     // loop through leagues conferences and set isConferenceValid true if teams conference is in leagues conference array
-    conferenceList.forEach((conf) => {
-      if (conf.name === conference) {
-        isConferenceValid = true;
-      }
-    });
-    // const isConferenceValid = conferenceList.includes(conference);
+    if (conferenceList[0].name === "League") {
+      // check if league is only one big division
+      isConferenceValid = true;
+    } else {
+      // check entered conference is a valid conference for this league
+      conferenceList.forEach((conf) => {
+        if (conf.name === conference) {
+          isConferenceValid = true;
+        }
+      });
+    }
+
     if (!isConferenceValid) {
       return nextResponse({
         message: `${conference} conference is not registered to this league`,
@@ -86,7 +92,18 @@ export const POST = async (req) => {
 
     // check if the division exists
     const divisionList = thisSeason.divisions;
-    const isDivisionValid = divisionList.includes(division);
+    // set division validation to false
+    let isDivisionValid = false;
+    // check if league has only one division and conference
+    if (divisionList[0] === "League") {
+      isDivisionValid = true;
+      // if there are multiple divisions validate entered division exists
+    } else if (divisionList.includes(division)) {
+      isDivisionValid = true;
+    } else {
+      isDivisionValid = false;
+    }
+    // return if teams division is not in the list of valid division names
     if (!isDivisionValid) {
       return nextResponse({
         message: `The ${division} division is not registered to this league`,
@@ -106,7 +123,6 @@ export const POST = async (req) => {
       thisSeason.otherConferenceGames !== 0
         ? +thisSeason.otherConferenceGames / 2
         : 0;
-
     // add seasonNumber
     thisSeason.seasonNumber = whichSeason;
 
@@ -134,7 +150,11 @@ export const POST = async (req) => {
     // assign home and away games vs each team
     if (currentTeamsList.length > 0) {
       currentTeamsList.map((registeredTeam) => {
-        if (registeredTeam.division === division) {
+        if (
+          registeredTeam.division === division &&
+          // move past here if divisions name is League which means there are no divisions
+          registeredTeam.division !== "League"
+        ) {
           teamsTotalGamesToBePlayed += +thisSeason.divisionalGames;
           for (let i = 1; i <= gamesVsDivision; i++) {
             registeredTeam.schedule.home.push(teamAcronym);
@@ -142,7 +162,11 @@ export const POST = async (req) => {
             createTeamsObject.schedule.home.push(registeredTeam.teamAcronym);
             createTeamsObject.schedule.away.push(registeredTeam.teamAcronym);
           }
-        } else if (registeredTeam.conference === conference) {
+        } else if (
+          registeredTeam.conference === conference &&
+          // move past here if conference name is League which means there are no conferences
+          registeredTeam.conference !== "League"
+        ) {
           teamsTotalGamesToBePlayed += +thisSeason.conferenceGames;
           for (let i = 1; i <= gamesVsConference; i++) {
             registeredTeam.schedule.home.push(teamAcronym);
