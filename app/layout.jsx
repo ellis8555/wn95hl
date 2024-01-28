@@ -29,11 +29,7 @@ export default async function RootLayout({ children }) {
         <UserAuthContextProvider>
           <LeagueStandingsProvider>
             <div className="text-slate-300 mb-[1px] overflow-hidden">
-              <RecentScoresTicker
-                recentGameResults={recentlyPlayedGames}
-                leagueName={DEFAULT_LEAGUE}
-                seasonNumber={MOST_RECENT_SEASON}
-              />
+              <RecentScoresTicker recentGameResults={recentlyPlayedGames} />
             </div>
             <Navbar />
             {children}
