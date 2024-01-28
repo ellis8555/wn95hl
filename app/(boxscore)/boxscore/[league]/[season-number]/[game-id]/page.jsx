@@ -84,11 +84,23 @@ async function page({ params }) {
       {/* team logos */}
       <div className="flex flex-row justify-center items-center gap-12 pt-3 md:pt-6 lg:w-1/2 mx-auto">
         <div className="w-5/12 flex justify-end ">
-          <TeamLogo name={awayTeam} width="50" height="50" />
+          <TeamLogo
+            name={awayTeam}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
+            width="50"
+            height="50"
+          />
         </div>
         <div className="w-2/12 font-bold text-xl">@</div>
         <div className="w-5/12 flex justify-start">
-          <TeamLogo name={homeTeam} width="50" height="50" />
+          <TeamLogo
+            name={homeTeam}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
+            width="50"
+            height="50"
+          />
         </div>
       </div>
 
