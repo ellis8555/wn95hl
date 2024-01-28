@@ -3,7 +3,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
-import readGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-game-state-file";
+import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
 import {
   GET_LEAGUE_DATA,
@@ -74,8 +74,8 @@ function GameInputForm() {
         // prompt for the league name and season number for which this data applies to
         leagueName.current = prompt("Enter a league name");
         seasonNumber.current = prompt("Enter a season number");
-        // this readGameStateFile returns all the parsed game data
-        const fetchedGameData = await readGameStateFile(
+        // this readCSVGameStateFile returns all the parsed game data
+        const fetchedGameData = await readCSVGameStateFile(
           file,
           seasonNumber.current,
           gameType,

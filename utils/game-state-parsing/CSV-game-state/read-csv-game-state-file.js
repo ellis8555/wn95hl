@@ -1,4 +1,4 @@
-// returns an object with all the data pertaining to the received .csv file
+// returns an object with all the data pertaining to the received .csv filereadCSVGameStateFile
 // of a single game state
 // gameStats array is the master array holding .csv key/value pairs after parsing
 // methods in ./parsing-helpers extract information in an organized
@@ -14,7 +14,7 @@ import extractHomeGoalieStats from "../parsing-helpers/extract-home-goalie-stats
 import extractPenaltyData from "../parsing-helpers/extract-penalty-data";
 import extractOtherGameStats from "../parsing-helpers/extract-other-game-stats";
 
-async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
+async function readCSVGameStateFile(file, seasonNumber, gameType, leagueName) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     let gameProperties = {};
@@ -124,4 +124,4 @@ async function readGameStateFile(file, seasonNumber, gameType, leagueName) {
   });
 }
 
-export default readGameStateFile;
+export default readCSVGameStateFile;
