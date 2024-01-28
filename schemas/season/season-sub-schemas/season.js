@@ -13,8 +13,11 @@ const SeasonSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  conferences: [LeaguesConferencesSchema],
-  divisions: [String],
+  conferences: {
+    type: [LeaguesConferencesSchema],
+    default: [],
+  },
+  divisions: { type: [String], default: [] },
   teams: [LeaguesTeamsSchema],
   teamsDictCodes: {
     type: Object,
