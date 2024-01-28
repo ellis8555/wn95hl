@@ -3,6 +3,11 @@
 import "./styles.css";
 import Link from "next/link";
 import GeneralLogo from "@/components/server/Logos/GeneralLogo";
+import LeagueLogo from "@/components/server/Logos/LeagueLogo";
+import {
+  MOST_RECENT_SEASON,
+  MOST_RECENT_Q_SEASON,
+} from "@/utils/constants/constants";
 import { useEffect, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
@@ -13,13 +18,14 @@ import { FaHockeyPuck } from "react-icons/fa";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [recentScoresURL, setRecentScoresURL] = useState("/recent-scores");
-  const { league } = useFullLeagueStandings();
+  const { leagueContext, setLeagueContext, setSeasonNumberContext } =
+    useFullLeagueStandings();
   const { isAuthorized } = useAuthorizationStatus();
 
   useEffect(() => {
-    const URL = `/recent-scores/${league}`;
+    const URL = `/recent-scores/${leagueContext}`;
     setRecentScoresURL(URL);
-  }, [league]);
+  }, [leagueContext]);
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -52,6 +58,24 @@ function Navbar() {
           </li>
         </ul>
         <ul className="hidden lg:flex flex-row gap-4 items-center text-orange-400">
+          <li
+            className="hover:cursor-pointer"
+            onClick={() => {
+              setLeagueContext("w");
+              setSeasonNumberContext(MOST_RECENT_SEASON);
+            }}
+          >
+            <LeagueLogo name={"w"} width={25} height={25} />
+          </li>
+          <li
+            className="hover:cursor-pointer mr-4"
+            onClick={() => {
+              setLeagueContext("q");
+              setSeasonNumberContext(MOST_RECENT_Q_SEASON);
+            }}
+          >
+            <LeagueLogo name={"q"} width={25} height={25} />
+          </li>
           {/* Authorization related links */}
           {isAuthorized && (
             <li>
