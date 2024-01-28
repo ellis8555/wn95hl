@@ -61,7 +61,10 @@ function GameInputForm() {
     ///////////////////////////////////////////
     const gameType = gameTypeRef.current.value;
     try {
-      const fetchedCSVData = [];
+      // array that will hold either a single or multiple game states
+      // this depends on user submitting a game state
+      // or admin submitting games via .csv file
+      const gameStatesData = [];
 
       ///////////////////////////
       // CSV game file sumbission
@@ -78,8 +81,8 @@ function GameInputForm() {
           gameType,
           leagueName.current
         );
-        fetchedGameData.forEach((gameState) => fetchedCSVData.push(gameState));
-        const howManyGamesSubmitted = fetchedCSVData.length;
+        fetchedGameData.forEach((gameState) => gameStatesData.push(gameState));
+        const howManyGamesSubmitted = gameStatesData.length;
 
         // declare i here so it can be passed to the catch block for error reference
         try {
@@ -93,7 +96,7 @@ function GameInputForm() {
             }
             const response = await POST_JSON_TO_API(
               "game-result",
-              fetchedCSVData[i],
+              gameStatesData[i],
               isLastGame
             );
 
@@ -154,6 +157,7 @@ function GameInputForm() {
         ////////////////////////
 
         // extract league name and season number from file name
+        // example file name 'WS03.state56
         leagueName.current = fileName[0].toLowerCase();
         if (fileName[2] === "0") {
           seasonNumber.current = fileName[3];
@@ -183,8 +187,8 @@ function GameInputForm() {
             leagueName.current,
             dictCodes
           );
-          fetchedCSVData.push(fetchedGameData);
-          setGameData(fetchedCSVData[0]);
+          gameStatesData.push(fetchedGameData);
+          setGameData(gameStatesData[0]);
         } else {
           setServerMessage("File name is not associated with a league yet");
         }
