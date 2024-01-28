@@ -98,9 +98,14 @@ export const POST = async (req) => {
     //////////////////////////////////////////////////////
 
     // divide by 2 to set home and away games
-    const gamesVsDivision = +thisSeason.divisionalGames / 2;
-    const gamesVsConference = +thisSeason.conferenceGames / 2;
-    const gamesVsOtherConference = +thisSeason.otherConferenceGames / 2;
+    const gamesVsDivision =
+      thisSeason.divisionalGames !== 0 ? +thisSeason.divisionalGames / 2 : 0;
+    const gamesVsConference =
+      thisSeason.conferenceGames !== 0 ? +thisSeason.conferenceGames / 2 : 0;
+    const gamesVsOtherConference =
+      thisSeason.otherConferenceGames !== 0
+        ? +thisSeason.otherConferenceGames / 2
+        : 0;
 
     // add seasonNumber
     thisSeason.seasonNumber = whichSeason;
