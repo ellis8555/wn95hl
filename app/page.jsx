@@ -13,6 +13,8 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
+        <Alert>League logos in the navbar switch the score ticker league</Alert>
+        <Alert>Q league standings playoff qualify line is not accurate</Alert>
         <Alert>
           Tie in standings needs to be updated to reflect the leagues tie
           breaker rules
