@@ -35,3 +35,5 @@ export const MOST_RECENT_SEASON = "3";
 export const MOST_RECENT_Q_SEASON = "88";
 
 export const HOW_MANY_GAME_RESULTS = 8;
+
+export const STATE_PATTERN = /[WQ][SP]?\d{1,3}\.state\d{1,3}/;

@@ -12,6 +12,7 @@ import {
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
+  STATE_PATTERN,
 } from "@/utils/constants/constants";
 
 function GameInputForm() {
@@ -26,7 +27,7 @@ function GameInputForm() {
     setClientSideStandings,
     setRefreshTheStandings,
     setLeagueContext,
-    setSeasonNumbercontext,
+    setSeasonNumberContext,
   } = useFullLeagueStandings();
 
   const leagueName = useRef(DEFAULT_LEAGUE);
@@ -138,7 +139,7 @@ function GameInputForm() {
           }
 
           setLeagueContext(leagueName.current);
-          setSeasonNumbercontext(seasonNumber.current);
+          setSeasonNumberContext(seasonNumber.current);
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
@@ -168,9 +169,8 @@ function GameInputForm() {
         } else {
           seasonNumber.current = fileName[2] + fileName[3];
         }
-        // pattern to test filename for acceptance
-        const statePattern = /[WQ][SP]?\d{1,3}\.state\d{1,3}/;
-        if (statePattern.test(fileName)) {
+        // test filename for acceptance
+        if (STATE_PATTERN.test(fileName)) {
           const response = await GET_LEAGUE_DATA(
             leagueName.current,
             seasonNumber.current,
@@ -192,6 +192,8 @@ function GameInputForm() {
             dictCodes
           );
           gameStatesData.push(fetchedGameData);
+          setLeagueContext(leagueName.current);
+          setSeasonNumberContext(seasonNumber.current);
           setGameData(gameStatesData[0]);
         } else {
           setServerMessage("File name is not associated with a league yet");
@@ -244,7 +246,6 @@ function GameInputForm() {
           howManyGamesPlayed - 8
         );
       }
-      setLeagueContext(leagueName.current);
       setRefreshTheStandings(true);
       setClientSideStandings(updatedStandings);
       setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
