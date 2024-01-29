@@ -25,6 +25,7 @@ function GameInputForm() {
     setClientRecentlyPlayedGames,
     setClientSideStandings,
     setRefreshTheStandings,
+    setLeagueContext,
   } = useFullLeagueStandings();
 
   const leagueName = useRef(DEFAULT_LEAGUE);
@@ -135,11 +136,12 @@ function GameInputForm() {
             );
           }
 
+          setLeagueContext(leagueName.current);
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
           fileInputRef.current.value = null;
-          if (howManyGamesPlayed > 1) {
+          if (howManyGamesSubmitted > 1) {
             setServerMessage(
               `${howManyGamesSubmitted} games have been submitted`
             );
@@ -240,6 +242,7 @@ function GameInputForm() {
           howManyGamesPlayed - 8
         );
       }
+      setLeagueContext(leagueName.current);
       setRefreshTheStandings(true);
       setClientSideStandings(updatedStandings);
       setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
