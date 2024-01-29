@@ -26,6 +26,7 @@ function GameInputForm() {
     setClientSideStandings,
     setRefreshTheStandings,
     setLeagueContext,
+    setSeasonNumbercontext,
   } = useFullLeagueStandings();
 
   const leagueName = useRef(DEFAULT_LEAGUE);
@@ -137,6 +138,7 @@ function GameInputForm() {
           }
 
           setLeagueContext(leagueName.current);
+          setSeasonNumbercontext(seasonNumber.current);
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
