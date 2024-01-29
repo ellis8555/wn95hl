@@ -8,7 +8,7 @@ export const metadata = {
 
 export default async function Page() {
   return (
-    <div className="flex justify-center mt-2">
+    <div className="flex justify-center my-2">
       <div className="text-slate-300">
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
