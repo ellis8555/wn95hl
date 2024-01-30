@@ -88,13 +88,10 @@ async function page({ params }) {
   // get missing home opponents
   const missingHomeOpponents = [];
   const missingHomeOpponentsIndex = [];
-
   awayGameOpponents.forEach((awayOpponent, index) => {
-    if (index > 0) {
-      if (awayGameOpponents[index - 1] === awayOpponent) {
-        missingHomeOpponents.push(awayOpponent);
-        missingHomeOpponentsIndex.push(index);
-      }
+    if (!homeGameOpponents.includes(awayOpponent)) {
+      missingHomeOpponents.push(awayOpponent);
+      missingHomeOpponentsIndex.push(index);
     }
   });
 
@@ -102,11 +99,9 @@ async function page({ params }) {
   const missingAwayOpponents = [];
   const missingAwayOpponentsIndex = [];
   homeGameOpponents.forEach((homeOpponent, index) => {
-    if (index > 0) {
-      if (homeGameOpponents[index - 1] === homeOpponent) {
-        missingAwayOpponents.push(homeOpponent);
-        missingAwayOpponentsIndex.push(index);
-      }
+    if (!awayGameOpponents.includes(homeOpponent)) {
+      missingAwayOpponents.push(homeOpponent);
+      missingAwayOpponentsIndex.push(index);
     }
   });
 
