@@ -50,7 +50,6 @@ async function page({ params }) {
     gameType,
     teamAcronym
   );
-
   // get how many season games team has played
   const totalGamesPlayed = teamsGames.length;
 
@@ -79,7 +78,6 @@ async function page({ params }) {
       return opponent["otherGameStats"]["awayTeam"];
     })
     .sort();
-
   // get list of away team opponents
   const awayGameOpponents = awayGames
     .map((opponent) => {
@@ -90,10 +88,13 @@ async function page({ params }) {
   // get missing home opponents
   const missingHomeOpponents = [];
   const missingHomeOpponentsIndex = [];
+
   awayGameOpponents.forEach((awayOpponent, index) => {
-    if (!homeGameOpponents.includes(awayOpponent)) {
-      missingHomeOpponents.push(awayOpponent);
-      missingHomeOpponentsIndex.push(index);
+    if (index > 0) {
+      if (awayGameOpponents[index - 1] === awayOpponent) {
+        missingHomeOpponents.push(awayOpponent);
+        missingHomeOpponentsIndex.push(index);
+      }
     }
   });
 
@@ -101,9 +102,11 @@ async function page({ params }) {
   const missingAwayOpponents = [];
   const missingAwayOpponentsIndex = [];
   homeGameOpponents.forEach((homeOpponent, index) => {
-    if (!awayGameOpponents.includes(homeOpponent)) {
-      missingAwayOpponents.push(homeOpponent);
-      missingAwayOpponentsIndex.push(index);
+    if (index > 0) {
+      if (homeGameOpponents[index - 1] === homeOpponent) {
+        missingAwayOpponents.push(homeOpponent);
+        missingAwayOpponentsIndex.push(index);
+      }
     }
   });
 
