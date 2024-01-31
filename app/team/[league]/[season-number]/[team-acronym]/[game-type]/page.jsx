@@ -265,13 +265,23 @@ async function page({ params }) {
   );
 
   // trim insertions where both sides of results are just team logos
-  homeGames.forEach((game, index) => {
+  homeGames.forEach((homeGame, index) => {
     if (
-      game.otherGameStats.missingState === true &&
+      homeGame.otherGameStats.missingState === true &&
       awayGames[index].otherGameStats.missingState === true
     ) {
       homeGames.splice(index, 1);
       awayGames.splice(index, 1);
+    }
+  });
+
+  awayGames.forEach((awayGame, index) => {
+    if (
+      awayGame.otherGameStats.missingState === true &&
+      homeGames[index].otherGameStats.missingState === true
+    ) {
+      awayGames.splice(index, 1);
+      homeGames.splice(index, 1);
     }
   });
 
