@@ -78,6 +78,7 @@ async function page({ params }) {
       return opponent["otherGameStats"]["awayTeam"];
     })
     .sort();
+
   // get list of away team opponents
   const awayGameOpponents = awayGames
     .map((opponent) => {
@@ -88,22 +89,72 @@ async function page({ params }) {
   // get missing home opponents
   const missingHomeOpponents = [];
   const missingHomeOpponentsIndex = [];
-  awayGameOpponents.forEach((awayOpponent, index) => {
-    if (!homeGameOpponents.includes(awayOpponent)) {
-      missingHomeOpponents.push(awayOpponent);
-      missingHomeOpponentsIndex.push(index);
+
+  // set cursor to keep track of where in the array to begin the next search iteration
+  let awayGameOpponentsCursor = 0;
+  // method to run through away opponents to compare with home opponents
+  // which will find missing home games
+  function addMissingHomeOpponents() {
+    for (
+      awayGameOpponentsCursor;
+      awayGameOpponentsCursor < awayGameOpponents.length;
+      awayGameOpponentsCursor++
+    ) {
+      if (
+        homeGameOpponents[awayGameOpponentsCursor] !==
+        awayGameOpponents[awayGameOpponentsCursor]
+      ) {
+        missingHomeOpponents.push(awayGameOpponents[awayGameOpponentsCursor]);
+        missingHomeOpponentsIndex.push(awayGameOpponentsCursor);
+        homeGameOpponents.splice(
+          awayGameOpponentsCursor,
+          0,
+          awayGameOpponents[awayGameOpponentsCursor]
+        );
+        break;
+      }
     }
-  });
+  }
+
+  while (awayGameOpponentsCursor < awayGameOpponents.length) {
+    addMissingHomeOpponents();
+  }
 
   // get missing away opponents
   const missingAwayOpponents = [];
   const missingAwayOpponentsIndex = [];
-  homeGameOpponents.forEach((homeOpponent, index) => {
-    if (!awayGameOpponents.includes(homeOpponent)) {
-      missingAwayOpponents.push(homeOpponent);
-      missingAwayOpponentsIndex.push(index);
+
+  // set cursor to keep track of where in the array to begin the next search iteration
+  let homeGameOpponentsCursor = 0;
+  // method to run through away opponents to compare with home opponents
+  // which will find missing away games
+  function addMissingAwayOpponents() {
+    for (
+      homeGameOpponentsCursor;
+      homeGameOpponentsCursor < homeGameOpponents.length;
+      homeGameOpponentsCursor++
+    ) {
+      if (
+        awayGameOpponents[homeGameOpponentsCursor] !==
+        homeGameOpponents[homeGameOpponentsCursor]
+      ) {
+        missingAwayOpponents.push(homeGameOpponents[homeGameOpponentsCursor]);
+        missingAwayOpponentsIndex.push(homeGameOpponentsCursor);
+        awayGameOpponents.splice(
+          homeGameOpponentsCursor,
+          0,
+          homeGameOpponents[homeGameOpponentsCursor]
+        );
+        break;
+      }
     }
-  });
+  }
+
+  while (homeGameOpponentsCursor < homeGameOpponents.length) {
+    addMissingAwayOpponents();
+  }
+
+  // end adding missing home/away opponents
 
   // get home record
   const homeRecord = {
@@ -212,6 +263,17 @@ async function page({ params }) {
       b["otherGameStats"]["homeTeam"]
     )
   );
+
+  // trim insertions where both sides of results are just team logos
+  homeGames.forEach((game, index) => {
+    if (
+      game.otherGameStats.missingState === true &&
+      awayGames[index].otherGameStats.missingState === true
+    ) {
+      homeGames.splice(index, 1);
+      awayGames.splice(index, 1);
+    }
+  });
 
   return (
     <div className="text-slate-300">
