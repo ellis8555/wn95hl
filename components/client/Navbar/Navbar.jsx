@@ -8,7 +8,7 @@ import {
   MOST_RECENT_SEASON,
   MOST_RECENT_Q_SEASON,
 } from "@/utils/constants/constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
@@ -17,15 +17,8 @@ import { FaHockeyPuck } from "react-icons/fa";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [recentScoresURL, setRecentScoresURL] = useState("/recent-scores");
-  const { leagueContext, setLeagueContext, setSeasonNumberContext } =
-    useFullLeagueStandings();
+  const { setLeagueContext, setSeasonNumberContext } = useFullLeagueStandings();
   const { isAuthorized } = useAuthorizationStatus();
-
-  useEffect(() => {
-    const URL = `/recent-scores/${leagueContext}`;
-    setRecentScoresURL(URL);
-  }, [leagueContext]);
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -37,6 +30,7 @@ function Navbar() {
 
   return (
     <div className="relative sticky top-0 w-full">
+      {/*  desktop menu */}
       <nav className="flex flex-row gap-4 justify-center items-center lg:justify-between bg-slate-800 p-2">
         {/* mobile toggle menu icon */}
         <FaHockeyPuck
@@ -110,8 +104,11 @@ function Navbar() {
             isMenuOpen ? "openMenu" : ""
           } overflow-hidden`}
         >
-          <Link href={recentScoresURL}>
-            <li onClick={toggleMenu}>Scores</li>
+          <Link href={"/recent-scores/w"}>
+            <li onClick={toggleMenu}>W_Scores</li>
+          </Link>
+          <Link href={"/recent-scores/q"}>
+            <li onClick={toggleMenu}>Q_Scores</li>
           </Link>
           <Link href="/submit">
             <li onClick={toggleMenu}>Submit</li>
