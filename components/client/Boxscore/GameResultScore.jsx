@@ -82,6 +82,8 @@ function GameResultScore({
             name={awayAcronym}
             width={teamLogoWidthHeight}
             height={teamLogoWidthHeight}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
           />
           {/* <div className="text-xl md:text-2xl"> */}
           <div
@@ -97,6 +99,8 @@ function GameResultScore({
             name={homeAcronym}
             width={teamLogoWidthHeight}
             height={teamLogoWidthHeight}
+            leagueName={leagueName}
+            seasonNumber={seasonNumber}
           />
           <div className="bg-green-600 text-xs p-[.1rem] text-white rounded">
             <BoxscoreButton
