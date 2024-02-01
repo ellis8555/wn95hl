@@ -14,13 +14,8 @@ export default async function Page() {
           NHL95 in development
         </h1>
         <Alert>
-          League logos in the navbar switch the score ticker league. Temporarily
-          desktop only
-        </Alert>
-        <Alert>Q league standings playoff qualify line is not accurate</Alert>
-        <Alert>
-          Tie in standings needs to be updated to reflect the leagues tie
-          breaker rules
+          Standings tables order needs to be written to reflect official league
+          policies
         </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
