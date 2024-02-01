@@ -105,10 +105,26 @@ function Navbar() {
           } overflow-hidden`}
         >
           <Link href={"/recent-scores/w"}>
-            <li onClick={toggleMenu}>W_Scores</li>
+            <li
+              onClick={() => {
+                toggleMenu();
+                setLeagueContext("w");
+                setSeasonNumberContext(MOST_RECENT_SEASON);
+              }}
+            >
+              W_Scores
+            </li>
           </Link>
           <Link href={"/recent-scores/q"}>
-            <li onClick={toggleMenu}>Q_Scores</li>
+            <li
+              onClick={() => {
+                toggleMenu();
+                setLeagueContext("q");
+                setSeasonNumberContext(MOST_RECENT_Q_SEASON);
+              }}
+            >
+              Q_Scores
+            </li>
           </Link>
           <Link href="/submit">
             <li onClick={toggleMenu}>Submit</li>
