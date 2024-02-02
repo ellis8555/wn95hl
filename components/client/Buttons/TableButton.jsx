@@ -85,7 +85,7 @@ function TableButton({
 
   return (
     <button
-      className="bg-slate-300 rounded p-1"
+      className="bg-slate-800 text-slate-300 rounded p-1"
       onClick={() => {
         switch (children) {
           case firstConferenceDetails.current.name:
