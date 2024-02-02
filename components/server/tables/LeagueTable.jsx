@@ -3,7 +3,7 @@ import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 
 function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered }) {
   return (
-    <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
+    <table className="my-4 w-full md:w-3/4 md:mx-auto table-auto">
       <thead>
         <tr className="text-slate-300  sticky top-[81px] bg-slate-800">
           <th className="text-xl">Team</th>
