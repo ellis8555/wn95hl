@@ -12,7 +12,7 @@ function FilteredTable({
   return (
     <table className="mb-4 w-full md:w-3/4 md:mx-auto table-auto">
       <thead>
-        <tr className="text-slate-300">
+        <tr className="text-slate-300  sticky top-[81px] bg-slate-800">
           <th className="text-xl">Team</th>
           {LEAGUE_TABLE_CATEGORIES.map((header, index) => (
             <th className="p-4 sm:text-xl" key={index}>
