@@ -124,7 +124,7 @@ export const GET = async (req, { params }) => {
       } else if (params.league.includes("goalies-csv")) {
         const pathName =
           process.cwd() +
-          `/.output/static/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`;
+          `/public/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`;
 
         const goalieData = await fs.readFile(pathName, "utf8");
 
@@ -132,36 +132,38 @@ export const GET = async (req, { params }) => {
           status: 200,
           statusText: "OK",
           headers: new Headers({
-            "Content-Type": "text/plain",
+            "Content-Type": "text/csv",
             "Access-Control-Allow-Origin": "*",
           }),
         });
       } else if (params.league.includes("skaters-csv")) {
-        const skaterData = await fs.readFile(
+        const pathName =
           process.cwd() +
-            `./public/csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`,
-          "utf8"
-        );
+          `/public/csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`;
 
-        return new Response(skaterData, {
+        const skaterData = await fs.readFile(pathName, "utf8");
+
+        return new NextResponse(skaterData, {
           status: 200,
           statusText: "OK",
           headers: new Headers({
             "Content-Type": "text/csv",
+            "Access-Control-Allow-Origin": "*",
           }),
         });
       } else if (params.league.includes("team-position-csv")) {
-        const teamPositionData = await fs.readFile(
+        const pathName =
           process.cwd() +
-            `/public/csv/${leagueName}/${seasonNumber}/Team_Position_Counts.csv`,
-          "utf8"
-        );
+          `/public/csv/${leagueName}/${seasonNumber}/Team_Position_Counts.csv`;
 
-        return new Response(teamPositionData, {
+        const positionCounts = await fs.readFile(pathName, "utf8");
+
+        return new NextResponse(positionCounts, {
           status: 200,
           statusText: "OK",
           headers: new Headers({
             "Content-Type": "text/csv",
+            "Access-Control-Allow-Origin": "*",
           }),
         });
       } else {
