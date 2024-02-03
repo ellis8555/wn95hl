@@ -1,7 +1,9 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
+import { NextResponse } from "next/server";
 import nextResponseHTMX from "@/utils/api/next-response-htmx";
 import { promises as fs } from "fs";
+import path from "path";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -127,7 +129,7 @@ export const GET = async (req, { params }) => {
 
         const goalieData = await fs.readFile(pathName, "utf8");
 
-        return new Response(goalieData, {
+        return new NextResponse(goalieData, {
           status: 200,
           statusText: "OK",
           headers: new Headers({
