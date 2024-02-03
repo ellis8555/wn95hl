@@ -1,6 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import nextResponseHTMX from "@/utils/api/next-response-htmx";
+import { promises as fs } from "fs";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -119,6 +120,48 @@ export const GET = async (req, { params }) => {
           // requested data is empty object declared higher up which has data appended to it then returned
           requestedData
         );
+      } else if (params.league.includes("goalies-csv")) {
+        const goalieData = await fs.readFile(
+          process.cwd() +
+            `/public/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`,
+          "utf8"
+        );
+
+        return new Response(goalieData, {
+          status: 200,
+          statusText: "OK",
+          headers: new Headers({
+            "Content-Type": "text/csv",
+          }),
+        });
+      } else if (params.league.includes("skaters-csv")) {
+        const skaterData = await fs.readFile(
+          process.cwd() +
+            `/public/csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`,
+          "utf8"
+        );
+
+        return new Response(skaterData, {
+          status: 200,
+          statusText: "OK",
+          headers: new Headers({
+            "Content-Type": "text/csv",
+          }),
+        });
+      } else if (params.league.includes("team-position-csv")) {
+        const teamPositionData = await fs.readFile(
+          process.cwd() +
+            `/public/csv/${leagueName}/${seasonNumber}/Team_Position_Counts.csv`,
+          "utf8"
+        );
+
+        return new Response(teamPositionData, {
+          status: 200,
+          statusText: "OK",
+          headers: new Headers({
+            "Content-Type": "text/csv",
+          }),
+        });
       } else {
         response = await League.getFieldData(
           seasonNumber,
