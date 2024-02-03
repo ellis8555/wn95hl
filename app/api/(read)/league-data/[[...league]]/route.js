@@ -122,7 +122,8 @@ export const GET = async (req, { params }) => {
         );
       } else if (params.league.includes("goalies-csv")) {
         const goalieData = await fs.readFile(
-          `.output/static/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`,
+          process.cwd() +
+            `.output/static/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`,
           "utf8"
         );
 
