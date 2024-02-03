@@ -2,7 +2,6 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import nextResponseHTMX from "@/utils/api/next-response-htmx";
 import { promises as fs } from "fs";
-import { path } from "path";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -122,10 +121,10 @@ export const GET = async (req, { params }) => {
           requestedData
         );
       } else if (params.league.includes("goalies-csv")) {
-        const pathName = path.join(
-          __dirname,
-          `/public/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`
-        );
+        const pathName =
+          process.cwd() +
+          `/.output/static/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`;
+
         const goalieData = await fs.readFile(pathName, "utf8");
 
         return new Response(goalieData, {
@@ -138,7 +137,7 @@ export const GET = async (req, { params }) => {
       } else if (params.league.includes("skaters-csv")) {
         const skaterData = await fs.readFile(
           process.cwd() +
-            `/public/csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`,
+            `./public/csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`,
           "utf8"
         );
 
