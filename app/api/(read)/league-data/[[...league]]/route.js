@@ -3,7 +3,6 @@ import nextResponse from "@/utils/api/next-response";
 import { NextResponse } from "next/server";
 import nextResponseHTMX from "@/utils/api/next-response-htmx";
 import { promises as fs } from "fs";
-import path from "path";
 import {
   DEFAULT_LEAGUE,
   MOST_RECENT_SEASON,
@@ -134,6 +133,7 @@ export const GET = async (req, { params }) => {
           statusText: "OK",
           headers: new Headers({
             "Content-Type": "text/plain",
+            "Access-Control-Allow-Origin": "*",
           }),
         });
       } else if (params.league.includes("skaters-csv")) {
