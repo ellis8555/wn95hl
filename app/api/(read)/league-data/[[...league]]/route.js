@@ -133,7 +133,7 @@ export const GET = async (req, { params }) => {
           status: 200,
           statusText: "OK",
           headers: new Headers({
-            "Content-Type": "text/csv",
+            "Content-Type": "text/plain",
           }),
         });
       } else if (params.league.includes("skaters-csv")) {
