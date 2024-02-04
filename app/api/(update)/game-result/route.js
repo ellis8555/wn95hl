@@ -524,7 +524,7 @@ export const POST = async (req, res) => {
         newStandings: getSeasonStandings,
       },
       200,
-      "POST"
+      "POST, OPTIONS"
     );
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "POST");
