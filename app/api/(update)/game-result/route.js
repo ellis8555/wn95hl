@@ -527,6 +527,6 @@ export const POST = async (req, res) => {
       "POST, OPTIONS"
     );
   } catch (error) {
-    return nextResponse({ message: error.message }, 500, "POST");
+    return nextResponse({ message: error.message }, 500, "POST, OPTIONS");
   }
 };
