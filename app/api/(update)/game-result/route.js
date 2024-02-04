@@ -7,6 +7,7 @@ import incrementTiesForTieGame from "@/utils/api/table-methods/team-standings/in
 import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
+import NextResponse from "next/server";
 import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
@@ -518,13 +519,28 @@ export const POST = async (req, res) => {
     //////////////////////////////////////////////
     // all file processing complete return to user
     //////////////////////////////////////////////
-    return nextResponse(
+    // return nextResponse(
+    //   {
+    //     message: "File has been added to the database",
+    //     newStandings: getSeasonStandings,
+    //   },
+    //   200,
+    //   "*"
+    // );
+    return new NextResponse.json(
       {
         message: "File has been added to the database",
         newStandings: getSeasonStandings,
       },
-      200,
-      "*"
+      {
+        status: 200,
+        statusText: "OK",
+        headers: new Headers({
+          "Content-Type": "text/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "*",
+        }),
+      }
     );
   } catch (error) {
     return nextResponse({ message: error.message }, 500, "*");
