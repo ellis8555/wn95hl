@@ -536,9 +536,10 @@ export const POST = async (req, res) => {
         status: 200,
         statusText: "OK",
         headers: new Headers({
-          "Content-Type": "text/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Allow requests from any origin
+          "Access-Control-Allow-Methods": "POST, OPTIONS", // Allow POST and OPTIONS methods
+          "Access-Control-Allow-Headers": "Content-Type", // Allow Content-Type header
         }),
       }
     );
