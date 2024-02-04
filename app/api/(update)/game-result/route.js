@@ -25,17 +25,7 @@ import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPla
 const dbCallFrom = "api update game-result";
 
 export const OPTIONS = async (req, res) => {
-  return NextResponse.json(
-    { message: "inside OPTIONS" },
-    {
-      status: 200,
-      statusText: "OK",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS, POST",
-      },
-    }
-  );
+  return NextResponse.next();
 };
 export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
