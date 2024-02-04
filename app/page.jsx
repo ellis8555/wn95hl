@@ -14,8 +14,7 @@ export default async function Page() {
           NHL95 in development
         </h1>
         <Alert>
-          Standings tables order needs to be written to reflect official league
-          policies
+          Standings currently not accurate. Testing external game uploads
         </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
