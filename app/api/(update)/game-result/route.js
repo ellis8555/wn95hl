@@ -538,7 +538,7 @@ export const POST = async (req, res) => {
         headers: new Headers({
           "Content-Type": "text/json",
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
         }),
       }
     );
