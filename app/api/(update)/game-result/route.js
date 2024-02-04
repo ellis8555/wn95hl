@@ -7,7 +7,6 @@ import incrementTiesForTieGame from "@/utils/api/table-methods/team-standings/in
 import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
-import NextResponse from "next/server";
 import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
@@ -61,7 +60,7 @@ export const POST = async (req, res) => {
           "File was not uploaded. Either filename not allowed or filesize is to large",
       },
       400,
-      "POST"
+      "POST, OPTIONS"
     );
   }
 
@@ -74,7 +73,7 @@ export const POST = async (req, res) => {
         message: "This game appears to be less than 15 minutes played",
       },
       400,
-      "POST"
+      "POST, OPTIONS"
     );
   }
 
@@ -129,7 +128,7 @@ export const POST = async (req, res) => {
           message: `The ${currentLeague} has no season ${currentSeason} registered`,
         },
         400,
-        "POST"
+        "POST, OPTIONS"
       );
     }
 
@@ -141,7 +140,7 @@ export const POST = async (req, res) => {
           message: `The ${currentLeague} season ${currentSeason} has not officially begun yet`,
         },
         400,
-        "POST"
+        "POST, OPTIONS"
       );
     }
 
@@ -180,7 +179,7 @@ export const POST = async (req, res) => {
     //       message: `This game appears to be a duplicate. Game data was not saved..`,
     //     },
     //     400,
-    //     "POST"
+    //     "POST, OPTIONS"
     //   );
     // }
 
@@ -221,7 +220,7 @@ export const POST = async (req, res) => {
           message: notRegisteredMessage,
         },
         400,
-        "POST"
+        "POST, OPTIONS"
       );
     }
 
@@ -257,7 +256,7 @@ export const POST = async (req, res) => {
     //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
     //     },
     //     400,
-    //     "POST"
+    //     "POST, OPTIONS"
     //   );
     // }
 
@@ -516,34 +515,18 @@ export const POST = async (req, res) => {
     // end updating sub docs
     ////////////////////////
 
-    //////////////////////////////////////////////
-    // all file processing complete return to user
-    //////////////////////////////////////////////
-    // return nextResponse(
-    //   {
-    //     message: "File has been added to the database",
-    //     newStandings: getSeasonStandings,
-    //   },
-    //   200,
-    //   "*"
-    // );
-    return new NextResponse.json(
+    ////////////////////////////////////////////
+    //all file processing complete return to user
+    ////////////////////////////////////////////
+    return nextResponse(
       {
         message: "File has been added to the database",
         newStandings: getSeasonStandings,
       },
-      {
-        status: 200,
-        statusText: "OK",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*", // Allow requests from any origin
-          "Access-Control-Allow-Methods": "POST, OPTIONS", // Allow POST and OPTIONS methods
-          "Access-Control-Allow-Headers": "Content-Type", // Allow Content-Type header
-        }),
-      }
+      200,
+      "POST, OPTIONS"
     );
   } catch (error) {
-    return nextResponse({ message: error.message }, 500, "*");
+    return nextResponse({ message: error.message }, 500, "POST, OPTIONS");
   }
 };
