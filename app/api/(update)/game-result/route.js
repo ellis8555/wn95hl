@@ -28,8 +28,10 @@ export const OPTIONS = async (req, res) => {
   return new NextResponse("OK", {
     status: 200,
     statusText: "OK",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "OPTIONS, POST",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS, POST",
+    },
   });
 };
 export const POST = async (req, res) => {
