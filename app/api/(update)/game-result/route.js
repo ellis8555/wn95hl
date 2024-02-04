@@ -7,6 +7,7 @@ import incrementTiesForTieGame from "@/utils/api/table-methods/team-standings/in
 import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
+import NextResponse from "next/server";
 import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
@@ -24,7 +25,10 @@ import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPla
 const dbCallFrom = "api update game-result";
 
 export const OPTIONS = async (req, res) => {
-  return;
+  return new NextResponse("OK", {
+    status: 200,
+    statusText: "OK",
+  });
 };
 export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
