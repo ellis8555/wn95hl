@@ -24,7 +24,7 @@ import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPla
 const dbCallFrom = "api update game-result";
 
 export const OPTIONS = async (req, res) => {
-  return nextResponse({}, 200, "POST, OPTIONS");
+  return nextResponse({}, 200, "OPTIONS");
 };
 export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
@@ -63,7 +63,7 @@ export const POST = async (req, res) => {
           "File was not uploaded. Either filename not allowed or filesize is to large",
       },
       400,
-      "POST, OPTIONS"
+      "POST"
     );
   }
 
@@ -76,7 +76,7 @@ export const POST = async (req, res) => {
         message: "This game appears to be less than 15 minutes played",
       },
       400,
-      "POST, OPTIONS"
+      "POST"
     );
   }
 
@@ -131,7 +131,7 @@ export const POST = async (req, res) => {
           message: `The ${currentLeague} has no season ${currentSeason} registered`,
         },
         400,
-        "POST, OPTIONS"
+        "POST"
       );
     }
 
@@ -143,7 +143,7 @@ export const POST = async (req, res) => {
           message: `The ${currentLeague} season ${currentSeason} has not officially begun yet`,
         },
         400,
-        "POST, OPTIONS"
+        "POST"
       );
     }
 
@@ -182,7 +182,7 @@ export const POST = async (req, res) => {
     //       message: `This game appears to be a duplicate. Game data was not saved..`,
     //     },
     //     400,
-    //     "POST, OPTIONS"
+    //     "POST"
     //   );
     // }
 
@@ -223,7 +223,7 @@ export const POST = async (req, res) => {
           message: notRegisteredMessage,
         },
         400,
-        "POST, OPTIONS"
+        "POST"
       );
     }
 
@@ -259,7 +259,7 @@ export const POST = async (req, res) => {
     //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
     //     },
     //     400,
-    //     "POST, OPTIONS"
+    //     "POST"
     //   );
     // }
 
@@ -527,9 +527,9 @@ export const POST = async (req, res) => {
         newStandings: getSeasonStandings,
       },
       200,
-      "POST, OPTIONS"
+      "POST"
     );
   } catch (error) {
-    return nextResponse({ message: error.message }, 500, "POST, OPTIONS");
+    return nextResponse({ message: error.message }, 500, "POST");
   }
 };
