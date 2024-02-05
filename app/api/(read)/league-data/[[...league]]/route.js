@@ -182,6 +182,7 @@ export const GET = async (req, { params }) => {
         // origin/api/league-data/w/3/standings/htmx
         if (params.league.includes("htmx")) {
           const standingsTableHTML = `
+          <div class="text-center bg-orange-400 my-4">Standings innacurate due to game state upload testing</div>
           <table class="table-auto mx-auto">
             <thead>
               <tr>
