@@ -22,10 +22,11 @@ import Home_Team_Player_Stats from "@/schemas/home-team-player-stats/homeTeamPla
 import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPlayerStats";
 
 const dbCallFrom = "api update game-result";
-
+// OPTIONS is needed for a post request from an outside projects request
 export const OPTIONS = async (req, res) => {
   return nextResponse({}, 200, "OPTIONS");
 };
+// the acutal POST request
 export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
   let currentLeague;
