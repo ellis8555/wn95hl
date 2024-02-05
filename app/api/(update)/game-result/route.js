@@ -30,6 +30,10 @@ export const OPTIONS = async (req, res) => {
     {
       status: 200,
       statusText: "OK",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS, POST",
+      },
     }
   );
 };
