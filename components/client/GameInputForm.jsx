@@ -9,11 +9,7 @@ import {
   GET_LEAGUE_DATA,
   POST_JSON_TO_API,
 } from "@/utils/constants/data-calls/api_calls";
-import {
-  DEFAULT_LEAGUE,
-  MOST_RECENT_SEASON,
-  STATE_PATTERN,
-} from "@/utils/constants/constants";
+import { STATE_PATTERN } from "@/utils/constants/constants";
 
 function GameInputForm() {
   const [gameData, setGameData] = useState(null);
@@ -30,14 +26,8 @@ function GameInputForm() {
     setSeasonNumberContext,
   } = useFullLeagueStandings();
 
-  const leagueName = useRef(DEFAULT_LEAGUE);
-  const seasonNumber = useRef(MOST_RECENT_SEASON);
-
   const fileInputRef = useRef(null);
-  ///////////////////////////////////////////////////////////
-  // gameType still needs to be incorporated and made dynamic
-  ///////////////////////////////////////////////////////////
-  const gameTypeRef = useRef(null);
+  const gameTypeRef = useRef("");
 
   useEffect(() => {
     fetchGameData();
@@ -62,7 +52,7 @@ function GameInputForm() {
     // get game type to add to game state file
     // TO BE REMOVED AND MADE DYNAMIC
     ///////////////////////////////////////////
-    const gameType = gameTypeRef.current.value;
+    const gameType = gameTypeRef.current;
     try {
       // array that will hold either a single or multiple game states
       // this depends on user submitting a game state
@@ -77,11 +67,14 @@ function GameInputForm() {
         // prompt for the league name and season number for which this data applies to
         leagueName.current = prompt("Enter a league name");
         seasonNumber.current = prompt("Enter a season number");
+        // prompt if game(s) are either of season/playoff type
+        gameType.current = prompt("Enter 'season' or 'playoff'");
+
         // this readCSVGameStateFile returns all the parsed game data
         const fetchedGameData = await readCSVGameStateFile(
           file,
           seasonNumber.current,
-          gameType,
+          gameType.current,
           leagueName.current
         );
         fetchedGameData.forEach((gameState) => gameStatesData.push(gameState));
@@ -169,6 +162,17 @@ function GameInputForm() {
         } else {
           seasonNumber.current = fileName[2] + fileName[3];
         }
+
+        // get if game is season/playoff game via abbreviation
+        const gameTypeAbbr = fileName[1].toLowerCase();
+        if (gameTypeAbbr === "s") {
+          gameType.current = "season";
+        } else if (gameTypeAbbr === "p") {
+          gameType.current = "playoff";
+        } else {
+          return;
+        }
+
         // test filename for acceptance
         if (STATE_PATTERN.test(fileName)) {
           const response = await GET_LEAGUE_DATA(
@@ -187,7 +191,7 @@ function GameInputForm() {
           const fetchedGameData = await readBinaryGameState(
             file,
             seasonNumber.current,
-            gameType,
+            gameType.current,
             leagueName.current,
             dictCodes
           );
@@ -287,8 +291,6 @@ function GameInputForm() {
           }}
           className="text-slate-300"
         />
-
-        <input type="hidden" ref={gameTypeRef} name="gameType" value="season" />
 
         <div className="flex flex-row gap-2">
           <button
