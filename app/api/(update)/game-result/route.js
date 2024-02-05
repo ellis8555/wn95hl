@@ -7,7 +7,7 @@ import incrementTiesForTieGame from "@/utils/api/table-methods/team-standings/in
 import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import nextResponse from "@/utils/api/next-response";
-import NextResponse from "next/server";
+import { NextResponse } from "next/server";
 import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
