@@ -25,7 +25,7 @@ import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPla
 const dbCallFrom = "api update game-result";
 
 export const OPTIONS = async (req, res) => {
-  return NextResponse(
+  return NextResponse.json(
     {},
     {
       status: 200,
