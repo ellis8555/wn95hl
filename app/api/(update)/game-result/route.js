@@ -178,15 +178,15 @@ export const POST = async (req, res) => {
     ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
     ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
 
-    if (isDuplicate) {
-      return nextResponse(
-        {
-          message: `This game appears to be a duplicate. Game data was not saved..`,
-        },
-        400,
-        "POST"
-      );
-    }
+    // if (isDuplicate) {
+    //   return nextResponse(
+    //     {
+    //       message: `This game appears to be a duplicate. Game data was not saved..`,
+    //     },
+    //     400,
+    //     "POST"
+    //   );
+    // }
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
