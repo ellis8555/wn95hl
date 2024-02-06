@@ -430,95 +430,95 @@ export const POST = async (req, res) => {
     // goal scoring summaries
     /////////////////////////
 
-    // add goal summary to scoring collection
-    const scoringSummary = await new Scoring({
-      goals: data.allGoalsScored,
-    }).save();
-    // get goal summaries object id and edit data objects scoring reference to this id
-    const scoringSummaryId = scoringSummary._id;
-    data.allGoalsScored = scoringSummaryId;
+    // // add goal summary to scoring collection
+    // const scoringSummary = await new Scoring({
+    //   goals: data.allGoalsScored,
+    // }).save();
+    // // get goal summaries object id and edit data objects scoring reference to this id
+    // const scoringSummaryId = scoringSummary._id;
+    // data.allGoalsScored = scoringSummaryId;
 
-    ////////////////////
-    // penalty summaries
-    ////////////////////
+    // ////////////////////
+    // // penalty summaries
+    // ////////////////////
 
-    // add penalty summary to penalties collection
-    const penaltySummary = await new Penalty({
-      penalty: data.allPenalties,
-    }).save();
-    // get penalty summaries object id and edit data objects penalty reference to this id
-    const penaltySummaryId = penaltySummary._id;
-    data.allPenalties = penaltySummaryId;
+    // // add penalty summary to penalties collection
+    // const penaltySummary = await new Penalty({
+    //   penalty: data.allPenalties,
+    // }).save();
+    // // get penalty summaries object id and edit data objects penalty reference to this id
+    // const penaltySummaryId = penaltySummary._id;
+    // data.allPenalties = penaltySummaryId;
 
-    //////////////////////
-    // team stat summaries
-    //////////////////////
+    // //////////////////////
+    // // team stat summaries
+    // //////////////////////
 
-    // add away team game stats to away team stats collection
-    const awayTeamGameStatsSummary = await new Away_Team_Stats({
-      gameStats: data.awayTeamGameStats,
-    }).save();
-    // get away team stats summaries object id and edit data objects away team stats reference to this id
-    const awayTeamGameStatsID = awayTeamGameStatsSummary._id;
-    data.awayTeamGameStats = awayTeamGameStatsID;
+    // // add away team game stats to away team stats collection
+    // const awayTeamGameStatsSummary = await new Away_Team_Stats({
+    //   gameStats: data.awayTeamGameStats,
+    // }).save();
+    // // get away team stats summaries object id and edit data objects away team stats reference to this id
+    // const awayTeamGameStatsID = awayTeamGameStatsSummary._id;
+    // data.awayTeamGameStats = awayTeamGameStatsID;
 
-    // add home team game stats to home team stats collection
-    const homeTeamGameStatsSummary = await new Home_Team_Stats({
-      gameStats: data.homeTeamGameStats,
-    }).save();
-    // get away team stats summaries object id and edit data objects away team stats reference to this id
-    const homeTeamGameStatsID = homeTeamGameStatsSummary._id;
-    data.homeTeamGameStats = homeTeamGameStatsID;
+    // // add home team game stats to home team stats collection
+    // const homeTeamGameStatsSummary = await new Home_Team_Stats({
+    //   gameStats: data.homeTeamGameStats,
+    // }).save();
+    // // get away team stats summaries object id and edit data objects away team stats reference to this id
+    // const homeTeamGameStatsID = homeTeamGameStatsSummary._id;
+    // data.homeTeamGameStats = homeTeamGameStatsID;
 
-    ////////////////////////
-    // goalie stat summaries
-    ////////////////////////
+    // ////////////////////////
+    // // goalie stat summaries
+    // ////////////////////////
 
-    // get home team goalie stats summaries object id and edit data objects home team goalie stats reference to this id
-    const homeTeamGoalieStatsSummary = await new Home_Team_Goalie_Stats({
-      goalieStats: data.homeTeamGoalieStats,
-    }).save();
-    const homeTeamGoalieStatsID = homeTeamGoalieStatsSummary._id;
-    data.homeTeamGoalieStats = homeTeamGoalieStatsID;
+    // // get home team goalie stats summaries object id and edit data objects home team goalie stats reference to this id
+    // const homeTeamGoalieStatsSummary = await new Home_Team_Goalie_Stats({
+    //   goalieStats: data.homeTeamGoalieStats,
+    // }).save();
+    // const homeTeamGoalieStatsID = homeTeamGoalieStatsSummary._id;
+    // data.homeTeamGoalieStats = homeTeamGoalieStatsID;
 
-    // get away team goalie stats summaries object id and edit data objects away team goalie stats reference to this id
-    const awayTeamGoalieStatsSummary = await new Away_Team_Goalie_Stats({
-      goalieStats: data.awayTeamGoalieStats,
-    }).save();
-    const awayTeamGoalieStatsID = awayTeamGoalieStatsSummary._id;
-    data.awayTeamGoalieStats = awayTeamGoalieStatsID;
+    // // get away team goalie stats summaries object id and edit data objects away team goalie stats reference to this id
+    // const awayTeamGoalieStatsSummary = await new Away_Team_Goalie_Stats({
+    //   goalieStats: data.awayTeamGoalieStats,
+    // }).save();
+    // const awayTeamGoalieStatsID = awayTeamGoalieStatsSummary._id;
+    // data.awayTeamGoalieStats = awayTeamGoalieStatsID;
 
-    ////////////////////////
-    // player stat summaries
-    ////////////////////////
+    // ////////////////////////
+    // // player stat summaries
+    // ////////////////////////
 
-    // get home team player stats summaries object id and edit data objects home team player stats reference to this id
-    const homeTeamPlayerStatsSummary = await new Home_Team_Player_Stats({
-      playerStats: data.homeTeamPlayerStats,
-    }).save();
-    const homeTeamPlayerStatsID = homeTeamPlayerStatsSummary._id;
-    data.homeTeamPlayerStats = homeTeamPlayerStatsID;
+    // // get home team player stats summaries object id and edit data objects home team player stats reference to this id
+    // const homeTeamPlayerStatsSummary = await new Home_Team_Player_Stats({
+    //   playerStats: data.homeTeamPlayerStats,
+    // }).save();
+    // const homeTeamPlayerStatsID = homeTeamPlayerStatsSummary._id;
+    // data.homeTeamPlayerStats = homeTeamPlayerStatsID;
 
-    // get away team player stats summaries object id and edit data objects away team player stats reference to this id
-    const awayTeamPlayerStatsSummary = await new Away_Team_Player_Stats({
-      playerStats: data.awayTeamPlayerStats,
-    }).save();
-    const awayTeamPlayerStatsID = awayTeamPlayerStatsSummary._id;
-    data.awayTeamPlayerStats = awayTeamPlayerStatsID;
+    // // get away team player stats summaries object id and edit data objects away team player stats reference to this id
+    // const awayTeamPlayerStatsSummary = await new Away_Team_Player_Stats({
+    //   playerStats: data.awayTeamPlayerStats,
+    // }).save();
+    // const awayTeamPlayerStatsID = awayTeamPlayerStatsSummary._id;
+    // data.awayTeamPlayerStats = awayTeamPlayerStatsID;
 
-    ////////////////////////
-    // end updating sub docs
-    ////////////////////////
+    // ////////////////////////
+    // // end updating sub docs
+    // ////////////////////////
 
-    ////////////////////////////
-    // update master collections
-    ////////////////////////////
+    // ////////////////////////////
+    // // update master collections
+    // ////////////////////////////
 
-    // update seasons collection
-    await seasonDocument.save();
+    // // update seasons collection
+    // await seasonDocument.save();
 
-    // add game to games collection
-    await new LeagueGames(data).save();
+    // // add game to games collection
+    // await new LeagueGames(data).save();
 
     ////////////////////////////////////////////
     //all file processing complete return to user
