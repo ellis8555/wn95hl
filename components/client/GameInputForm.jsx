@@ -27,9 +27,9 @@ function GameInputForm() {
   } = useFullLeagueStandings();
 
   const fileInputRef = useRef(null);
-  const gameTypeRef = useRef("");
-  const leagueName = useRef("")
-  const seasonNumber = useRef()
+  const gameType = useRef(null);
+  const leagueName = useRef(null)
+  const seasonNumber = useRef(null)
 
   useEffect(() => {
     fetchGameData();
@@ -38,23 +38,18 @@ function GameInputForm() {
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const file = fileInputRef.current.files[0];
     if (!file) {
       alert("No file selected");
       return;
     }
-
+    
     const fileName = file.name;
+
 
     // message user the file is being processed
     setServerMessage("Game file being processed...");
 
-    ///////////////////////////////////////////
-    // get game type to add to game state file
-    // TO BE REMOVED AND MADE DYNAMIC
-    ///////////////////////////////////////////
-    const gameType = gameTypeRef.current;
     try {
       // array that will hold either a single or multiple game states
       // this depends on user submitting a game state
