@@ -29,6 +29,7 @@ function GameInputForm() {
   const fileInputRef = useRef(null);
   const gameTypeRef = useRef("");
   const leagueName = useRef("")
+  const seasonNumber = useRef("")
 
   useEffect(() => {
     fetchGameData();
