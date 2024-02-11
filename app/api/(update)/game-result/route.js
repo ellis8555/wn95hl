@@ -31,6 +31,9 @@ export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data } = await req.json();
   let currentLeague;
   let currentSeason;
+  // get the game type used for updating relevant stats
+  // ex. 'season' type updates the standings where 'playoff' does not
+  const gameType = data.otherGameStats.gameType;
   // if the file is not of csv type then process a game state file
   if (!fileName.includes("WN95HL_Game_Stats.csv")) {
     // extract leagueName from gamestate file name
@@ -228,7 +231,10 @@ export const POST = async (req, res) => {
         "POST"
       );
     }
-
+///////////////////////////////////////////////////////////
+// begin updating relevant stats for game type of 'season'
+///////////////////////////////////////////////////////////
+if(gameType === 'season'){
     ////////////////////////////////
     // veryify schedules and update
     ///////////////////////////////
@@ -255,25 +261,25 @@ export const POST = async (req, res) => {
 
     ////////////////// TEMP DISABLE SCHEDULE FOR TESTING HERE ///////////////////////////////////////////////
 
-    // if (extractHomeOpponent == -1) {
-    //   return nextResponse(
-    //     {
-    //       message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-    //     },
-    //     400,
-    //     "POST"
-    //   );
-    // }
+    if (extractHomeOpponent == -1) {
+      return nextResponse(
+        {
+          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+        },
+        400,
+        "POST"
+      );
+    }
 
-    // getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    // getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    // // rewrite teams home/away schedules to reflect recent game played and submitted
+    // rewrite teams home/away schedules to reflect recent game played and submitted
 
-    // seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-    //   getHomeTeamsHomeSchedule;
-    // seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-    //   getAwayTeamsAwaySchedule;
+    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+      getHomeTeamsHomeSchedule;
+    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+      getAwayTeamsAwaySchedule;
 
     ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
 
@@ -421,6 +427,11 @@ export const POST = async (req, res) => {
       homeTeamsUpdatedStandings;
     seasonDocument.standings[awayTeamsStandingIndex] =
       awayTeamsUpdatedStandings;
+}
+
+    ///////////////////////////////////////////
+    // end of updates if game of type 'season'
+    ///////////////////////////////////////////
 
     ////////////////////////
     // update the databases
