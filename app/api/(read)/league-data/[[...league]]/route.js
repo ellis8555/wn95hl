@@ -45,7 +45,6 @@ export const GET = async (req, { params }) => {
           "GET"
         );
       }
-
       // schema static to add current seasons standings
 
       requestedData.standings = await League.getSortedStandings(
@@ -70,7 +69,7 @@ export const GET = async (req, { params }) => {
 
     try {
       await connectToDb(dbCallFrom);
-      // grab correct league schema in order to get the correct seasons data
+    // grab correct league schema in order to get the correct seasons data
       const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
       // schema method to determine if season exists
 
@@ -112,7 +111,7 @@ export const GET = async (req, { params }) => {
           requestedData
         );
         // place both recent results and standings inside of variable
-        response = requestedData;
+        return nextResponse(requestedData, 200, "GET")
       } else if (params.league.includes("recent-results")) {
         const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
         response = await Games.getFieldData(
@@ -121,7 +120,16 @@ export const GET = async (req, { params }) => {
           // requested data is empty object declared higher up which has data appended to it then returned
           requestedData
         );
-      } else if (params.league.includes("goalies-csv")) {
+        return nextResponse(response, 200, "GET")
+      } else if (params.league.includes("team-codes")) {
+        response = await League.getFieldData(
+          seasonNumber,
+          requestedLeagueDetails,
+          // requested data is empty object declared higher up which has data appended to it then returned
+          requestedData
+        );
+        return nextResponse(response, 200, "GET")
+      }  else if (params.league.includes("goalies-csv")) {
         const pathName =
           process.cwd() +
           `/public/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`;
@@ -166,21 +174,10 @@ export const GET = async (req, { params }) => {
             "Access-Control-Allow-Origin": "*",
           }),
         });
-      } else {
-        response = await League.getFieldData(
-          seasonNumber,
-          requestedLeagueDetails,
-          // requested data is empty object declared higher up which has data appended to it then returned
-          requestedData
-        );
-      }
-
-      if (response.error) {
-        return nextResponse(response, 400, "GET");
-      } else {
         // check if request is from magnus official page
         // origin/api/league-data/w/3/standings/htmx
-        if (params.league.includes("htmx")) {
+      } else if (params.league.includes("htmx-standings")) {
+        const standings = await League.getSortedStandings(seasonNumber)
           const standingsTableHTML = `
           <div class="text-center bg-orange-400 my-4">Standings innacurate due to game state upload testing</div>
           <table class="table-auto mx-auto">
@@ -192,7 +189,7 @@ export const GET = async (req, { params }) => {
               </tr>
             </thead>
             <tbody>
-              ${response.standings
+              ${standings
                 .map(
                   (standing, index) => `
                     <tr ${
@@ -216,15 +213,56 @@ export const GET = async (req, { params }) => {
           </table>
         `;
           return nextResponseHTMX(standingsTableHTML, 200, "GET");
-        } else {
-          // return json standings data for next js page
-          // origin/api/league-data/w/3/standings
-          return nextResponse(response, 200, "GET");
+        }       // returns table filtered by conference
+                // concerence name needs to be added to the url
+                // ex. ..league-data/w/2/htmx-conference-standings/Prince%20of%20Wales
+        else if (params.league.includes("htmx-conference-standings")) {
+          const conferenceName = params.league[3];
+          const filteredByConferenceStandings = await League.getSortedConferenceStandings(seasonNumber, conferenceName);
+          const standingsTableHTML = `
+          <div class="text-center bg-orange-400 my-4">Standings innacurate due to game state upload testing</div>
+          <table class="table-auto mx-auto">
+            <thead>
+              <tr>
+                ${LEAGUE_HTMX_TABLE_CATEGORIES.map(
+                  (category) => `<th class="py-2 px-4">${category}</th>`
+                ).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${filteredByConferenceStandings
+                .map(
+                  (standing, index) => `
+                    <tr ${
+                      index === 7 ? 'class="border-black border-b-2"' : ""
+                    }>
+                      ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
+                        if (category === "Team") {
+                          // return `<td class="mx-2 py-2 ps-2">${standing["teamName"]}</td>`;
+                          return `<td class="mx-2 py-2 ps-2">
+                            <img src=${standing["teamBanner"]} style="width:150px; height:30px" alt=${standing["teamName"]}/>
+                          </td>`;
+                        } else {
+                          return `<td class="text-center mx-2 py-2">${standing[category]}</td>`;
+                        }
+                      }).join("")}
+                    </tr>
+                  `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+          return nextResponseHTMX(standingsTableHTML, 200, "GET");
+        } else
+         {
+          ///////////////////////////////////
+          // need to edit this last response
+          ///////////////////////////////////
+          throw Error("Url slug not recognized")
         }
       }
-
-      // return requested data
-    } catch (error) {
+     catch (error) {
       return nextResponse(error.message, 500, "GET");
     }
   }
