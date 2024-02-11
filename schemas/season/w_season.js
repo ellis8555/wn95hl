@@ -13,7 +13,8 @@ const W_LeagueSchema = new Schema({
 // 3. query for conference names
 // 4. query for a teams ranking in the standings
 // 5. getSortedStandings
-// 6. getFieldData
+// 6. getSortedConferenceStandings
+// 7. getFieldData
 
 W_LeagueSchema.statics.getMostRecentSeasonNumber = async function () {
   const getSeasonNumberFields = await this.find().select("seasonNumber").exec();
@@ -83,6 +84,27 @@ W_LeagueSchema.statics.getSortedStandings = async function (seasonNumber) {
   });
   return standings;
 };
+
+W_LeagueSchema.statics.getSortedConferenceStandings = async function(seasonNumber, conferenceName){
+  const getSeasonDocument = await this.findOne({ seasonNumber: seasonNumber });
+  const teamsList = getSeasonDocument['teams']
+  const filteredByConferenceName = []
+  teamsList.forEach(team => {
+    if(team.conference === conferenceName){
+      filteredByConferenceName.push(team)
+    } 
+  })
+  const sortedStandings = await this.getSortedStandings(seasonNumber)
+  const sortedStandingsByConference = [];
+  sortedStandings.forEach(standing => {
+filteredByConferenceName.forEach(team => {
+  if(team.teamAcronym === standing.teamAcronym){
+    sortedStandingsByConference.push(standing)
+  }
+})
+  })
+  return sortedStandingsByConference
+}
 
 W_LeagueSchema.statics.getFieldData = async function (
   seasonNumber,

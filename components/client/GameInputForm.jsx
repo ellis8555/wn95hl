@@ -150,7 +150,6 @@ function GameInputForm() {
         ////////////////////////
         // game state sumbission
         ////////////////////////
-
         // extract league name and season number from file name
         // example file name 'WS03.state56
         leagueName.current = fileName[0].toLowerCase();
