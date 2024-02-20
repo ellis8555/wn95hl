@@ -30,7 +30,7 @@ export const AUTH_COOKIE = "userAuth";
 
 export const DEFAULT_LEAGUE = "w";
 
-export const MOST_RECENT_SEASON = "3";
+export const MOST_RECENT_SEASON = "4";
 
 export const MOST_RECENT_Q_SEASON = "88";
 
