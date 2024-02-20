@@ -12,6 +12,7 @@ export const POST = async (req) => {
     divisions,
     gamesVsDivision,
     gamesVsConference,
+    // if league has no divisions, conferences set gamesVsOtherConference to games played in order for proper schedule to be created
     gamesVsOtherConference,
   } = await req.json();
 
