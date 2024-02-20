@@ -14,24 +14,14 @@ export default async function Page() {
           NHL95 in development
         </h1>
         <Alert>
-          Standings currently not accurate. Testing external game uploads
+          Season 10 officially has begun! 
         </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
             leagueName="w"
-            seasonNumber="3"
-            correspondingSeasonNumber="9"
-          />
-          <LeagueCard
-            leagueName="w"
-            seasonNumber="2"
-            correspondingSeasonNumber="8"
-          />
-          <LeagueCard
-            leagueName="q"
-            seasonNumber="88"
-            correspondingSeasonNumber="88"
+            seasonNumber="4"
+            correspondingSeasonNumber="10"
           />
         </div>
         {/* end of league cards */}
