@@ -26,6 +26,11 @@ export default async function Page() {
             seasonNumber="4"
             correspondingSeasonNumber="10"
           />
+          <LeagueCard
+            leagueName="q"
+            seasonNumber="88"
+            correspondingSeasonNumber="88"
+          />
         </div>
         {/* end of league cards */}
       </div>
