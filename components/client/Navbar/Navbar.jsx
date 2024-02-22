@@ -27,7 +27,6 @@ function Navbar() {
   function closeMenu() {
     setIsMenuOpen(false);
   }
-
   return (
     <div className="relative sticky top-0 w-full">
       {/*  desktop menu */}
@@ -61,8 +60,7 @@ function Navbar() {
           >
             <LeagueLogo name={"w"} width={25} height={25} />
           </li>
-          {/* //TODO: re enable once q league added to official db */}
-          {/* <li
+          <li
             className="hover:cursor-pointer mr-4"
             onClick={() => {
               setLeagueContext("q");
@@ -70,7 +68,7 @@ function Navbar() {
             }}
           >
             <LeagueLogo name={"q"} width={25} height={25} />
-          </li> */}
+          </li>
           {/* Authorization related links */}
           {isAuthorized && (
             <li>
@@ -116,8 +114,7 @@ function Navbar() {
               W_Scores
             </li>
           </Link>
-          {/* //TODO: re enable when q league added to official db */}
-          {/* <Link href={"/recent-scores/q"}>
+          <Link href={"/recent-scores/q"}>
             <li
               onClick={() => {
                 toggleMenu();
@@ -127,7 +124,7 @@ function Navbar() {
             >
               Q_Scores
             </li>
-          </Link> */}
+          </Link>
           <Link href="/submit">
             <li onClick={toggleMenu}>Submit</li>
           </Link>
