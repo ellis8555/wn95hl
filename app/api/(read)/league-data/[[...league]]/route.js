@@ -2,7 +2,8 @@ import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import { NextResponse } from "next/server";
 import nextResponseHTMX from "@/utils/api/next-response-htmx";
-import { promises as fs } from "fs";
+import fs from 'fs';
+import path from 'path'
 import { DOMAIN } from "@/utils/constants/connections"
 import {
   DEFAULT_LEAGUE,
@@ -131,11 +132,9 @@ export const GET = async (req, { params }) => {
         );
         return nextResponse(response, 200, "GET")
       }  else if (params.league.includes("goalies-csv")) {
-        const pathName =
-          process.cwd() +
-          `/public/csv/${leagueName}/${seasonNumber}/Goalie_Attributes.csv`;
 
-        const goalieData = await fs.readFile(pathName, "utf8");
+          const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'Goalie_Attributes.csv')
+        const goalieData = fs.readFile(pathName, "utf8");
 
         return new NextResponse(goalieData, {
           status: 200,
@@ -146,11 +145,9 @@ export const GET = async (req, { params }) => {
           }),
         });
       } else if (params.league.includes("skaters-csv")) {
-        const pathName =
-          process.cwd() +
-          `/public/csv/${leagueName}/${seasonNumber}/Skater_Attributes.csv`;
 
-        const skaterData = await fs.readFile(pathName, "utf8");
+          const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'Skater_Attributes.csv')
+        const skaterData = fs.readFile(pathName, "utf8");
 
         return new NextResponse(skaterData, {
           status: 200,
@@ -161,11 +158,8 @@ export const GET = async (req, { params }) => {
           }),
         });
       } else if (params.league.includes("team-position-csv")) {
-        const pathName =
-          process.cwd() +
-          `/public/csv/${leagueName}/${seasonNumber}/Team_Position_Counts.csv`;
-
-        const positionCounts = await fs.readFile(pathName, "utf8");
+          const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'Team_Position_Counts.csv')
+        const positionCounts = fs.readFile(pathName, "utf8");
 
         return new NextResponse(positionCounts, {
           status: 200,
