@@ -1,6 +1,4 @@
 import { connectToDb } from "@/utils/database";
-import fs from 'fs';
-import path from 'path';
 import getTeamsStandingsIndex from "@/utils/api/table-methods/team-standings/get-teams-standings-index";
 import incrementGamesPlayed from "@/utils/api/table-methods/team-standings/increment-games-played";
 import incrementWinningTeamsWins from "@/utils/api/table-methods/team-standings/increment-winning-teams-wins";
@@ -22,6 +20,7 @@ import Home_Team_Goalie_Stats from "@/schemas/home-team-goalie-stats/homeTeamGoa
 import Away_Team_Goalie_Stats from "@/schemas/away-team-goalie-stats/awayTeamGoalieStats";
 import Home_Team_Player_Stats from "@/schemas/home-team-player-stats/homeTeamPlayerStats";
 import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPlayerStats";
+import Csv_game_data from "@/schemas/csv-game-stats/csvGameStats";
 
 const dbCallFrom = "api update game-result";
 // OPTIONS is needed for a post request from an outside projects request
@@ -521,6 +520,27 @@ if(gameType === 'season'){
     const awayTeamPlayerStatsID = awayTeamPlayerStatsSummary._id;
     data.awayTeamPlayerStats = awayTeamPlayerStatsID;
 
+    ///////////////////////////////////////////////////////////////////////
+//FIXME: the following needs to be rewritten to connect to github api
+// to be removed in the future if not needed for google sheets
+// creates a comma seperated string of game data
+// created in use for original google sheets stats
+///////////////////////////////////////////////////////////////////////
+let gameDataString = "";
+// tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
+tempCSVData.forEach(stat => {
+  // grab the value from the array of arrays
+  gameDataString +=  `,${stat[1]}`
+})
+gameDataString = gameDataString.slice(1);
+
+// add csv formatted string of gamestats to the database
+const csvGameData = await new Csv_game_data({
+  csvFormatGameStats: gameDataString,
+}).save();
+const csvGameDataID = csvGameData._id;
+data.csvFormattedGameData = csvGameDataID;
+
     ////////////////////////
     // end updating sub docs
     ////////////////////////
@@ -534,28 +554,6 @@ if(gameType === 'season'){
 
     // add game to games collection
     await new LeagueGames(data).save();
-
-///////////////////////////////////////////////////////////////////////
-//FIXME: the following needs to be rewritten to connect to github api
-// to be removed in the future if not needed for google sheets
-// creates a comma seperated string of game data
-// created in use for original google sheets stats
-///////////////////////////////////////////////////////////////////////
-
-// let gameDataString = "";
-// // tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
-// tempCSVData.forEach(stat => {
-//   // grab the value from the array of arrays
-//   gameDataString +=  `,${stat[1]}`
-// })
-// gameDataString = gameDataString.slice(1) + "\r\n";
-
-// const filePath = path.join(process.cwd(), 'public', 'csv', currentLeague, currentSeason, 'WN95HL_Game_Stats.csv' )
-// fs.appendFile(filePath, gameDataString, (err, csvData) => {
-//   if(err){
-//     throw new Error("Error in assembling csv string for google sheets")
-//   }
-// })
 
     ////////////////////////////////////////////
     //all file processing complete return to user
