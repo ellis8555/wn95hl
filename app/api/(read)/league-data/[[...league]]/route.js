@@ -131,10 +131,22 @@ export const GET = async (req, { params }) => {
           requestedData
         );
         return nextResponse(response, 200, "GET")
-      }  else if (params.league.includes("goalies-csv")) {
+      }  else if(params.league.includes("game-data-csv")){
+        const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'WN95HL_Game_Stats.csv')
+        const gameData = fs.readFileSync(pathName, "utf8");
+
+        return new NextResponse(gameData, {
+          status: 200,
+          statusText: "OK",
+          headers: new Headers({
+            "Content-Type": "text/csv",
+            "Access-Control-Allow-Origin": "*",
+          }),
+        });
+      }else if (params.league.includes("goalies-csv")) {
 
           const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'Goalie_Attributes.csv')
-        const goalieData = fs.readFile(pathName, "utf8");
+        const goalieData = fs.readFileSync(pathName, "utf8");
 
         return new NextResponse(goalieData, {
           status: 200,
@@ -147,7 +159,7 @@ export const GET = async (req, { params }) => {
       } else if (params.league.includes("skaters-csv")) {
 
           const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'Skater_Attributes.csv')
-        const skaterData = fs.readFile(pathName, "utf8");
+        const skaterData = fs.readFileSync(pathName, "utf8");
 
         return new NextResponse(skaterData, {
           status: 200,
@@ -159,7 +171,7 @@ export const GET = async (req, { params }) => {
         });
       } else if (params.league.includes("team-position-csv")) {
           const pathName = path.join(process.cwd(), 'public', 'csv', `${leagueName}`, `${seasonNumber}`, 'Team_Position_Counts.csv')
-        const positionCounts = fs.readFile(pathName, "utf8");
+        const positionCounts = fs.readFileSync(pathName, "utf8");
 
         return new NextResponse(positionCounts, {
           status: 200,
