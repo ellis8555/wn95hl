@@ -1,4 +1,6 @@
 import { connectToDb } from "@/utils/database";
+import fs from 'fs';
+import path from 'path';
 import getTeamsStandingsIndex from "@/utils/api/table-methods/team-standings/get-teams-standings-index";
 import incrementGamesPlayed from "@/utils/api/table-methods/team-standings/increment-games-played";
 import incrementWinningTeamsWins from "@/utils/api/table-methods/team-standings/increment-winning-teams-wins";
@@ -28,7 +30,9 @@ export const OPTIONS = async (req, res) => {
 };
 // the acutal POST request
 export const POST = async (req, res) => {
-  const { currSeason, fileName, fileSize, data } = await req.json();
+  //FIXME: tempCSVData to be removed in future. it is data used to append to csv file
+  // it comes from python script headerArray object
+  const { currSeason, fileName, fileSize, data, tempCSVData } = await req.json();
   let currentLeague;
   let currentSeason;
   // get the game type used for updating relevant stats
@@ -178,8 +182,8 @@ export const POST = async (req, res) => {
       }
     });
 
-    ////////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
-    ////////////////// DUPLICATES ENABLED FOR DEMO ONLY ////////////////////////////////////////
+    //TODO://////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
+    ////////////////// TEST FOR GAME DUPLICATE ////////////////////////////////////////
 
     if (isDuplicate) {
       return nextResponse(
@@ -259,7 +263,7 @@ if(gameType === 'season'){
     const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
     const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
 
-    ////////////////// TEMP DISABLE SCHEDULE FOR TESTING HERE ///////////////////////////////////////////////
+    //TODO://////////////// TEMP DISABLE SCHEDULE FOR TESTING HERE ///////////////////////////////////////////////
 
     if (extractHomeOpponent == -1) {
       return nextResponse(
@@ -530,6 +534,27 @@ if(gameType === 'season'){
 
     // add game to games collection
     await new LeagueGames(data).save();
+
+///////////////////////////////////////////////////////////////////////
+//FIXME: to be removed in the future if not needed for google sheets
+// creates a comma seperated string of game data
+// created in use for original google sheets stats
+///////////////////////////////////////////////////////////////////////
+
+let gameDataString = "";
+// tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
+tempCSVData.forEach(stat => {
+  // grab the value from the array of arrays
+  gameDataString +=  `,${stat[1]}`
+})
+gameDataString = gameDataString.slice(1) + "\r\n";
+
+const filePath = path.join(process.cwd(), 'public', 'csv', currentLeague, currentSeason, 'WN95HL_Game_Stats.csv' )
+fs.appendFile(filePath, gameDataString, (err, csvData) => {
+  if(err){
+    throw new Error("Error in assembling csv string for google sheets")
+  }
+})
 
     ////////////////////////////////////////////
     //all file processing complete return to user
