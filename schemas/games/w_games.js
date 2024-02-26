@@ -2,6 +2,8 @@ import { Schema, model, models } from "mongoose";
 import GameResultSchema from "./game-result/gameResult";
 import Home_Team_Stats from "../home-team-game-stats/homeTeamGameStats";
 import Away_Team_Stats from "../away-team-game-stats/awayTeamGameStats";
+import Csv_game_data from "../csv-game-stats/csvGameStats";
+import { CSV_HEADERS } from "@/utils/constants/constants";
 
 const W_GamesSchema = new Schema({
   ...GameResultSchema.obj,
@@ -14,6 +16,7 @@ const W_GamesSchema = new Schema({
 // 4. query for games from specific team
 // 5. query for segment of games for ticker or scoreboard
 // 6. get game stats for either home or away team
+// 7. get game data in csv format
 
 // 2. filters games by season number
 W_GamesSchema.statics.getGamesBySeasonNumber = async function (seasonNumber) {
@@ -91,7 +94,7 @@ W_GamesSchema.statics.getSelectedGames = async function (
 
 W_GamesSchema.statics.getFieldData = async function (
   seasonNumber,
-  paramtersList,
+  parametersList,
   requestedDataObject
 ) {
   let gamesList = await this.find({
@@ -100,7 +103,7 @@ W_GamesSchema.statics.getFieldData = async function (
   //////////////////////////////////
   // if recent results are required
   //////////////////////////////////
-  if (paramtersList.includes("recent-results")) {
+  if (parametersList.includes("recent-results")) {
     const howManyGamesPlayed = gamesList.length;
     // array that will hold the range of games
     let recentlyPlayedGames = [];
@@ -145,6 +148,22 @@ W_GamesSchema.statics.getTeamsGameStats = async function (gameId, homeOrAway) {
   }
   return gameStatsDoc;
 };
+
+// 7. get csv data of games
+W_GamesSchema.statics.getCsvGameData = async function (seasonNumber) {
+  const games = await this.find({ "otherGameStats.seasonNumber":seasonNumber, "csvFormattedGameData": { $exists: true } });
+  const listOfCsvGameData = [];
+  for (let i = 0; i < games.length; i++) {
+    const gameDataInCsvFormat = await Csv_game_data.find({_id: games[i].csvFormattedGameData});
+    listOfCsvGameData.push(gameDataInCsvFormat[0].csvFormatGameStats);
+  }
+  let gameDataInStringFormat = CSV_HEADERS + "\r\n";
+listOfCsvGameData.forEach(gameString => {
+  gameDataInStringFormat += gameString
+  gameDataInStringFormat += "\r\n"
+})
+return gameDataInStringFormat
+}
 
 // end statics
 
