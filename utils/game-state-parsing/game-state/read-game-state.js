@@ -30,46 +30,14 @@ async function readBinaryGameState(
     reader.onload = (e) => {
       const d = new Uint8Array(e.target.result);
       const teamCodesDict = teamsDictCodes;
-      ///////////////////////////////////////////////////////////////////
-      // uncomment for testing
-      // teams need to have these keys in order to work
-      // this is for 'w' season 8 rom
-      ///////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////////////////////////
+      //this is object where hardcoded team acronyms would go in same order they appear in the ROM
+      // example contains a single team. all teams need to be added in correct order
+      //////////////////////////////////////////////////////////////////////////////////////////////
+
       // const teamCodesDict = {
-      //   0: "AHC",
-      //   1: "AUT",
-      //   2: "BAY",
-      //   3: "DIN",
-      //   4: "HAM",
-      //   5: "HIG",
-      //   6: "HOT",
-      //   7: "IFV",
-      //   8: "ITA",
-      //   9: "KVK",
-      //   10: "MHA",
-      //   11: "MHT",
-      //   12: "MGG",
-      //   13: "NBK",
-      //   14: "OCW",
-      //   15: "PNS",
-      //   16: "PIT",
-      //   17: "PRO",
-      //   18: "REN",
-      //   19: "RIC",
-      //   20: "ROM",
-      //   21: "SAG",
-      //   22: "SDM",
-      //   23: "SOV",
-      //   24: "SVF",
-      //   25: "SUM",
-      //   26: "SUN",
-      //   27: "TAI",
-      //   28: "TEG",
-      //   29: "TBP",
+      //   0: "AHC"
       // };
-      //////////////////////////////////////////////////
-      // end of testing area
-      //////////////////////////////////////////////////
 
       try {
         // #Team stats
@@ -1531,12 +1499,14 @@ async function readBinaryGameState(
         ////////////////////////////////////////
         // object containing all the games data
         ////////////////////////////////////////
+        //FIXME: in future remove tempCSVData as its for updating google sheets
         let gameProperties = {
           currSeason: seasonNumber,
           fileName: file.name,
           fileSize: file.size,
           fileType: file.type,
           data: GAME_DATA,
+          tempCSVData: headerArray
         };
         resolve(gameProperties);
       } catch (error) {
