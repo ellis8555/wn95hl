@@ -44,6 +44,10 @@ const GameResultSchema = new Schema(
       ref: "Game_Highlights",
       default: null,
     },
+    csvFormattedGameData: {
+      type: Types.ObjectId,
+      ref: "Csv_game_stats"
+    }
   },
   {
     timestamps: true,
