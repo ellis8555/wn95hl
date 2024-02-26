@@ -536,25 +536,26 @@ if(gameType === 'season'){
     await new LeagueGames(data).save();
 
 ///////////////////////////////////////////////////////////////////////
-//FIXME: to be removed in the future if not needed for google sheets
+//FIXME: the following needs to be rewritten to connect to github api
+// to be removed in the future if not needed for google sheets
 // creates a comma seperated string of game data
 // created in use for original google sheets stats
 ///////////////////////////////////////////////////////////////////////
 
-let gameDataString = "";
-// tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
-tempCSVData.forEach(stat => {
-  // grab the value from the array of arrays
-  gameDataString +=  `,${stat[1]}`
-})
-gameDataString = gameDataString.slice(1) + "\r\n";
+// let gameDataString = "";
+// // tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
+// tempCSVData.forEach(stat => {
+//   // grab the value from the array of arrays
+//   gameDataString +=  `,${stat[1]}`
+// })
+// gameDataString = gameDataString.slice(1) + "\r\n";
 
-const filePath = path.join(process.cwd(), 'public', 'csv', currentLeague, currentSeason, 'WN95HL_Game_Stats.csv' )
-fs.appendFile(filePath, gameDataString, (err, csvData) => {
-  if(err){
-    throw new Error("Error in assembling csv string for google sheets")
-  }
-})
+// const filePath = path.join(process.cwd(), 'public', 'csv', currentLeague, currentSeason, 'WN95HL_Game_Stats.csv' )
+// fs.appendFile(filePath, gameDataString, (err, csvData) => {
+//   if(err){
+//     throw new Error("Error in assembling csv string for google sheets")
+//   }
+// })
 
     ////////////////////////////////////////////
     //all file processing complete return to user
