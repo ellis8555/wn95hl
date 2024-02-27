@@ -150,19 +150,42 @@ W_GamesSchema.statics.getTeamsGameStats = async function (gameId, homeOrAway) {
 };
 
 // 7. get csv data of games
-W_GamesSchema.statics.getCsvGameData = async function (seasonNumber) {
+W_GamesSchema.statics.getCsvGameData = async function (seasonNumber, gameReturnCount = 10) {
+  // default games returned is set to 10
   const games = await this.find({ "otherGameStats.seasonNumber":seasonNumber, "csvFormattedGameData": { $exists: true } });
+  const gamesLength = games.length;
   const listOfCsvGameData = [];
-  for (let i = 0; i < games.length; i++) {
+  for (let i = 0; i < gamesLength; i++) {
     const gameDataInCsvFormat = await Csv_game_data.find({_id: games[i].csvFormattedGameData});
     listOfCsvGameData.push(gameDataInCsvFormat[0].csvFormatGameStats);
   }
+
+  // begin constructing csv string that will be returned
   let gameDataInStringFormat = CSV_HEADERS + "\r\n";
-listOfCsvGameData.forEach(gameString => {
-  gameDataInStringFormat += gameString
-  gameDataInStringFormat += "\r\n"
-})
-return gameDataInStringFormat
+
+// trim the array to how many games need to be returned
+if(gameReturnCount === "all"){
+  listOfCsvGameData.forEach(gameString => {
+    gameDataInStringFormat += gameString
+    gameDataInStringFormat += "\r\n"
+  })
+  return gameDataInStringFormat
+} else if(!/^[0-9]$/.test(gameReturnCount.toString())){
+  const arrayToBuildCsvStringWith = listOfCsvGameData.slice(-10);
+  arrayToBuildCsvStringWith.forEach(gameString => {
+    gameDataInStringFormat += gameString
+    gameDataInStringFormat += "\r\n"
+  })
+  return gameDataInStringFormat
+} else {
+  let gamesToBeReturned = +gameReturnCount
+  const arrayToBuildCsvStringWith = listOfCsvGameData.slice(-gamesToBeReturned);
+  arrayToBuildCsvStringWith.forEach(gameString => {
+    gameDataInStringFormat += gameString
+    gameDataInStringFormat += "\r\n"
+  })
+  return gameDataInStringFormat
+}
 }
 
 // end statics
