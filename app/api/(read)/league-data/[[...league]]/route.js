@@ -132,15 +132,18 @@ export const GET = async (req, { params }) => {
         );
         return nextResponse(response, 200, "GET")
       }  else if(params.league.includes("csv-game-data")){
+        // get game return count from user via the url params
+        const howManyGamesToReturn = requestedLeagueDetails[3];
         // get correct games schema
         const Games = await LEAGUE_GAMES_SCHEMA_SWITCH(leagueName);
-        const response = await Games.getCsvGameData(seasonNumber);
+        const response = await Games.getCsvGameData(seasonNumber, howManyGamesToReturn);
         return new NextResponse(response, {
           status: 200,
           statusText: "OK",
           headers: new Headers({
             "Content-Type": "text/csv",
             "Access-Control-Allow-Origin": "*",
+            "Content-Disposition": 'attachment; filename="WN95HL_Game_Stats.csv'
           }),
         })
       }else if (params.league.includes("goalies-csv")) {
