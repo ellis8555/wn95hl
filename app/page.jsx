@@ -13,12 +13,6 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
-        <Alert>
-          Season 10 officially has begun! 
-        </Alert>
-        <Alert>
-          Other leagues and historical data coming soon 
-        </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
