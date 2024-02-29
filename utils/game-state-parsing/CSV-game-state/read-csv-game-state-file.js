@@ -19,7 +19,6 @@ async function readCSVGameStateFile(file, seasonNumber, gameType, leagueName) {
     const reader = new FileReader();
     let gameProperties = {};
     const all_GAME_DATA_OBJECTS = [];
-
     reader.onload = (e) => {
       const fileContent = e.target.result;
       try {
@@ -37,12 +36,12 @@ async function readCSVGameStateFile(file, seasonNumber, gameType, leagueName) {
         // where each array item is an array of a key value pair of game stats
         for (let i = 0; i < allGameDataRows.length; i++) {
           let singleGameStats = [];
-          // const row = allGameDataRows[i].split("\r");
           const gameData = allGameDataRows[i].split(",");
           for (let i = 0; i < gameDataCategories.length; i++) {
             singleGameStats.push([gameDataCategories[i], gameData[i]]);
           }
           const gameStats = singleGameStats;
+          //TODO: fix last stat which has value of '-\r' so remove '\r'
           const lengthOfGameStats = singleGameStats.length;
 
           //////////////////////////////////
@@ -91,7 +90,6 @@ async function readCSVGameStateFile(file, seasonNumber, gameType, leagueName) {
             gameType,
             leagueName
           );
-
           ////////////////////////////////////////
           // object containing all the games data
           ////////////////////////////////////////
