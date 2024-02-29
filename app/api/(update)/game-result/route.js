@@ -30,8 +30,8 @@ export const OPTIONS = async (req, res) => {
 // the acutal POST request
 export const POST = async (req, res) => {
   //FIXME: tempCSVData to be removed in future. it is data used to append to csv file
-  // it comes from python script headerArray object
-  const { currSeason, fileName, fileSize, data, tempCSVData } = await req.json();
+  // tempCSVData comes from python script headerArray object
+  const { currSeason, fileName, fileSize, data, tempCSVData = undefined } = await req.json();
   let currentLeague;
   let currentSeason;
   // get the game type used for updating relevant stats
@@ -142,7 +142,6 @@ export const POST = async (req, res) => {
         "POST"
       );
     }
-
     // check if season has been officially begun as per commisioner setting 'hasSeasonBegun = true'
     // check if season has been officially ended as per commisioner setting 'hasSeasonEnded = false'
     if (!seasonDocument.hasSeasonBegun || seasonDocument.hasSeasonEnded) {
@@ -158,7 +157,6 @@ export const POST = async (req, res) => {
     ///////////////////////////////
     // get the data for this season
     ///////////////////////////////
-
     const getSeasonData = seasonDocument;
     const getSeasonGames = await LeagueGames.getGamesBySeasonNumber(
       +currentSeason,
@@ -526,20 +524,23 @@ if(gameType === 'season'){
 // creates a comma seperated string of game data
 // created in use for original google sheets stats
 ///////////////////////////////////////////////////////////////////////
-let gameDataString = "";
 // tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
-tempCSVData.forEach(stat => {
-  // grab the value from the array of arrays
-  gameDataString +=  `,${stat[1]}`
-})
-gameDataString = gameDataString.slice(1);
-
-// add csv formatted string of gamestats to the database
-const csvGameData = await new Csv_game_data({
-  csvFormatGameStats: gameDataString,
-}).save();
-const csvGameDataID = csvGameData._id;
-data.csvFormattedGameData = csvGameDataID;
+// tempCSVData will be undefined if the game submission is from a .csv file
+// check if game is submitted via a gamestate as this builds the csv string differently
+if(tempCSVData != undefined || tempCSVData != null){
+  let gameDataString = "";
+    tempCSVData.forEach(stat => {
+      // grab the value from the array of arrays
+      gameDataString +=  `,${stat[1]}`
+    })
+    gameDataString = gameDataString.slice(1);
+    // add csv formatted string of gamestats to the database
+    const csvGameData = await new Csv_game_data({
+      csvFormatGameStats: gameDataString,
+    }).save();
+    const csvGameDataID = csvGameData._id;
+    data.csvFormattedGameData = csvGameDataID;
+  }
 
     ////////////////////////
     // end updating sub docs
