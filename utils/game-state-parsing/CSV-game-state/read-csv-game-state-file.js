@@ -42,6 +42,9 @@ async function readCSVGameStateFile(file, seasonNumber, gameType, leagueName) {
           }
           const gameStats = singleGameStats;
           //TODO: fix last stat which has value of '-\r' so remove '\r'
+          const trimmedLastElement = gameStats[gameStats.length-1][1].replace(/\r/g, '');
+          gameStats[gameStats.length-1][1] = trimmedLastElement
+          // length used below in acquiring goal and penalty stats
           const lengthOfGameStats = singleGameStats.length;
 
           //////////////////////////////////
@@ -90,6 +93,10 @@ async function readCSVGameStateFile(file, seasonNumber, gameType, leagueName) {
             gameType,
             leagueName
           );
+          // add game data in csv string
+          // remove trailing \r from game data string
+const gameDataString = allGameDataRows[0].replace(/\r/g, '')
+          GAME_DATA["csvFormattedGameData"] = gameDataString;
           ////////////////////////////////////////
           // object containing all the games data
           ////////////////////////////////////////
