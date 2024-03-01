@@ -441,7 +441,7 @@ if(gameType === 'season'){
     /////////////////////////
     // goal scoring summaries
     /////////////////////////
-
+//TODO:
     // add goal summary to scoring collection
     const scoringSummary = await new Scoring({
       goals: data.allGoalsScored,
@@ -527,20 +527,26 @@ if(gameType === 'season'){
 // tempCSVData is headerArray from python script. sample [["homeTeam", "AHC"],[...]]
 // tempCSVData will be undefined if the game submission is from a .csv file
 // check if game is submitted via a gamestate as this builds the csv string differently
+let gameDataString = "";
 if(tempCSVData != undefined || tempCSVData != null){
-  let gameDataString = "";
     tempCSVData.forEach(stat => {
       // grab the value from the array of arrays
       gameDataString +=  `,${stat[1]}`
     })
     gameDataString = gameDataString.slice(1);
-    // add csv formatted string of gamestats to the database
-    const csvGameData = await new Csv_game_data({
-      csvFormatGameStats: gameDataString,
-    }).save();
-    const csvGameDataID = csvGameData._id;
-    data.csvFormattedGameData = csvGameDataID;
   }
+// check if game data is submitted via csv file
+if(data.csvFormattedGameData){
+  gameDataString = data.csvFormattedGameData
+}
+
+  // add csv formatted string of gamestats to the database
+  //TODO:
+  const csvGameData = await new Csv_game_data({
+    csvFormatGameStats: gameDataString,
+  }).save();
+  const csvGameDataID = csvGameData._id;
+  data.csvFormattedGameData = csvGameDataID;
 
     ////////////////////////
     // end updating sub docs
@@ -551,6 +557,7 @@ if(tempCSVData != undefined || tempCSVData != null){
     ////////////////////////////
 
     // update seasons collection
+    //TODO:
     await seasonDocument.save();
 
     // add game to games collection
