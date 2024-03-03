@@ -2,6 +2,8 @@ import { Schema, model, models } from "mongoose";
 import GameResultSchema from "./game-result/gameResult";
 import Home_Team_Stats from "../home-team-game-stats/homeTeamGameStats";
 import Away_Team_Stats from "../away-team-game-stats/awayTeamGameStats";
+import Csv_game_data from "../csv-game-stats/csvGameStats";
+import { CSV_HEADERS } from "@/utils/constants/constants";
 
 const Q_GamesSchema = new Schema({
   ...GameResultSchema.obj,
@@ -14,6 +16,7 @@ const Q_GamesSchema = new Schema({
 // 4. query for games from specific team
 // 5. query for segment of games for ticker or scoreboard
 // 6. get game stats for either home or away team
+// 7. get game data in csv format
 
 // 2. filters games by season number
 Q_GamesSchema.statics.getGamesBySeasonNumber = async function (seasonNumber) {
@@ -145,6 +148,45 @@ Q_GamesSchema.statics.getTeamsGameStats = async function (gameId, homeOrAway) {
   }
   return gameStatsDoc;
 };
+
+// 7. get csv data of games
+Q_GamesSchema.statics.getCsvGameData = async function (seasonNumber, gameReturnCount = 10) {
+  // default games returned is set to 10
+  const games = await this.find({ "otherGameStats.seasonNumber":seasonNumber, "csvFormattedGameData": { $exists: true } });
+  const gamesLength = games.length;
+  const listOfCsvGameData = [];
+  for (let i = 0; i < gamesLength; i++) {
+    const gameDataInCsvFormat = await Csv_game_data.find({_id: games[i].csvFormattedGameData});
+    listOfCsvGameData.push(gameDataInCsvFormat[0].csvFormatGameStats);
+  }
+
+  // begin constructing csv string that will be returned
+  let gameDataInStringFormat = CSV_HEADERS + "\r\n";
+
+// trim the array to how many games need to be returned
+if(gameReturnCount === "all"){
+  listOfCsvGameData.forEach(gameString => {
+    gameDataInStringFormat += gameString
+    gameDataInStringFormat += "\r\n"
+  })
+  return gameDataInStringFormat
+} else if(!/^[0-9]$/.test(gameReturnCount.toString())){
+  const arrayToBuildCsvStringWith = listOfCsvGameData.slice(-10);
+  arrayToBuildCsvStringWith.forEach(gameString => {
+    gameDataInStringFormat += gameString
+    gameDataInStringFormat += "\r\n"
+  })
+  return gameDataInStringFormat
+} else {
+  let gamesToBeReturned = +gameReturnCount
+  const arrayToBuildCsvStringWith = listOfCsvGameData.slice(-gamesToBeReturned);
+  arrayToBuildCsvStringWith.forEach(gameString => {
+    gameDataInStringFormat += gameString
+    gameDataInStringFormat += "\r\n"
+  })
+  return gameDataInStringFormat
+}
+}
 
 // end statics
 
