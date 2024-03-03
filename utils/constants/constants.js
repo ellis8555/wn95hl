@@ -32,7 +32,7 @@ export const DEFAULT_LEAGUE = "w";
 
 export const MOST_RECENT_SEASON = "4";
 
-export const MOST_RECENT_Q_SEASON = "88";
+export const MOST_RECENT_Q_SEASON = "89";
 
 export const HOW_MANY_GAME_RESULTS = 8;
 
