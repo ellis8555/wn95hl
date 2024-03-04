@@ -42,7 +42,7 @@
         seasonNumber = fileName[2] + fileName[3];
       }
       // what filename patters are accepted
-      const STATE_PATTERN = /[WQ][SP]?\d{1,3}\.state\d{1,3}/;
+      const STATE_PATTERN = /[WQV][SP]?\d{1,3}\.state\d{1,3}/;
       let fetchDictCodesResponse;
       let dictCodes;
       if (STATE_PATTERN.test(fileName)) {
