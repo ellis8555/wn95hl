@@ -17,7 +17,7 @@ If you wish to test the API that generates the data needed for Google Sheets, yo
 
 <p className="my-4 text-orange-400"><a href="https://nhl95.vercel.app/api/league-data/w/4/csv-game-data/5">https://nhl95.vercel.app/api/league-data/w/4/csv-game-data/5</a></p>
 
-<p className="my-4">The last digit in that link, "5," can be adjusted to return however many games you desire. This will automatically download the data that can be used by admins to update league data in Google Sheets.</p>
+<p className="my-4">The last digit in that link, "5," can be adjusted to return however many games you desire. This will automatically download the data that can be used by admins to update league data in Google Sheets. The above link is to obtain data for w league season 2004. The option to switch league and season numbers exists as long as those seasons data have been entered into the database</p>
 
 Additionally, there is an option to download the entire season's data for backing up league data, which is available to anyone.
 
