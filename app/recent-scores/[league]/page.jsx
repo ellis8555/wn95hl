@@ -4,6 +4,7 @@ import { getRecentGameResults } from "@/app/(helpers)/get-recent-game-results";
 import {
   MOST_RECENT_SEASON,
   MOST_RECENT_Q_SEASON,
+  MOST_RECENT_V_SEASON
 } from "@/utils/constants/constants";
 
 export const revalidate = 0;
@@ -18,6 +19,9 @@ async function page({ params }) {
       break;
     case "q":
       latestSeason = MOST_RECENT_Q_SEASON;
+      break;
+    case "v":
+      latestSeason = MOST_RECENT_V_SEASON;
       break;
   }
   // fetch most recent games
