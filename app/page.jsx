@@ -1,3 +1,4 @@
+import Link from "next/link"
 import Alert from "@/components/server/Alerts/Alert";
 import LeagueCard from "@/components/server/LeagueCard";
 
@@ -13,6 +14,10 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
+        <Alert>
+        <Link className="underline" href="/news">Update on game state uploads</Link>
+        </Alert>
+        <Alert>Vintage League on the way</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
