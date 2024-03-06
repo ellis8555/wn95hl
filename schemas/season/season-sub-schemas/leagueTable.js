@@ -29,6 +29,14 @@ const LeagueTableSchema = new Schema({
     type: Number,
     default: 0,
   },
+  Gf: {
+    type: Number,
+    default: 0
+  },
+  Ga: {
+    type: Number,
+    default: 0
+  }
 });
 
 export default LeagueTableSchema;
