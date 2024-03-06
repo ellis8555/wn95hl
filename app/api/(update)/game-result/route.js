@@ -6,6 +6,8 @@ import incrementLosingTeamsLosses from "@/utils/api/table-methods/team-standings
 import incrementTiesForTieGame from "@/utils/api/table-methods/team-standings/increment-ties-for-tie-game";
 import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/increment-overtime-loss";
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
+import incrementGoalsFor from "@/utils/api/table-methods/team-standings/increment-goals-for";
+import incrementGoalsAgainst from "@/utils/api/table-methods/team-standings/increment-goals-against";
 import nextResponse from "@/utils/api/next-response";
 import {
   LEAGUE_SCHEMA_SWITCH,
@@ -118,6 +120,20 @@ export const POST = async (req, res) => {
         LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
         break;
       case "Q":
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+        seasonDocument = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
+      case "V":
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+        seasonDocument = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
+      case "v":
         League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
         seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
@@ -401,6 +417,24 @@ if(gameType === 'season'){
     );
 
     /////////////////////////////////
+    // increase goals for both teams
+    /////////////////////////////////
+
+// increment home teams goals for
+incrementGoalsFor(getSeasonStandings, homeTeamsStandingIndex, getSeasonStandings[homeTeamsStandingIndex].Gf, data.homeTeamGameStats['HomeGOALS'])
+// increment away teams goals for
+incrementGoalsFor(getSeasonStandings, awayTeamsStandingIndex, getSeasonStandings[awayTeamsStandingIndex].Gf, data.awayTeamGameStats['AwayGOALS'])
+
+    ////////////////////////////////////
+    // increase goals against both teams
+    ////////////////////////////////////
+
+    // increment home teams goals against
+incrementGoalsAgainst(getSeasonStandings, homeTeamsStandingIndex, getSeasonStandings[homeTeamsStandingIndex].Ga, data.awayTeamGameStats['AwayGOALS'])
+// increment away teams goals against
+incrementGoalsAgainst(getSeasonStandings, awayTeamsStandingIndex, getSeasonStandings[awayTeamsStandingIndex].Ga, data.homeTeamGameStats['HomeGOALS'])
+
+    /////////////////////////////////
     // increase points for both teams
     /////////////////////////////////
 
@@ -441,7 +475,7 @@ if(gameType === 'season'){
     /////////////////////////
     // goal scoring summaries
     /////////////////////////
-//TODO:
+//TODO: disable for testing
     // add goal summary to scoring collection
     const scoringSummary = await new Scoring({
       goals: data.allGoalsScored,
@@ -541,7 +575,7 @@ if(data.csvFormattedGameData){
 }
 
   // add csv formatted string of gamestats to the database
-  //TODO:
+  //TODO: disable for testing
   const csvGameData = await new Csv_game_data({
     csvFormatGameStats: gameDataString,
   }).save();
@@ -557,7 +591,7 @@ if(data.csvFormattedGameData){
     ////////////////////////////
 
     // update seasons collection
-    //TODO:
+    //TODO: disable for testing
     await seasonDocument.save();
 
     // add game to games collection
