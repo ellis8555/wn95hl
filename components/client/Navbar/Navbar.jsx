@@ -29,7 +29,7 @@ function Navbar() {
     setIsMenuOpen(false);
   }
   return (
-    <div className="relative sticky top-0 w-full">
+    <div className="relative sticky top-0 w-full z-20">
       {/*  desktop menu */}
       <nav className="flex flex-row gap-4 justify-center items-center lg:justify-between bg-slate-800 p-2">
         {/* mobile toggle menu icon */}
