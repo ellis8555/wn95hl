@@ -18,6 +18,7 @@ export default async function Page() {
         <Link className="underline" href="/news">Update on game state uploads</Link>
         </Alert>
         <Alert>Vintage League on the way</Alert>
+        <Alert>Standings table on mobile now scroll horizontally. Will adjust headers to stick on vertical scroll</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
