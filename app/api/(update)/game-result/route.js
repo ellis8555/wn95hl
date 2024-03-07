@@ -8,6 +8,7 @@ import incrementOvertimeLoss from "@/utils/api/table-methods/team-standings/incr
 import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/increment-points-for-teams";
 import incrementGoalsFor from "@/utils/api/table-methods/team-standings/increment-goals-for";
 import incrementGoalsAgainst from "@/utils/api/table-methods/team-standings/increment-goals-against";
+import setTeamsGoalsDiff from "@/utils/api/table-methods/team-standings/set-teams-goals-diff";
 import nextResponse from "@/utils/api/next-response";
 import {
   LEAGUE_SCHEMA_SWITCH,
@@ -433,6 +434,16 @@ incrementGoalsFor(getSeasonStandings, awayTeamsStandingIndex, getSeasonStandings
 incrementGoalsAgainst(getSeasonStandings, homeTeamsStandingIndex, getSeasonStandings[homeTeamsStandingIndex].Ga, data.awayTeamGameStats['AwayGOALS'])
 // increment away teams goals against
 incrementGoalsAgainst(getSeasonStandings, awayTeamsStandingIndex, getSeasonStandings[awayTeamsStandingIndex].Ga, data.homeTeamGameStats['HomeGOALS'])
+
+    ////////////////////////////////////
+    // set goal diff for both teams
+    ////////////////////////////////////
+
+      // set home teams goal diff
+      setTeamsGoalsDiff(getSeasonStandings, homeTeamsStandingIndex)
+      
+      // set away teams goal diff
+      setTeamsGoalsDiff(getSeasonStandings, awayTeamsStandingIndex)
 
     /////////////////////////////////
     // increase points for both teams
