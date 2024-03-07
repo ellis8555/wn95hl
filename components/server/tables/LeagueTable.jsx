@@ -3,10 +3,11 @@ import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 
 function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered }) {
   return (
+    <div className="overflow-auto">
     <table className="my-4 w-full md:w-3/4 md:mx-auto table-auto">
       <thead>
-        <tr className="text-slate-300  sticky top-[81px] bg-slate-800">
-          <th className="text-xl">Team</th>
+        <tr className="text-slate-300 bg-slate-800">
+          <th className="text-xl bg-slate-800 z-10 sticky left-0">Team</th>
           {LEAGUE_TABLE_CATEGORIES.map((header, index) => (
             <th className="p-4 sm:text-xl" key={index}>
               {header}
@@ -41,6 +42,7 @@ function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered }) {
         )}
       </tbody>
     </table>
+    </div>
   );
 }
 
