@@ -21,7 +21,7 @@ function Teamresults({
           : ""
       } h-10`}
     >
-      <td className="flex justify-center">
+      <td className={`flex justify-center sticky left-0 ${bgColor}`}>
         <div className="flex items-center h-10">
           <TeamLogo
             name={team.teamLogo}
