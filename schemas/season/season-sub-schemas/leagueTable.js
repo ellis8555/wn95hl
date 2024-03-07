@@ -37,6 +37,10 @@ const LeagueTableSchema = new Schema({
     type: Number,
     default: 0
   },
+  Diff: {
+    type: Number,
+    default: 0
+  },
   Strk: {
     type: String,
     default: "-"
