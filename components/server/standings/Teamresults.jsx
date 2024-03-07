@@ -32,11 +32,22 @@ function Teamresults({
           />
         </div>
       </td>
-      {categories.map((category, index) => (
-        <td key={index} category={category} className="text-center">
+      {categories.map((category, index) => {
+        // adjust color for goals diff column to set dynamic colors
+        let dynamicTextColor = {bgColor};
+        if(category === "Diff"){
+          if(team[category] > 0){
+            dynamicTextColor = "text-green-700"
+          }
+          if(team[category] < 0){
+            dynamicTextColor = "text-red-900"
+          }
+        }
+      return (
+        <td key={index} category={category} className={`text-center ${dynamicTextColor}`}>
           {team[category]}
         </td>
-      ))}
+      )})}
     </tr>
   );
 }
