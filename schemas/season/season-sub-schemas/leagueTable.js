@@ -36,6 +36,10 @@ const LeagueTableSchema = new Schema({
   Ga: {
     type: Number,
     default: 0
+  },
+  Strk: {
+    type: String,
+    default: "-"
   }
 });
 
