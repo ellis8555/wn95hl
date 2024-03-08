@@ -13,6 +13,10 @@ const SeasonSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  hasPlayoffsBegun: {
+    type: Boolean,
+    default: false
+  },
   conferences: {
     type: [LeaguesConferencesSchema],
     default: [],
