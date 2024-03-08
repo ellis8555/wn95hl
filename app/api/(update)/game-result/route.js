@@ -9,6 +9,7 @@ import incrementPointsForTeams from "@/utils/api/table-methods/team-standings/in
 import incrementGoalsFor from "@/utils/api/table-methods/team-standings/increment-goals-for";
 import incrementGoalsAgainst from "@/utils/api/table-methods/team-standings/increment-goals-against";
 import setTeamsGoalsDiff from "@/utils/api/table-methods/team-standings/set-teams-goals-diff";
+import setCurrentTeamStreak from "@/utils/api/table-methods/team-standings/set-current-team-streak";
 import nextResponse from "@/utils/api/next-response";
 import {
   LEAGUE_SCHEMA_SWITCH,
@@ -444,6 +445,15 @@ incrementGoalsAgainst(getSeasonStandings, awayTeamsStandingIndex, getSeasonStand
       
       // set away teams goal diff
       setTeamsGoalsDiff(getSeasonStandings, awayTeamsStandingIndex)
+
+    //////////////////////////////
+    // adjust teams current streak
+    //////////////////////////////
+
+    // set home teams streak
+setCurrentTeamStreak(getSeasonStandings, homeTeamsStandingIndex, homeTeamPoints, wasGameATie)
+// set away teams streak
+setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints, wasGameATie)
 
     /////////////////////////////////
     // increase points for both teams
