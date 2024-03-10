@@ -17,7 +17,7 @@ export default async function Page() {
         <Alert>
         <Link className="underline" href="/news">Update on game state uploads</Link>
         </Alert>
-        <Alert>Awaiting on Vintage league data</Alert>
+        <Alert>Vintage league coming soon</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
