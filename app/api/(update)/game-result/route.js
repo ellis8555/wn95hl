@@ -161,11 +161,50 @@ export const POST = async (req, res) => {
       );
     }
     // check if season has been officially begun as per commisioner setting 'hasSeasonBegun = true'
-    // check if season has been officially ended as per commisioner setting 'hasSeasonEnded = false'
-    if (!seasonDocument.hasSeasonBegun || seasonDocument.hasSeasonEnded) {
+    if(gameType === "season"){
+      if (!seasonDocument.hasSeasonBegun) {
+        return nextResponse(
+          {
+            message: `The ${currentLeague} season ${currentSeason} has not officially begun yet`,
+          },
+          400,
+          "POST"
+        );
+      }
+      // if season has ended per commisioner setting 'hasSeasonEnded = true
+      if (seasonDocument.hasSeasonEnded) {
+        return nextResponse(
+          {
+            message: `The ${currentLeague} season ${currentSeason} has officially ended`,
+          },
+          400,
+          "POST"
+        );
+      }
+      //check if playoffs have been officially ended as per commisioner setting 'hasPlayoffsBegun = true'
+    } else if(gameType === "playoff"){
+      if (!seasonDocument.hasPlayoffsBegun) {
+        return nextResponse(
+          {
+            message: `Playoffs for ${currentLeague} season ${currentSeason} have not officially begun yet`,
+          },
+          400,
+          "POST"
+        );
+      }
+      if (seasonDocument.hasPlayoffsEnded) {
+        return nextResponse(
+          {
+            message: `Playoffs for ${currentLeague} season ${currentSeason} have officially ended`,
+          },
+          400,
+          "POST"
+        );
+      }
+    } else {
       return nextResponse(
         {
-          message: `The ${currentLeague} season ${currentSeason} has not officially begun yet`,
+          message: `Game type must either be of type season or playoff`,
         },
         400,
         "POST"
