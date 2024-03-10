@@ -256,7 +256,6 @@ function GameInputForm() {
       const awayTeam = gameData["data"]["awayTeamGameStats"]["AwayTeam"];
       const awayTeamScore = gameData["data"]["awayTeamGameStats"]["AwayGOALS"];
       const gameScoreOnErrorMessage = `(Away)  ${awayTeam} ${awayTeamScore} - ${homeTeamScore} ${homeTeam}  (Home)`;
-      // console.log(gameData.data);
       fileInputRef.current.value = null;
       setIsStateUploaded(false);
       setServerMessage(error.message);

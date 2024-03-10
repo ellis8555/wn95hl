@@ -15,6 +15,7 @@ import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
 } from "@/utils/constants/data-calls/db_calls";
+import { WRITE_TO_DB, ALLOW_DUPLICATES } from "@/utils/constants/connections";
 import Club from "@/schemas/club";
 import Scoring from "@/schemas/scoring-summary/allGoalsScored";
 import Penalty from "@/schemas/penalty-summary/allPenalties";
@@ -33,6 +34,8 @@ export const OPTIONS = async (req, res) => {
 };
 // the acutal POST request
 export const POST = async (req, res) => {
+  console.log(`Write to db: ${WRITE_TO_DB}`)
+  console.log(`Duplicates: ${ALLOW_DUPLICATES}`)
   //FIXME: tempCSVData to be removed in future. it is data used to append to csv file
   // tempCSVData comes from python script headerArray object
   const { currSeason, fileName, fileSize, data, tempCSVData = undefined } = await req.json();
@@ -224,7 +227,9 @@ export const POST = async (req, res) => {
     const getRegisteredTeams = getSeasonData.teams.map((team) => {
       return team.teamAcronym;
     });
+    ///////////////////////////////////////////////////
     // check that file has not previously been uploaded
+    ///////////////////////////////////////////////////
     let isDuplicate = false;
     const getUniqueGameId = otherStats.uniqueGameId;
     // loop through games that have been added to the database
@@ -236,20 +241,18 @@ export const POST = async (req, res) => {
       }
     });
 
-    //TODO://////////////// TEMP DISABLED FOR TESTING ///////////////////////////////////////////////
-    ////////////////// TEST FOR GAME DUPLICATE ////////////////////////////////////////
-
-    if (isDuplicate) {
-      return nextResponse(
-        {
-          message: `This game appears to be a duplicate. Game data was not saved..`,
-        },
-        400,
-        "POST"
-      );
-    }
-
-    ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
+// checks if duplicates are enabled for testing mode
+if(!ALLOW_DUPLICATES){
+  if (isDuplicate) {
+    return nextResponse(
+      {
+        message: `This game appears to be a duplicate. Game data was not saved..`,
+      },
+      400,
+      "POST"
+    );
+  }
+}
 
     ////////////////////////////////////////////
     // check teams submitted are in this league
@@ -317,29 +320,28 @@ if(gameType === 'season'){
     const extractHomeOpponent = +getHomeTeamsHomeSchedule.indexOf(awayTeamAbbr);
     const extractAwayOpponent = +getAwayTeamsAwaySchedule.indexOf(homeTeamAbbr);
 
-    //TODO://////////////// TEMP DISABLE SCHEDULE FOR TESTING HERE ///////////////////////////////////////////////
+// if duplicates allowed for testing then by pass checking teams schedule
+if(!ALLOW_DUPLICATES){
+  if (extractHomeOpponent == -1) {
+    return nextResponse(
+      {
+        message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
+      },
+      400,
+      "POST"
+    );
+  }
 
-    if (extractHomeOpponent == -1) {
-      return nextResponse(
-        {
-          message: `${homeTeamName} does not have any games at home vs ${awayTeamName}`,
-        },
-        400,
-        "POST"
-      );
-    }
+  getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
+  getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
 
-    getHomeTeamsHomeSchedule.splice(extractHomeOpponent, 1);
-    getAwayTeamsAwaySchedule.splice(extractAwayOpponent, 1);
+  // rewrite teams home/away schedules to reflect recent game played and submitted
 
-    // rewrite teams home/away schedules to reflect recent game played and submitted
-
-    seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
-      getHomeTeamsHomeSchedule;
-    seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
-      getAwayTeamsAwaySchedule;
-
-    ////////////////////////// END OF TEMP DISABLED ////////////////////////////////////////////////
+  seasonDocument.teams[homeTeamsObjectIndex].schedule.home =
+    getHomeTeamsHomeSchedule;
+  seasonDocument.teams[awayTeamsObjectIndex].schedule.away =
+    getAwayTeamsAwaySchedule;
+}
 
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
@@ -528,14 +530,15 @@ setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints,
     // end of updates if game of type 'season'
     ///////////////////////////////////////////
 
-    ////////////////////////
-    // update the databases
-    ////////////////////////
+    /////////////////////////////////////////////////
+    // update the databases if WRITE_TO_DB is enabled
+    /////////////////////////////////////////////////
+if(WRITE_TO_DB){
 
     /////////////////////////
     // goal scoring summaries
     /////////////////////////
-//TODO: disable for testing
+
     // add goal summary to scoring collection
     const scoringSummary = await new Scoring({
       goals: data.allGoalsScored,
@@ -611,7 +614,7 @@ setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints,
     }).save();
     const awayTeamPlayerStatsID = awayTeamPlayerStatsSummary._id;
     data.awayTeamPlayerStats = awayTeamPlayerStatsID;
-
+  }
     ///////////////////////////////////////////////////////////////////////
 //FIXME: the following needs to be rewritten to connect to github api
 // to be removed in the future if not needed for google sheets
@@ -635,12 +638,13 @@ if(data.csvFormattedGameData){
 }
 
   // add csv formatted string of gamestats to the database
-  //TODO: disable for testing
-  const csvGameData = await new Csv_game_data({
-    csvFormatGameStats: gameDataString,
-  }).save();
-  const csvGameDataID = csvGameData._id;
-  data.csvFormattedGameData = csvGameDataID;
+  if(WRITE_TO_DB){
+    const csvGameData = await new Csv_game_data({
+      csvFormatGameStats: gameDataString,
+    }).save();
+    const csvGameDataID = csvGameData._id;
+    data.csvFormattedGameData = csvGameDataID;
+  }
 
     ////////////////////////
     // end updating sub docs
@@ -651,11 +655,12 @@ if(data.csvFormattedGameData){
     ////////////////////////////
 
     // update seasons collection
-    //TODO: disable for testing
-    await seasonDocument.save();
-
-    // add game to games collection
-    await new LeagueGames(data).save();
+    if(WRITE_TO_DB){
+      await seasonDocument.save();
+  
+      // add game to games collection
+      await new LeagueGames(data).save();
+    }
 
     ////////////////////////////////////////////
     //all file processing complete return to user
