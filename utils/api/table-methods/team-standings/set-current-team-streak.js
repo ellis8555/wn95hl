@@ -7,9 +7,9 @@ function setCurrentTeamStreak(
     wasGameATie,
   ) {
       const teamsCurrentStreak = arrayOfTeamObjects[teamStandingsIndex].Strk || "-";
-
-      // if first game of season simply set the streak to 1 plus the result
-      if(teamsCurrentStreak === "-" || isNaN(teamsCurrentStreak) || teamsCurrentStreak == undefined){
+      const lengthOfStreakString = teamsCurrentStreak.length;
+      // if first game of season determined by Strk == '-'  simply set the streak to 1 plus the result
+      if(lengthOfStreakString === 1){
         // streak can only be one here
         let streakLength = 1;
         let streakType;
@@ -26,14 +26,8 @@ function setCurrentTeamStreak(
             streakType = "T"
         }
         arrayOfTeamObjects[teamStandingsIndex].Strk = streakLength.toString() + streakType;
-        // exit out as to not increment streaks any further
-        return;
     }
-
         // if team has played at least one game of the season and has a streak set
-        
-        // get the length of the streak to determine if streak is 10 or greater of a type
-        const lengthOfStreakString = teamsCurrentStreak.length;
         if(lengthOfStreakString > 1){
             let previousStreakLength;
             let previousStreakType;
@@ -85,6 +79,7 @@ function setCurrentTeamStreak(
             }
             arrayOfTeamObjects[teamStandingsIndex].Strk = updatedStreakLength.toString() + updatedStreaktype;
         }
+
     }
 
   
