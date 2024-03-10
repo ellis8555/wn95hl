@@ -1,4 +1,13 @@
+///////////////////////////
+// THIS IS THE LIVE SETTING
+///////////////////////////
+
 const CONNECTION_MODE = "DARK95_LIVE"
+
+/////////////////////////////
+// THESE ARE TESTING SETTINGS
+/////////////////////////////
+
 // const CONNECTION_MODE = "HOME_DEV"
 // const CONNECTION_MODE = "MONGO_ATLAS_95"
 // const CONNECTION_MODE = "MONGO_ATLAS_DEV"
