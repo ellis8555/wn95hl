@@ -26,8 +26,6 @@ export const POST = async (req) => {
       name: "League",
       logo: "NHL95onlineBANNER",
     });
-    gamesVsConference = 0;
-    gamesVsOtherConference = 0;
   }
   // if league does not have divisions then set the minimum games vs other teams to 2
   if (gamesVsDivision === "") {
