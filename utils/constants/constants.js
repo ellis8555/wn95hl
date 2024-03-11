@@ -38,7 +38,7 @@ export const MOST_RECENT_SEASON = "4";
 
 export const MOST_RECENT_Q_SEASON = "89";
 
-export const MOST_RECENT_V_SEASON = "";
+export const MOST_RECENT_V_SEASON = "1";
 
 export const HOW_MANY_GAME_RESULTS = 8;
 
