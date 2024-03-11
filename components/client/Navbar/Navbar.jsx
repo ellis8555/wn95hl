@@ -70,6 +70,15 @@ function Navbar() {
           >
             <LeagueLogo name={"q"} width={25} height={25} />
           </li>
+          <li
+            className="hover:cursor-pointer mr-4"
+            onClick={() => {
+              setLeagueContext("v");
+              setSeasonNumberContext(MOST_RECENT_V_SEASON);
+            }}
+          >
+            <LeagueLogo name={"v"} width={25} height={25} />
+          </li>
           {/* Authorization related links */}
           {isAuthorized && (
             <li>
@@ -124,6 +133,17 @@ function Navbar() {
               }}
             >
               Q_Scores
+            </li>
+          </Link>
+          <Link href={"/recent-scores/v"}>
+            <li
+              onClick={() => {
+                toggleMenu();
+                setLeagueContext("v");
+                setSeasonNumberContext(MOST_RECENT_V_SEASON);
+              }}
+            >
+              V_Scores
             </li>
           </Link>
           <Link href="/submit">
