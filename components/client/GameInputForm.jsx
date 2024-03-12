@@ -297,8 +297,6 @@ function GameInputForm() {
         </div>
       </form>
 
-      <div className="text-center text-white">Vintage states temp disabled. Waiting to test on first game to be played</div>
-
       {serverMessage && (
         <div className="text-center text-slate-300 text-xl mt-2">
           {serverMessage}
