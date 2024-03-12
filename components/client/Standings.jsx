@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import LeagueTable from "../server/tables/LeagueTable";
 import FilteredTable from "../server/tables/FilteredTable";
@@ -15,6 +16,10 @@ function Standings({
   conferences,
 }) {
   const [standings, setStandings] = useState(leagueTable);
+  const [sortedStandings, setSortedStandings] = useState({})
+  const [areStandingsSorted, setAreStandingsSorted] = useState(false)
+  const [leaguePath] = useState(usePathname())
+  const [updatedLeagueName, setUpdatedLeagueName] = useState(leagueName)
   const [updateSeasonNumber, setUpdateSeasonNumber] = useState(seasonNumber);
   const [conferenceDetails, setConferenceDetails] = useState(conferences);
   const [conference, setConference] = useState("League");
@@ -31,11 +36,24 @@ function Standings({
     conferenceDetails,
   });
   const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
+// update the standings going from sorted league table to another league
+useEffect(() => {
+    setStandings(standings);
+}, [leaguePath]);
+// update the standings upon game upload
   useEffect(() => {
     if (refreshTheStandings) {
       setStandings(clientSideStandings);
     }
   }, [clientSideStandings]);
+// update the standings upon sorting via clicking on table header
+  useEffect(() => {
+    if (areStandingsSorted) {
+      setStandings(sortedStandings);
+      setAreStandingsSorted(false)
+    }
+  }, [areStandingsSorted]);
+
   return (
     <>
       {/* smaller screens have button for each conference name */}
@@ -65,7 +83,7 @@ function Standings({
         <div className="mt-3">
           {conference === "League" ? (
             <div className="flex justify-center">
-              <LeagueLogo name={leagueName} width={75} height={75} />
+              <LeagueLogo name={updatedLeagueName} width={75} height={75} />
             </div>
           ) : (
             <div className="flex justify-center">
@@ -82,10 +100,12 @@ function Standings({
             </div>
           )}
           <LeagueTable
-            leagueName={leagueName}
+            leagueName={updatedLeagueName}
             seasonNumber={updateSeasonNumber}
             standings={standings}
             isTableFiltered={isTableFiltered}
+            setAreStandingsSorted={setAreStandingsSorted}
+            setSortedStandings={setSortedStandings}
           />
         </div>
       </div>
@@ -100,11 +120,13 @@ function Standings({
                 </div>
                 <FilteredTable
                   confDivName={eachConf.name}
-                  leagueName={leagueName}
+                  leagueName={updatedLeagueName}
                   seasonNumber={updateSeasonNumber}
                   standings={standings}
                   divisions={divisions}
                   isTableFiltered={isTableFiltered}
+                  setAreStandingsSorted={setAreStandingsSorted}
+                  setSortedStandings={setSortedStandings}
                 />
               </div>
             ))}
@@ -113,7 +135,7 @@ function Standings({
           <div className="mt-3 w-3/4">
             {conference === "League" ? (
               <div className="flex justify-center">
-                <LeagueLogo name={leagueName} width={75} height={75} />
+                <LeagueLogo name={updatedLeagueName} width={75} height={75} />
               </div>
             ) : (
               <div className="flex justify-center">
@@ -130,10 +152,12 @@ function Standings({
               </div>
             )}
             <LeagueTable
-              leagueName={leagueName}
+              leagueName={updatedLeagueName}
               seasonNumber={updateSeasonNumber}
               standings={standings}
               isTableFiltered={isTableFiltered}
+              setAreStandingsSorted={setAreStandingsSorted}
+              setSortedStandings={setSortedStandings}
             />
           </div>
         )}
