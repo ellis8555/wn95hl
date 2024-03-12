@@ -14,10 +14,11 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           NHL95 in development
         </h1>
+        <Alert backgroundColor="bg-green-500">Tables can be sorted. Click on column header and it will sort by that header.</Alert>
+        <Alert backgroundColor="bg-green-500">Strk column sort needs to be adjusted</Alert>
         <Alert>
         <Link className="underline" href="/news">Update on game state uploads</Link>
         </Alert>
-        <Alert>Issue: Q games that have a OT length over 5 mins return states ending at 20 mins resulting in a tie</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
