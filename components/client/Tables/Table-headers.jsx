@@ -2,19 +2,10 @@
 
 import { useState } from "react";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
-import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 
-function TableHeaders({leagueName, seasonNumber, standings}){
-    const [currentStandings, setCurrentStandings] = useState(standings)
-    const [currentLeague, setCurrentLeague] = useState(leagueName)
-    const [currentSeasonNumber, setCurrentSeasonNumber] = useState(seasonNumber)
+function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
 
-    const {
-        setClientSideStandings,
-        setRefreshTheStandings,
-        setLeagueContext,
-        setSeasonNumberContext
-      } = useFullLeagueStandings();
+    const [currentStandings] = useState(standings)
 
 function readHeader(e){
     let header = e.target.textContent
@@ -28,18 +19,16 @@ function readHeader(e){
             return b[header] - a[header]
         }
     });
-    setLeagueContext(currentLeague)
-    setSeasonNumberContext(currentSeasonNumber)
-    setClientSideStandings(sortedStandings);
-    setRefreshTheStandings(true);
+    setSortedStandings(sortedStandings);
+    setAreStandingsSorted(true);
 }
 
     return (
         <thead>
         <tr className="text-slate-300 bg-slate-800">
-          <th className="text-xl bg-slate-800 z-10 sticky left-0" onClick={readHeader}>Team</th>
+          <th className="text-xl bg-slate-800 z-10 sticky left-0 cursor-pointer" onClick={readHeader}>Team</th>
           {LEAGUE_TABLE_CATEGORIES.map((header, index) => (
-            <th className="p-4 sm:text-xl" key={index} onClick={readHeader}>
+            <th className="p-4 sm:text-xl cursor-pointer" key={index} onClick={readHeader}>
               {header}
             </th>
           ))}
