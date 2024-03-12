@@ -70,7 +70,7 @@ function Navbar() {
           >
             <LeagueLogo name={"q"} width={25} height={25} />
           </li>
-          {/* <li
+          <li
             className="hover:cursor-pointer mr-4"
             onClick={() => {
               setLeagueContext("v");
@@ -78,7 +78,7 @@ function Navbar() {
             }}
           >
             <LeagueLogo name={"v"} width={25} height={25} />
-          </li> */}
+          </li>
           {/* Authorization related links */}
           {isAuthorized && (
             <li>
