@@ -112,9 +112,9 @@ useEffect(() => {
       {/* medium screens displays conferences via multiple tables on page */}
       <div className="hidden md:flex flex-row justify-around">
         {splitTables ? (
-          <div className="flex flex-row justify-around gap-8">
+          <div className="flex flex-row justify-around gap-8 overflow-auto">
             {conferenceDetails.map((eachConf) => (
-              <div className="mt-3" key={eachConf.name}>
+              <div className="mt-3 overflow-auto" key={eachConf.name}>
                 <div className="flex justify-center">
                   <LeagueLogo name={eachConf.logo} width={75} height={75} />
                 </div>
