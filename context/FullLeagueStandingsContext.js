@@ -16,6 +16,9 @@ function LeagueStandingsProvider({ children }) {
   const [leagueContext, setLeagueContext] = useState(DEFAULT_LEAGUE);
   const [seasonNumberContext, setSeasonNumberContext] =
     useState(MOST_RECENT_SEASON);
+    const [isTableFilteredContext, setIsTableFilteredContext] = useState(false)
+    const [divisionsContext, setDivisionsContext] = useState({})
+    const [conferenceNameContext, setConferenceNameContext] = useState("")
 
   return (
     <FullLeagueStandingsContext.Provider
@@ -30,6 +33,12 @@ function LeagueStandingsProvider({ children }) {
         setLeagueContext,
         seasonNumberContext,
         setSeasonNumberContext,
+        isTableFilteredContext,
+        setIsTableFilteredContext,
+        divisionsContext,
+        setDivisionsContext,
+        conferenceNameContext,
+        setConferenceNameContext
       }}
     >
       {children}
