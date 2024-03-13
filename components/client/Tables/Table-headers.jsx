@@ -1,20 +1,35 @@
 'use client'
 
-import { useState } from "react";
+import { useRef } from "react";
+import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 
 function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
 
-    let [currentStandings, setCurrentStandings] = useState(standings)
+    let currentStandings = useRef(standings)
+    const {isTableFilteredContext, divisionsContext, conferenceNameContext} = useFullLeagueStandings()
 
 function readHeader(e){
     let header = e.target.textContent
+
+    if(isTableFilteredContext){
+        currentStandings.current = currentStandings.current.filter((team) => {
+            if (
+                divisionsContext[team.teamAcronym].conference ==
+              conferenceNameContext
+            ) {
+              return team;
+            }
+            return;
+          });
+    }
+console.log('testing')
     if(header === "Team"){
         header = "teamName"
     }
 
     if (header === "Strk") {
-      const sortedByStrk = [...currentStandings].sort((a, b) => {
+      const sortedByStrk = [...currentStandings.current].sort((a, b) => {
           const getStreakType = (str) => {
               const extractStreakType = str.charAt(str.length - 1);
               const currentStreak = parseInt(str)
@@ -34,11 +49,12 @@ function readHeader(e){
       });
 
       setSortedStandings(sortedByStrk);
+      currentStandings.current = standings
       setAreStandingsSorted(true);
       return;
   }
 
-    const sortedStandings = [...currentStandings].sort((a, b) => {
+    const sortedStandings = [...currentStandings.current].sort((a, b) => {
   if (header === "teamName"){
             return a[header].localeCompare(b[header]);
         } else {
@@ -46,6 +62,7 @@ function readHeader(e){
         }
     });
     setSortedStandings(sortedStandings);
+    currentStandings.current = standings
     setAreStandingsSorted(true);
 }
 
