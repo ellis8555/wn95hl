@@ -6,6 +6,9 @@ export default async function Page() {
             Game state upload
           </h1>
           <section className="w-10/12 m-auto md:w-3/4">
+          <p className="my-4">**UPDATE**</p>
+          <p className="my-4">Following the initial submission of games by the Vintage league, accompanied by successful uploads of game states, it is evident that game state submissions are functioning appropriately. Immediate availability of game data in Google Sheets signifies a smooth operational process. Moreover, this development unveils intriguing possibilities, notably the implementation of shootouts. For instance, in the scenario where a league opts to introduce shootouts, the process is streamlined. Players simply submit a tied game state, and a tailored script can be devised to acknowledge the league's stance against ties. Consequently, an interface would prompt user input to determine the shootout winner, facilitating subsequent adjustments in statistics to accurately reflect shootout outcomes.</p>
+          <p className="my-4">** END UPDATE**</p>
           <p className="my-4">
           Progress toward implementing league-wide game state uploads by all users has been nearly completed. The challenge lies in implementing an update across two data storage systems. One is a NoSQL database that has been created and tested, while the other is the current official league data store, which employs Google Spreadsheets. It's not ideal for players to complete two steps when submitting a game state. Initially, they have to go to Discord and drop a game state into the correct channel, and then proceed to a website to upload a game file.</p>
 <p className="my-4">
