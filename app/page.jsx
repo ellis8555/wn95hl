@@ -15,7 +15,6 @@ export default async function Page() {
           NHL95 in development
         </h1>
         <Alert backgroundColor="bg-green-500">Tables can be sorted. Click on column header and it will sort by that header.</Alert>
-        <Alert backgroundColor="bg-green-500">Strk column sort needs to be adjusted</Alert>
         <Alert>
         <Link className="underline" href="/news">Update on game state uploads</Link>
         </Alert>

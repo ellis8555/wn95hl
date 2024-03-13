@@ -5,15 +5,41 @@ import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 
 function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
 
-    const [currentStandings] = useState(standings)
+    let [currentStandings, setCurrentStandings] = useState(standings)
 
 function readHeader(e){
     let header = e.target.textContent
     if(header === "Team"){
         header = "teamName"
     }
+
+    if (header === "Strk") {
+      const sortedByStrk = [...currentStandings].sort((a, b) => {
+          const getStreakType = (str) => {
+              const extractStreakType = str.charAt(str.length - 1);
+              const currentStreak = parseInt(str)
+              switch (extractStreakType) {
+                  case "W":
+                      return 100 + currentStreak;
+                  case "L":
+                      return 50 - currentStreak;
+                  case "T":
+                      return 50 + currentStreak;
+                  default:
+                      return 50;
+              }
+          };
+
+          return getStreakType(b[header]) - getStreakType(a[header]);
+      });
+
+      setSortedStandings(sortedByStrk);
+      setAreStandingsSorted(true);
+      return;
+  }
+
     const sortedStandings = [...currentStandings].sort((a, b) => {
-        if(header === "teamName" || header === "Strk"){
+  if (header === "teamName"){
             return a[header].localeCompare(b[header]);
         } else {
             return b[header] - a[header]
