@@ -21,7 +21,7 @@ function TableButton({
 
   const [howManyConferences] = useState(conferenceDetails.length);
 
-  const { clientSideStandings, refreshTheStandings } = useFullLeagueStandings();
+  const { clientSideStandings, refreshTheStandings, setIsTableFilteredContext, setDivisionsContext, setConferenceNameContext } = useFullLeagueStandings();
 
   useEffect(() => {
     if (howManyConferences > 1) {
@@ -90,22 +90,34 @@ function TableButton({
         switch (children) {
           case firstConferenceDetails.current.name:
             setIsTableFiltered(true);
+            setIsTableFilteredContext(true)
+            setDivisionsContext(divisions)
+            setConferenceNameContext(firstConferenceDetails.current.name)
             setSplitTables(false);
             setConference(children);
             setStandings(firstConferenceStandings.current);
             break;
           case secondConferenceDetails.current.name:
             setIsTableFiltered(true);
+            setIsTableFilteredContext(true)
+            setDivisionsContext(divisions)
+            setConferenceNameContext(secondConferenceDetails.current.name)
             setSplitTables(false);
             setConference(children);
             setStandings(secondConferenceStandings.current);
             break;
           case "Conferences":
             setIsTableFiltered(true);
+            setIsTableFilteredContext(false)
+            setDivisionsContext({})
+            setConferenceNameContext("")
             setSplitTables(true);
             break;
-          default:
-            setIsTableFiltered(false);
+            default:
+              setIsTableFiltered(false);
+              setIsTableFilteredContext(false)
+              setDivisionsContext({})
+              setConferenceNameContext("")
             setSplitTables(false);
             setConference("League");
             setStandings(leagueStandings);
