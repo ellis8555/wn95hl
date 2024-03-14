@@ -1,17 +1,34 @@
 'use client'
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 
 function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
 
-    let currentStandings = useRef(standings)
-    const {isTableFilteredContext, divisionsContext, conferenceNameContext} = useFullLeagueStandings()
+  let currentStandings = useRef(standings)
+  // pathName used to change conferenceName/isTableFiltered contexts back to empty when moving away from a filtered path
+  const pathName = usePathname()
+  // contexts used for sorting between full or filtered standing tables
+  const {isTableFilteredContext, setIsTableFilteredContext, divisionsContext, conferenceNameContext, setConferenceNameContext} = useFullLeagueStandings()
 
-function readHeader(e){
+  // this allows sorting after switching to a different conference
+  useEffect(() => {
+      currentStandings.current = standings
+    },[conferenceNameContext])
+
+  // when navigating from away from filtered table reset conference name context
+  useEffect(() => {
+      setIsTableFilteredContext(false);
+      setConferenceNameContext("")
+    },[pathName])
+    
+    function readHeader(e){
+      // get the name of the columns header
     let header = e.target.textContent
 
+    // if user has clicked on filter by conference or division button
     if(isTableFilteredContext){
         currentStandings.current = currentStandings.current.filter((team) => {
             if (
@@ -23,11 +40,12 @@ function readHeader(e){
             return;
           });
     }
-console.log('testing')
+    // table displays Team which matches db field of teamName
     if(header === "Team"){
         header = "teamName"
     }
 
+    // custom sort for teams current streak
     if (header === "Strk") {
       const sortedByStrk = [...currentStandings.current].sort((a, b) => {
           const getStreakType = (str) => {
@@ -54,10 +72,12 @@ console.log('testing')
       return;
   }
 
-    const sortedStandings = [...currentStandings.current].sort((a, b) => {
+  const sortedStandings = [...currentStandings.current].sort((a, b) => {
+  // teamName is sorting strings
   if (header === "teamName"){
             return a[header].localeCompare(b[header]);
         } else {
+          // fields that are numeric
             return b[header] - a[header]
         }
     });
