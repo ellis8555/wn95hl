@@ -12,7 +12,7 @@ export default async function Page() {
     <div className="flex justify-center my-2">
       <div className="text-slate-300">
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
-          NHL95 in development
+          Darkside Stats
         </h1>
         <Alert backgroundColor="bg-green-500">Tables can be sorted. Click on column header and it will sort by that header.</Alert>
         <Alert>
