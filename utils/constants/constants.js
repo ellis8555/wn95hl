@@ -1,4 +1,4 @@
-export const LEAGUE_TABLE_CATEGORIES = ["GP", "W", "L", "T", "OTL", "Pts", "Gf", "Ga", "Diff", "Strk"];
+export const LEAGUE_TABLE_CATEGORIES = ["GP", "W", "L", "T", "OTL", "Pts","Pts%", "Gf", "Ga", "Diff", "Strk"];
 export const LEAGUE_HTMX_TABLE_CATEGORIES = [
   "Team",
   "GP",
@@ -7,6 +7,7 @@ export const LEAGUE_HTMX_TABLE_CATEGORIES = [
   "T",
   "OTL",
   "Pts",
+  "Pts%",
   "Gf",
   "Ga",
   "Diff",
