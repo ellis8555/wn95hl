@@ -10,7 +10,7 @@ export const metadata = {
 export default async function Page() {
   return (
     <div className="flex justify-center my-2">
-      <div className="text-slate-300 w-full m-auto md:w-3/4">
+      <div className="text-slate-300 w-full md:w-3/4 md:mx-auto">
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
