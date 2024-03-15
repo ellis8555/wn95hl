@@ -1,31 +1,21 @@
-.news-features {
+.news {
     border: 1px solid white;
     border-radius: .5rem;
     margin: 1.5rem 1rem;
     padding: 1rem
 }
 
-.news-features h2 {
+.news h2 {
     color: #fb923c;
     font-size: 1.5rem;
     line-height: 2rem;
     text-align: center;
 }
 
-.news-features li {
+.news li{
+    margin:1rem 0
+}
+
+.news {
     margin: 1rem 0
-}
-
-.news-message ul {
-    margin: 1rem 1rem;
-    padding: 1rem
-}
-
-.news-message li {
-    margin: 1rem 0
-}
-
-.news-message p {
-    color: white;
-    font-size: 1rem;
 }
