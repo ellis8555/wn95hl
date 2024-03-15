@@ -7,8 +7,8 @@ export default async function Page() {
           <h1 className="text-4xl lg:text-6xl text-center my-8">
             About this project
           </h1>
-          <div className="flex-col lg:flex lg:flex-row w-10/12 m-auto md:w-3/4">
-            <section class="news-features">
+          <div className="flex flex-col lg:flex-row lg:gap-4 w-11/12 m-auto md:w-3/4">
+            <section className="news">
             <h2>Desktop and mobile</h2>
             <ul>
               <li>NHL95online image is a link back to homepage</li>
@@ -18,7 +18,7 @@ export default async function Page() {
               <li>As of now the only team logo that is not a link is teams logo top of game results page</li>
             </ul>
             </section>
-            <section  class="news-features">
+            <section  className="news">
             <h2>Desktop</h2>
             <ul>
               <li>League logos right side navagation bar switch the score ticker to the corresponding league</li>
@@ -26,15 +26,16 @@ export default async function Page() {
               <li>On the navbar rightmost icon leads to login page</li>
             </ul>
             </section>
-            <section  class="news-features">
+            <section  className="news">
             <h2>Mobile</h2>
             <ul>
               <li>Orange puck when clicked opens up a drop down menu</li>
             </ul>
             </section>
           </div>
-          <div className="w-10/12 m-auto md:w-3/4">
-            <section class="news-message">
+          <div className="w-11/12 m-auto md:w-3/4">
+            <section className="news">
+            <h2>General</h2>
               <ul>
           <li>It feels most of the underlying code base is functioning properly regarding the proper display of information across multiple league. This includes the adding of new leagues, new seasons and then on top of that having those leagues and seasons display properly when requested. 
           </li>
