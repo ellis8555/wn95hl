@@ -14,6 +14,7 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
+        <Alert backgroundColor="bg-green-500">Looking to have HAI league added</Alert>
         <Alert>
         <Link className="underline" href="/news">Notes on this project</Link>
         </Alert>
