@@ -9,7 +9,6 @@ function incrementPointsForTeams(
   const getHomeTeamsCurrentPoints = arrayOfTeamObjects[teamsIndexNumber].Pts;
   arrayOfTeamObjects[teamsIndexNumber].Pts =
     getHomeTeamsCurrentPoints + currentPoints;
-  return getSeasonStandings[teamsIndexNumber];
 }
 
 export default incrementPointsForTeams;
