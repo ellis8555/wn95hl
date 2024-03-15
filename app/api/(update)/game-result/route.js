@@ -26,6 +26,7 @@ import Away_Team_Goalie_Stats from "@/schemas/away-team-goalie-stats/awayTeamGoa
 import Home_Team_Player_Stats from "@/schemas/home-team-player-stats/homeTeamPlayerStats";
 import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPlayerStats";
 import Csv_game_data from "@/schemas/csv-game-stats/csvGameStats";
+import updatePointsPercentage from "@/utils/api/table-methods/team-standings/update-points-percentage";
 
 const dbCallFrom = "api update game-result";
 // OPTIONS is needed for a post request from an outside projects request
@@ -34,8 +35,6 @@ export const OPTIONS = async (req, res) => {
 };
 // the acutal POST request
 export const POST = async (req, res) => {
-  console.log(`Write to db: ${WRITE_TO_DB}`)
-  console.log(`Duplicates: ${ALLOW_DUPLICATES}`)
   //FIXME: tempCSVData to be removed in future. it is data used to append to csv file
   // tempCSVData comes from python script headerArray object
   const { currSeason, fileName, fileSize, data, tempCSVData = undefined } = await req.json();
@@ -501,7 +500,7 @@ setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints,
     /////////////////////////////////
 
     // home team
-    const homeTeamsUpdatedStandings = incrementPointsForTeams(
+    incrementPointsForTeams(
       getSeasonStandings,
       homeTeamPoints,
       homeTeamsStandingIndex,
@@ -509,12 +508,22 @@ setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints,
     );
 
     // away team
-    const awayTeamsUpdatedStandings = incrementPointsForTeams(
+incrementPointsForTeams(
       getSeasonStandings,
       awayTeamPoints,
       awayTeamsStandingIndex,
       getSeasonStandings
     );
+
+        ///////////////////////
+    // adjust points percentage
+    ///////////////////////////
+
+    // home team
+    const homeTeamsUpdatedStandings = updatePointsPercentage(getSeasonStandings, homeTeamsStandingIndex);
+
+    // away team
+    const awayTeamsUpdatedStandings = updatePointsPercentage(getSeasonStandings, awayTeamsStandingIndex);
 
     /////////////////////////////////
     // set standings object
