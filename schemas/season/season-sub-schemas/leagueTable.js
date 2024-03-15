@@ -29,6 +29,10 @@ const LeagueTableSchema = new Schema({
     type: Number,
     default: 0,
   },
+  "Pts%": {
+    type: String,
+    default: ".000"
+  },
   Gf: {
     type: Number,
     default: 0
