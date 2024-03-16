@@ -170,7 +170,7 @@ if(gameReturnCount === "all"){
     gameDataInStringFormat += "\r\n"
   })
   return gameDataInStringFormat
-} else if(!/^[0-9]$/.test(gameReturnCount.toString())){
+} else if(!/^\d{1,2}$/.test(gameReturnCount.toString())){
   const arrayToBuildCsvStringWith = listOfCsvGameData.slice(-10);
   arrayToBuildCsvStringWith.forEach(gameString => {
     gameDataInStringFormat += gameString
