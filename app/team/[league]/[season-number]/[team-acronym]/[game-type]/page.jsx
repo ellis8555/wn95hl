@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { connectToDb } from "@/utils/database";
 import TeamLogoNoLink from "@/components/server/Logos/TeamLogoNoLink";
 import FinalResult from "@/components/server/Results/FinalResult";
@@ -300,7 +301,9 @@ async function page({ params }) {
       <div className="flex flex-row justify-center gap-1">
         {recentGames.map((game) => {
           return (
-            <FinalResult key={game._id} teamAcronym={teamAcronym} game={game} />
+            <Link key={game._id} href={`/boxscore/${leagueName}/${seasonNumber}/${game._id}`}>
+              <FinalResult key={game._id} teamAcronym={teamAcronym} game={game} />
+            </Link>
           );
         })}
       </div>
