@@ -1,3 +1,4 @@
+import Link from "next/link";
 import FinalResult from "./FinalResult";
 import TeamLogo from "../Logos/TeamLogo";
 
@@ -16,7 +17,9 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
             <div key={game._id} className="flex flex-row gap-4">
               {game["otherGameStats"]["homeTeam"] === teamAcronym ? (
                 <div className="flex flex-row items-center gap-4">
-                  <FinalResult teamAcronym={teamAcronym} game={game} />
+                  <Link key={game._id} href={`/boxscore/${leagueName}/${seasonNumber}/${game._id}`}>
+                    <FinalResult teamAcronym={teamAcronym} game={game} />
+                  </Link>
                   <TeamLogo
                     name={game["otherGameStats"]["awayTeam"]}
                     width={widthHeight}
@@ -28,7 +31,9 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
                 </div>
               ) : (
                 <div className="flex flex-row items-center gap-4">
-                  <FinalResult teamAcronym={teamAcronym} game={game} />
+                  <Link key={game._id} href={`/boxscore/${leagueName}/${seasonNumber}/${game._id}`}>
+                    <FinalResult teamAcronym={teamAcronym} game={game} />
+                  </Link>
                   <TeamLogo
                     name={game["otherGameStats"]["homeTeam"]}
                     width={widthHeight}
