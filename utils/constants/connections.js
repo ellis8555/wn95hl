@@ -9,6 +9,7 @@ const CONNECTION_MODE = "DARK95_LIVE"
 /////////////////////////////
 
 // const CONNECTION_MODE = "HOME_DEV"
+// const CONNECTION_MODE = "HOME_DARK_DEV"
 // const CONNECTION_MODE = "MONGO_ATLAS_95"
 // const CONNECTION_MODE = "MONGO_ATLAS_DEV"
 
@@ -25,6 +26,11 @@ let ORIGIN
 switch(CONNECTION_MODE){
     case "HOME_DEV":
         DB_CONNECT = process.env.HOME_URI;
+        DOMAIN = "http://localhost:3000";
+        ORIGIN = process.env.ALLOW_HOME_ORIGIN;
+    break;
+    case "HOME_DARK_DEV":
+        DB_CONNECT = process.env.MONGODB_DARKSIDE_URI;
         DOMAIN = "http://localhost:3000";
         ORIGIN = process.env.ALLOW_HOME_ORIGIN;
     break;
