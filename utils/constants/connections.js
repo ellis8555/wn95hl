@@ -2,19 +2,19 @@
 // THIS IS THE LIVE SETTING
 ///////////////////////////
 
-// const CONNECTION_MODE = "DARK95_LIVE"
+const CONNECTION_MODE = "DARK95_LIVE"
 
 /////////////////////////////
 // THESE ARE TESTING SETTINGS
 /////////////////////////////
 
 // const CONNECTION_MODE = "HOME_DEV"
-const CONNECTION_MODE = "HOME_DARK_DEV"
+// const CONNECTION_MODE = "HOME_DARK_DEV"
 // const CONNECTION_MODE = "MONGO_ATLAS_95"
 // const CONNECTION_MODE = "MONGO_ATLAS_DEV"
 
 // true will save the game file to the selected database
-const WRITE_TO_DB = false;
+const WRITE_TO_DB = true;
 
 // true will allow duplicates to pass through game state duplicate check
 const ALLOW_DUPLICATES = false;
