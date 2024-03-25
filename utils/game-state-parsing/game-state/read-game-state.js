@@ -149,18 +149,17 @@ async function readBinaryGameState(
         } catch (error) {
           homeShootPct = 0;
         }
-
+  
         const faceoffTotal = awayFaceoffWins + homeFaceoffWins;
-
         //   #Get the roster information
         const awayGCount = +teamPositionNumbersDict[awayTeam]["goalies"];
         const awayFCount = +teamPositionNumbersDict[awayTeam]["forwards"];
         const awayDCount = +teamPositionNumbersDict[awayTeam]["defensemen"];
-
+        
         const homeGCount = +teamPositionNumbersDict[homeTeam]["goalies"];
         const homeFCount = +teamPositionNumbersDict[homeTeam]["forwards"];
         const homeDCount = +teamPositionNumbersDict[homeTeam]["defensemen"];
-
+        
         // #Prepare the lists for the away and home player stats
         const awayPlayerStats = Array.from(
           { length: awayGCount + awayFCount + awayDCount },
@@ -218,7 +217,7 @@ async function readBinaryGameState(
         ) {
           homePlayers[i].push("D");
         }
-
+ 
         // Extract the goal summary
         // #We could use the number of goals that we calculated earlier to do this, but
         // #to be safe, we'll extract the game's specific byte for telling us how many
@@ -1511,7 +1510,7 @@ async function readBinaryGameState(
         resolve(gameProperties);
       } catch (error) {
         let gameProperties = {
-          data: "There was an error processing the file",
+          message: "There was an error processing the file",
         };
         reject(gameProperties);
       }
