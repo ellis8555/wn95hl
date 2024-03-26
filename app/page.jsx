@@ -16,7 +16,7 @@ export default async function Page() {
         </h1>
         <Alert backgroundColor="bg-green-500">Looking to have HAI league added</Alert>
         <Alert>
-        <Link className="underline" href="/news">Notes on this project: <span className="text-blue-500">New update Mar 18, 2024</span></Link>
+        <Link className="underline" href="/news">UPDATE: <span className="text-slate-700">March 26th, 2024</span></Link>
         </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
