@@ -301,7 +301,7 @@ async function page({ params }) {
       <div className="flex flex-row justify-center gap-1">
         {recentGames.map((game) => {
           return (
-            <Link key={game._id} href={`/boxscore/${leagueName}/${seasonNumber}/${game._id}`}>
+            <Link key={game._id} href={`/boxscores/${leagueName}/${seasonNumber}/${game._id}`}>
               <FinalResult key={game._id} teamAcronym={teamAcronym} game={game} />
             </Link>
           );
