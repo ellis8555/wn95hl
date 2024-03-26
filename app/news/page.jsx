@@ -10,9 +10,10 @@ export default async function Page() {
           <div className="flex flex-col lg:flex-row lg:gap-4 w-11/12 m-auto md:w-3/4">
             <section className="news">
             <h2>Desktop and mobile</h2>
-            <p className="text-center my-4">Updated Mar 18, 2024</p>
+            <p className="text-center my-4">** Updated Mar 26, 2024 **</p>
             <ul>
-              <li className="text-green-500">** NEW - Team results page clicking on little boxes with either W, L, T, OTL is link to boxscore for that game **</li>
+              <li className="text-green-500">** NEW - Within team game results page now clicking on W, L, T, OTL opens a popup screen. Two ways to close the popover are to either click outside of the popover or clicking or swiping back button **</li>
+              <li>Team results page clicking on little boxes with either W, L, T, OTL is link to boxscore for that game</li>
               <li>NHL95online image is a link back to homepage</li>
               <li>Tables are sortable by clicking on any columns header</li>
               <li>Tables scroll horizontally depending on a devices width</li>
