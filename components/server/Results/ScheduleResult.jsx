@@ -17,7 +17,7 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
             <div key={game._id} className="flex flex-row gap-4">
               {game["otherGameStats"]["homeTeam"] === teamAcronym ? (
                 <div className="flex flex-row items-center gap-4">
-                  <Link key={game._id} href={`/boxscore/${leagueName}/${seasonNumber}/${game._id}`}>
+                  <Link key={game._id} href={`/boxscores/${leagueName}/${seasonNumber}/${game._id}`}>
                     <FinalResult teamAcronym={teamAcronym} game={game} />
                   </Link>
                   <TeamLogo
@@ -31,7 +31,7 @@ function ScheduleResult({ teamAcronym, games, leagueName, seasonNumber }) {
                 </div>
               ) : (
                 <div className="flex flex-row items-center gap-4">
-                  <Link key={game._id} href={`/boxscore/${leagueName}/${seasonNumber}/${game._id}`}>
+                  <Link key={game._id} href={`/boxscores/${leagueName}/${seasonNumber}/${game._id}`}>
                     <FinalResult teamAcronym={teamAcronym} game={game} />
                   </Link>
                   <TeamLogo
