@@ -44,8 +44,10 @@ function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
     if(header === "Team"){
         header = "teamName"
     }
-
+    ///////////////////////////////////////
     // custom sort for teams current streak
+    ///////////////////////////////////////
+
     if (header === "Strk") {
       const sortedByStrk = [...currentStandings.current].sort((a, b) => {
           const getStreakType = (str) => {
@@ -71,15 +73,63 @@ function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
       setAreStandingsSorted(true);
       return;
   }
+    //////////////////////////////////////////////
     // custom sort for teams current last 10 games
+    //////////////////////////////////////////////
+    // sort order is
+    // 1. Pts
+    // 2. Pts%
+    // 3. Gf
+    // then sort zero GP alphabetically
+
     if (header === "L10") {
       const sortedByLastTen = [...currentStandings.current].sort((a, b) => {
-        
+        // Check if any team has zero games played
+        const hasZeroGamesA = a["GP"] === 0;
+        const hasZeroGamesB = b["GP"] === 0;
+
+        // If one team has zero games played and the other doesn't, sort accordingly
+        if (hasZeroGamesA !== hasZeroGamesB) {
+            return hasZeroGamesA ? 1 : -1;
+        }
+
+        // sort by points from last 10 games
     const ptsA = a["Last10"]["lastTenRecord"]["Pts"] ?? 0;
     const ptsB = b["Last10"]["lastTenRecord"]["Pts"] ?? 0;
+    const winsA = a["W"];
+    const winsB = b["W"];
+    const ptsPercentA = a["Pts%"]
+    const ptsPercentB = b["Pts%"]
+    const aGoalsFor = a["Gf"]
+    const bGoalsFor = b["Gf"]
+
+    // If points are equal but wins are different, sort by wins
+    if (ptsA === ptsB) {
+        return winsB - winsA; // Sort by wins descending
+    }
+
+    // If points and wins are equal, sort by Pts%
+    if (ptsA === ptsB && winsA === winsB) {
+      return ptsPercentB - ptsPercentA; // Sort by Pts% descending
+  }
+
+    // If points and wins are equal, sort by Pts%
+    if (ptsA === ptsB && winsA === winsB && ptsPercentA === ptsPercentB) {
+      return bGoalsFor - aGoalsFor; // Sort by goals for
+  }
 
     return ptsB - ptsA;
-      });
+  });
+
+      // Sort teams with zero games played alphabetically
+      sortedByLastTen.sort((a, b) => {
+        if (a["GP"] === 0 && b["GP"] === 0) {
+            const teamNameA = a["teamName"];
+            const teamNameB = b["teamName"];
+            return teamNameA.localeCompare(teamNameB);
+        }
+        return 0;
+    });
 
       setSortedStandings(sortedByLastTen);
       currentStandings.current = standings
