@@ -15,8 +15,8 @@ function updateTeamsLastTen(
         "OTL": 1,
     }
     // get the last 10 results if exists or create templates
-      const lastTenArray = arrayOfTeamObjects[teamsStandingsIndex]["Last10"]["lastTenArray"] || []
-      const lastTenRecord = arrayOfTeamObjects[teamsStandingsIndex]["Last10"]["lastTenRecord"] || {
+      const lastTenArray = arrayOfTeamObjects[teamsStandingsIndex]["Last10"]["lastTenArray"] ?? []
+      const lastTenRecord = arrayOfTeamObjects[teamsStandingsIndex]["Last10"]["lastTenRecord"] ?? {
           "W": 0,
           "L": 0,
           "T": 0,
