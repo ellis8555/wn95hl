@@ -48,6 +48,38 @@ const LeagueTableSchema = new Schema({
   Strk: {
     type: String,
     default: "-"
+  },
+  Last10: {
+    lastTenArray: {
+      type: [String],
+      default: []
+    },
+    lastTenRecord: {
+      W: {
+        type: Number,
+        default: 0
+      },
+      L: {
+        type: Number,
+        default: 0
+      },
+      T: {
+        type: Number,
+        default: 0
+      },
+      OTL: {
+        type: Number,
+        default: 0
+      },
+      Pts: {
+        type: Number,
+        default: 0
+      },
+    },
+  },
+  L10: {
+    type: String,
+    default: "(0-0-0-0)"
   }
 });
 
