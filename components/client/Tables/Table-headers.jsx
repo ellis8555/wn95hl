@@ -71,6 +71,21 @@ function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
       setAreStandingsSorted(true);
       return;
   }
+    // custom sort for teams current last 10 games
+    if (header === "L10") {
+      const sortedByLastTen = [...currentStandings.current].sort((a, b) => {
+        
+    const ptsA = a["Last10"]["lastTenRecord"]["Pts"] ?? 0;
+    const ptsB = b["Last10"]["lastTenRecord"]["Pts"] ?? 0;
+
+    return ptsB - ptsA;
+      });
+
+      setSortedStandings(sortedByLastTen);
+      currentStandings.current = standings
+      setAreStandingsSorted(true);
+      return;
+  }
 
   const sortedStandings = [...currentStandings.current].sort((a, b) => {
   // teamName is sorting strings
