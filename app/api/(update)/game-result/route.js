@@ -27,6 +27,7 @@ import Home_Team_Player_Stats from "@/schemas/home-team-player-stats/homeTeamPla
 import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPlayerStats";
 import Csv_game_data from "@/schemas/csv-game-stats/csvGameStats";
 import updatePointsPercentage from "@/utils/api/table-methods/team-standings/update-points-percentage";
+import updateTeamsLastTen from "@/utils/api/table-methods/team-standings/update-teams-last-ten";
 
 const dbCallFrom = "api update game-result";
 // OPTIONS is needed for a post request from an outside projects request
@@ -494,6 +495,15 @@ incrementGoalsAgainst(getSeasonStandings, awayTeamsStandingIndex, getSeasonStand
 setCurrentTeamStreak(getSeasonStandings, homeTeamsStandingIndex, homeTeamPoints, wasGameATie)
 // set away teams streak
 setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints, wasGameATie)
+
+    ////////////////////////
+    // adjust teams last ten
+    ////////////////////////
+
+    // set home teams last ten games
+    updateTeamsLastTen(getSeasonStandings, wasGameATie, homeTeamsStandingIndex, homeTeamPoints)
+    // set away teams last ten games
+    updateTeamsLastTen(getSeasonStandings, wasGameATie, awayTeamsStandingIndex, awayTeamPoints)
 
     /////////////////////////////////
     // increase points for both teams
