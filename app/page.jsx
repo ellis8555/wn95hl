@@ -14,9 +14,10 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
-        <Alert backgroundColor="bg-green-500">Looking to have HAI league added</Alert>
+        <Alert backgroundColor="bg-green-500">L10 added in tables. This column will catch up as games get uploaded</Alert>
+        <Alert backgroundColor="bg-green-500">Need some ROM info in order to add HAI</Alert>
         <Alert>
-        <Link className="underline" href="/news">UPDATE: <span className="text-slate-700">March 26th, 2024</span></Link>
+        <Link className="underline" href="/news">About this site</Link>
         </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
