@@ -146,7 +146,7 @@ function LogInForm() {
   };
 
   return (
-    <div className="flex flex-col mt-48">
+    <div className="flex flex-col">
       {userMessage && (
         <div className="text-center text-2xl mb-4 break-words">
           {userMessage}
