@@ -14,7 +14,7 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
-        <Alert backgroundColor="bg-green-500">L10 added in tables. This column will catch up as games get uploaded. Vintage League complete</Alert>
+        <Alert backgroundColor="bg-green-500">L10 column tables will catch up as games get uploaded</Alert>
         <Alert backgroundColor="bg-green-500">Need some ROM info in order to add HAI</Alert>
         <Alert>
         <Link className="underline" href="/news">About this site</Link>
