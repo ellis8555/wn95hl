@@ -11,5 +11,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/edit-boxscore"],
+  matcher: ["/dashboard", "/reverse-submit", "/edit-boxscore"],
 };
