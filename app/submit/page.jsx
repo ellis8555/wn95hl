@@ -1,8 +1,8 @@
-import GameInputForm from "@/components/client/GameInputForm";
+import GameInputForm from "@/components/client/GameInput/GameInputForm";
 
 function page() {
   return (
-    <div className="mt-[20%] ">
+    <div className="h-96 flex justify-center items-center">
       <GameInputForm />
     </div>
   );
