@@ -1,16 +1,37 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { DOMAIN } from "@/utils/constants/connections"
+import { MOST_RECENT_SEASON, MOST_RECENT_Q_SEASON, MOST_RECENT_V_SEASON } from "@/utils/constants/constants"
 import Alert from "@/components/server/Alerts/Alert"
-import getGamesInCsvFormat from "./get-games-in-csv-format"
 import LeagueLogo from "@/components/server/Logos/LeagueLogo"
 import "./styles.css"
 
 export default function CsvRequest(){
     const [currentLeague, setCurrentLeague] = useState('w')
+    const [seasonNumber, setSeasonNumber] = useState(MOST_RECENT_SEASON)
+    const router = useRouter()
 
-    function setLeague(leagueName){
-        setCurrentLeague(leagueName)
-    }
+    useEffect(() => {
+        switch(currentLeague){
+            case "w":
+                setSeasonNumber(MOST_RECENT_SEASON)
+                break;
+            case "q":
+                setSeasonNumber(MOST_RECENT_Q_SEASON)
+                break;
+            case "v":
+                setSeasonNumber(MOST_RECENT_V_SEASON)
+                break;
+        }
+    }, [currentLeague])
+
+function handleSubmit(e){
+    e.preventDefault();
+    const formData = new FormData(e.target)
+    const howManyGames = formData.get("numberOfCsvGames")
+    router.push(`${DOMAIN}/api/league-data/${currentLeague}/${seasonNumber}/csv-game-data/${howManyGames}`)
+}
 
     return (
         <div className="flex flex-col justify-center gap-4 md:w-1/2 mx-auto">     
@@ -22,17 +43,17 @@ export default function CsvRequest(){
             Current league: <span className="text-green-400 text-lg">{currentLeague.toUpperCase()}</span>
         </div>
         <div className="flex justify-center gap-2">
-            <div  onClick={() => setLeague("w")}>
+            <div  onClick={() => setCurrentLeague("w")}>
         <LeagueLogo name={"w"} width={25} height={25}/>
             </div>
-        <div onClick={() => setLeague("q")}>
+        <div onClick={() => setCurrentLeague("q")}>
         <LeagueLogo name={"q"} width={25} height={25} />
         </div>
-        <div onClick={() => setLeague("v")}>
+        <div onClick={() => setCurrentLeague("v")}>
         <LeagueLogo name={"v"} width={25} height={25}/>
         </div>
         </div>
-        <form action={getGamesInCsvFormat}>
+        <form onSubmit={handleSubmit}>
             <input type="number" name="numberOfCsvGames" id="numberOfCsvGames" placeholder="Enter game qty: default 10"/>
             <input type="hidden" name="leagueName" value={currentLeague} />
             <br/>
