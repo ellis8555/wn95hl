@@ -19,7 +19,7 @@ export default function CsvRequest(){
             Click league logo to change which league to get data for
         </div>
         <div>
-            Current league: <span className="text-green-400">{currentLeague.toUpperCase()}</span>
+            Current league: <span className="text-green-400 text-lg">{currentLeague.toUpperCase()}</span>
         </div>
         <div className="flex justify-center gap-2">
             <div  onClick={() => setLeague("w")}>
