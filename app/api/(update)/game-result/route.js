@@ -28,6 +28,7 @@ import Away_Team_Player_Stats from "@/schemas/away-team-player-stats/awayTeamPla
 import Csv_game_data from "@/schemas/csv-game-stats/csvGameStats";
 import updatePointsPercentage from "@/utils/api/table-methods/team-standings/update-points-percentage";
 import updateTeamsLastTen from "@/utils/api/table-methods/team-standings/update-teams-last-ten";
+import updateTeamsShutouts from "@/utils/api/table-methods/team-standings/update-teams-shutouts";
 
 const dbCallFrom = "api update game-result";
 // OPTIONS is needed for a post request from an outside projects request
@@ -504,6 +505,20 @@ setCurrentTeamStreak(getSeasonStandings, awayTeamsStandingIndex, awayTeamPoints,
     updateTeamsLastTen(getSeasonStandings, wasGameATie, homeTeamsStandingIndex, homeTeamPoints)
     // set away teams last ten games
     updateTeamsLastTen(getSeasonStandings, wasGameATie, awayTeamsStandingIndex, awayTeamPoints)
+
+    /////////////////////////
+    // adjust teams shut outs
+    /////////////////////////
+
+    // adjust home teams shutouts
+    if(data.awayTeamGameStats.AwayGOALS == 0){
+      updateTeamsShutouts(getSeasonStandings, homeTeamsStandingIndex)
+    }
+
+    // adjust away teams shutouts
+    if(data.homeTeamGameStats.HomeGOALS == 0){
+      updateTeamsShutouts(getSeasonStandings, awayTeamsStandingIndex)
+    }
 
     /////////////////////////////////
     // increase points for both teams
