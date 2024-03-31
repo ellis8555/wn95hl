@@ -153,10 +153,10 @@ function Navbar() {
           {isAuthorized ? (
             <div>
               <Link href="/dashboard">
-                <li>Dashboard</li>
+                <li onClick={toggleMenu}>Dashboard</li>
               </Link>
               <Link href="/logout">
-                <li>Logout</li>
+                <li onClick={toggleMenu}>Logout</li>
               </Link>
             </div>
           ) : (
