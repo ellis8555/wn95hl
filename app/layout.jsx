@@ -11,7 +11,7 @@ import {
 
 export const metadata = {
   title: "NHL 95",
-  description: "League website for the NHL 95",
+  description: "Standings for NHL 95",
 };
 
 export const revalidate = 0;
