@@ -2,7 +2,9 @@ import ReverseGameInputForm from "@/components/client/GameInput/ReverseGameInput
 
 function page() {
   return (
+    <div className="h-96 flex justify-center items-center">
       <ReverseGameInputForm />
+      </div>
   );
 }
 
