@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { DOMAIN } from "@/utils/constants/connections";
 import { GET_API } from "@/utils/constants/data-calls/api_calls";
 
-function DashboardLayout({ children }) {
+export default function DashboardLayout({ children }) {
   const { isAuthorized, setIsAuthorized } = useAuthorizationStatus();
 
   const router = useRouter();
@@ -28,7 +28,10 @@ function DashboardLayout({ children }) {
     return <p className="text-slate-300 text-center">Authorizing...</p>;
   }
 
-  return <div className="text-slate-300">{children}</div>;
+  return <div className="text-slate-300 text-center">
+                <h1 className="text-4xl pt-4 mb-4">Dashboard</h1>
+    {children}
+    </div>;
 }
 
 async function getUser() {
@@ -53,5 +56,3 @@ async function getUser() {
     };
   }
 }
-
-export default DashboardLayout;
