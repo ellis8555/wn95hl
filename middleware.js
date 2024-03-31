@@ -3,13 +3,10 @@ import { AUTH_COOKIE } from "./utils/constants/constants";
 
 export async function middleware(req, res) {
   const isAuthenticated = req.cookies.has(AUTH_COOKIE);
-  const url = new URL(req.url)
-  const path = url.pathname
+  const path = req.nextUrl.pathname
 
-  // list of routes that are protected
-  const protectedPaths = ["/dashboard", "/reverse-submit", "/edit-boxscore"];
   // returns unauthorized user to login page if not authorized and on one of the above protected paths
-  if (protectedPaths.includes(path) && !isAuthenticated) {
+  if (req.nextUrl.pathname.startsWith('/dashboard') && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
   
@@ -22,5 +19,5 @@ export async function middleware(req, res) {
 }
 
 export const config = {
-  matcher: ["/login", "/dashboard", "/reverse-submit", "/edit-boxscore"],
+  matcher: ["/login", "/dashboard", "/dashboard/reverse-submit", "/dashboard/csv-request","/edit-boxscore"],
 };
