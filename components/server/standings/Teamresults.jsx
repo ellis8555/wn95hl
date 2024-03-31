@@ -44,7 +44,7 @@ function Teamresults({
           }
         }
       return (
-        <td key={index} category={category} className={`text-center ${dynamicTextColor}`}>
+        <td key={index} category={category} className={`text-center ${dynamicTextColor} whitespace-nowrap`}>
           {(category === "Diff" && team[category] > 0 ) ? "+"+team[category]:team[category]}
         </td>
       )})}
