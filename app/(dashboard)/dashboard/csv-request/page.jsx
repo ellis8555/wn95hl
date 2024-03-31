@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { DOMAIN } from "@/utils/constants/connections"
 import { MOST_RECENT_SEASON, MOST_RECENT_Q_SEASON, MOST_RECENT_V_SEASON } from "@/utils/constants/constants"
-import Alert from "@/components/server/Alerts/Alert"
 import LeagueLogo from "@/components/server/Logos/LeagueLogo"
 import "./styles.css"
 
@@ -30,12 +29,12 @@ function handleSubmit(e){
     e.preventDefault();
     const formData = new FormData(e.target)
     const howManyGames = formData.get("numberOfCsvGames")
+    e.target.reset()
     router.push(`${DOMAIN}/api/league-data/${currentLeague}/${seasonNumber}/csv-game-data/${howManyGames}`)
 }
 
     return (
-        <div className="flex flex-col justify-center gap-4 md:w-1/2 mx-auto">     
-        <Alert>Until a fix is made: after submitting be sure to refresh the page</Alert>   
+        <div className="flex flex-col justify-center gap-4 md:w-1/2 mx-auto">      
         <div>
             Click league logo to change which league to get data for
         </div>
@@ -57,7 +56,7 @@ function handleSubmit(e){
             <input type="number" name="numberOfCsvGames" id="numberOfCsvGames" placeholder="Enter game qty: default 10"/>
             <input type="hidden" name="leagueName" value={currentLeague} />
             <br/>
-            <button className="w-min p-[1px] rounded-md bg-orange-500" type="submit">Submit</button>
+            <button className="w-min p-[1px] mt-2 rounded-md bg-orange-500" type="submit">Submit</button>
         </form>
         </div>
     )
