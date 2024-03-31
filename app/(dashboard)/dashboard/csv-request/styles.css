@@ -1,0 +1,13 @@
+form :is(input, button){
+    margin: .25rem 0rem;
+}
+
+input{
+    color: black;
+    padding-left: .25rem;
+    width: 15rem;
+}
+
+img:hover{
+    cursor: pointer;
+}
