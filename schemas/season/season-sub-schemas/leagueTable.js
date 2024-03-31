@@ -80,6 +80,10 @@ const LeagueTableSchema = new Schema({
   L10: {
     type: String,
     default: "(0-0-0-0)"
+  },
+  SO: {
+    type: Number,
+    default: 0
   }
 });
 
