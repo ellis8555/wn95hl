@@ -266,13 +266,13 @@ function GameInputForm() {
 
   return (
     <div
-    className="w-10/12 md:w-1/2 lg:w-5/12"
+    className="w-10/12 md:w-1/2 lg:w-4/12"
       onClick={() => {
         setIsStateUploaded(false);
       }}
     >
       <form
-        className="flex flex-row justify-between mt-4 bg-slate-800 mx-auto md:rounded-lg p-3"
+        className="flex flex-row justify-between mt-4 bg-slate-800 mx-auto rounded-lg p-3"
         onSubmit={handleSubmit}
       >
         <input
