@@ -25,3 +25,20 @@
 a[href="/login"] li:hover {
   background-color: rgb(30, 41, 59);
 }
+
+.upload-list{
+  position: absolute;
+  display: none;
+  right: 0;
+  overflow: hidden;
+}
+
+.upload-list li{
+  color:white;
+  background-color: #22c55e;
+  white-space: nowrap;
+  font-size: .85rem;
+  padding: .1rem 2rem;
+  margin-top: .35rem;
+  border-radius: .1rem;
+}
