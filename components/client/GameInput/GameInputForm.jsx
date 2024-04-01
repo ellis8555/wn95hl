@@ -266,11 +266,12 @@ function GameInputForm() {
 
   return (
     <div
-    className="w-10/12 md:w-1/2 lg:w-4/12"
+    className="w-10/12 md:w-1/2 lg:w-4/12 text-slate-300"
       onClick={() => {
         setIsStateUploaded(false);
       }}
     >
+      <h1 className="text-center text-xl">Submit league game</h1>
       <form
         className="flex flex-row justify-between mt-4 bg-slate-800 mx-auto rounded-lg p-3"
         onSubmit={handleSubmit}
@@ -285,12 +286,11 @@ function GameInputForm() {
             setGameSubmitError(false);
             setGameScoreOnError("");
           }}
-          className="text-slate-300"
         />
 
         <div className="flex flex-row gap-2">
           <button
-            className="border rounded-md border-slate-300 text-slate-300 px-2"
+            className="border rounded-md border-slate-300 px-2"
             type="submit"
           >
             Submit
@@ -299,16 +299,16 @@ function GameInputForm() {
       </form>
 
       {serverMessage && (
-        <div className="text-center text-slate-300 text-xl mt-2">
+        <div className="text-center text-xl mt-2">
           {serverMessage}
         </div>
       )}
       {gameSubmitError && (
         <>
-          <div className="text-center text-slate-300 text-xl mt-2">
+          <div className="text-center text-xl mt-2">
             Following game was not submitted
           </div>
-          <div className="text-center text-slate-300 text-xl mt-2">
+          <div className="text-center text-xl mt-2">
             {gameScoreOnError}
           </div>
         </>
