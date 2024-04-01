@@ -14,7 +14,8 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
-        <Alert backgroundColor="bg-green-500">Need some ROM info in order to add HAI</Alert>
+        <Alert backgroundColor={"bg-green-400"}>New feature <Link className="underline" href="/view-submit">here</Link>. Hover over cloud on desktop. Mobile it's in the menu</Alert>
+        <Alert>Need some ROM info in order to add HAI</Alert>
         <Alert>
         <Link className="underline" href="/news">About this site</Link>
         </Alert>
