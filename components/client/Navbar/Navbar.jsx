@@ -9,7 +9,7 @@ import {
   MOST_RECENT_Q_SEASON,
   MOST_RECENT_V_SEASON
 } from "@/utils/constants/constants";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
@@ -18,6 +18,7 @@ import { FaHockeyPuck } from "react-icons/fa";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const uploadDropDown = useRef()
   const { setLeagueContext, setSeasonNumberContext } = useFullLeagueStandings();
   const { isAuthorized } = useAuthorizationStatus();
 
@@ -32,7 +33,7 @@ function Navbar() {
     <div className="relative sticky top-0 w-full z-20">
       {/*  desktop menu */}
       <nav className="flex flex-row gap-4 justify-center items-center lg:justify-between bg-slate-800 p-2">
-        {/* mobile toggle menu icon */}
+        {/* mobile toggle menu icon. acutal mobile menu is further down the page*/}
         <FaHockeyPuck
           // if logged in menu icon green otherwise orange
           className={`${
@@ -85,10 +86,19 @@ function Navbar() {
               <Link href="/dashboard">Dashboard</Link>
             </li>
           )}
-          <li>
-            <Link href="/submit">
+          {/* upload game state drop down menu */}
+          <li className="relative">
+            <Link href="/submit" onClick={()=>{uploadDropDown.current.style.display = "none";}} onMouseOver={()=>{
+              uploadDropDown.current.style.display = "block";
+            }
+              }>
               <AiOutlineCloudUpload size="1.5rem" />
             </Link>
+            <ul ref={uploadDropDown} className="upload-list" onMouseLeave={()=>{uploadDropDown.current.style.display = "none"}}>
+              <li className="hover:bg-green-600">
+                <Link href="/view-submit">View a state</Link>
+              </li>
+            </ul>
           </li>
           {isAuthorized ? (
             <li>
@@ -146,6 +156,9 @@ function Navbar() {
               V_Scores
             </li>
           </Link>
+          {/* view a state */}
+          <Link href="/view-submit"><li onClick={toggleMenu}>View a state</li></Link>
+          {/* upload a state */}
           <Link href="/submit">
             <li onClick={toggleMenu}>Submit</li>
           </Link>
