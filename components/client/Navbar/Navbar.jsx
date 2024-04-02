@@ -15,6 +15,7 @@ import { useAuthorizationStatus } from "@/context/UserAuthContext";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { FaHockeyPuck } from "react-icons/fa";
+import { AiFillCaretDown } from "react-icons/ai";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,19 +87,29 @@ function Navbar() {
               <Link href="/dashboard">Dashboard</Link>
             </li>
           )}
-          {/* upload game state drop down menu */}
+          {/* drop down menu */}
           <li className="relative">
-            <Link href="/submit" onClick={()=>{uploadDropDown.current.style.display = "none";}} onMouseOver={()=>{
+              <AiFillCaretDown size="1.5rem" onMouseOver={()=>{
               uploadDropDown.current.style.display = "block";
             }
-              }>
-              <AiOutlineCloudUpload size="1.5rem" />
-            </Link>
+          }/>
             <ul ref={uploadDropDown} className="upload-list" onMouseLeave={()=>{uploadDropDown.current.style.display = "none"}}>
-              <li className="hover:bg-green-600">
-                <Link href="/view-submit">View a state</Link>
+            <Link href="/view-submit">
+              <li className="hover:bg-slate-400">
+                View a state
               </li>
+              </Link>
+              <Link href="/news">
+              <li className="hover:bg-slate-400">
+                About
+              </li>
+              </Link>
             </ul>
+          </li>
+          <li className="hover:cursor-pointer">
+            <Link href="/submit">
+          <AiOutlineCloudUpload size="1.5rem" />
+                </Link>
           </li>
           {isAuthorized ? (
             <li>
