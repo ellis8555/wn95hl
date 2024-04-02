@@ -173,6 +173,10 @@ function Navbar() {
           <Link href="/submit">
             <li onClick={toggleMenu}>Submit</li>
           </Link>
+          {/* about page */}
+          <Link href="/news">
+            <li onClick={toggleMenu}>About</li>
+          </Link>
           {/* if logged in display dashboard and logout */}
           {isAuthorized ? (
             <div>
