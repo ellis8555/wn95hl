@@ -2,9 +2,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
-import TeamLogo from "@/components/server/Logos/TeamLogo";
 import { STATE_PATTERN } from "@/utils/constants/constants";
 import { GET_LEAGUE_DATA } from "@/utils/constants/data-calls/api_calls";
 
@@ -254,12 +252,12 @@ function ViewGameStateSubmitForm() {
           </div>
           {/* display the game results beginning here */}
       {hasGameBeenSubmitted && 
-            <div className="text-center text-slate-300 mt-4">
+            <div className="text-center text-slate-300 mt-8">
       {overtimeGame && <div className="text-3xl text-orange-400 mt-4">OT</div>}
         <div className="text-center text-slate-300">
     {/* game stats begin */}
       {/* teams */}
-      <DisplayStat awayStat={awayTeam} statName="Teams" homeStat={homeTeam} />
+      <DisplayStat awayStat={`${awayTeam} (Away)`} statName="Teams" homeStat={`${homeTeam} (Home)`} />
       {/* score */}
       <DisplayStat awayStat={awayGoals} statName="Score" homeStat={homeGoals} />
       {/* shots */}
