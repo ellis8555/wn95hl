@@ -56,7 +56,7 @@ function ViewGameStateSubmitForm() {
   const seasonNumber = useRef(null)
 
   useEffect(() => {
-    fetchGameData();
+      fetchGameData();
   }, [gameData]);
 
   // submit the form
@@ -167,7 +167,6 @@ function ViewGameStateSubmitForm() {
     if (!gameData) {
       return;
     }
-    startTransition(async () => {
     // home stats
     setHomeTeam(gameData.data.otherGameStats["homeTeam"])
     setHomeGoals(gameData.data.homeTeamGameStats["HomeGOALS"]);
@@ -203,7 +202,6 @@ function ViewGameStateSubmitForm() {
     // this boolean triggers the game data to be displayed
     setHasGameBeenSubmitted(true)
     setServerMessage("")
-    })
     }
   
   // returns formatted stat
