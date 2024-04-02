@@ -81,6 +81,14 @@ const LeagueTableSchema = new Schema({
     type: String,
     default: "(0-0-0-0)"
   },
+  Gfa: {
+    type: String,
+    default: "0.00"
+  },
+  Gaa: {
+    type: String,
+    default: "0.00"
+  },
   SO: {
     type: Number,
     default: 0
