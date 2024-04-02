@@ -258,7 +258,7 @@ function ViewGameStateSubmitForm() {
       {hasGameBeenSubmitted && 
             <div className="text-center text-slate-300 mt-8">
       {overtimeGame && <div className="text-3xl text-orange-400 mt-4">OT</div>}
-        <div className="text-center text-slate-300">
+        <div className="text-center text-slate-300 mx-2">
     {/* game stats begin */}
       {/* teams */}
       <DisplayStat awayStat={`${awayTeam} (Away)`} statName="Teams" homeStat={`${homeTeam} (Home)`} />
