@@ -1,7 +1,7 @@
 // gameData is the var that contains all of a game states data
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState, useTransition  } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameStateReversed from "@/utils/game-state-parsing/game-state/read-game-state-reverse";
@@ -17,6 +17,7 @@ function ReverseGameInputForm() {
   const [gameSubmitError, setGameSubmitError] = useState(false);
   const [gameScoreOnError, setGameScoreOnError] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
+  const [isPending, startTransition] = useTransition()
 
   const {
     setClientRecentlyPlayedGames,
@@ -38,6 +39,7 @@ function ReverseGameInputForm() {
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    startTransition(async () => {
     const file = fileInputRef.current.files[0];
     if (!file) {
       alert("No file selected");
@@ -208,9 +210,11 @@ function ReverseGameInputForm() {
     if (fileInputRef.current != "") {
       fileInputRef.current.value = null;
     }
+  })
   };
 
   async function fetchGameData() {
+    startTransition(async () => {
     if (!gameData) {
       return;
     }
@@ -262,6 +266,7 @@ function ReverseGameInputForm() {
       setGameScoreOnError(gameScoreOnErrorMessage);
       setGameSubmitError(true);
     }
+  })
   }
 
   return (
@@ -291,8 +296,9 @@ function ReverseGameInputForm() {
 
         <div className="flex flex-row gap-2">
           <button
-            className="border rounded-md border-slate-300 text-slate-300 px-2"
+            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isPending ? "opacity-50" : ""}`}
             type="submit"
+            disabled={isPending}
           >
             Submit
           </button>
