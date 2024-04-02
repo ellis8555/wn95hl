@@ -15,9 +15,6 @@ export default async function Page() {
           Darkside Stats
         </h1>
         <Alert>Will work on adding Pure league soon</Alert>
-        <Alert>
-        <Link className="underline" href="/news">About this site</Link>
-        </Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
