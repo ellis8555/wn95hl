@@ -29,6 +29,8 @@ import Csv_game_data from "@/schemas/csv-game-stats/csvGameStats";
 import updatePointsPercentage from "@/utils/api/table-methods/team-standings/update-points-percentage";
 import updateTeamsLastTen from "@/utils/api/table-methods/team-standings/update-teams-last-ten";
 import updateTeamsShutouts from "@/utils/api/table-methods/team-standings/update-teams-shutouts";
+import updateGoalsAgainstAverage from "@/utils/api/table-methods/team-standings/update-goals-against-average";
+import updateGoalsForAverage from "@/utils/api/table-methods/update-goals-for-average";
 
 const dbCallFrom = "api update game-result";
 // OPTIONS is needed for a post request from an outside projects request
@@ -487,6 +489,27 @@ incrementGoalsAgainst(getSeasonStandings, awayTeamsStandingIndex, getSeasonStand
       
       // set away teams goal diff
       setTeamsGoalsDiff(getSeasonStandings, awayTeamsStandingIndex)
+
+    ///////////////////////////
+    // adjust goals for average
+    ///////////////////////////
+
+    // update home teams goals for
+    updateGoalsForAverage(getSeasonStandings, homeTeamsStandingIndex)
+
+    //update away teams goals for
+    updateGoalsForAverage(getSeasonStandings, awayTeamsStandingIndex)
+    
+    ///////////////////////////////
+    // adjust goals against average
+    ///////////////////////////////
+    
+    // update home teams goals against
+updateGoalsAgainstAverage(getSeasonStandings, homeTeamsStandingIndex,)
+
+    // update away teams goals against
+updateGoalsAgainstAverage(getSeasonStandings, awayTeamsStandingIndex,)
+
 
     //////////////////////////////
     // adjust teams current streak
