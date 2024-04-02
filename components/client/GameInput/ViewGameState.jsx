@@ -220,7 +220,7 @@ function ViewGameStateSubmitForm() {
     <div
     className="w-10/12 md:w-1/2 lg:w-4/12 mx-auto"
     >
-        <h1 className="text-center text-xl">View a game state</h1>
+        <h1 className="text-center text-2xl text-orange-400">View a game state</h1>
         <h2 className="text-center text-md mt-2">This is only for viewing results. No upload will occur.</h2>
       <form
         className="flex flex-row justify-between mt-4 bg-slate-800 mx-auto rounded-lg p-3"

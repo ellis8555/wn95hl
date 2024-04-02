@@ -276,7 +276,7 @@ function GameInputForm() {
         setIsStateUploaded(false);
       }}
     >
-      <h1 className="text-center text-xl">Submit league game</h1>
+      <h1 className="text-center text-xl text-orange-400">Submit league game</h1>
       <form
         className="flex flex-row justify-between mt-4 bg-slate-800 mx-auto rounded-lg p-3"
         onSubmit={handleSubmit}

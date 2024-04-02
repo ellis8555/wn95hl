@@ -4,7 +4,7 @@ export default async function Page() {
     return (
       <div className="flex justify-center my-2">
         <div className="text-slate-300">
-          <h1 className="text-4xl lg:text-6xl text-center my-8">
+          <h1 className="text-4xl text-center my-8 text-orange-400">
             About this project
           </h1>
           <div className="flex flex-col lg:flex-row lg:gap-4 w-11/12 m-auto md:w-3/4">
