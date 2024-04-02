@@ -34,8 +34,8 @@ a[href="/login"] li:hover {
 }
 
 .upload-list li{
-  color:white;
-  background-color: #22c55e;
+  color:black;
+  background-color: #CBD5e1;
   white-space: nowrap;
   font-size: .85rem;
   padding: .1rem 2rem;
