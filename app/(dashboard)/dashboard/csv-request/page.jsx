@@ -9,6 +9,7 @@ import "./styles.css"
 export default function CsvRequest(){
     const [currentLeague, setCurrentLeague] = useState('w')
     const [seasonNumber, setSeasonNumber] = useState(MOST_RECENT_SEASON)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const router = useRouter()
 
     useEffect(() => {
@@ -27,10 +28,12 @@ export default function CsvRequest(){
 
 function handleSubmit(e){
     e.preventDefault();
+    setIsSubmitting(true)
     const formData = new FormData(e.target)
     const howManyGames = formData.get("numberOfCsvGames")
     e.target.reset()
     router.push(`${DOMAIN}/api/league-data/${currentLeague}/${seasonNumber}/csv-game-data/${howManyGames}`)
+    setIsSubmitting(false)
 }
 
     return (
@@ -56,8 +59,9 @@ function handleSubmit(e){
             <input type="number" name="numberOfCsvGames" id="numberOfCsvGames" placeholder="Enter game qty: default 10"/>
             <input type="hidden" name="leagueName" value={currentLeague} />
             <br/>
-            <button className="w-min p-[1px] mt-2 rounded-md bg-orange-500" type="submit">Submit</button>
+            <button className={`w-min p-[1px] mt-2 rounded-md ${isSubmitting?"bg-orange-400":"bg-orange-500"}`} type="submit" disabled={isSubmitting?true:false}>Submit</button>
         </form>
+        {isSubmitting && <div>Creating the file...</div>}
         </div>
     )
 }
