@@ -230,6 +230,7 @@ export const POST = async (req, res) => {
     const getRegisteredTeams = getSeasonData.teams.map((team) => {
       return team.teamAcronym;
     });
+
     ///////////////////////////////////////////////////
     // check that file has not previously been uploaded
     ///////////////////////////////////////////////////
@@ -349,6 +350,11 @@ if(!ALLOW_DUPLICATES){
     ///////////////////////////////////////////////////////////////
     // all checks passed and game file seems ready for submission
     ///////////////////////////////////////////////////////////////
+
+    ////////////////////////////
+    // set timestamp for upload
+    ////////////////////////////
+    otherStats.submittedAt = new Date()
 
     // check if season Start date has been set in the db
     // first game entry is the starting point for a season
