@@ -45,17 +45,17 @@ function Ticker({
       const getGameTimestamp =
         Date.parse(gameData.otherGameStats.submittedAt) ||
         new Date("1970-01-01");
+        // time of games upload
       const dateOfGame = new Date(getGameTimestamp);
       month = MONTHS[dateOfGame.getMonth()];
       date = dateOfGame.getDate();
       dayOfWeek = DAYS_OF_WEEK[dateOfGame.getDay()];
       // get current timestamp to see if game is yesterday or today
       const today = new Date();
-      const estTime = new Date(
-        today.toLocaleDateString("en-US", { timeZone: "America/New_York" })
-      );
-      if (date == estTime.getDate()) {
-        isToday = true;
+      const todaysMonth = MONTHS[today.getMonth()]
+      const todaysDate = today.getDate()
+      if(month == todaysMonth && date == todaysDate){
+        isToday = true
       }
     }
     return (
