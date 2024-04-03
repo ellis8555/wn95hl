@@ -300,9 +300,9 @@ function ReverseGameInputForm() {
 
         <div className="flex flex-row gap-2">
           <button
-            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isPending ? "opacity-50" : ""}`}
+            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isSubmitting ? "opacity-50" : ""}`}
             type="submit"
-            disabled={isPending}
+            disabled={isSubmitting}
           >
             Submit
           </button>
