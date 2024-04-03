@@ -1,7 +1,7 @@
 // gameData is the var that contains all of a game states data
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
 import { STATE_PATTERN } from "@/utils/constants/constants";
 import { GET_LEAGUE_DATA } from "@/utils/constants/data-calls/api_calls";
@@ -10,7 +10,7 @@ function ViewGameStateSubmitForm() {
   const [gameData, setGameData] = useState(null);
   const [serverMessage, setServerMessage] = useState("");
   const [hasGameBeenSubmitted, setHasGameBeenSubmitted] = useState(false)
-  const [isPending, startTransition] = useTransition()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   ///////////////////////////////////////////////////
   // game stats state variables begin
@@ -62,7 +62,7 @@ function ViewGameStateSubmitForm() {
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    startTransition(async () => {
+    setIsSubmitting(true)
     const file = fileInputRef.current.files[0];
     if (!file) {
       alert("No file selected");
@@ -148,25 +148,29 @@ function ViewGameStateSubmitForm() {
           );
           gameStatesData.push(fetchedGameData);
           setGameData(gameStatesData[0]);
+          setIsSubmitting(false)
         } else {
           setServerMessage("File name is not associated with a league yet");
+          setIsSubmitting(false)
         }
       }
     } catch (error) {
       fileInputRef.current.value = null;
+      setIsSubmitting(false)
       setServerMessage(error.message);
     }
 
     if (fileInputRef.current != "") {
       fileInputRef.current.value = null;
     }
-  })
   };
 
   async function fetchGameData() {
     if (!gameData) {
       return;
     }
+        // disable the submit button
+        setIsSubmitting(true)
     // home stats
     setHomeTeam(gameData.data.otherGameStats["homeTeam"])
     setHomeGoals(gameData.data.homeTeamGameStats["HomeGOALS"]);
@@ -202,6 +206,7 @@ function ViewGameStateSubmitForm() {
     // this boolean triggers the game data to be displayed
     setHasGameBeenSubmitted(true)
     setServerMessage("")
+    setIsSubmitting(false)
     }
   
   // returns formatted stat
@@ -240,9 +245,9 @@ function ViewGameStateSubmitForm() {
 
         <div className="flex flex-row gap-2">
           <button
-            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isPending ? "opacity-50" : ""}`}
+            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isSubmitting ? "opacity-50" : ""}`}
             type="submit"
-            disabled={isPending}
+            disabled={isSubmitting}
           >
             Submit
           </button>

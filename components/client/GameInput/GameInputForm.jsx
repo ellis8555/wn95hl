@@ -1,7 +1,7 @@
 // gameData is the var that contains all of a game states data
 "use client";
 
-import { useEffect, useRef, useState, useTransition  } from "react";
+import { useEffect, useRef, useState  } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
@@ -17,7 +17,7 @@ function GameInputForm() {
   const [gameSubmitError, setGameSubmitError] = useState(false);
   const [gameScoreOnError, setGameScoreOnError] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
-  const [isPending, startTransition] = useTransition()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     setClientRecentlyPlayedGames,
@@ -33,13 +33,14 @@ function GameInputForm() {
   const seasonNumber = useRef(null)
 
   useEffect(() => {
-      fetchGameData();
+    fetchGameData();
   }, [gameData]);
 
   // submit the form
   const handleSubmit = async (e) => {
-    startTransition(async () => {
     e.preventDefault();
+    // disable the submit button
+    setIsSubmitting(true)
     const file = fileInputRef.current.files[0];
     if (!file) {
       alert("No file selected");
@@ -47,8 +48,8 @@ function GameInputForm() {
     }
     
     const fileName = file.name;
-
-
+    
+    
     // message user the file is being processed
     setServerMessage("Game file being processed...");
 
@@ -135,6 +136,7 @@ function GameInputForm() {
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
+          setIsSubmitting(false)
           fileInputRef.current.value = null;
           if (howManyGamesSubmitted > 1) {
             setServerMessage(
@@ -146,6 +148,7 @@ function GameInputForm() {
         } catch (error) {
           fileInputRef.current.value = null;
           setIsStateUploaded(false);
+          setIsSubmitting(false)
           throw Error(error.message);
         }
       } else {
@@ -198,26 +201,29 @@ function GameInputForm() {
           setSeasonNumberContext(seasonNumber.current);
           setGameData(gameStatesData[0]);
         } else {
+          setIsSubmitting(false)
           setServerMessage("File name is not associated with a league yet");
         }
       }
     } catch (error) {
       fileInputRef.current.value = null;
       setIsStateUploaded(false);
+      setIsSubmitting(false)
       setServerMessage(error.message);
     }
 
     if (fileInputRef.current != "") {
       fileInputRef.current.value = null;
     }
-  })
+
   };
 
   async function fetchGameData() {
-    startTransition(async () => {
     if (!gameData) {
       return;
     }
+    // disable the submit button
+    setIsSubmitting(true)
     setIsStateUploaded(true);
     // message the user request has been sent
     setServerMessage("Sending...");
@@ -254,6 +260,7 @@ function GameInputForm() {
       setClientSideStandings(updatedStandings);
       setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
       setServerMessage("Game submitted");
+      setIsSubmitting(false)
     } catch (error) {
       const homeTeam = gameData["data"]["homeTeamGameStats"]["HomeTeam"];
       const homeTeamScore = gameData["data"]["homeTeamGameStats"]["HomeGOALS"];
@@ -265,8 +272,8 @@ function GameInputForm() {
       setServerMessage(error.message);
       setGameScoreOnError(gameScoreOnErrorMessage);
       setGameSubmitError(true);
+      setIsSubmitting(false)
     }
-  })
   }
 
   return (
@@ -295,9 +302,9 @@ function GameInputForm() {
 
         <div className="flex flex-row gap-2">
           <button
-            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isPending ? "opacity-50" : ""}`}
+            className={`border rounded-md border-slate-300 text-slate-300 px-2 ${isSubmitting ? "opacity-50" : ""}`}
             type="submit"
-            disabled={isPending}
+            disabled={isSubmitting}
           >
             Submit
           </button>

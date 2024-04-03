@@ -1,7 +1,7 @@
 // gameData is the var that contains all of a game states data
 "use client";
 
-import { useEffect, useRef, useState, useTransition  } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameStateReversed from "@/utils/game-state-parsing/game-state/read-game-state-reverse";
@@ -17,7 +17,7 @@ function ReverseGameInputForm() {
   const [gameSubmitError, setGameSubmitError] = useState(false);
   const [gameScoreOnError, setGameScoreOnError] = useState("");
   const [isStateUploaded, setIsStateUploaded] = useState(false);
-  const [isPending, startTransition] = useTransition()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     setClientRecentlyPlayedGames,
@@ -39,7 +39,8 @@ function ReverseGameInputForm() {
   // submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    startTransition(async () => {
+        // disable the submit button
+        setIsSubmitting(true)
     const file = fileInputRef.current.files[0];
     if (!file) {
       alert("No file selected");
@@ -135,6 +136,7 @@ function ReverseGameInputForm() {
           setRefreshTheStandings(true);
           setClientSideStandings(updatedStandings);
           setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
+          setIsSubmitting(false)
           fileInputRef.current.value = null;
           if (howManyGamesSubmitted > 1) {
             setServerMessage(
@@ -146,6 +148,7 @@ function ReverseGameInputForm() {
         } catch (error) {
           fileInputRef.current.value = null;
           setIsStateUploaded(false);
+          setIsSubmitting(false)
           throw Error(error.message);
         }
       } else {
@@ -198,23 +201,23 @@ function ReverseGameInputForm() {
           setSeasonNumberContext(seasonNumber.current);
           setGameData(gameStatesData[0]);
         } else {
+          setIsSubmitting(false)
           setServerMessage("File name is not associated with a league yet");
         }
       }
     } catch (error) {
       fileInputRef.current.value = null;
       setIsStateUploaded(false);
+      setIsSubmitting(false)
       setServerMessage(error.message);
     }
 
     if (fileInputRef.current != "") {
       fileInputRef.current.value = null;
     }
-  })
   };
 
   async function fetchGameData() {
-    startTransition(async () => {
     if (!gameData) {
       return;
     }
@@ -254,6 +257,7 @@ function ReverseGameInputForm() {
       setClientSideStandings(updatedStandings);
       setClientRecentlyPlayedGames(updateRecentlyPlayedGames);
       setServerMessage("Game submitted");
+      setIsSubmitting(false)
     } catch (error) {
       const homeTeam = gameData["data"]["homeTeamGameStats"]["HomeTeam"];
       const homeTeamScore = gameData["data"]["homeTeamGameStats"]["HomeGOALS"];
@@ -265,8 +269,8 @@ function ReverseGameInputForm() {
       setServerMessage(error.message);
       setGameScoreOnError(gameScoreOnErrorMessage);
       setGameSubmitError(true);
+      setIsSubmitting(false)
     }
-  })
   }
 
   return (
