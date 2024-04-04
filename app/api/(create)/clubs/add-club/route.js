@@ -1,12 +1,11 @@
 import { connectToDb } from "@/utils/database";
 import nextResponse from "@/utils/api/next-response";
 import Club from "@/schemas/club";
-import User from "@/schemas/user";
 
 const dbCallFrom = "create api club/add-club";
 
 export const POST = async (req) => {
-  const { name, nickname, teamAcronym, coachName, teamLogo, teamBanner } =
+  const { name, nickname, teamAcronym, teamLogo, teamBanner } =
     await req.json();
 
   try {
@@ -22,13 +21,10 @@ export const POST = async (req) => {
       );
     }
 
-    const getCoachDocument = await User.queryOneUser(coachName);
-    const coachId = getCoachDocument._id;
     const addClub = await new Club({
       name,
       nickname,
       teamAcronym,
-      coachId,
       teamLogo,
       teamBanner,
     });
