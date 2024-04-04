@@ -7,10 +7,6 @@ const ClubSchema = new Schema(
     teamLogo: String,
     teamAcronym: String,
     teamBanner: String,
-    coachId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
   },
   {
     timestamps: true,
