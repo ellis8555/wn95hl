@@ -92,6 +92,10 @@ const LeagueTableSchema = new Schema({
   SO: {
     type: Number,
     default: 0
+  },
+  isTeamOnHiatus: {
+    type: Boolean,
+    default: false
   }
 });
 
