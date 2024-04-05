@@ -9,8 +9,11 @@ function Teamresults({
   leagueName,
   seasonNumber,
 }) {
+  const isTeamOnHiatus = team.isTeamOnHiatus ?? false;
   return (
-    <tr
+    <>
+    {!isTeamOnHiatus &&
+      <tr
       className={`${bgColor} text-sm ${
         isTableFiltered
           ? lineNumber === 7
@@ -49,7 +52,9 @@ function Teamresults({
         </td>
       )})}
     </tr>
-  );
+    }
+    </>
+      )
 }
 
 export default Teamresults;
