@@ -5,6 +5,29 @@ import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered, setAreStandingsSorted, setSortedStandings }) {
   // remove teams from the standings display if that team will not complete it's season
   const filterOutTeamsOnHiatus = standings.filter(standing => !standing.isTeamOnHiatus)
+
+function getBackgroundColor(leagueName, index){
+  switch(leagueName){
+    case "p":
+      return index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"
+    case "q":
+      if(index <= 3){
+        return index % 2 === 0 ? "bg-slate-400" : "bg-slate-500"
+      }
+      if(index >= 16){
+        return index % 2 === 0 ? "bg-gray-500" : "bg-gray-400"
+      }
+      return index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"
+    case "w":
+      if(index >= 16){
+        return index % 2 === 0 ? "bg-gray-500" : "bg-gray-400"
+      }
+      return index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"
+    case "v":
+      return index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"
+  }
+}
+
   return (
     <div className="overflow-auto">
     <table className="my-4 w-full md:w-3/4 md:mx-auto table-auto">
@@ -20,7 +43,8 @@ function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered, set
               leagueName={leagueName}
               seasonNumber={seasonNumber}
               isTableFiltered={isTableFiltered}
-              bgColor={index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"}
+              // bgColor={index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"}
+              bgColor={getBackgroundColor(leagueName, index)}
             />
           ))
         ) : (
