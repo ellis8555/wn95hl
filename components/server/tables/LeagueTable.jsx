@@ -11,9 +11,6 @@ function getBackgroundColor(leagueName, index){
     case "p":
       return index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"
     case "q":
-      if(index <= 3){
-        return index % 2 === 0 ? "bg-slate-400" : "bg-slate-500"
-      }
       if(index >= 16){
         return index % 2 === 0 ? "bg-gray-500" : "bg-gray-400"
       }
