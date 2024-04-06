@@ -3,13 +3,15 @@ import TableHeaders from "@/components/client/Tables/Table-headers";
 import { LEAGUE_TABLE_CATEGORIES } from "@/utils/constants/constants";
 
 function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered, setAreStandingsSorted, setSortedStandings }) {
+  // remove teams from the standings display if that team will not complete it's season
+  const filterOutTeamsOnHiatus = standings.filter(standing => !standing.isTeamOnHiatus)
   return (
     <div className="overflow-auto">
     <table className="my-4 w-full md:w-3/4 md:mx-auto table-auto">
-    <TableHeaders leagueName={leagueName} seasonNumber={seasonNumber} standings={standings} setAreStandingsSorted={setAreStandingsSorted} setSortedStandings={setSortedStandings}/>
+    <TableHeaders leagueName={leagueName} seasonNumber={seasonNumber} standings={filterOutTeamsOnHiatus} setAreStandingsSorted={setAreStandingsSorted} setSortedStandings={setSortedStandings}/>
       <tbody>
-        {standings.length > 0 ? (
-          standings.map((team, index) => (
+        {filterOutTeamsOnHiatus.length > 0 ? (
+          filterOutTeamsOnHiatus.map((team, index) => (
             <Teamresults
               key={index}
               lineNumber={index}
