@@ -11,15 +11,7 @@ function Teamresults({
 }) {
   return (
       <tr
-      className={`${bgColor} text-sm ${
-        isTableFiltered
-          ? lineNumber === 7
-            ? "border-slate-600 border-b-2"
-            : ""
-          : lineNumber === 15
-          ? "border-slate-600 border-b-2"
-          : ""
-      } h-10`}
+      className={`${bgColor} text-sm h-10`}
     >
       <td className={`flex justify-center sticky left-0 ${bgColor}`}>
         <div className="flex items-center h-10">
