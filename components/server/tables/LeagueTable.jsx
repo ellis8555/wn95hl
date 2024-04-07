@@ -40,7 +40,6 @@ function getBackgroundColor(leagueName, index){
               leagueName={leagueName}
               seasonNumber={seasonNumber}
               isTableFiltered={isTableFiltered}
-              // bgColor={index % 2 === 0 ? "bg-slate-300" : "bg-slate-400"}
               bgColor={getBackgroundColor(leagueName, index)}
             />
           ))
