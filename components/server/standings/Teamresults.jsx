@@ -21,11 +21,6 @@ function Teamresults({
             return "border-solid border-red-900 border-l-4"
           }
           return "border-solid border-blue-700 border-l-4"
-        case "w":
-          if(lineNumber >=16){
-            return "border-solid border-red-900 border-l-4"
-          }
-          return "border-solid border-green-700 border-l-4"
         default:
           return ""
       }
