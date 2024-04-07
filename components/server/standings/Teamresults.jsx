@@ -10,24 +10,27 @@ function Teamresults({
   seasonNumber,
 }) {
 
-  function tablePositionBorder(leagueName, lineNumber) {
-    switch(leagueName){
-      case "q":
-        if(lineNumber <=3){
+  function tablePositionBorder(leagueName, lineNumber, isTableFiltered) {
+    if(!isTableFiltered){
+      switch(leagueName){
+        case "q":
+          if(lineNumber <=3){
+            return "border-solid border-green-700 border-l-4"
+          }
+          if(lineNumber >=16){
+            return "border-solid border-red-900 border-l-4"
+          }
+          return "border-solid border-blue-700 border-l-4"
+        case "w":
+          if(lineNumber >=16){
+            return "border-solid border-red-900 border-l-4"
+          }
           return "border-solid border-green-700 border-l-4"
-        }
-        if(lineNumber >=16){
-          return "border-solid border-red-900 border-l-4"
-        }
-        return "border-solid border-blue-700 border-l-4"
-      case "w":
-        if(lineNumber >=16){
-          return "border-solid border-red-900 border-l-4"
-        }
-        return "border-solid border-green-700 border-l-4"
-      default:
-        return ""
+        default:
+          return ""
+      }
     }
+    return ""
   }
 
   return (
@@ -45,7 +48,7 @@ function Teamresults({
         if (index === 0) {
           return [
             <td key={`${index}-teamLogo`} className={`flex justify-center sticky left-0 ${bgColor}`}>
-              <div className={`flex items-center h-10 my-1 px-2 ${tablePositionBorder(leagueName, lineNumber)}`}>
+              <div className={`flex items-center h-10 my-1 px-2 ${tablePositionBorder(leagueName, lineNumber, isTableFiltered)}`}>
                 <TeamLogo
                   name={team.teamLogo}
                   width={25}
