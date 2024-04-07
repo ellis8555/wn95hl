@@ -21,6 +21,12 @@ export async function LEAGUE_SCHEMA_SWITCH(leagueName) {
     case "V":
       LeagueSchema = (await import("@/schemas/season/v_season")).default;
       break;
+    case "p":
+      LeagueSchema = (await import("@/schemas/season/p_season")).default;
+      break;
+    case "P":
+      LeagueSchema = (await import("@/schemas/season/p_season")).default;
+      break;
     default:
       LeagueSchema = (await import("@/schemas/season/w_season")).default;
   }
@@ -47,6 +53,12 @@ export async function LEAGUE_GAMES_SCHEMA_SWITCH(leagueName) {
       break;
     case "V":
       GameSchema = (await import("@/schemas/games/v_games")).default;
+      break;
+    case "p":
+      GameSchema = (await import("@/schemas/games/p_games")).default;
+      break;
+    case "P":
+      GameSchema = (await import("@/schemas/games/p_games")).default;
       break;
     default:
       GameSchema = (await import("@/schemas/games/w_games")).default;
@@ -88,6 +100,12 @@ export async function CLEAR_LEAGUE_TABLE_SWITCH(leagueName) {
       break;
     case "V":
       LeagueSchema = (await import("@/schemas/season/v_season")).default;
+      break;
+    case "p":
+      LeagueSchema = (await import("@/schemas/season/p_season")).default;
+      break;
+    case "P":
+      LeagueSchema = (await import("@/schemas/season/p_season")).default;
       break;
     default:
       LeagueSchema = DEFAULT_LEAGUE;
