@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { ORIGIN } from "../constants/connections";
 
 function nextResponseHTMX(responseMessage, statusCode, httpMethod) {
   return new NextResponse(responseMessage, {
