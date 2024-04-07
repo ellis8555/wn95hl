@@ -1,4 +1,3 @@
-import Link from "next/link"
 import Alert from "@/components/server/Alerts/Alert";
 import LeagueCard from "@/components/server/LeagueCard";
 
