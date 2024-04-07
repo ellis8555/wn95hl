@@ -9,7 +9,7 @@ import {
   GET_LEAGUE_DATA,
   POST_JSON_TO_API,
 } from "@/utils/constants/data-calls/api_calls";
-import { STATE_PATTERN } from "@/utils/constants/constants";
+import { STATE_PATTERN, MOST_RECENT_P_SEASON, P_LEAGUE_GAME_TYPE, PURE_LEAGUE_STATE_PATTERN } from "@/utils/constants/constants";
 
 function GameInputForm() {
   const [gameData, setGameData] = useState(null);
@@ -151,7 +151,26 @@ function GameInputForm() {
           setIsSubmitting(false)
           throw Error(error.message);
         }
-      } else {
+      }
+
+      //////////////////////////////
+      // pure league game submission
+      //////////////////////////////
+      
+       else if(PURE_LEAGUE_STATE_PATTERN.test(fileName)){
+        leagueName.current = "p";
+        seasonNumber.current = MOST_RECENT_P_SEASON;
+        gameType.current = P_LEAGUE_GAME_TYPE;
+        const fetchedGameData = await readBinaryGameState(
+          file,
+          seasonNumber.current,
+          gameType.current,
+          leagueName.current,
+        );
+        console.log(fetchedGameData)
+        setServerMessage("Game state read")
+      } 
+      else {
         ////////////////////////
         // game state sumbission
         ////////////////////////
