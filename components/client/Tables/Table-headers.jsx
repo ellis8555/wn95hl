@@ -154,7 +154,7 @@ function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
     return (
         <thead>
         <tr className="text-slate-300 bg-slate-800">
-          <th className="text-xl bg-slate-800 z-10 sticky left-0 cursor-pointer" onClick={readHeader}>Team</th>
+          <th className="text-xl bg-slate-800 z-10 sticky left-0 cursor-pointer pl-4" onClick={readHeader}>Team</th>
           {LEAGUE_TABLE_CATEGORIES.map((header, index) => (
             <th className="p-4 sm:text-xl cursor-pointer" key={index} onClick={readHeader}>
               {header}
