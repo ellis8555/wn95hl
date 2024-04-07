@@ -16,7 +16,37 @@ async function readBinaryGameState(
   seasonNumber,
   gameType,
   leagueName,
-  teamsDictCodes
+  // set default dict codes to original rom
+  teamsDictCodes = {
+    0: "ANH",
+    1: "BOS",
+    2: "BUF",
+    3: "CGY",
+    4: "CHI",
+    5: "DAL",
+    6: "DET",
+    7: "EDM",
+    8: "FLA",
+    9: "HFD",
+    10: "LA",
+    11: "MTL",
+    12: "NJ",
+    13: "NYI",
+    14: "NYR",
+    15: "OTW",
+    16: "PHI",
+    17: "PIT",
+    18: "QUE",
+    19: "SJ",
+    20: "STL",
+    21: "TB",
+    22: "TOR",
+    23: "VAN",
+    24: "WSH",
+    25: "WPG",
+    26: "ASE",
+    27: "ASW"
+  }
 ) {
   const goalieDict = await readGoalieAttributes(leagueName, seasonNumber);
   const skaterDict = await readSkatersAttributes(leagueName, seasonNumber);
@@ -34,10 +64,6 @@ async function readBinaryGameState(
       //this is object where hardcoded team acronyms would go in same order they appear in the ROM
       // example contains a single team. all teams need to be added in correct order
       //////////////////////////////////////////////////////////////////////////////////////////////
-
-      // const teamCodesDict = {
-      //   0: "AHC"
-      // };
 
       try {
         // #Team stats
