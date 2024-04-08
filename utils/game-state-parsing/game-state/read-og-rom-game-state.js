@@ -10,7 +10,7 @@ import extractAwayTeamData from "../parsing-helpers/extract-away-team-data";
 import extractGoalData from "../parsing-helpers/extract-goal-data";
 import extractPenaltyData from "../parsing-helpers/extract-penalty-data";
 import extractOtherGameStats from "../parsing-helpers/extract-other-game-stats";
-import { MOST_RECENT_P_SEASON } from "@/utils/constants/constants"; 
+import { MOST_RECENT_P_SEASON, PURE_LEAGUE_GAME_TYPE } from "@/utils/constants/constants"; 
 
 async function readOgRomBinaryGameState(
   file,
@@ -1512,7 +1512,7 @@ async function readOgRomBinaryGameState(
         GAME_DATA["otherGameStats"] = extractOtherGameStats(
           headerArray,
           MOST_RECENT_P_SEASON,
-          "",
+          PURE_LEAGUE_GAME_TYPE,
           "p"
         );
         ////////////////////////////////////////
