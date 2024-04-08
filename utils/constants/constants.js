@@ -47,6 +47,8 @@ export const MOST_RECENT_V_SEASON = "1";
 
 export const MOST_RECENT_P_SEASON = "1"
 
+export const PURE_LEAGUE_GAME_TYPE = "season";
+
 export const HOW_MANY_GAME_RESULTS = 8;
 
 export const STATE_PATTERN = /[WQV][SP]?\d{1,3}\.state\d{1,3}/;
