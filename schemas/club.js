@@ -19,12 +19,13 @@ const ClubSchema = new Schema(
 // 3. queryClubDetail
 // 4. queryAllClubs
 
-ClubSchema.statics.queryIfClubExists = async function (clubName) {
-  return await this.exists({ name: clubName });
+ClubSchema.statics.queryIfClubExists = async function (clubName, nickname) {
+  return await this.exists({ name: clubName, nickname: nickname });
 };
 
-ClubSchema.statics.queryOneClub = async function (clubName) {
-  return await this.findOne({ name: clubName });
+
+ClubSchema.statics.queryOneClub = async function (clubName, nickname) {
+  return await this.findOne({ name: clubName, nickname: nickname });
 };
 
 ClubSchema.statics.queryClubDetail = async function (
