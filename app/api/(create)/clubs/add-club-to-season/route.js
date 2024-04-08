@@ -8,6 +8,7 @@ const dbCallFrom = "api create clubs/add-club-to-season";
 export const POST = async (req) => {
   let {
     teamName,
+    nickname,
     leagueName,
     logo,
     teamBanner,
@@ -30,7 +31,7 @@ export const POST = async (req) => {
     const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
 
     // check that team name exists
-    const searchIfTeamExists = await Club.queryIfClubExists(teamName);
+    const searchIfTeamExists = await Club.queryIfClubExists(teamName, nickname);
     if (!searchIfTeamExists) {
       return nextResponse(
         { message: "This team is not registered.." },
@@ -50,7 +51,7 @@ export const POST = async (req) => {
     }
 
     // check if team has already been added to the season
-    const teamObject = await Club.queryOneClub(teamName);
+    const teamObject = await Club.queryOneClub(teamName, nickname);
     const teamAcronym = teamObject.teamAcronym;
     const isTeamRegistered = thisSeason.teams.find(
       (team) => team.teamAcronym === teamAcronym
@@ -216,12 +217,12 @@ export const POST = async (req) => {
     }
     thisSeason.markModified("teamsDictCodes");
 
-    // update the seasons document
+    //update the seasons document
     await thisSeason.save();
 
     return nextResponse(
       {
-        message: `Team has been added to season ${whichSeason} of the ${leagueName}`,
+        message: `The ${teamName} ${nickname} have been added to season ${whichSeason} of the ${leagueName}`,
       },
       200,
       "POST"
