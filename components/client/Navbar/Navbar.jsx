@@ -7,7 +7,8 @@ import LeagueLogo from "@/components/server/Logos/LeagueLogo";
 import {
   MOST_RECENT_SEASON,
   MOST_RECENT_Q_SEASON,
-  MOST_RECENT_V_SEASON
+  MOST_RECENT_V_SEASON,
+  MOST_RECENT_P_SEASON
 } from "@/utils/constants/constants";
 import { useState, useRef } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
@@ -164,7 +165,18 @@ function Navbar() {
                 setSeasonNumberContext(MOST_RECENT_V_SEASON);
               }}
             >
-              V_Scores
+              Vintage_Scores
+            </li>
+          </Link>
+          <Link href={"/recent-scores/p"}>
+            <li
+              onClick={() => {
+                toggleMenu();
+                setLeagueContext("p");
+                setSeasonNumberContext(MOST_RECENT_P_SEASON);
+              }}
+            >
+              Pure_Scores
             </li>
           </Link>
           {/* view a state */}
