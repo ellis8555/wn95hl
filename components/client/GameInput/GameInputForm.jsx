@@ -5,11 +5,12 @@ import { useEffect, useRef, useState  } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
+import readOgRomBinaryGameState from "@/utils/game-state-parsing/game-state/read-og-rom-game-state";
 import {
   GET_LEAGUE_DATA,
   POST_JSON_TO_API,
 } from "@/utils/constants/data-calls/api_calls";
-import { STATE_PATTERN, MOST_RECENT_P_SEASON, P_LEAGUE_GAME_TYPE, PURE_LEAGUE_STATE_PATTERN } from "@/utils/constants/constants";
+import { STATE_PATTERN, MOST_RECENT_P_SEASON, PURE_LEAGUE_STATE_PATTERN } from "@/utils/constants/constants";
 
 function GameInputForm() {
   const [gameData, setGameData] = useState(null);
@@ -152,23 +153,21 @@ function GameInputForm() {
           throw Error(error.message);
         }
       }
-
       //////////////////////////////
       // pure league game submission
       //////////////////////////////
-      
        else if(PURE_LEAGUE_STATE_PATTERN.test(fileName)){
         leagueName.current = "p";
         seasonNumber.current = MOST_RECENT_P_SEASON;
-        gameType.current = P_LEAGUE_GAME_TYPE;
-        const fetchedGameData = await readBinaryGameState(
+        const fetchedGameData = await readOgRomBinaryGameState(
           file,
           seasonNumber.current,
-          gameType.current,
           leagueName.current,
         );
-        console.log(fetchedGameData)
-        setServerMessage("Game state read")
+        gameStatesData.push(fetchedGameData);
+        setLeagueContext(leagueName.current);
+        setSeasonNumberContext(seasonNumber.current);
+        setGameData(gameStatesData[0]);
       } 
       else {
         ////////////////////////
