@@ -82,6 +82,15 @@ function Navbar() {
           >
             <LeagueLogo name={"v"} width={25} height={25} />
           </li>
+          <li
+            className="hover:cursor-pointer mr-4"
+            onClick={() => {
+              setLeagueContext("p");
+              setSeasonNumberContext(MOST_RECENT_P_SEASON);
+            }}
+          >
+            <LeagueLogo name={"p"} width={25} height={25} />
+          </li>
           {/* Authorization related links */}
           {isAuthorized && (
             <li>
