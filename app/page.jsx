@@ -13,7 +13,7 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
-        <Alert>Will work on adding Pure league soon</Alert>
+        <Alert backgroundColor={"bg-green-600"}>Pure League game state upload tests needed. Live uploads should be enabled soon.</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
