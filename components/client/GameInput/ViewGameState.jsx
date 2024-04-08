@@ -3,7 +3,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
-import { STATE_PATTERN } from "@/utils/constants/constants";
+import readOgRomBinaryGameState from "@/utils/game-state-parsing/game-state/read-og-rom-game-state";
+import { STATE_PATTERN, PURE_LEAGUE_STATE_PATTERN, MOST_RECENT_P_SEASON } from "@/utils/constants/constants";
 import { GET_LEAGUE_DATA } from "@/utils/constants/data-calls/api_calls";
 
 function ViewGameStateSubmitForm() {
@@ -101,10 +102,24 @@ function ViewGameStateSubmitForm() {
         //   leagueName.current
         // );
         alert("Currently csv game files not available just for viewing.")
-      } else {
+      //////////////////////////////
+      // pure league game submission
+      //////////////////////////////
+      } else if(PURE_LEAGUE_STATE_PATTERN.test(fileName)){
+        leagueName.current = "p";
+        seasonNumber.current = MOST_RECENT_P_SEASON;
+        const fetchedGameData = await readOgRomBinaryGameState(
+          file,
+          seasonNumber.current,
+          leagueName.current,
+        );
+        gameStatesData.push(fetchedGameData);
+        setGameData(gameStatesData[0]);
+        setIsSubmitting(false)
         ////////////////////////
         // game state sumbission
         ////////////////////////
+      } else {
         // extract league name and season number from file name
         // example file name 'WS03.state56
         leagueName.current = fileName[0].toLowerCase();
