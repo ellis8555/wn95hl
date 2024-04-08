@@ -157,13 +157,17 @@ function GameInputForm() {
       // pure league game submission
       //////////////////////////////
        else if(PURE_LEAGUE_STATE_PATTERN.test(fileName)){
-        leagueName.current = "p";
-        seasonNumber.current = MOST_RECENT_P_SEASON;
-        const fetchedGameData = await readOgRomBinaryGameState(
-          file,
-          seasonNumber.current,
-          leagueName.current,
-        );
+        //FIXME: temp disable pure league uploads
+        setServerMessage("Pure league game state uploads coming soon")
+        return;
+        //FIXME: end temp disable pure league uploads
+         leagueName.current = "p";
+         seasonNumber.current = MOST_RECENT_P_SEASON;
+         const fetchedGameData = await readOgRomBinaryGameState(
+           file,
+           seasonNumber.current,
+           leagueName.current,
+          );
         // trim extra player slots due to teams having different amount of players/goalies
         //trim the goalies
         if(fetchedGameData.data.homeTeamGoalieStats[2].Name == undefined){
@@ -180,7 +184,7 @@ function GameInputForm() {
         if(fetchedGameData.data.awayTeamPlayerStats[17].Name == undefined){
           fetchedGameData.data.awayTeamPlayerStats.splice(17);
         }
-        // ASE only has 20 players
+        // ASE and TB only has 20 players
         if(fetchedGameData.data.homeTeamPlayerStats[19].Name == undefined){
           fetchedGameData.data.homeTeamPlayerStats.splice(19);
         }
