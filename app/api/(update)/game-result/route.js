@@ -16,6 +16,7 @@ import {
   LEAGUE_GAMES_SCHEMA_SWITCH,
 } from "@/utils/constants/data-calls/db_calls";
 import { WRITE_TO_DB, ALLOW_DUPLICATES } from "@/utils/constants/connections";
+import { PURE_LEAGUE_STATE_PATTERN, STATE_PATTERN, MOST_RECENT_P_SEASON, P_LEAGUE_GAME_TYPE } from "@/utils/constants/constants";
 import Club from "@/schemas/club";
 import Scoring from "@/schemas/scoring-summary/allGoalsScored";
 import Penalty from "@/schemas/penalty-summary/allPenalties";
@@ -44,20 +45,26 @@ export const POST = async (req, res) => {
   const { currSeason, fileName, fileSize, data, tempCSVData = undefined } = await req.json();
   let currentLeague;
   let currentSeason;
+
   // get the game type used for updating relevant stats
   // ex. 'season' type updates the standings where 'playoff' does not
-  const gameType = data.otherGameStats.gameType;
-  // if the file is not of csv type then process a game state file
-  if (!fileName.includes("WN95HL_Game_Stats.csv")) {
-    // extract leagueName from gamestate file name
-    currentLeague = fileName[0].toLowerCase();
-    // extract season number from game state file name
-    // drop the 0 if season begins with zero ex '02'
-    if (fileName[2] === "0") {
-      currentSeason = fileName[3];
-    } else {
-      currentSeason = fileName[2] + fileName[3];
-    }
+  let gameType = data.otherGameStats.gameType;
+ // if checks that are not of csv file type
+// is gamestate from pure league
+  if(PURE_LEAGUE_STATE_PATTERN.test(fileName)){
+    currentLeague = "p";
+    currentSeason = MOST_RECENT_P_SEASON;
+    // is gamestate from q, v, or w leagues 
+  } else if(STATE_PATTERN.test(fileName)) {
+        // extract leagueName from gamestate file name
+        currentLeague = fileName[0].toLowerCase();
+        // extract season number from game state file name
+        // drop the 0 if season begins with zero ex '02'
+        if (fileName[2] === "0") {
+          currentSeason = fileName[3];
+        } else {
+          currentSeason = fileName[2] + fileName[3];
+        }
   }
 
   // if the file is of csv type then process
@@ -146,6 +153,32 @@ export const POST = async (req, res) => {
         seasonDocument = await League.findOne({
           seasonNumber: currentSeason,
         });
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
+      case "P":
+        League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+        seasonDocument = await League.findOne({
+          seasonNumber: currentSeason,
+        });
+        if(seasonDocument.hasSeasonBegun && !seasonDocument.hasSeasonEnded){
+          gameType = "season"
+        }
+        if(seasonDocument.hasPlayoffsBegun && !seasonDocument.hasPlayoffsEnded){
+          gameType = "playoff"
+        }
+        LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
+        break;
+        case "p":
+          League = await LEAGUE_SCHEMA_SWITCH(currentLeague);
+          seasonDocument = await League.findOne({
+            seasonNumber: currentSeason,
+          });
+          if(seasonDocument.hasSeasonBegun && !seasonDocument.hasSeasonEnded){
+            gameType = "season"
+          }
+          if(seasonDocument.hasPlayoffsBegun && !seasonDocument.hasPlayoffsEnded){
+            gameType = "playoff"
+          }
         LeagueGames = await LEAGUE_GAMES_SCHEMA_SWITCH(currentLeague);
         break;
       default:
