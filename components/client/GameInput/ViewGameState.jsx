@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Alert from "@/components/server/Alerts/Alert";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
 import readOgRomBinaryGameState from "@/utils/game-state-parsing/game-state/read-og-rom-game-state";
 import { STATE_PATTERN, PURE_LEAGUE_STATE_PATTERN, MOST_RECENT_P_SEASON } from "@/utils/constants/constants";
@@ -113,6 +114,34 @@ function ViewGameStateSubmitForm() {
           seasonNumber.current,
           leagueName.current,
         );
+                  //FIXME: temp disable pure league upload
+                          // trim extra player slots due to teams having different amount of players/goalies
+        //trim the goalies
+        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == undefined){
+          fetchedGameData.data.homeTeamGoalieStats.splice(2);
+        }
+        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == undefined){
+          fetchedGameData.data.awayTeamGoalieStats.splice(2);
+        }
+                // ASE and TB only has 20 players
+                if(fetchedGameData.data.homeTeamPlayerStats[19].Name == undefined){
+                  fetchedGameData.data.homeTeamPlayerStats.splice(19);
+                }
+                if(fetchedGameData.data.awayTeamPlayerStats[19].Name == undefined){
+                  fetchedGameData.data.awayTeamPlayerStats.splice(19);
+                }
+                  setServerMessage("Testing uploads for Pure league. T");
+                  console.log("-------- HOME team player stats --------")
+                  console.log(fetchedGameData.data.homeTeamPlayerStats)
+                  console.log("-------- HOME team goalie stats --------")
+                  console.log(fetchedGameData.data.homeTeamGoalieStats)
+                  console.log("-------- AWAY team player stats --------")
+                  console.log(fetchedGameData.data.awayTeamPlayerStats)
+                  console.log("-------- AWAY team goalie stats --------")
+                  console.log(fetchedGameData.data.awayTeamGoalieStats)
+                  console.log("-------- OTHER game stats --------")
+                  console.log(fetchedGameData.data.otherGameStats)
+                  //FIXME: end temp disable pure league upload
         gameStatesData.push(fetchedGameData);
         setGameData(gameStatesData[0]);
         setIsSubmitting(false)
@@ -240,6 +269,7 @@ function ViewGameStateSubmitForm() {
     <div
     className="w-10/12 md:w-1/2 lg:w-4/12 mx-auto"
     >
+      <Alert>More Pure league game data is logged in dev tools console</Alert>
         <h1 className="text-center text-2xl text-orange-400">View a game state</h1>
         <h2 className="text-center text-md mt-2">This is only for viewing results. No upload will occur.</h2>
       <form
@@ -288,9 +318,9 @@ function ViewGameStateSubmitForm() {
       <DisplayStat awayStat={awayShots} statName="Shots" homeStat={homeShots} />
       {/* shooting percentage */}
       <DisplayStat
-        awayStat={((awayGoals/awayShots)*100).toFixed(0) + "%"}
+        awayStat={isNaN(awayGoals/awayShots) ? "0%": ((awayGoals/awayShots)*100).toFixed(0) + "%"}
         statName="Shooting"
-        homeStat={((homeGoals/homeShots)*100).toFixed(0) + "%"}
+        homeStat={isNaN(homeGoals/homeShots) ? "0%" : ((homeGoals/homeShots)*100).toFixed(0) + "%"}
       />
       {/* power play */}
       <DisplayStat
