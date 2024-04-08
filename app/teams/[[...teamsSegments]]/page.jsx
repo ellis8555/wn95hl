@@ -26,11 +26,15 @@ export default async function({params}){
           teamAcronym,
           "name"
         );
-      
+        const clubNickName = await Club.queryClubDetail(
+          "name",
+          getClub,
+          "nickname"
+        );
         // get teams full name
         let teamName;
         let teamNickname;
-        const clubData = await Club.queryOneClub(getClub);
+        const clubData = await Club.queryOneClub(getClub, clubNickName);
         teamName = clubData["name"];
         teamNickname = clubData["nickname"];
       
