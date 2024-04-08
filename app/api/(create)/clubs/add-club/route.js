@@ -12,12 +12,12 @@ export const POST = async (req) => {
     await connectToDb(dbCallFrom);
 
     // prevent duplicate name from being added
-    const searchForIfTeamExists = await Club.queryIfClubExists(name);
+    const searchForIfTeamExists = await Club.queryIfClubExists(name, nickname);
     if (searchForIfTeamExists) {
       return nextResponse(
-        { message: "This team name is taken.." },
+        { message: "This team's city and name are already taken..." },
         400,
-        "POST"
+        "POST" 
       );
     }
 
