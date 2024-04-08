@@ -1,9 +1,13 @@
-function extractAwayPlayerStats(gameData) {
-  // away players are from indexs 92-201
+function extractAwayPlayerStats(gameData, isOriginalRom = false) {
+      // away players are from indexs 92-201 on custom rom
+  // away players on original rom are from indexs 107-348
+
+  const awayGoalieIndexBegin = isOriginalRom ? 107 : 92;
+  const awayGoalieIndexEnd = isOriginalRom ? 348 : 201;
 
   // get indexes away players
   const extractPlayerIndexes = [];
-  for (let i = 92; i <= 201; i++) {
+  for (let i = awayGoalieIndexBegin; i <= awayGoalieIndexEnd; i++) {
     if (gameData[i][0] === "Name") {
       extractPlayerIndexes.push(i);
     }

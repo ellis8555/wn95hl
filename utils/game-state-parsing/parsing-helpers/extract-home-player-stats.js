@@ -1,9 +1,12 @@
-function extractHomePlayerStats(gameData) {
-  // home players are from indexs 232-341
+function extractHomePlayerStats(gameData, isOriginalRom = false) {
+  // home players are from indexs 232-341 on custom roms
+  // original rom players are from indexs 394 - 635 
+  const homePlayerIndexBegin = isOriginalRom ? 394 : 232;
+  const homePlayerIndexEnd = isOriginalRom ? 635 : 341;
 
   // get indexes for all home players
   const extractPlayerIndexes = [];
-  for (let i = 232; i <= 341; i++) {
+  for (let i = homePlayerIndexBegin; i <= homePlayerIndexEnd; i++) {
     if (gameData[i][0] === "Name") {
       extractPlayerIndexes.push(i);
     }

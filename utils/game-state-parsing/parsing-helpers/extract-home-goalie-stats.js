@@ -1,9 +1,16 @@
-function extractHomeGoalieStats(gameData) {
-  // home players are from indexs 202-231
+// boolean arg set different indexes that the data is stored in
+// the original rom has more players therefore increasing the array size
+
+function extractHomeGoalieStats(gameData, isOriginalRom = false) {
+  // home goalies are from indexs 202-231 on custom rom
+  // home goalies on original rom are from indexs 349-393
+
+  const homeGoalieIndexBegin = isOriginalRom ? 349 : 202;
+  const homeGoalieIndexEnd = isOriginalRom ? 393 : 231;
 
   // get indexes the away goalies
   const extractPlayerIndexes = [];
-  for (let i = 202; i <= 231; i++) {
+  for (let i = homeGoalieIndexBegin; i <= homeGoalieIndexEnd; i++) {
     if (gameData[i][0] === "Name") {
       extractPlayerIndexes.push(i);
     }
