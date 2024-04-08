@@ -164,6 +164,36 @@ function GameInputForm() {
           seasonNumber.current,
           leagueName.current,
         );
+        // trim extra player slots due to teams having different amount of players/goalies
+        //trim the goalies
+        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == undefined){
+          fetchedGameData.data.homeTeamGoalieStats.splice(2);
+        }
+        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == undefined){
+          fetchedGameData.data.awayTeamGoalieStats.splice(2);
+        }
+        // trim the players
+        // ASW only has 18 players
+        if(fetchedGameData.data.homeTeamPlayerStats[17].Name == undefined){
+          fetchedGameData.data.homeTeamPlayerStats.splice(17);
+        }
+        if(fetchedGameData.data.awayTeamPlayerStats[17].Name == undefined){
+          fetchedGameData.data.awayTeamPlayerStats.splice(17);
+        }
+        // ASE only has 20 players
+        if(fetchedGameData.data.homeTeamPlayerStats[19].Name == undefined){
+          fetchedGameData.data.homeTeamPlayerStats.splice(19);
+        }
+        if(fetchedGameData.data.awayTeamPlayerStats[19].Name == undefined){
+          fetchedGameData.data.awayTeamPlayerStats.splice(19);
+        }
+        // several teams have only 21 players
+        if(fetchedGameData.data.homeTeamPlayerStats[20].Name == undefined){
+          fetchedGameData.data.homeTeamPlayerStats.splice(20);
+        }
+        if(fetchedGameData.data.awayTeamPlayerStats[20].Name == undefined){
+          fetchedGameData.data.awayTeamPlayerStats.splice(20);
+        }
         gameStatesData.push(fetchedGameData);
         setLeagueContext(leagueName.current);
         setSeasonNumberContext(seasonNumber.current);
