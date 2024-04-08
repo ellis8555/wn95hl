@@ -158,7 +158,9 @@ function GameInputForm() {
       //////////////////////////////
        else if(PURE_LEAGUE_STATE_PATTERN.test(fileName)){
         //FIXME: temp disable pure league uploads
-        setServerMessage("Pure league game state uploads coming soon")
+        setServerMessage("Pure league game state uploads coming soon. No data was uploaded")
+        setIsSubmitting(false)
+        fileInputRef.current.value = null;
         return;
         //FIXME: end temp disable pure league uploads
          leagueName.current = "p";
