@@ -104,13 +104,13 @@ function extractOtherGameStats(gameData, seasonNumber, gameType, leagueName) {
   } else {
     otherStatDetails["overtimeLossTeam"] = "";
   }
-
+//TODO: remove unused date objects here if saved date ends up working
   // set timestamp on upload in eastern timezone
   const newDate = new Date();
   const estTime = new Date(
     newDate.toLocaleDateString("en-US", { timeZone: "America/New_York" })
   );
-  otherStatDetails["submittedAt"] = estTime;
+  otherStatDetails["submittedAt"] = new Date(Date.now());
 
   return otherStatDetails;
 }
