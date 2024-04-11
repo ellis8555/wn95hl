@@ -116,11 +116,10 @@ async function readOgRomBinaryGameState(
 
         const awayShots = awayShotsP1 + awayShotsP2 + awayShotsP3 + awayShotsOT;
         let awayShootPct;
-
-        try {
-          awayShootPct = (awayGoals / awayShots).toFixed(3);
-        } catch (error) {
-          awayShootPct = 0;
+        if(awayShots > 0){
+            awayShootPct = Math.round(awayGoals / awayShots) + "%";
+        }else{
+          awayShootPct = "0%"
         }
 
         // Home
@@ -169,11 +168,11 @@ async function readOgRomBinaryGameState(
         const homeShots = homeShotsP1 + homeShotsP2 + homeShotsP3 + homeShotsOT;
         let homeShootPct;
 
-        try {
-          homeShootPct = (homeGoals / homeShots).toFixed(3);
-        } catch (error) {
-          homeShootPct = 0;
-        }
+        if(homeShots > 0){
+          homeShootPct = Math.round(homeGoals / homeShots) + "%";
+      }else{
+        homeShootPct = "0%"
+      }
   
         const faceoffTotal = awayFaceoffWins + homeFaceoffWins;
         //   #Get the roster information
@@ -542,7 +541,7 @@ async function readOgRomBinaryGameState(
             awayPlayerStats[i].push(0.0);
           }
         }
- 
+
         // #Now extract the player stats for all skaters and goalies. We'll extract
         // #the same numbers for skaters and for goalies, treating them all as if they
         // #are skaters. Once that is done, we'll go back to the goalie stats and fix
@@ -765,6 +764,29 @@ async function readOgRomBinaryGameState(
             }${homePlayerStats[i][6] % 60}`,
           };
         }
+
+        //TODO: some teams have 3 goalies so have to add a goalie object if team only has 2 goalies
+        // if home team has 2 goalies add a 3rd
+        if(homeGCount < 3){
+          statsDict[`homeGoalie${3}`] = {
+            name: "-",
+            pos: "G",
+            goals: 0,
+            assists: 0,
+            points: 0,
+            SO: 0,
+            GA: 0,
+            saves: 0,
+            shots: 0,
+            savePct: 0,
+            W: 0,
+            L: 0,
+            T: 0,
+            OTL: 0,
+            TOI: "0:00",
+          };
+        }
+
         // #Home skater stats
 
         // get home skater count
@@ -805,6 +827,27 @@ async function readOgRomBinaryGameState(
               homePlayerStats[i][9] % 60 < 10 ? "0" : ""
             }${homePlayerStats[i][9] % 60}`,
           };
+        }
+// TODO: some teams have less than 22 skaters so need to create player objects for teams with less
+// create blank skater objects for home teams with less than 22 skaters
+        if(homeSkaterCount < 22){
+          const missingSkaterCount = 22 - homeSkaterCount;
+          for(let i=missingSkaterCount;i>0;i--){
+
+            statsDict[`homeSkater${23-i}`] = {
+              name: "-",
+              pos: "-",
+              goals: "-",
+              assists: "-",
+              points: "-",
+              SOG: "-",
+              checks: "-",
+              PIM: "-",
+              PPP: "-",
+              SHP: "-",
+              TOI: "-",
+            };
+          }
         }
 
         // #Away player stats
@@ -866,6 +909,28 @@ async function readOgRomBinaryGameState(
           };
         }
 
+        //TODO: some teams have 3 goalies so have to add a goalie object if team only has 2 goalies
+        // if away team has 2 goalies add a 3rd
+                if(awayGCount < 3){
+                  statsDict[`awayGoalie${3}`] = {
+                    name: "-",
+                    pos: "G",
+                    goals: 0,
+                    assists: 0,
+                    points: 0,
+                    SO: 0,
+                    GA: 0,
+                    saves: 0,
+                    shots: 0,
+                    savePct: 0,
+                    W: 0,
+                    L: 0,
+                    T: 0,
+                    OTL: 0,
+                    TOI: "0:00",
+                  };
+                }
+
         // get away skater count
         const awaySkaterCount = awayDCount+awayFCount
         for (let i = 2; i < awaySkaterCount+2; i++) {
@@ -906,6 +971,27 @@ async function readOgRomBinaryGameState(
             }${awayPlayerStats[i][9] % 60}`,
           };
         }
+// TODO: some teams have less than 22 skaters so need to create player objects for teams with less
+// create blank skater objects for away teams with less than 22 skaters
+if(awaySkaterCount < 22){
+  const missingSkaterCount = 22 - awaySkaterCount;
+  for(let i=missingSkaterCount;i>0;i--){
+    statsDict[`awaySkater${23-i}`] = {
+      name: "-",
+      pos: "-",
+      goals: "-",
+      assists: "-",
+      points: "-",
+      SOG: "-",
+      checks: "-",
+      PIM: "-",
+      PPP: "-",
+      SHP: "-",
+      TOI: "-",
+    };
+  }
+}
+
         // Initialize an array to store the goal objects
         const goalObjects = [];
 
@@ -1056,7 +1142,6 @@ async function readOgRomBinaryGameState(
           "OT Game",
           "GAME LENGTH",
         ];
-
         // Convert the Python list to a JavaScript array of arrays
         var headerArray = headerRow.map(function (item) {
           return [item];
@@ -1083,16 +1168,14 @@ async function readOgRomBinaryGameState(
           "OTL",
           "TOI",
         ];
-
         // away goalies
         // Define the number of goalies (3 in this case)
         const goalieCount = 3;
 
         // Spread the goalieHeaders into headerArray for the specified number of goalies
-        for (let i = 0; i <= awayGCount; i++) {
+        for (let i = 0; i < goalieCount; i++) {
           headerArray.push(...goalieHeaders.map((item) => [item]));
         }
-
         // Define the additional headers for "Away Skaters"
         const skaterHeaders = [
           "Name",
@@ -1119,7 +1202,7 @@ async function readOgRomBinaryGameState(
         // home goalies
 
         // Spread the goalieHeaders into headerArray for the specified number of goalies
-        for (let i = 0; i <= homeGCount; i++) {
+        for (let i = 0; i < goalieCount; i++) {
           headerArray.push(...goalieHeaders.map((item) => [item]));
         }
 
@@ -1140,7 +1223,6 @@ async function readOgRomBinaryGameState(
           "ASSIST 2",
           "TYPE",
         ];
-
         // Define the number of goals (15 in this case)
         const goalCount = 15;
 
@@ -1164,12 +1246,10 @@ async function readOgRomBinaryGameState(
         for (let i = 0; i < penaltyCount; i++) {
           headerArray.push(...penaltySummaryHeaders.map((item) => [item]));
         }
-  
         ///////////////////////////////////////////////////////////////////////
         // create master data container
         // headerArray will be paired up with info contained within statDict
         ///////////////////////////////////////////////////////////////////////
-
         // # Matchup Info
         headerArray[0].push(statsDict["matchup"]);
         headerArray[1].push(statsDict["homeTeam"]);
@@ -1238,10 +1318,11 @@ async function readOgRomBinaryGameState(
         headerArray[59].push(statsDict["totalFaceoffs"]);
         headerArray[60].push(statsDict["OT"]);
         headerArray[61].push(statsDict["gameLength"]);
+
         // away goalie stats
         let goalieStatsIndexStart = 62;
         // loop through based on 3 goalies on the team
-        for (let i = 1; i < awayGCount+1; i++) {
+        for (let i = 1; i <= goalieCount; i++) {
           headerArray[goalieStatsIndexStart++].push(
             statsDict[`awayGoalie${i}`]["name"]
           );
@@ -1288,6 +1369,7 @@ async function readOgRomBinaryGameState(
             statsDict[`awayGoalie${i}`]["TOI"]
           );
         }
+
         // away skater stats
         let awaySkaterStatsIndexStart = 107;
         // loop through based on skaters on the team
@@ -1330,7 +1412,7 @@ async function readOgRomBinaryGameState(
         // home goalie stats
         goalieStatsIndexStart = 349;
         // loop through based on goalies count for that team
-        for (let i = 1; i < homeGCount+1; i++) {
+        for (let i = 1; i <=goalieCount; i++) {
           headerArray[goalieStatsIndexStart++].push(
             statsDict[`homeGoalie${i}`]["name"]
           );
@@ -1473,6 +1555,8 @@ async function readOgRomBinaryGameState(
         ///////////////////////////////////////////////////////////////////////
         // end master data container
         ///////////////////////////////////////////////////////////////////////
+console.log(statsDict)
+
         const GAME_DATA = {};
 
         // true boolean is stating this is the original rom which has a larger array of stats
