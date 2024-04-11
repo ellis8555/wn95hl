@@ -5,7 +5,7 @@ import { useEffect, useRef, useState  } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
 import readCSVGameStateFile from "@/utils/game-state-parsing/CSV-game-state/read-csv-game-state-file";
 import readBinaryGameState from "@/utils/game-state-parsing/game-state/read-game-state";
-import readOgRomBinaryGameState from "@/utils/game-state-parsing/game-state/read-og-rom-game-state";
+import readOgRomBinaryGameState from "@/utils/game-state-parsing/game-state/read-og-rom-game-state.js";
 import {
   GET_LEAGUE_DATA,
   POST_JSON_TO_API,
