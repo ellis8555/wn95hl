@@ -5,6 +5,10 @@ const LeaguesTeamsSchema = new Schema({
   logo: String,
   conference: String,
   division: String,
+  managers: {
+    type: [String],
+    required: true
+  },
   schedule: {
     home: {
       type: [String],
