@@ -139,7 +139,7 @@ function TableHeaders({setAreStandingsSorted, setSortedStandings, standings}){
 
   const sortedStandings = [...currentStandings.current].sort((a, b) => {
   // teamName is sorting strings
-  if (header === "teamName"){
+  if (header === "teamName" || header === "Manager"){
             return a[header].localeCompare(b[header]);
         } else {
           // fields that are numeric
