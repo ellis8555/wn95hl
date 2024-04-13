@@ -172,33 +172,33 @@ function GameInputForm() {
           );
         // trim extra player slots due to teams having different amount of players/goalies
         //trim the goalies
-        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == undefined){
+        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == "-"){
           fetchedGameData.data.homeTeamGoalieStats.splice(2);
         }
-        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == undefined){
+        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == "-"){
           fetchedGameData.data.awayTeamGoalieStats.splice(2);
         }
         // trim the players
         // ASW only has 18 players
-        if(fetchedGameData.data.homeTeamPlayerStats[17].Name == undefined){
-          fetchedGameData.data.homeTeamPlayerStats.splice(17);
+        if(fetchedGameData.data.homeTeamPlayerStats[18].Name == "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(18);
         }
-        if(fetchedGameData.data.awayTeamPlayerStats[17].Name == undefined){
-          fetchedGameData.data.awayTeamPlayerStats.splice(17);
+        if(fetchedGameData.data.awayTeamPlayerStats[18].Name == "-"){
+          fetchedGameData.data.awayTeamPlayerStats.splice(18);
         }
         // ASE and TB only has 20 players
-        if(fetchedGameData.data.homeTeamPlayerStats[19].Name == undefined){
-          fetchedGameData.data.homeTeamPlayerStats.splice(19);
-        }
-        if(fetchedGameData.data.awayTeamPlayerStats[19].Name == undefined){
-          fetchedGameData.data.awayTeamPlayerStats.splice(19);
-        }
-        // several teams have only 21 players
-        if(fetchedGameData.data.homeTeamPlayerStats[20].Name == undefined){
+        if(fetchedGameData.data.homeTeamPlayerStats[20].Name == "-"){
           fetchedGameData.data.homeTeamPlayerStats.splice(20);
         }
-        if(fetchedGameData.data.awayTeamPlayerStats[20].Name == undefined){
+        if(fetchedGameData.data.awayTeamPlayerStats[20].Name == "-"){
           fetchedGameData.data.awayTeamPlayerStats.splice(20);
+        }
+        // several teams have only 21 players
+        if(fetchedGameData.data.homeTeamPlayerStats[21].Name == "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(21);
+        }
+        if(fetchedGameData.data.awayTeamPlayerStats[21].Name == "-"){
+          fetchedGameData.data.awayTeamPlayerStats.splice(21);
         }
         gameStatesData.push(fetchedGameData);
         setLeagueContext(leagueName.current);

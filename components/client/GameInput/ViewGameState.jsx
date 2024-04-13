@@ -114,34 +114,43 @@ function ViewGameStateSubmitForm() {
           seasonNumber.current,
           leagueName.current,
         );
-                  //FIXME: temp disable pure league upload
-                          // trim extra player slots due to teams having different amount of players/goalies
+      //FIXME: temp disable pure league upload
+      // trim extra player slots due to teams having different amount of players/goalies
         //trim the goalies
-        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == undefined){
+        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == "-"){
           fetchedGameData.data.homeTeamGoalieStats.splice(2);
         }
-        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == undefined){
+        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == "-"){
           fetchedGameData.data.awayTeamGoalieStats.splice(2);
         }
-                // ASE and TB only has 20 players
-                if(fetchedGameData.data.homeTeamPlayerStats[19].Name == undefined){
-                  fetchedGameData.data.homeTeamPlayerStats.splice(19);
-                }
-                if(fetchedGameData.data.awayTeamPlayerStats[19].Name == undefined){
-                  fetchedGameData.data.awayTeamPlayerStats.splice(19);
-                }
-                  setServerMessage("Testing uploads for Pure league. T");
-                  console.log("-------- HOME team player stats --------")
-                  console.log(fetchedGameData.data.homeTeamPlayerStats)
-                  console.log("-------- HOME team goalie stats --------")
-                  console.log(fetchedGameData.data.homeTeamGoalieStats)
-                  console.log("-------- AWAY team player stats --------")
-                  console.log(fetchedGameData.data.awayTeamPlayerStats)
-                  console.log("-------- AWAY team goalie stats --------")
-                  console.log(fetchedGameData.data.awayTeamGoalieStats)
-                  console.log("-------- OTHER game stats --------")
-                  console.log(fetchedGameData.data.otherGameStats)
-                  //FIXME: end temp disable pure league upload
+
+        // ASW only has 18 players
+        if(fetchedGameData.data.homeTeamPlayerStats[18].Name == "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(18);
+        }
+        if(fetchedGameData.data.awayTeamPlayerStats[18].Name == "-"){
+          fetchedGameData.data.awayTeamPlayerStats.splice(18);
+        }
+
+        // ASE and TB only has 20 players
+        if(fetchedGameData.data.homeTeamPlayerStats[20].Name == "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(20);
+        }
+        if(fetchedGameData.data.awayTeamPlayerStats[20].Name == "-"){
+          fetchedGameData.data.awayTeamPlayerStats.splice(20);
+        }
+          setServerMessage("Testing uploads for Pure league. T");
+          console.log("-------- HOME team player stats --------")
+          console.log(fetchedGameData.data.homeTeamPlayerStats)
+          console.log("-------- HOME team goalie stats --------")
+          console.log(fetchedGameData.data.homeTeamGoalieStats)
+          console.log("-------- AWAY team player stats --------")
+          console.log(fetchedGameData.data.awayTeamPlayerStats)
+          console.log("-------- AWAY team goalie stats --------")
+          console.log(fetchedGameData.data.awayTeamGoalieStats)
+          console.log("-------- OTHER game stats --------")
+          console.log(fetchedGameData.data.otherGameStats)
+          //FIXME: end temp disable pure league upload
         gameStatesData.push(fetchedGameData);
         setGameData(gameStatesData[0]);
         setIsSubmitting(false)
