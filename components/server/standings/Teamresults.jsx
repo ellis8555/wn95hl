@@ -17,7 +17,7 @@ function Teamresults({
           if(lineNumber <=3){
             return "border-solid border-green-700 border-l-4"
           }
-          if(lineNumber >=16){
+          if(lineNumber >=12){
             return "border-solid border-red-900 border-l-4"
           }
           return "border-solid border-blue-700 border-l-4"
