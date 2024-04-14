@@ -46,7 +46,7 @@ export const MOST_RECENT_Q_SEASON = "89";
 
 export const MOST_RECENT_V_SEASON = "1";
 
-export const MOST_RECENT_P_SEASON = "1"
+export const MOST_RECENT_P_SEASON = "3"
 
 export const PURE_LEAGUE_GAME_TYPE = "season";
 
