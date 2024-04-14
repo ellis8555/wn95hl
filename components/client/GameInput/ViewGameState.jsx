@@ -114,43 +114,37 @@ function ViewGameStateSubmitForm() {
           seasonNumber.current,
           leagueName.current,
         );
-      //FIXME: temp disable pure league upload
-      // trim extra player slots due to teams having different amount of players/goalies
-        //trim the goalies
-        if(fetchedGameData.data.homeTeamGoalieStats[2].Name == "-"){
-          fetchedGameData.data.homeTeamGoalieStats.splice(2);
-        }
-        if(fetchedGameData.data.awayTeamGoalieStats[2].Name == "-"){
+        //FIXME: remove empty player slots before sending to database
+        // trim empty goalie slots as some teams have 2 goalies while others 3 goalies
+        if(fetchedGameData.data.awayTeamGoalieStats[2]['Name'] === "-"){
           fetchedGameData.data.awayTeamGoalieStats.splice(2);
         }
-
-        // ASW only has 18 players
-        if(fetchedGameData.data.homeTeamPlayerStats[18].Name == "-"){
-          fetchedGameData.data.homeTeamPlayerStats.splice(18);
+        if(fetchedGameData.data.homeTeamGoalieStats[2]['Name'] === "-"){
+          fetchedGameData.data.homeTeamGoalieStats.splice(2);
         }
-        if(fetchedGameData.data.awayTeamPlayerStats[18].Name == "-"){
+        // some teams only have 18 skaters
+        if(fetchedGameData.data.awayTeamPlayerStats[18]?.Name === "-"){
           fetchedGameData.data.awayTeamPlayerStats.splice(18);
         }
-
-        // ASE and TB only has 20 players
-        if(fetchedGameData.data.homeTeamPlayerStats[20].Name == "-"){
-          fetchedGameData.data.homeTeamPlayerStats.splice(20);
+        if(fetchedGameData.data.homeTeamPlayerStats[18]?.Name === "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(18);
         }
-        if(fetchedGameData.data.awayTeamPlayerStats[20].Name == "-"){
+        // some teams only have 20 skaters
+        if(fetchedGameData.data.awayTeamPlayerStats[20]?.Name === "-"){
           fetchedGameData.data.awayTeamPlayerStats.splice(20);
         }
-          setServerMessage("Testing uploads for Pure league. T");
-          console.log("-------- HOME team player stats --------")
-          console.log(fetchedGameData.data.homeTeamPlayerStats)
-          console.log("-------- HOME team goalie stats --------")
-          console.log(fetchedGameData.data.homeTeamGoalieStats)
-          console.log("-------- AWAY team player stats --------")
-          console.log(fetchedGameData.data.awayTeamPlayerStats)
-          console.log("-------- AWAY team goalie stats --------")
-          console.log(fetchedGameData.data.awayTeamGoalieStats)
-          console.log("-------- OTHER game stats --------")
-          console.log(fetchedGameData.data.otherGameStats)
-          //FIXME: end temp disable pure league upload
+        if(fetchedGameData.data.homeTeamPlayerStats[20]?.Name === "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(20);
+        }
+        // some teams only have 21 skaters
+        if(fetchedGameData.data.awayTeamPlayerStats[21]?.Name === "-"){
+          fetchedGameData.data.awayTeamPlayerStats.splice(21);
+        }
+        if(fetchedGameData.data.homeTeamPlayerStats[21]?.Name === "-"){
+          fetchedGameData.data.homeTeamPlayerStats.splice(21);
+        }
+        console.log(fetchedGameData.data)
+        //FIXME: end temp disable pure league upload
         gameStatesData.push(fetchedGameData);
         setGameData(gameStatesData[0]);
         setIsSubmitting(false)

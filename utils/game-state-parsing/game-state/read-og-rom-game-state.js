@@ -210,7 +210,6 @@ async function readOgRomBinaryGameState(
         ) {
           awayPlayers[i].push("D");
         }
-
         // Prepare the lists for the home player stats
         const homePlayerStats = Array.from(
           { length: homeGCount + homeFCount + homeDCount },
@@ -625,7 +624,6 @@ async function readOgRomBinaryGameState(
             homePlayerStats[i].push(0.0);
           }
         }
-
         // #Assemble all of the stats within a object
         const statsDict = {};
         statsDict["awayTeam"] = awayTeam;
@@ -706,7 +704,6 @@ async function readOgRomBinaryGameState(
         statsDict["gameLength"] = `${Math.floor(gameLength / 60)}:${
           gameLength % 60 < 10 ? "0" : ""
         }${gameLength % 60}`;
-
         // #Home player stats
 
         // #Home goalie stats
@@ -770,7 +767,7 @@ async function readOgRomBinaryGameState(
         if(homeGCount < 3){
           statsDict[`homeGoalie${3}`] = {
             name: "-",
-            pos: "G",
+            pos: "-",
             goals: 0,
             assists: 0,
             points: 0,
@@ -788,12 +785,23 @@ async function readOgRomBinaryGameState(
         }
 
         // #Home skater stats
-
         // get home skater count
         const homeSkaterCount = homeDCount+homeFCount;
-        for (let i = 2; i < homeSkaterCount+2; i++) {
+        // determine starting index depending on goalies count and
+        // set statsDict number reduced my 1 or 2 depending on goalie count
+        let startingSkaterIndex;
+        let reduceHomeSkaterIndex;
+        if(homeGCount == 2){
+          startingSkaterIndex = 2;
+          reduceHomeSkaterIndex = 1
+        } else {
+          // if goalie count is 3
+          startingSkaterIndex = 3
+          reduceHomeSkaterIndex = 2
+        }
+      
+        for (let i = startingSkaterIndex; i < homeSkaterCount+startingSkaterIndex; i++) {
           const skaterName = homePlayerStats[i][1];
-
           // Calculate how many power play and shorthanded points the player has
           let playerPPP = 0;
           let playerSHP = 0;
@@ -812,7 +820,7 @@ async function readOgRomBinaryGameState(
             }
           }
           // Create the skater's stats object
-          statsDict[`homeSkater${i - 1}`] = {
+          statsDict[`homeSkater${i-reduceHomeSkaterIndex}`] = {
             name: skaterName,
             pos: homePlayerStats[i][2],
             goals: homePlayerStats[i][3],
@@ -849,7 +857,6 @@ async function readOgRomBinaryGameState(
             };
           }
         }
-
         // #Away player stats
 
         // #Away goalie stats
@@ -914,7 +921,7 @@ async function readOgRomBinaryGameState(
                 if(awayGCount < 3){
                   statsDict[`awayGoalie${3}`] = {
                     name: "-",
-                    pos: "G",
+                    pos: "-",
                     goals: 0,
                     assists: 0,
                     points: 0,
@@ -933,7 +940,17 @@ async function readOgRomBinaryGameState(
 
         // get away skater count
         const awaySkaterCount = awayDCount+awayFCount
-        for (let i = 2; i < awaySkaterCount+2; i++) {
+        // determine starting index depending on goalies count and
+        // set statsDict number reduced my 1 or 2 depending on goalie count
+        if(awayGCount == 2){
+          startingSkaterIndex = 2;
+          reduceHomeSkaterIndex = 1
+        } else {
+          // if goalie count is 3
+          startingSkaterIndex = 3
+          reduceHomeSkaterIndex = 2
+        }
+        for (let i = startingSkaterIndex; i < awaySkaterCount+startingSkaterIndex; i++) {
           const skaterName = awayPlayerStats[i][1];
 
           // Calculate how many power play and shorthanded points the player has
@@ -955,7 +972,7 @@ async function readOgRomBinaryGameState(
           }
 
           // Create the skater's stats object
-          statsDict[`awaySkater${i - 1}`] = {
+          statsDict[`awaySkater${i - reduceHomeSkaterIndex}`] = {
             name: skaterName,
             pos: awayPlayerStats[i][2],
             goals: awayPlayerStats[i][3],
@@ -1191,7 +1208,7 @@ if(awaySkaterCount < 22){
           "TOI",
         ];
 
-        // Define the number of skaters (10 in this case)
+        // Define the number of skaters (22 in this case)
         const skaterCount = 22;
 
         // Spread the skaterHeaders into headerArray for the specified number of skaters
@@ -1373,7 +1390,7 @@ if(awaySkaterCount < 22){
         // away skater stats
         let awaySkaterStatsIndexStart = 107;
         // loop through based on skaters on the team
-        for (let i = 1; i < awaySkaterCount+1; i++) {
+        for (let i = 1; i < skaterCount+1; i++) {
           headerArray[awaySkaterStatsIndexStart++].push(
             statsDict[`awaySkater${i}`]["name"]
           );
@@ -1463,7 +1480,7 @@ if(awaySkaterCount < 22){
         // away skater stats
         awaySkaterStatsIndexStart = 394;
         // loop through based on skaters count for that team
-        for (let i = 1; i < awaySkaterCount+1; i++) {
+        for (let i = 1; i < skaterCount+1; i++) {
           headerArray[awaySkaterStatsIndexStart++].push(
             statsDict[`homeSkater${i}`]["name"]
           );
@@ -1551,11 +1568,9 @@ if(awaySkaterCount < 22){
             statsDict[`Penalty${i}`]["type"]
           );
         }
-
         ///////////////////////////////////////////////////////////////////////
         // end master data container
-        ///////////////////////////////////////////////////////////////////////
-console.log(statsDict)
+        //////////////////////////////////////////////////////////////////////
 
         const GAME_DATA = {};
 
