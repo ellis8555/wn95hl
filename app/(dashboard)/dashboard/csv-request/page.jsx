@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { DOMAIN } from "@/utils/constants/connections"
-import { MOST_RECENT_SEASON, MOST_RECENT_Q_SEASON, MOST_RECENT_V_SEASON } from "@/utils/constants/constants"
+import { MOST_RECENT_SEASON, MOST_RECENT_Q_SEASON, MOST_RECENT_V_SEASON, MOST_RECENT_P_SEASON } from "@/utils/constants/constants"
 import LeagueLogo from "@/components/server/Logos/LeagueLogo"
 import "./styles.css"
 
@@ -22,6 +22,8 @@ export default function CsvRequest(){
                 break;
             case "v":
                 setSeasonNumber(MOST_RECENT_V_SEASON)
+            case "p":
+                setSeasonNumber(MOST_RECENT_P_SEASON)
                 break;
         }
     }, [currentLeague])
