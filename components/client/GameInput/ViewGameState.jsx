@@ -272,7 +272,7 @@ function ViewGameStateSubmitForm() {
     <div
     className="w-10/12 md:w-1/2 lg:w-4/12 mx-auto"
     >
-      <Alert>Pure league uploads now working correctly. You can view all the data in dev tools console (pressing f12)</Alert>
+      <Alert>W, Q, Vintage and Pure league states can be viewed. There are file name conventions that need to match in order for this to work</Alert>
         <h1 className="text-center text-2xl text-orange-400">View a game state</h1>
         <h2 className="text-center text-md mt-2">This is only for viewing results. No upload will occur.</h2>
       <form
