@@ -8,7 +8,6 @@ import {
   MOST_RECENT_SEASON,
   MOST_RECENT_Q_SEASON,
   MOST_RECENT_V_SEASON,
-  MOST_RECENT_P_SEASON
 } from "@/utils/constants/constants";
 import { useState, useRef } from "react";
 import { useFullLeagueStandings } from "@/context/FullLeagueStandingsContext";
@@ -81,15 +80,6 @@ function Navbar() {
             }}
           >
             <LeagueLogo name={"v"} width={25} height={25} />
-          </li>
-          <li
-            className="hover:cursor-pointer mr-4"
-            onClick={() => {
-              setLeagueContext("p");
-              setSeasonNumberContext(MOST_RECENT_P_SEASON);
-            }}
-          >
-            <LeagueLogo name={"p"} width={25} height={25} />
           </li>
           {/* Authorization related links */}
           {isAuthorized && (
@@ -175,17 +165,6 @@ function Navbar() {
               }}
             >
               Vintage_Scores
-            </li>
-          </Link>
-          <Link href={"/recent-scores/p"}>
-            <li
-              onClick={() => {
-                toggleMenu();
-                setLeagueContext("p");
-                setSeasonNumberContext(MOST_RECENT_P_SEASON);
-              }}
-            >
-              Pure_Scores
             </li>
           </Link>
           {/* view a state */}
