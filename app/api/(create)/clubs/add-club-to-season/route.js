@@ -15,6 +15,7 @@ export const POST = async (req) => {
     seasonNumber: whichSeason,
     conference,
     division,
+    manager,
   } = await req.json();
 
   // if league has no divisions or conferences set defaults to league for each
@@ -136,6 +137,8 @@ export const POST = async (req) => {
         home: [],
         away: [],
       },
+      // add the manager to array of managers in case coach is fired
+      managers: [`${manager}`]
     };
 
     // get current teams registered in the league
@@ -203,6 +206,7 @@ export const POST = async (req) => {
       teamAcronym: teamAcronym,
       teamLogo: logo,
       teamBanner: teamBanner,
+      manager
     });
 
     // recreate teamsDictCodes essential for team positions within any custom game ROM
