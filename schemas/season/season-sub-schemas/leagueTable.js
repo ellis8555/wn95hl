@@ -5,7 +5,7 @@ const LeagueTableSchema = new Schema({
   teamAcronym: String,
   teamLogo: String,
   teamBanner: String,
-  Manager: {
+  manager: {
     type: String,
     default: "-"
   }
