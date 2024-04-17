@@ -21,20 +21,15 @@ export default async function({params}){
         case 4:
         const [leagueName, seasonNumber, teamAcronym, gameType] = teamsSegments
         await connectToDb(dbCallFrom);
-        const getClub = await Club.queryClubDetail(
-          "teamAcronym",
-          teamAcronym,
-          "name"
+
+        const getClub = await Club.queryClubsByAcronym(
+          teamAcronym
         );
-        const clubNickName = await Club.queryClubDetail(
-          "name",
-          getClub,
-          "nickname"
-        );
+
         // get teams full name
         let teamName;
         let teamNickname;
-        const clubData = await Club.queryOneClub(getClub, clubNickName);
+        const clubData = await Club.queryOneClub(getClub.name, getClub.nickname);
         teamName = clubData["name"];
         teamNickname = clubData["nickname"];
       
