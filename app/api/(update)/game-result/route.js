@@ -296,17 +296,19 @@ if(!ALLOW_DUPLICATES){
     ////////////////////////////////////////////
 
     const homeTeamAbbr = otherStats.homeTeam;
-    const homeTeamName = await Club.queryClubDetail(
-      "teamAcronym",
+
+    const getHomeTeam = await Club.queryClubsByAcronym(
       homeTeamAbbr,
-      "name"
     );
+    const homeTeamName = getHomeTeam.name
+    
     const awayTeamAbbr = otherStats.awayTeam;
-    const awayTeamName = await Club.queryClubDetail(
-      "teamAcronym",
+
+    const getAwayTeam = await Club.queryClubsByAcronym(
       awayTeamAbbr,
-      "name"
     );
+
+    const awayTeamName = getAwayTeam.name
 
     const checkHomeTeamIsRegistered = getRegisteredTeams.includes(homeTeamAbbr);
     const checkAwayTeamIsRegistered = getRegisteredTeams.includes(awayTeamAbbr);
@@ -315,9 +317,9 @@ if(!ALLOW_DUPLICATES){
       notRegisteredMessage =
         "Neither teams are registered for this league. Game was not submitted";
     } else if (!checkHomeTeamIsRegistered) {
-      notRegisteredMessage = `${homeTeamName} is not registered in this league. Game was not sumbitted`;
+      notRegisteredMessage = `${homeTeamName} (${homeTeamAbbr}) is not registered in this league. Game was not sumbitted`;
     } else if (!checkAwayTeamIsRegistered) {
-      notRegisteredMessage = `${awayTeamName} is not registered in this league. Game was not submitted`;
+      notRegisteredMessage = `${awayTeamName} (${awayTeamAbbr}) is not registered in this league. Game was not submitted`;
     }
 
     if (!checkHomeTeamIsRegistered || !checkAwayTeamIsRegistered) {
@@ -329,6 +331,7 @@ if(!ALLOW_DUPLICATES){
         "POST"
       );
     }
+
 ///////////////////////////////////////////////////////////
 // begin updating relevant stats for game type of 'season'
 ///////////////////////////////////////////////////////////
@@ -392,9 +395,8 @@ if(!ALLOW_DUPLICATES){
     // check if season Start date has been set in the db
     // first game entry is the starting point for a season
     if (getSeasonData.startDate == null) {
-      seasonDocument.startDate = Date.now();
+      seasonDocument.startDate = new Date();
     }
-
     // check if season end date needs to be set
 
     const getCurrentTotalGamesPlayed = getSeasonGames.length;
@@ -403,7 +405,7 @@ if(!ALLOW_DUPLICATES){
 
     // subtract one as this game state has yet to be added so the count will be less one at this point
     if (getCurrentTotalGamesPlayed === getTotalGamesToBePlayed - 1) {
-      seasonDocument.endDate = Date.now();
+      seasonDocument.endDate = new Date();
       seasonDocument.hasSeasonEnded = true;
     }
 
@@ -418,19 +420,19 @@ if(!ALLOW_DUPLICATES){
     const wasOvertimeRequired = otherStats.overtimeRequired;
     const wasGameATie = otherStats.wasGameATie;
     // get winning/losing teams if game was not a tie
-    let winningTeam;
-    let losingTeam;
+    let winningTeamAcronym;
+    let losingTeamAcronym;
     if (!wasGameATie) {
-      winningTeam = await Club.queryClubDetail(
-        "teamAcronym",
+      const getWinningTeam = await Club.queryClubsByAcronym(
         otherStats.winningTeam,
-        "name"
       );
-      losingTeam = await Club.queryClubDetail(
-        "teamAcronym",
+
+      winningTeamAcronym = getWinningTeam.teamAcronym
+
+      const getLosingTeam = await Club.queryClubsByAcronym(
         otherStats.losingTeam,
-        "name"
       );
+      losingTeamAcronym = getLosingTeam.teamAcronym
     }
 
     //////////////////////////////////////////////
@@ -440,7 +442,7 @@ if(!ALLOW_DUPLICATES){
 
     const homeTeamsStandingIndex = getTeamsStandingsIndex(
       getSeasonStandings,
-      homeTeamName
+      homeTeamAbbr
     );
 
     ////////////////////////////////////
@@ -449,7 +451,7 @@ if(!ALLOW_DUPLICATES){
 
     const awayTeamsStandingIndex = getTeamsStandingsIndex(
       getSeasonStandings,
-      awayTeamName
+      awayTeamAbbr
     );
 
     ///////////////////////////////////////////
@@ -466,7 +468,7 @@ if(!ALLOW_DUPLICATES){
     // increase wins for winning team if game not tied
     ///////////////////////////////////////////////////
 
-    incrementWinningTeamsWins(getSeasonStandings, wasGameATie, winningTeam);
+    incrementWinningTeamsWins(getSeasonStandings, wasGameATie, winningTeamAcronym);
 
     ///////////////////////////////////////////////////////////////////////
     // increase losses for losing team if game not tied or went to overtime
@@ -476,7 +478,7 @@ if(!ALLOW_DUPLICATES){
       getSeasonStandings,
       wasGameATie,
       wasOvertimeRequired,
-      losingTeam
+      losingTeamAcronym
     );
 
     /////////////////////////////////////////////////
@@ -498,7 +500,7 @@ if(!ALLOW_DUPLICATES){
       getSeasonStandings,
       wasGameATie,
       wasOvertimeRequired,
-      losingTeam
+      losingTeamAcronym
     );
 
     /////////////////////////////////
@@ -602,7 +604,7 @@ incrementPointsForTeams(
       getSeasonStandings
     );
 
-        ///////////////////////
+    ///////////////////////////
     // adjust points percentage
     ///////////////////////////
 
