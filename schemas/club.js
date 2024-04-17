@@ -23,6 +23,9 @@ ClubSchema.statics.queryIfClubExists = async function (clubName, nickname) {
   return await this.exists({ name: clubName, nickname: nickname });
 };
 
+ClubSchema.statics.queryClubsByAcronym = async function (teamAcronym) {
+  return await this.findOne({ teamAcronym: teamAcronym });
+};
 
 ClubSchema.statics.queryOneClub = async function (clubName, nickname) {
   return await this.findOne({ name: clubName, nickname: nickname });
