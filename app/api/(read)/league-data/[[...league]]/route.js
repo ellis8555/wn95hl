@@ -207,7 +207,7 @@ export const GET = async (req, { params }) => {
                       ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
                         if (category === "Team") {
                           // get teams banner from this api
-                          const teamLogoSrc = `${DOMAIN}/api/team-banner/${standing["teamLogo"]}`;
+                          const teamLogoSrc = `${DOMAIN}/api/team-banner/${standing["teamBanner"]}`;
                           return `<td class="mx-2 py-2 ps-2">
                             <img src=${teamLogoSrc} style="width:150px; height:30px" alt=${standing["teamName"]}/>
                           </td>`;
@@ -248,7 +248,7 @@ export const GET = async (req, { params }) => {
                       ${LEAGUE_HTMX_TABLE_CATEGORIES.map((category) => {
                         if (category === "Team") {
                           // get teams banner from this api
-                          const teamLogoSrc = `${DOMAIN}/api/team-banner/${standing["teamLogo"]}`;
+                          const teamLogoSrc = `${DOMAIN}/api/team-banner/${standing["teamBanner"]}`;
                           return `<td class="mx-2 py-2 ps-2">
                             <img src=${teamLogoSrc} style="width:150px; height:30px" alt=${standing["teamName"]}/>
                           </td>`;
