@@ -3,12 +3,12 @@
 function incrementWinningTeamsWins(
   arrayOfTeamObjects,
   wasGameATie,
-  winningTeam
+  winningTeamAcronym
 ) {
   let teamsStandingIndex;
   if (!wasGameATie) {
     arrayOfTeamObjects.forEach((team, index) => {
-      if (team.teamName === winningTeam) {
+      if (team.teamAcronym === winningTeamAcronym) {
         teamsStandingIndex = index;
       }
     });

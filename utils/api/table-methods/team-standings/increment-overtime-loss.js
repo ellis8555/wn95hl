@@ -4,12 +4,12 @@ function incrementOvertimeLoss(
   arrayOfTeamObjects,
   wasGameATie,
   wasOvertimeRequired,
-  losingTeam
+  losingTeamAcronym
 ) {
   let overtimeLosingTeamsIndex;
   if (!wasGameATie && wasOvertimeRequired) {
     arrayOfTeamObjects.forEach((standing, index) => {
-      if (standing.teamName === losingTeam) {
+      if (standing.teamAcronym === losingTeamAcronym) {
         overtimeLosingTeamsIndex = index;
       }
     });
