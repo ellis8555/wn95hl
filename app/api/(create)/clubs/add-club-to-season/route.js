@@ -206,7 +206,7 @@ export const POST = async (req) => {
       teamAcronym: teamAcronym,
       teamLogo: logo,
       teamBanner: teamBanner,
-      manager
+      Manager: manager
     });
 
     // recreate teamsDictCodes essential for team positions within any custom game ROM
