@@ -8,6 +8,7 @@ import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
 } from "@/utils/constants/data-calls/db_calls";
+import { PREVIOUS_TEAM_LOGO, TEAMS_LOGOS_MAP } from "@/utils/constants/constants";
 
 export const revalidate = 0;
 
@@ -19,7 +20,22 @@ export default async function({params}){
     
     switch(teamsSegmentsLength){
         case 4:
-        const [leagueName, seasonNumber, teamAcronym, gameType] = teamsSegments
+        let [leagueName, seasonNumber, teamAcronym, gameType] = teamsSegments
+
+        // if user has navigated to previous seasons and that team has updated logo
+        // then mapping for correct team name is required as older logos are not named 
+        // same as team name
+
+      const hasPreviousLogo = PREVIOUS_TEAM_LOGO.includes(teamAcronym)
+      let previousLogo;
+      if(hasPreviousLogo){
+        // currently teamAcronym is name of older logo
+        previousLogo = teamAcronym
+        // map older acronym to actual team acronym
+        teamAcronym = TEAMS_LOGOS_MAP[teamAcronym]
+      }
+
+      // begin database calls
         await connectToDb(dbCallFrom);
 
         const getClub = await Club.queryClubsByAcronym(
@@ -35,7 +51,7 @@ export default async function({params}){
       
         // get correct league schema
         const League = await LEAGUE_SCHEMA_SWITCH(leagueName);
-      
+
         // get teams record
         const teamsRecord = await League.getSingleTeamStandings(
           seasonNumber,
@@ -290,7 +306,7 @@ export default async function({params}){
           <div className="text-slate-300">
             <div className="flex flex-row justify-center gap-4 mt-4 w-4/6 mx-auto sm:w-full">
               <div className="flex justify-center">
-                <TeamLogoNoLink name={teamAcronym} width={100} height={100} />
+                <TeamLogoNoLink name={hasPreviousLogo ? previousLogo : teamAcronym} width={100} height={100} />               
               </div>
               <div className="my-auto">
                 <div className="text-center text-3xl">{`${teamName} ${teamNickname}`}</div>
