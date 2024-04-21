@@ -36,7 +36,6 @@ export const MONTHS = [
 export const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 // mappings needed for teams who have newer logos
-export const PREVIOUS_TEAM_LOGO = ['AUTW1', 'ITAW2']
 
 export const TEAMS_LOGOS_MAP = {
   'AUTW1': "AUT",

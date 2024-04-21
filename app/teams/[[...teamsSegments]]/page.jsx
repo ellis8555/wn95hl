@@ -8,7 +8,7 @@ import {
   LEAGUE_SCHEMA_SWITCH,
   LEAGUE_GAMES_SCHEMA_SWITCH,
 } from "@/utils/constants/data-calls/db_calls";
-import { PREVIOUS_TEAM_LOGO, TEAMS_LOGOS_MAP } from "@/utils/constants/constants";
+import { TEAMS_LOGOS_MAP } from "@/utils/constants/constants";
 
 export const revalidate = 0;
 
@@ -26,7 +26,11 @@ export default async function({params}){
         // then mapping for correct team name is required as older logos are not named 
         // same as team name
 
-      const hasPreviousLogo = PREVIOUS_TEAM_LOGO.includes(teamAcronym)
+        let hasPreviousLogo = false
+        if(teamAcronym in TEAMS_LOGOS_MAP){
+          hasPreviousLogo = true
+        }
+
       let previousLogo;
       if(hasPreviousLogo){
         // currently teamAcronym is name of older logo
