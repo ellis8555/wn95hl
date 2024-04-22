@@ -13,7 +13,7 @@ function LeagueTable({ leagueName, seasonNumber, standings, isTableFiltered, set
   if(divisions[filterOutTeamsOnHiatus[0].teamAcronym].conference !== "League"){
     // only need to capture one conference name to compare to. 
     // if teams conference does not match then they belong in the second conference array
-    const firstConference = divisions[filterOutTeamsOnHiatus[0].teamAcronym];
+    const firstConference = divisions[filterOutTeamsOnHiatus[0].teamAcronym].conference;
 
     filterOutTeamsOnHiatus.forEach(team => {
       if(divisions[team.teamAcronym].conference === firstConference){
