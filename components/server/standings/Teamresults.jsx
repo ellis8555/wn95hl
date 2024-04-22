@@ -8,19 +8,22 @@ function Teamresults({
   isTableFiltered,
   leagueName,
   seasonNumber,
+  firstConferenceList,
+  secondConferenceList
 }) {
 
-  function tablePositionBorder(leagueName, lineNumber, isTableFiltered) {
+  function tablePositionBorder(leagueName, isTableFiltered) {
     if(!isTableFiltered){
       switch(leagueName){
         case "q":
-          if(lineNumber <=3){
+          if(firstConferenceList.includes(team.teamAcronym)){
             return "border-solid border-green-700 border-l-4"
-          }
-          if(lineNumber >=12){
+          } else if(secondConferenceList.includes(team.teamAcronym))
+          {
+            return "border-solid border-blue-700 border-l-4"
+          } else {
             return "border-solid border-red-900 border-l-4"
           }
-          return "border-solid border-blue-700 border-l-4"
         default:
           return ""
       }
@@ -43,7 +46,7 @@ function Teamresults({
         if (index === 0) {
           return [
             <td key={`${index}-teamLogo`} className={`flex justify-center sticky left-0 ${bgColor}`}>
-              <div className={`flex items-center h-10 my-1 px-2 ${tablePositionBorder(leagueName, lineNumber, isTableFiltered)}`}>
+              <div className={`flex items-center h-10 my-1 px-2 ${tablePositionBorder(leagueName, isTableFiltered)}`}>
                 <TeamLogo
                   name={team.teamLogo}
                   width={25}
