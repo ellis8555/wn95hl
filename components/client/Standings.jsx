@@ -106,6 +106,7 @@ useEffect(() => {
             isTableFiltered={isTableFiltered}
             setAreStandingsSorted={setAreStandingsSorted}
             setSortedStandings={setSortedStandings}
+            divisions={divisions}
           />
         </div>
       </div>
@@ -158,6 +159,7 @@ useEffect(() => {
               isTableFiltered={isTableFiltered}
               setAreStandingsSorted={setAreStandingsSorted}
               setSortedStandings={setSortedStandings}
+              divisions={divisions}
             />
           </div>
         )}
