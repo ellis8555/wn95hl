@@ -142,19 +142,9 @@ V_LeagueSchema.statics.getFieldData = async function (
   // if teams dictCodes required then add
   ////////////////////////////////////////
   if (paramtersList.includes("team-codes")) {
-    if (!seasonDocument.hasSeasonBegun) {
-      requestedDataObject.error = true;
-      requestedDataObject.message = `Season ${seasonNumber} of the ${leagueName.toUpperCase()} has not officially began.`;
-      return requestedDataObject;
-    }
-    if (seasonDocument.hasSeasonEnded) {
-      requestedDataObject.error = true;
-      requestedDataObject.message = `Season ${seasonNumber} of the ${leagueName.toUpperCase()} has officially ended.`;
-      return requestedDataObject;
-    }
     requestedDataObject.dictCodes = seasonDocument["teamsDictCodes"];
   }
-
+  // return the final object that will have the appropriate reuested data
   return requestedDataObject;
 };
 
