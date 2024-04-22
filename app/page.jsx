@@ -14,6 +14,7 @@ export default async function Page() {
           Darkside Stats
         </h1>
         <Alert>Playoff states can be viewed via 'View a state'. No database entry will occur</Alert>
+        <Alert backgroundColor="bg-green-400">Will begin working on some kind of playoff brackets page.</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
