@@ -222,7 +222,17 @@ export const POST = async (req, res) => {
       }
       //check if playoffs have been officially ended as per commisioner setting 'hasPlayoffsBegun = true'
     } else if(gameType === "playoff"){
-      if (!seasonDocument.hasPlayoffsBegun) {
+      // return message playoffs not accepting states until admin enables
+      if (!seasonDocument.hasPlayoffsBegun && seasonDocument.hasSeasonEnded) {
+        return nextResponse(
+          {
+            message: `Playoffs for ${currentLeague} season ${currentSeason} have not been enabled to accept playoff states`,
+          },
+          400,
+          "POST"
+        );
+      }
+      if (!seasonDocument.hasPlayoffsBegun && !seasonDocument.hasSeasonEnded) {
         return nextResponse(
           {
             message: `Playoffs for ${currentLeague} season ${currentSeason} have not officially begun yet`,
