@@ -13,7 +13,7 @@ export default async function Page() {
         <h1 className="text-4xl lg:text-6xl text-center pt-4">
           Darkside Stats
         </h1>
-        <Alert backgroundColor={"bg-green-600"}>I've decided to discontinue this project. I will finish out updating the W and Vintage until seasons end. Ultimately the overall goal was to enable each user to upload their own games states. This has been accomplished in a manner that both satisfies any website built while also providing what is needed to update the sheets.</Alert>
+        <Alert backgroundColor={"bg-green-600"}>Vintage League is on hiatus.</Alert>
         {/* beginning of league cards */}
         <div className="flex flex-col sm:flex-row justify-center mt-3 gap-3 md:gap-6 md:mt-6">
           <LeagueCard
